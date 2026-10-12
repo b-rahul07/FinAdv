@@ -1,0 +1,43 @@
+Equity Linked Savings Scheme (ELSS) — Complete Guide
+
+Overview
+Equity Linked Savings Scheme (ELSS) is a type of mutual fund that invests primarily in equity and equity-related instruments. ELSS funds are one of the eligible tax-saving instruments under Section 80C of the Income Tax Act, 1961. They offer the dual benefit of wealth creation through equity market participation and tax savings.
+
+Key Features
+- ELSS funds must invest at least 80% of their total assets in equity and equity-related instruments as per SEBI (Securities and Exchange Board of India) guidelines.
+- They are open-ended funds, meaning investors can invest at any time (though each investment has its own lock-in).
+- Available in both growth and IDCW (Income Distribution cum Capital Withdrawal, formerly called dividend) options.
+
+Lock-in Period
+ELSS has the shortest lock-in period among all Section 80C instruments — just 3 years. Each SIP installment is treated as a fresh investment and has its own 3-year lock-in period. For example, if you start a SIP in January 2024, the January 2024 installment is locked in until January 2027, the February 2024 installment until February 2027, and so on.
+
+Tax Benefits
+- Investment: Deduction under Section 80C up to ₹1,50,000 per financial year.
+- Long-Term Capital Gains (LTCG): Since the lock-in is 3 years, all ELSS redemptions are long-term. LTCG up to ₹1,25,000 per financial year (across all equity instruments) is tax-exempt. Gains exceeding ₹1,25,000 are taxed at 12.5% (as per the Finance Act, 2024 amendments).
+- Dividends: Taxable at the investor's applicable income tax slab rate.
+
+Returns
+ELSS returns are market-linked and not guaranteed. Historically, ELSS funds have delivered average annual returns in the range of 12–15% over 10+ year periods, but past performance does not guarantee future results. Returns can be negative in any given year.
+
+Risk Profile
+ELSS funds carry equity market risk. They are suitable for investors with:
+- A minimum investment horizon of 3 years (lock-in) but ideally 5+ years for meaningful wealth creation
+- Moderate to aggressive risk tolerance
+- Willingness to accept short-term volatility for potentially higher long-term returns
+
+ELSS vs Other 80C Instruments
+Compared to PPF (15-year lock-in, ~7.1% fixed), NSC (5-year lock-in, ~7.7% fixed), and tax-saving FDs (5-year lock-in, 6–7% fixed), ELSS offers:
+- Shortest lock-in (3 years)
+- Highest return potential (market-linked)
+- Highest risk (equity exposure)
+
+SEBI Regulations
+- ELSS funds are regulated by SEBI under the SEBI (Mutual Funds) Regulations, 1996.
+- Fund houses must clearly categorize ELSS as a distinct category.
+- There is no upper limit on investment in ELSS, but the 80C tax deduction is capped at ₹1,50,000.
+
+How to Invest
+- Through mutual fund AMCs (Asset Management Companies) directly
+- Through registered distributors and financial advisors
+- Through online platforms and apps registered with AMFI (Association of Mutual Funds in India)
+- Minimum investment: Typically ₹500 for SIP, ₹500 for lump sum (varies by fund house)

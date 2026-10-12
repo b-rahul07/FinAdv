@@ -1,0 +1,47 @@
+Systematic Investment Plan (SIP) — Complete Guide
+
+Overview
+A Systematic Investment Plan (SIP) is a disciplined method of investing a fixed amount of money at regular intervals (usually monthly) in a mutual fund scheme. SIP is not a product — it is a mode of investing in mutual funds. It leverages the power of rupee cost averaging and compounding.
+
+How SIP Works
+- The investor chooses a mutual fund scheme, an investment amount, and a frequency (monthly, quarterly, weekly).
+- On the scheduled date each period, the fixed amount is automatically debited from the investor's bank account and used to purchase units of the chosen mutual fund at the prevailing NAV (Net Asset Value).
+- When NAV is low, more units are purchased; when NAV is high, fewer units are purchased — this is rupee cost averaging.
+
+Minimum SIP Amount
+- Most mutual fund houses in India allow SIPs starting from ₹500 per month.
+- Some fund houses offer SIPs starting from ₹100 per month (micro-SIPs).
+
+SIP Types
+1. Regular SIP: Fixed amount invested at fixed intervals.
+2. Top-up SIP (Step-up SIP): The SIP amount increases by a fixed amount or percentage at specified intervals (e.g., increasing by ₹500 every year).
+3. Flexible SIP: The investor can increase or decrease the SIP amount based on market conditions or personal cash flow.
+4. Perpetual SIP: No end date — continues until the investor actively stops it.
+5. Trigger SIP: Investment is triggered based on specific market conditions (e.g., when NAV drops below a certain level).
+
+SIP vs Lump Sum
+- SIP: Spreads investment over time, reduces timing risk, suitable for salaried investors with regular income. Ideal when markets are volatile.
+- Lump Sum: Entire amount invested at once. Better when markets are low and expected to rise. Requires more market timing skill.
+
+Tax Implications
+- SIP in ELSS funds: Each installment has its own 3-year lock-in for 80C deduction.
+- SIP in equity funds (held >12 months): LTCG up to ₹1,25,000 is exempt. Each SIP installment's holding period is calculated individually.
+- SIP in debt funds: Gains are taxed at the investor's income tax slab rate (for investments made after April 1, 2023).
+- IDCW distributions from SIP investments are taxed at the investor's slab rate.
+
+Rupee Cost Averaging Example
+If you invest ₹5,000 monthly and the NAV varies:
+- Month 1: NAV = ₹50 → 100 units purchased
+- Month 2: NAV = ₹40 → 125 units purchased
+- Month 3: NAV = ₹60 → 83.33 units purchased
+- Total invested: ₹15,000, Total units: 308.33, Average cost: ₹48.65 per unit
+This is lower than the simple average NAV of ₹50.
+
+Power of Compounding
+Starting a SIP of ₹5,000 per month at age 25 vs age 35 (assuming 12% annual return):
+- Starting at 25 (35 years of investing): Corpus ≈ ₹3.25 crore
+- Starting at 35 (25 years of investing): Corpus ≈ ₹95 lakh
+The 10-year head start results in approximately 3.4x more wealth.
+
+AMFI Registration
+All mutual fund schemes offering SIP are regulated by SEBI and distributed through AMFI-registered entities. Investors should verify that their distributor or platform is registered with AMFI.

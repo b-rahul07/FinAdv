@@ -1,0 +1,29 @@
+Emergency Fund and Liquid Mutual Funds — Strategy
+
+Overview
+An emergency fund is a financial safety net designed to cover unexpected expenses or a sudden loss of income. Financial planners typically recommend setting aside 3 to 6 months' worth of mandatory living expenses.
+
+Where to Keep an Emergency Fund
+The primary requirement of an emergency fund is liquidity and safety of principal, not high returns. Common instruments include:
+1. Savings Bank Account: Highest liquidity but very low interest (usually 2.7% to 3.5%).
+2. Flexi/Sweep-in Fixed Deposits: Offers FD-like interest rates with the liquidity of a savings account.
+3. Liquid Mutual Funds: Often used to park the bulk of an emergency fund.
+
+What are Liquid Funds?
+- Liquid funds are debt mutual funds that invest in short-term fixed-income instruments like commercial papers, treasury bills, and certificates of deposit.
+- The maturity of these underlying securities is up to 91 days.
+- They carry minimal interest rate risk and credit risk.
+
+Advantages of Liquid Funds
+- Returns are generally slightly better than regular savings bank accounts (historically 5.5% to 6.5%).
+- High liquidity: Redemption requests placed before the cut-off time (typically 1:30 PM) are credited to the bank account on the next business day. Some AMCs offer "Instant Redemption" facility up to ₹50,000 or 90% of folio value (whichever is lower) within minutes.
+- No exit load for withdrawals made after 7 days of investment. If withdrawn within 7 days, a graded exit load applies (e.g., 0.0070% on Day 1 down to 0.0045% on Day 6).
+
+Taxation of Liquid Funds
+- Capital gains from liquid funds are taxed according to the investor's income tax slab rate, regardless of the holding period (as per Finance Act 2023 rules for debt mutual funds).
+- Dividends (IDCW) are also taxed at the investor's slab rate.
+
+Best Practices for Structuring Emergency Funds
+- Tier 1 (Immediate access): 1 month's expenses in a regular savings account or cash.
+- Tier 2 (Short-term access): 2-5 months' expenses in Liquid Funds or short-term Fixed Deposits.
+- Emergency funds should not be invested in equity markets (stocks or equity mutual funds) due to high volatility and risk of capital loss when the funds are needed the most.

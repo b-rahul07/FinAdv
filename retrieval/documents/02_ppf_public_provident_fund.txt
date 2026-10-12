@@ -1,0 +1,49 @@
+Public Provident Fund (PPF) — Complete Guide
+
+Overview
+The Public Provident Fund (PPF) is a long-term savings scheme backed by the Government of India, established under the PPF Act, 1968. It offers safety of capital, attractive interest rates, and tax benefits, making it one of the most popular investment instruments in India.
+
+Interest Rate
+PPF interest rate is declared by the Ministry of Finance on a quarterly basis. The interest is compounded annually and credited at the end of each financial year (March 31). The rate has historically ranged from 7% to 8.7%. As of recent quarters, the rate is 7.1% per annum.
+
+Investment Limits
+- Minimum investment: ₹500 per financial year
+- Maximum investment: ₹1,50,000 per financial year
+- Deposits can be made in lump sum or up to 12 installments per year
+
+Lock-in Period and Maturity
+- PPF has a lock-in period of 15 years from the end of the financial year in which the initial subscription was made.
+- The account can be extended in blocks of 5 years after maturity, with or without further contributions.
+
+Partial Withdrawal Rules
+- Partial withdrawal is allowed from the 7th financial year onwards (i.e., after completing 6 financial years from the year of opening).
+- Maximum withdrawal: 50% of the balance at the end of the 4th preceding year or the end of the immediately preceding year, whichever is lower.
+- Only one withdrawal is permitted per financial year.
+
+Premature Closure
+- Premature closure is allowed after 5 years of account opening, but only under specific conditions: serious illness of account holder, spouse or dependent children, or for higher education of the account holder or children.
+- A penalty of 1% reduction in interest rate applies on premature closure.
+
+Loan Against PPF
+- Loans can be taken against PPF balance from the 3rd financial year to the 6th financial year.
+- The loan amount cannot exceed 25% of the balance at the end of the 2nd immediately preceding financial year.
+- Interest on the loan is charged at 1% above the prevailing PPF interest rate.
+
+Tax Benefits (EEE Status)
+PPF enjoys Exempt-Exempt-Exempt (EEE) tax status:
+1. Investment: Deduction under Section 80C up to ₹1,50,000
+2. Interest earned: Fully exempt from income tax
+3. Maturity proceeds: Fully exempt from income tax
+
+The EEE status makes PPF one of the most tax-efficient instruments available in India.
+
+Nomination and Transfer
+- Nomination facility is available. The nominee can claim the balance upon the death of the account holder.
+- PPF accounts can be transferred from one post office to a bank and vice versa, or between branches.
+
+Who Can Open a PPF Account
+- Any resident Indian individual can open a PPF account.
+- Only one account per individual (joint accounts are not permitted).
+- A guardian can open a PPF account on behalf of a minor.
+- NRIs (Non-Resident Indians) cannot open new PPF accounts but can continue existing accounts until maturity.
+- HUFs (Hindu Undivided Families) are not eligible to open PPF accounts (effective from May 13, 2005).

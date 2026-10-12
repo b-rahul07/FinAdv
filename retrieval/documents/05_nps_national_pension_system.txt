@@ -1,0 +1,50 @@
+National Pension System (NPS) — Complete Guide
+
+Overview
+The National Pension System (NPS) is a voluntary, long-term retirement savings scheme designed to enable systematic savings during the subscriber's working life. It is regulated by the Pension Fund Regulatory and Development Authority (PFRDA) and was made available to all Indian citizens from May 1, 2009.
+
+Account Types
+1. Tier I (Pension Account): Mandatory for NPS enrollment. Has restrictions on withdrawals. Contributions are eligible for tax deductions.
+2. Tier II (Investment Account): Optional savings account with no withdrawal restrictions. No additional tax benefits (except for central government employees).
+
+Tax Benefits
+NPS offers tax deductions under three sections:
+
+1. Section 80CCD(1): Employee's contribution — up to 10% of salary (for salaried) or 20% of gross total income (for self-employed), within the overall ₹1,50,000 limit of Section 80C.
+
+2. Section 80CCD(1B): Additional deduction of up to ₹50,000 over and above the ₹1,50,000 limit under 80C. This makes the total NPS-related deduction potentially ₹2,00,000.
+
+3. Section 80CCD(2): Employer's contribution — up to 10% of salary (basic + DA) for private sector, up to 14% for central government employees. This is over and above the ₹1,50,000 limit and has no separate cap (except the 10%/14% of salary limit).
+
+Investment Choices
+- Active Choice: Subscriber selects the allocation among three asset classes:
+  - Equity (E): Up to 75% until age 50, then reduced by 2.5% each year
+  - Corporate Bonds (C): No cap
+  - Government Securities (G): No cap
+- Auto Choice (Lifecycle Fund): Allocation automatically adjusts based on age:
+  - Aggressive (LC75): 75% equity until age 35
+  - Moderate (LC50): 50% equity until age 35
+  - Conservative (LC25): 25% equity until age 35
+
+Withdrawal Rules
+At Maturity (age 60):
+- At least 40% of the corpus must be used to purchase an annuity from a PFRDA-registered annuity service provider.
+- Up to 60% can be withdrawn as a lump sum, which is fully tax-exempt.
+
+Premature Exit (before age 60):
+- Allowed after 5 years of contributions.
+- At least 80% of the corpus must be used to purchase an annuity.
+- Only 20% can be withdrawn as lump sum.
+
+Partial Withdrawal:
+- Allowed after 3 years for specific purposes: children's education/marriage, construction/purchase of house, treatment of specified illnesses, for skill development/re-skilling.
+- Maximum: 25% of the subscriber's own contributions (not including employer contributions or returns).
+- Up to 3 partial withdrawals allowed during the entire subscription period.
+
+Minimum Contribution
+- Tier I: Minimum ₹500 per contribution, minimum ₹1,000 per financial year.
+- Tier II: Minimum ₹250 per contribution.
+
+Fund Managers
+PFRDA has empaneled several Pension Fund Managers (PFMs):
+- SBI Pension Funds, LIC Pension Fund, UTI Retirement Solutions, HDFC Pension Management, ICICI Prudential Pension Funds, Kotak Mahindra Pension Fund, Aditya Birla Sun Life Pension Management, Tata Pension Management, Max Life Pension Fund Management, DSP Pension Fund Managers.

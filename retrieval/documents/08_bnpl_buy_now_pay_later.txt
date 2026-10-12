@@ -1,0 +1,52 @@
+Buy Now Pay Later (BNPL) in India — Consumer Guide and Risks
+
+Overview
+Buy Now Pay Later (BNPL) is a short-term financing option that allows consumers to make purchases and pay for them later, typically in interest-free installments or as a deferred lump sum. In India, BNPL services are offered by fintech companies, banks, and NBFCs (Non-Banking Financial Companies) and have grown rapidly since 2020.
+
+How BNPL Works
+1. Consumer selects BNPL at checkout (online or offline).
+2. The BNPL provider pays the merchant on behalf of the consumer.
+3. The consumer repays the BNPL provider in installments (usually 3–6 monthly installments) or as a lump sum within 15–45 days.
+4. If paid on time, there is typically no interest or fee. Late payments incur penalties and interest.
+
+Major BNPL Providers in India
+- Simpl, LazyPay (PayU), ZestMoney (ceased operations), Slice (now merged with North East Small Finance Bank), Amazon Pay Later, Flipkart Pay Later, HDFC Bank FlexiPay, Paytm Postpaid, ICICI PayLater.
+
+RBI Regulations (June 2022 Onwards)
+- The Reserve Bank of India (RBI) issued guidelines in June 2022 restricting non-bank PPI (Prepaid Payment Instrument) issuers from offering credit lines. This significantly impacted several BNPL players.
+- BNPL providers must partner with banks or NBFCs to offer credit. They cannot directly lend without being a registered NBFC or bank.
+- Digital lending guidelines (September 2022) require:
+  - Full disclosure of Annual Percentage Rate (APR) to the borrower
+  - Disbursement and repayment directly between borrower's and regulated entity's bank accounts
+  - Cooling-off period: Borrowers must be given a look-up/cooling-off period during which they can exit the loan without penalty. This period is typically 1–3 days as determined by the lender.
+
+Interest and Fees
+- Most BNPL products advertise "0% interest" for on-time payments.
+- Late payment penalties: ₹100 to ₹500 per missed payment, plus interest at 1.5% to 3% per month (18% to 36% APR) on the outstanding amount.
+- Processing fees: Some providers charge ₹50 to ₹200 per transaction or a flat monthly fee.
+- Longer-tenor BNPL (6–12 months) may carry interest rates of 12% to 24% APR.
+
+Credit Score Impact
+- BNPL transactions are increasingly being reported to credit bureaus (CIBIL, Experian, Equifax, CRIF High Mark).
+- Missed payments or defaults on BNPL can negatively impact the consumer's credit score.
+- Multiple BNPL accounts and high utilization can signal over-leveraging to credit scoring models.
+
+Risks for Consumers
+1. Over-spending: The ease of BNPL encourages impulse purchases and spending beyond means.
+2. Debt spiral: Multiple BNPL commitments across different platforms can accumulate quickly.
+3. Hidden costs: Late fees and interest can make a "free" BNPL purchase expensive.
+4. Credit score damage: Defaults are reported to credit bureaus.
+5. Lack of budgeting discipline: BNPL can mask the true cost of purchases.
+
+Consumer Protection
+- RBI mandates that all BNPL providers (through partner banks/NBFCs) must:
+  - Provide a Key Fact Statement (KFS) before loan disbursement
+  - Disclose all charges upfront including APR
+  - Offer a grievance redressal mechanism
+  - Not charge prepayment penalties for loans with tenure ≤ 12 months
+- Consumers can file complaints with the RBI Ombudsman if the BNPL provider (regulated entity) fails to resolve grievances.
+
+BNPL and Financial Planning
+- Financial advisors recommend limiting BNPL usage to essential purchases only.
+- Total BNPL + EMI commitments should not exceed 30–40% of monthly income.
+- Building an emergency fund (3–6 months of expenses) should take priority over using BNPL for discretionary spending.

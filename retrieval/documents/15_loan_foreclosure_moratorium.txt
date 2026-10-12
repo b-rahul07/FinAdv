@@ -1,0 +1,30 @@
+Loan Foreclosure and EMI Moratorium Rules
+
+Overview
+Understanding the rules around closing a loan early (foreclosure or prepayment) and pausing EMIs (moratorium) is crucial for effective debt management in India.
+
+Foreclosure and Prepayment Penalty Rules (RBI Guidelines)
+The Reserve Bank of India (RBI) has issued specific guidelines to protect retail borrowers from exorbitant penalties when they try to pay off their loans early.
+
+1. Floating Rate Loans:
+- RBI mandates that banks and NBFCs cannot charge any foreclosure charges or pre-payment penalties on any floating-rate term loans sanctioned to individual borrowers for purposes other than business.
+- This applies to most home loans and many personal loans taken on a floating rate basis.
+
+2. Fixed Rate Loans:
+- For fixed-rate loans (like most auto loans and many personal loans), banks are allowed to charge a foreclosure or prepayment penalty.
+- The penalty typically ranges from 1% to 5% of the outstanding principal amount.
+- Some banks waive this fee if the prepayment is made from the borrower's own funds (not transferred from another bank loan), though this varies by institution.
+
+3. Lock-in Period for Prepayment:
+- Even if prepayment is penalty-free, lenders often impose a short lock-in period (e.g., 6 months to 1 year) after disbursement before allowing full foreclosure.
+
+EMI Moratorium
+A moratorium is a temporary suspension of EMI payments. It is not a waiver; it is simply a deferment.
+
+- Interest Accrual: During a moratorium period, interest continues to accrue on the outstanding principal. This accrued interest is added to the principal, leading to 'interest on interest' (compound interest effect), increasing the total cost of the loan.
+- Loan Extension: If a borrower opts for a moratorium, typically the tenure of the loan is extended to recover the deferred EMIs and the additional accrued interest, while keeping the EMI amount the same.
+- Credit Score Impact: An RBI-mandated moratorium (like the one during the COVID-19 pandemic) does not negatively impact the credit score. However, a regular payment holiday requested by a borrower outside of a mandated scheme may affect the credit score depending on how the lender reports it.
+
+Part-Payment vs Foreclosure
+- Part-payment: Paying a lump sum amount towards the principal while the loan continues. This reduces the outstanding principal, thereby reducing the interest burden. Borrowers can choose to either reduce the EMI amount or reduce the loan tenure. Reducing tenure saves more interest in the long run.
+- Foreclosure: Paying off the entire outstanding principal and closing the loan completely before its scheduled maturity.

@@ -1,0 +1,56 @@
+SEBI Mutual Fund Regulations — Key Rules for Investors
+
+Overview
+The Securities and Exchange Board of India (SEBI) regulates mutual funds in India under the SEBI (Mutual Funds) Regulations, 1996 (amended from time to time). These regulations govern the establishment, operation, and management of mutual fund schemes to protect investor interests.
+
+Mutual Fund Categorization (SEBI Circular, October 2017)
+SEBI mandated that all mutual funds must be categorized into the following broad categories, with each fund house allowed only one scheme per sub-category (except index funds/ETFs and sectoral/thematic funds):
+
+1. Equity Schemes (11 sub-categories):
+   - Large Cap, Mid Cap, Small Cap, Multi Cap, Flexi Cap, Large & Mid Cap
+   - Dividend Yield, Value/Contra, Focused Fund (max 30 stocks)
+   - Sectoral/Thematic, ELSS
+
+2. Debt Schemes (16 sub-categories):
+   - Overnight, Liquid, Ultra Short Duration, Low Duration, Money Market
+   - Short Duration, Medium Duration, Medium to Long Duration, Long Duration
+   - Dynamic Bond, Corporate Bond, Credit Risk, Banking & PSU
+   - Gilt, Gilt with 10-year constant duration, Floater
+
+3. Hybrid Schemes (7 sub-categories):
+   - Conservative Hybrid, Balanced Hybrid, Aggressive Hybrid
+   - Dynamic Asset Allocation, Multi Asset Allocation
+   - Arbitrage Fund, Equity Savings
+
+4. Solution Oriented Schemes: Retirement Fund, Children's Fund (5-year lock-in or till retirement/majority)
+
+5. Other Schemes: Index Funds/ETFs, Fund of Funds
+
+KYC Requirements
+- All mutual fund investors must complete KYC (Know Your Customer) verification through a SEBI-registered KRA (KYC Registration Agency).
+- Documents required: PAN card (mandatory), Aadhaar, address proof, photograph.
+- KYC is a one-time process — once completed, valid across all fund houses.
+
+Exit Load
+- SEBI allows fund houses to charge an exit load (a fee for redeeming units before a specified period).
+- Typical exit loads: 1% if redeemed within 1 year for equity funds, 0% for most debt funds after a few days.
+- ELSS funds: No exit load (lock-in serves the purpose).
+- Exit load revenues go into the scheme itself (benefiting remaining investors), not to the AMC.
+
+Expense Ratio Limits (Total Expense Ratio — TER)
+- SEBI has set maximum TER limits based on AUM (Assets Under Management):
+  - First ₹500 crore: 2.25% for equity, 2.00% for other schemes
+  - Next ₹250 crore: 2.00% for equity, 1.75% for other schemes
+  - Progressively lower for higher AUM
+  - Additional 0.30% for schemes predominantly investing in tier-2 and tier-3 cities
+- Direct plans have lower TER (no distributor commission) compared to regular plans.
+
+Direct vs Regular Plans
+- Direct Plan: Investor buys directly from the AMC. Lower expense ratio, higher returns over time.
+- Regular Plan: Bought through a distributor/advisor who receives commission from the AMC. Higher expense ratio.
+- SEBI mandates that both options must be available for every scheme.
+
+NAV Applicability
+- Equity funds: If application is received before 3:00 PM on a business day, same-day NAV applies for purchases. For amounts ≥ ₹2 lakh, NAV of the day on which funds are received by the AMC applies.
+- Liquid/overnight funds: Same-day NAV for applications received before 1:30 PM.
+- Redemption: Same-day NAV for requests received before 3:00 PM.

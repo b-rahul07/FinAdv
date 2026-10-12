@@ -1,0 +1,37 @@
+Senior Citizen Savings Scheme (SCSS) — Complete Guide
+
+Overview
+The Senior Citizen Savings Scheme (SCSS) is a government-backed retirement benefits program designed to provide a regular income stream to senior citizens in India with a high level of safety.
+
+Eligibility
+- Individuals aged 60 years or above.
+- Retirees aged between 55 and 60 years who have retired under Voluntary Retirement Scheme (VRS) or Superannuation, provided the account is opened within one month of receiving retirement benefits.
+- Retired defense personnel aged 50 years and above.
+- NRIs and HUFs are NOT eligible to open SCSS accounts.
+
+Deposit Limits
+- Minimum deposit: ₹1,000
+- Maximum deposit: ₹30,00,000 (increased from ₹15 lakh in Budget 2023).
+- Deposits can only be made in multiples of ₹1,000.
+- An individual can open multiple accounts, but the combined balance across all accounts cannot exceed the maximum limit.
+
+Tenure and Extension
+- The initial maturity period is 5 years.
+- The account can be extended once for an additional block of 3 years. The extension must be requested within 1 year of maturity.
+
+Interest Rate and Payout
+- SCSS offers one of the highest interest rates among fixed-income government schemes (often around 8.0% to 8.2% per annum, subject to quarterly review by the Finance Ministry).
+- The interest is payable on a quarterly basis (on the 1st working day of April, July, October, and January).
+- Unlike PPF or NSC, the interest is not compounded; it is paid out regularly to provide income.
+
+Taxation
+- Investment: Deposits in SCSS qualify for a deduction under Section 80C up to ₹1,50,000.
+- Interest: The interest earned is fully taxable as per the investor's income tax slab.
+- TDS: If the interest earned exceeds ₹50,000 in a financial year, Tax Deducted at Source (TDS) applies. Senior citizens can submit Form 15H to avoid TDS if their total income is below the taxable limit.
+
+Premature Closure
+- Allowed at any time, but subject to penalties:
+  - Before 1 year: No interest is payable. If interest has already been paid, it will be recovered from the principal.
+  - After 1 year but before 2 years: Penalty of 1.5% of the deposit amount is deducted.
+  - After 2 years but before 5 years: Penalty of 1.0% of the deposit amount is deducted.
+  - In case of extended accounts (during the 3-year extension block), premature closure is allowed after 1 year without any penalty.

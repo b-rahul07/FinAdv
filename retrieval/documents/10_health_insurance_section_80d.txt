@@ -1,0 +1,30 @@
+Health Insurance and Section 80D — Complete Guide
+
+Overview
+Section 80D of the Income Tax Act allows taxpayers to claim deductions for the premium paid towards medical insurance (health insurance) for themselves, their family, and their parents. This is over and above the ₹1,50,000 limit available under Section 80C.
+
+Deduction Limits
+1. For Self, Spouse, and Dependent Children:
+   - Non-Senior Citizens (Below 60 years): Up to ₹25,000 per financial year.
+   - Senior Citizens (60 years and above): Up to ₹50,000 per financial year.
+
+2. For Parents:
+   - Non-Senior Citizen Parents: Additional deduction up to ₹25,000.
+   - Senior Citizen Parents: Additional deduction up to ₹50,000.
+
+Maximum Possible Deduction
+- If the taxpayer (under 60) pays premiums for themselves and senior citizen parents, the total deduction can be ₹25,000 + ₹50,000 = ₹75,000.
+- If the taxpayer is a senior citizen paying for themselves and super senior citizen parents, the maximum deduction can be ₹50,000 + ₹50,000 = ₹1,00,000.
+
+Preventive Health Check-up
+- A deduction of up to ₹5,000 is allowed for expenses incurred on preventive health check-ups.
+- This ₹5,000 is NOT an additional limit; it is included within the overall limit of ₹25,000 or ₹50,000.
+- Cash payments are allowed for preventive health check-ups, but not for insurance premiums.
+
+Medical Expenditure for Senior Citizens
+- If a senior citizen (60 years or above) does not have any health insurance coverage, medical expenditures incurred for them can be claimed as a deduction up to ₹50,000 under Section 80D.
+
+Exclusions and Important Conditions
+- Premium paid in cash is NOT eligible for deduction (except for preventive health check-ups). Payment must be via banking channels (cheque, net banking, UPI, credit card, etc.).
+- Group health insurance premiums paid by an employer on behalf of the employee are not eligible for 80D deduction for the employee.
+- Health insurance riders attached to life insurance policies often qualify for 80D.

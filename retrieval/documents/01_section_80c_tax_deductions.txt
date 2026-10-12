@@ -1,0 +1,36 @@
+Section 80C of the Income Tax Act, 1961 — Tax Deduction Guide
+
+Overview
+Section 80C is one of the most widely used tax-saving provisions under the Indian Income Tax Act, 1961. It allows individual taxpayers and Hindu Undivided Families (HUFs) to claim deductions from their gross total income for specified investments and expenditures.
+
+Maximum Deduction Limit
+The maximum deduction available under Section 80C is ₹1,50,000 (one lakh fifty thousand rupees) per financial year. This limit is the combined ceiling for all eligible investments and expenditures under Sections 80C, 80CCC, and 80CCD(1).
+
+Eligible Investments Under Section 80C
+The following instruments qualify for deduction under Section 80C:
+
+1. Public Provident Fund (PPF): Contributions up to ₹1,50,000 per year. Lock-in period of 15 years. Current interest rate is set by the government quarterly.
+
+2. Equity Linked Savings Scheme (ELSS): Mutual funds with a mandatory lock-in period of 3 years, the shortest among all 80C instruments. Returns are market-linked and not guaranteed.
+
+3. National Savings Certificate (NSC): Fixed income investment with a maturity period of 5 years. Interest is compounded annually but deemed reinvested (qualifies for 80C deduction each year).
+
+4. 5-Year Tax-Saving Fixed Deposit: Bank fixed deposits with a 5-year lock-in period. Interest rates vary by bank. Interest earned is fully taxable.
+
+5. Sukanya Samriddhi Yojana (SSY): For the girl child, with a maturity period of 21 years from the date of opening or until the girl gets married after age 18. Maximum deposit of ₹1,50,000 per year.
+
+6. Senior Citizens Savings Scheme (SCSS): For individuals above 60 years. Maturity period of 5 years, extendable by 3 years. Maximum investment limit of ₹30,00,000.
+
+7. Life Insurance Premiums: Premium paid for life insurance policies for self, spouse, and children. The premium should not exceed 10% of the sum assured for policies issued after April 1, 2012.
+
+8. Employee Provident Fund (EPF): Employee's contribution to EPF is eligible. Employer's contribution is not deductible under 80C.
+
+9. Home Loan Principal Repayment: The principal component of EMI paid towards a home loan is eligible. Stamp duty and registration charges paid for property purchase are also included.
+
+10. Tuition Fees: Tuition fees paid for up to two children for full-time education in any school, college, university, or educational institution in India.
+
+Important Notes
+- The deduction is available on a "gross qualifying amount" basis — the actual investment/expenditure made during the financial year.
+- If the taxpayer opts for the new tax regime (Section 115BAC), deduction under Section 80C is NOT available.
+- The deduction is claimed while filing the income tax return (ITR) for the relevant assessment year.
+- No minimum investment is mandated for most instruments.
