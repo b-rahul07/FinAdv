@@ -36,3 +36,11 @@ Thumbs.db
 
 # Logs & temp
 *.log
+
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
