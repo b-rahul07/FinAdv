@@ -1,0 +1,145 @@
+# Grable & Lytton 13-item financial risk-tolerance scale, adapted for Indian users.
+#
+# Source of items and scoring key (reproduced with attribution under CC BY-NC 4.0):
+#   Kuzniak, S., Rabbani, A., Heo, W., Ruiz-Menjivar, J., & Grable, J. E. (2015).
+#   The Grable and Lytton risk-tolerance scale: A 15-year retrospective.
+#   Financial Services Review, 24(2), 177–192. Appendix A, pp. 189–191.
+#   https://openjournals.libs.uga.edu/fsr/article/download/3240/2875
+# Original instrument:
+#   Grable, J., & Lytton, R. H. (1999). Financial risk tolerance revisited: The development of a
+#   risk assessment instrument. Financial Services Review, 8, 163–181. doi:10.1016/S1057-0810(99)00041-4
+# Licence: CC BY-NC 4.0 — attribution required; non-commercial use. Commercial use needs the authors' permission.
+#
+# Adaptation rules (report these in the paper's appendix; the adapted version is no longer the validated one,
+# so compute Cronbach's alpha on the study sample):
+#   1. Dollar amounts converted at a fixed factor of ₹50 per $1 so every ratio between amounts is unchanged.
+#   2. US products replaced with the closest Indian equivalent (see `changes` per item).
+#   3. Wording otherwise unchanged; option order and scoring key unchanged.
+#   4. Items 9 and 10 are SUMMED (not averaged), so the total ranges 13–47.
+version: gl13-in-v1
+inr_per_usd_factor: 50
+total_range: [13, 47]
+combine_items_9_10: sum
+
+# Willingness bands. Neither peer-reviewed paper gives cut-offs; these follow the Rutgers quiz grid
+# (https://njaes.rutgers.edu/Money/assessment-tools/investment-risk-tolerance-quiz.pdf), practitioner guidance:
+#   <=18 low, 19–22 below average, 23–28 average, 29–32 above average, >=33 high.
+# Pre-registered mapping: low + below average -> Low; average -> Medium; above average + high -> High.
+bands:
+  low_max: 22
+  medium_max: 28
+# Investing experience is combined with the score: with no experience, willingness is capped at Medium.
+experience_cap:
+  none: medium
+
+items:
+  - n: 1
+    original: "In general, how would your best friend describe you as a risk taker?"
+    text: "In general, how would your best friend describe you as a risk taker?"
+    options:
+      - {key: a, text: "A real gambler", score: 4}
+      - {key: b, text: "Willing to take risks after completing adequate research", score: 3}
+      - {key: c, text: "Cautious", score: 2}
+      - {key: d, text: "A real risk avoider", score: 1}
+    changes: none
+  - n: 2
+    original: "You are on a TV game show and can choose one of the following, which would you take? a. $1,000 in cash b. A 50% chance at winning $5,000 c. A 25% chance at winning $10,000 d. A 5% chance at winning $100,000"
+    text: "You are on a TV game show and can choose one of the following. Which would you take?"
+    options:
+      - {key: a, text: "₹50,000 in cash", score: 1}
+      - {key: b, text: "A 50% chance at winning ₹2,50,000", score: 2}
+      - {key: c, text: "A 25% chance at winning ₹5,00,000", score: 3}
+      - {key: d, text: "A 5% chance at winning ₹50,00,000", score: 4}
+    changes: "Amounts ×50 in rupees"
+  - n: 3
+    original: "You have just finished saving for a \"once-in-a-lifetime\" vacation. Three weeks before you plan to leave, you lose your job. You would:"
+    text: "You have just finished saving for a \"once-in-a-lifetime\" holiday. Three weeks before you plan to leave, you lose your job. You would:"
+    options:
+      - {key: a, text: "Cancel the holiday", score: 1}
+      - {key: b, text: "Take a much more modest holiday", score: 2}
+      - {key: c, text: "Go as scheduled, reasoning that you need the time to prepare for a job search", score: 3}
+      - {key: d, text: "Extend your holiday, because this might be your last chance to go first-class", score: 4}
+    changes: "\"vacation\" -> \"holiday\" (Indian English)"
+  - n: 4
+    original: "If you unexpectedly received $20,000 to invest, what would you do? a. Deposit it in a bank account, money market account, or an insured CD b. Invest it in safe high quality bonds or bond mutual funds c. Invest it in stocks or stock mutual funds"
+    text: "If you unexpectedly received ₹10,00,000 to invest, what would you do?"
+    options:
+      - {key: a, text: "Deposit it in a savings account, a liquid fund, or a bank fixed deposit", score: 1}
+      - {key: b, text: "Invest it in safe, high-quality bonds or debt mutual funds", score: 2}
+      - {key: c, text: "Invest it in shares or equity mutual funds", score: 3}
+    changes: "Amount ×50; money market account -> liquid fund; insured CD -> bank fixed deposit; bond mutual funds -> debt mutual funds; stocks -> shares"
+  - n: 5
+    original: "In terms of experience, how comfortable are you investing in stocks or stock mutual funds?"
+    text: "In terms of experience, how comfortable are you investing in shares or equity mutual funds?"
+    options:
+      - {key: a, text: "Not at all comfortable", score: 1}
+      - {key: b, text: "Somewhat comfortable", score: 2}
+      - {key: c, text: "Very comfortable", score: 3}
+    changes: "stocks -> shares; stock mutual funds -> equity mutual funds"
+  - n: 6
+    original: "When you think of the word \"risk,\" which of the following words comes to mind first?"
+    text: "When you think of the word \"risk\", which of the following words comes to mind first?"
+    options:
+      - {key: a, text: "Loss", score: 1}
+      - {key: b, text: "Uncertainty", score: 2}
+      - {key: c, text: "Opportunity", score: 3}
+      - {key: d, text: "Thrill", score: 4}
+    changes: none
+  - n: 7
+    original: "Some experts are predicting prices of assets such as gold, jewels, collectibles, and real estate (hard assets) to increase in value; bond prices may fall, however, experts tend to agree that government bonds are relatively safe. Most of your investment assets are now in high interest government bonds. What would you do? a. Hold the bonds b. Sell the bonds, put half the proceeds into money market accounts, and the other half into hard assets c. Sell the bonds and put the total proceeds into hard assets d. Sell the bonds, put all the money into hard assets, and borrow additional money to buy more"
+    text: "Some experts are predicting that prices of assets such as gold, jewellery, collectibles and real estate (hard assets) will rise; bond prices may fall, but experts tend to agree that government bonds are relatively safe. Most of your investments are now in high-interest government bonds. What would you do?"
+    options:
+      - {key: a, text: "Hold the bonds", score: 1}
+      - {key: b, text: "Sell the bonds, put half the proceeds into liquid funds and the other half into hard assets", score: 2}
+      - {key: c, text: "Sell the bonds and put all the proceeds into hard assets", score: 3}
+      - {key: d, text: "Sell the bonds, put all the money into hard assets, and borrow more to buy more", score: 4}
+    changes: "money market accounts -> liquid funds; jewels -> jewellery; light rewording for grammar"
+  - n: 8
+    original: "Given the best and worst case returns of the four investment choices below, which would you prefer? a. $200 gain best case; $0 gain/loss worst case b. $800 gain best case; $200 loss worst case c. $2,600 gain best case; $800 loss worst case d. $4,800 gain best case; $2,400 loss worst case"
+    text: "Given the best-case and worst-case returns of the four investment choices below, which would you prefer?"
+    options:
+      - {key: a, text: "₹10,000 gain best case; ₹0 gain or loss worst case", score: 1}
+      - {key: b, text: "₹40,000 gain best case; ₹10,000 loss worst case", score: 2}
+      - {key: c, text: "₹1,30,000 gain best case; ₹40,000 loss worst case", score: 3}
+      - {key: d, text: "₹2,40,000 gain best case; ₹1,20,000 loss worst case", score: 4}
+    changes: "Amounts ×50 in rupees"
+  - n: 9
+    original: "In addition to whatever you own, you have been given $1,000. You are now asked to choose between: a. A sure gain of $500 b. A 50% chance to gain $1,000 and a 50% chance to gain nothing"
+    text: "In addition to whatever you own, you have been given ₹50,000. You are now asked to choose between:"
+    options:
+      - {key: a, text: "A sure gain of ₹25,000", score: 1}
+      - {key: b, text: "A 50% chance to gain ₹50,000 and a 50% chance to gain nothing", score: 3}
+    changes: "Amounts ×50 in rupees"
+  - n: 10
+    original: "In addition to whatever you own, you have been given $2,000. You are now asked to choose between: a. A sure loss of $500 b. A 50% chance to lose $1,000 and a 50% chance to lose nothing"
+    text: "In addition to whatever you own, you have been given ₹1,00,000. You are now asked to choose between:"
+    options:
+      - {key: a, text: "A sure loss of ₹25,000", score: 1}
+      - {key: b, text: "A 50% chance to lose ₹50,000 and a 50% chance to lose nothing", score: 3}
+    changes: "Amounts ×50 in rupees"
+  - n: 11
+    original: "Suppose a relative left you an inheritance of $100,000, stipulating in the will that you invest ALL the money in ONE of the following choices. Which one would you select? a. A savings account or money market mutual fund b. A mutual fund that owns stocks and bonds c. A portfolio of 15 common stocks d. Commodities like gold, silver, and oil"
+    text: "Suppose a relative left you an inheritance of ₹50,00,000, stating in the will that you must invest ALL the money in ONE of the following. Which one would you select?"
+    options:
+      - {key: a, text: "A savings account or a liquid fund", score: 1}
+      - {key: b, text: "A mutual fund that owns both shares and bonds", score: 2}
+      - {key: c, text: "A portfolio of 15 listed shares", score: 3}
+      - {key: d, text: "Commodities like gold, silver and oil", score: 4}
+    changes: "Amount ×50; money market mutual fund -> liquid fund; common stocks -> listed shares; stipulating -> stating"
+  - n: 12
+    original: "If you had to invest $20,000, which of the following investment choices would you find most appealing?"
+    text: "If you had to invest ₹10,00,000, which of the following would you find most appealing?"
+    options:
+      - {key: a, text: "60% in low-risk, 30% in medium-risk and 10% in high-risk investments", score: 1}
+      - {key: b, text: "30% in low-risk, 40% in medium-risk and 30% in high-risk investments", score: 2}
+      - {key: c, text: "10% in low-risk, 40% in medium-risk and 50% in high-risk investments", score: 3}
+    changes: "Amount ×50; options condensed without changing percentages"
+  - n: 13
+    original: "Your trusted friend and neighbor, an experienced geologist, is putting together a group of investors to fund an exploratory gold mining venture. The venture could pay back 50 to 100 times the investment if successful. If the mine is a bust, the entire investment is worthless. Your friend estimates the chance of success is only 20%. If you had the money, how much would you invest?"
+    text: "Your trusted friend and neighbour, an experienced geologist, is putting together a group of investors to fund an exploratory gold-mining venture. It could pay back 50 to 100 times the investment if successful. If the mine is a bust, the entire investment is lost. Your friend estimates the chance of success is only 20%. If you had the money, how much would you invest?"
+    options:
+      - {key: a, text: "Nothing", score: 1}
+      - {key: b, text: "One month's salary", score: 2}
+      - {key: c, text: "Three months' salary", score: 3}
+      - {key: d, text: "Six months' salary", score: 4}
+    changes: "neighbor -> neighbour; worthless -> lost; light rewording"

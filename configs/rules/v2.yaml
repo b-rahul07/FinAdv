@@ -1,0 +1,46 @@
+# Capacity engine and must-not rules (report Ch. 4, Algorithm 1).
+# Thresholds are from SEBI's investor-portal Financial Health Check:
+#   https://investor.sebi.gov.in/financial_health_check.html
+#   thresholds documented at https://freefincal.com/freefincals-financial-health-check-tool-added-to-sebi-investor-education-portal/
+# The weakest-link aggregation and the level cut-offs are design choices (report §4.2).
+# v2 (2026-10-31): s_D uses the 'ratio' form so every component equals 1 exactly when its SEBI check passes.
+# v1 keeps the report's original 'headroom' form for sensitivity analysis.
+# Sensitivity analyses copy this file (e.g. v1-ef3.yaml) and change values; never edit a released version.
+version: rules-v2
+
+capacity:
+  emergency_months: 6            # s_E = min(E / 6, 1); R1 fires when E < 6
+  emi_cap: 0.40                  # R5 fires when D > 0.40
+  s_D_form: ratio                # ratio: s_D = min(1, 0.40 / D)  (1 while the check passes)
+                                 # headroom (v1/report): s_D = clip((0.40 - D) / 0.40, 0, 1)
+  life_cover_multiple: 15        # s_L = min(L / (15 Y), 1) when dependants > 0, else 1
+  health_cover_min_inr: 500000   # s_H = min(H / max(5 lakh, 0.5 Y), 1)
+  health_cover_income_share: 0.5
+  # Y (annual income) is take-home × 12. SEBI's tool asks for annual income; take-home is what users know.
+  annual_income_basis: take_home_x12
+  levels:
+    low_below: 0.5               # cap < 0.5 -> Low
+    high_at: 1.0                 # cap == 1 -> High; otherwise Medium
+  # s_C = 0 when card dues are not paid in full or any costly loan is outstanding.
+  costly_debt:
+    kinds: [personal, bnpl]      # SEBI's check flags personal/unsecured loans
+    unsecured_min_rate_pa: 14.0  # any other unsecured debt at or above this rate is also costly
+
+rules:
+  R7:
+    min_goal_years: 3            # goal < 3 years away -> no equity-heavy allocation for that goal
+    max_risk_for_goal: low_to_moderate
+
+# SEBI riskometer levels, lowest to highest. "unregulated" sits above the scale so it is never allowed.
+riskometer: [low, low_to_moderate, moderate, moderately_high, high, very_high, unregulated]
+
+suitability:
+  # suit = min(capacity level, willingness level); each level allows products up to this riskometer level.
+  max_risk:
+    low: low_to_moderate
+    medium: moderately_high
+    high: very_high
+  allow_index_fund_at_medium: false   # sensitivity case named in the report
+
+# rho(P): share of investable money in products rated at or above this level (report §3.1).
+risky_from: moderately_high

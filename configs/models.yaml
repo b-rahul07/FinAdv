@@ -1,0 +1,26 @@
+# Model identities. Every generation records provider, exact tag, digest/quantisation,
+# temperature, seed and prompt-template version.
+# self_hosted: false models may be used ONLY for synthetic benchmark data (brief §2.6).
+models:
+  # Website default: qwen2.5:3b (Q4_K_M via Ollama). Chosen over phi4-mini after measuring on a CPU-only
+  # laptop: ~10-22 s vs ~30-45 s per planner call, similar choice quality. Licence: Qwen Research License
+  # (non-commercial use only), compatible with this non-commercial research project.
+  website:
+    provider: ollama
+    model: qwen2.5:3b
+    self_hosted: true
+    options:
+      temperature: 0
+      seed: 42
+      num_ctx: 4096
+      num_predict: 400
+  phi4-mini:
+    provider: ollama
+    model: phi4-mini
+    self_hosted: true
+    options: {temperature: 0, seed: 42, num_ctx: 4096, num_predict: 400}
+  tiny-test:
+    provider: fake
+    model: scripted
+    self_hosted: true
+    options: {temperature: 0, seed: 0}

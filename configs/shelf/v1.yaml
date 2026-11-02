@@ -1,0 +1,199 @@
+# Product shelf (report Table 4.1). The planner may choose only from products marked plannable.
+# kind: deposit | fund | retirement | protection | debt_reduction | new_credit | complex
+# market_linked products wait until priority rules R1–R4 are cleared (Algorithm 2).
+# assumed_return_pa values live in configs/assumptions, not here.
+version: shelf-v1
+
+products:
+  - id: savings_account
+    code: sav
+    role: cash
+    name: Savings account
+    riskometer: low
+    kind: deposit
+    market_linked: false
+    plannable: false         # holds the emergency fund; not an investing choice
+  - id: fixed_deposit
+    code: fd
+    role: stable
+    name: Bank fixed deposit
+    riskometer: low
+    kind: deposit
+    market_linked: false
+    plannable: true
+  - id: recurring_deposit
+    code: rd
+    role: stable
+    name: Recurring deposit
+    riskometer: low
+    kind: deposit
+    market_linked: false
+    plannable: true
+  - id: ppf
+    code: ppf
+    role: stable, 15y lock-in
+    name: Public Provident Fund (PPF)
+    riskometer: low
+    kind: retirement
+    market_linked: false
+    plannable: true
+    lock_in_years: 15
+  - id: epf_vpf
+    code: vpf
+    role: stable, retirement
+    name: EPF / Voluntary PF
+    riskometer: low
+    kind: retirement
+    market_linked: false
+    plannable: true
+    requires_salaried: true
+    goal_kinds: [retirement]
+  - id: liquid_fund
+    code: liq
+    role: stable, near-cash
+    name: Liquid fund
+    riskometer: low_to_moderate
+    kind: fund
+    market_linked: false     # the emergency-fund default; treated as near-cash for gating
+    plannable: true
+  - id: short_duration_debt_fund
+    code: sdebt
+    role: stable
+    name: Short-duration debt fund
+    riskometer: low_to_moderate
+    kind: fund
+    market_linked: true
+    plannable: true
+  - id: nps
+    code: nps
+    role: retirement, mixed
+    name: National Pension System (NPS)
+    riskometer: moderate
+    kind: retirement
+    market_linked: true
+    plannable: true
+    goal_kinds: [retirement]   # allowed for retirement goals only
+  - id: hybrid_baf
+    code: baf
+    role: balanced
+    name: Balanced advantage (hybrid) fund
+    riskometer: moderately_high
+    kind: fund
+    market_linked: true
+    plannable: true
+  - id: gold_etf_fund
+    code: gold
+    role: diversifier
+    name: Gold ETF or gold fund
+    riskometer: moderately_high
+    kind: fund
+    market_linked: true
+    plannable: true
+    max_share: 0.15            # capped share of investable money
+  - id: large_cap_index_fund
+    code: idx
+    role: growth
+    name: Nifty 50 index fund
+    riskometer: very_high
+    kind: fund
+    market_linked: true
+    plannable: true
+    index_fund: true
+  - id: flexi_cap_fund
+    code: flexi
+    role: growth
+    name: Flexi-cap fund
+    riskometer: very_high
+    kind: fund
+    market_linked: true
+    plannable: true
+  - id: elss
+    code: elss
+    role: growth, 3y lock-in, tax
+    name: ELSS (tax-saving) fund
+    riskometer: very_high
+    kind: fund
+    market_linked: true
+    plannable: true
+    lock_in_years: 3
+  - id: mid_small_cap_fund
+    code: msc
+    role: high growth, volatile
+    name: Mid- or small-cap fund
+    riskometer: very_high
+    kind: fund
+    market_linked: true
+    plannable: true
+    min_goal_years: 7
+  - id: direct_equity
+    code: shares
+    role: volatile
+    name: Direct shares
+    riskometer: very_high
+    kind: complex
+    market_linked: true
+    complex: true
+    plannable: false           # FinAdvisor never recommends individual stocks
+  - id: fno
+    code: fno
+    role: speculative
+    name: Futures and options (F&O)
+    riskometer: very_high
+    kind: complex
+    market_linked: true
+    complex: true
+    plannable: false
+  - id: crypto
+    code: crypto
+    role: speculative
+    name: Cryptocurrency
+    riskometer: unregulated
+    kind: complex
+    market_linked: true
+    complex: true
+    plannable: false
+  - id: new_emi
+    code: emi
+    role: debt
+    name: New EMI or BNPL purchase
+    riskometer: low
+    kind: new_credit
+    market_linked: false
+    plannable: false
+  - id: term_life
+    code: term
+    role: protection
+    name: Term life insurance
+    kind: protection
+    plannable: false           # added by the rules, never chosen by the LLM
+  - id: health_insurance
+    code: health
+    role: protection
+    name: Health insurance
+    kind: protection
+    plannable: false
+  - id: loan_prepayment
+    code: prepay
+    role: debt
+    name: Loan / card-dues repayment
+    kind: debt_reduction
+    plannable: false
+
+# Deterministic safe mix by suitability level, used by the fallback plan and the what-if card.
+# Shares must sum to 1 and be monotone: a lower level never has a higher risky share.
+safe_mix:
+  low:
+    - {product: liquid_fund, share: 0.5}
+    - {product: short_duration_debt_fund, share: 0.5}
+  medium:
+    - {product: short_duration_debt_fund, share: 0.5}
+    - {product: hybrid_baf, share: 0.4}
+    - {product: gold_etf_fund, share: 0.1}
+  high:
+    - {product: short_duration_debt_fund, share: 0.3}
+    - {product: large_cap_index_fund, share: 0.6}
+    - {product: gold_etf_fund, share: 0.1}
+  # money for goals under the R7 horizon always uses this mix
+  short_goal:
+    - {product: recurring_deposit, share: 0.5}
+    - {product: liquid_fund, share: 0.5}

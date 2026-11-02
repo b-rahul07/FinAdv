@@ -1,0 +1,14 @@
+# Smoke run: three synthetic profiles through the full pipeline with the website's model.
+run_id: smoke-2026-10-31
+pipeline: pipeline/default.yaml
+model: website
+inputs: experiments/data/smoke_profiles.jsonl
+output: results/smoke/website.jsonl
+# Report DVR per relation: evaluate every relation instead of stopping at the first failure,
+# and no time budget (experiments run on GPU).
+auditor:
+  early_exit: false
+  time_budget_s: null
+# The language model chooses the mix (the report's design); the website uses planner.mode: standard.
+planner:
+  mode: model

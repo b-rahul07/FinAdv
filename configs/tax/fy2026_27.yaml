@@ -1,0 +1,15 @@
+# Capital-gains rules used for estimates. Shown as "estimated, not tax advice".
+# Sources:
+#   https://www.dspim.com/knowledge-hub/personal-finance-guide/capital-gains-filing-in-india-what-to-report-where-and-how/stcg-and-ltcg-rules-in-india
+#   https://www.sahi.com/blogs/ltcg-tax-mutual-funds-stocks-budget-2026
+version: tax-fy2026-27
+financial_year: "2026-27"
+
+equity:   # listed equity shares and equity-oriented mutual funds
+  long_term_after_months: 12     # long-term when held MORE than 12 months
+  ltcg_rate: 0.125
+  ltcg_annual_exemption_inr: 125000
+  stcg_rate: 0.20
+
+debt_fund_after_2023_04_01:
+  taxed_at_slab: true            # regardless of holding period

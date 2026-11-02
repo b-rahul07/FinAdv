@@ -1,46 +1,35 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-*.egg-info/
-dist/
-build/
-*.egg
-
-# Virtual environments
-venv/
-.venv/
-env/
-
-# Frontend dependencies & build artifacts
-node_modules/
-**/node_modules/
-.output/
-.nitro/
-.wrangler/
-.vinxi/
-dist/
-dist-ssr/
-
-# IDE & OS
-.vscode/
-.idea/
-*.swp
-*.swo
-.DS_Store
-Thumbs.db
-
-# Jupyter
-.ipynb_checkpoints/
-
-# Logs & temp
-*.log
-
-# Secrets — never commit
+# Secrets: never commit
 .env
 .env.*
 !.env.example
 **/.env
 **/.env.*
 !**/.env.example
+
+# Local data, caches and results (user data never leaves the machine)
+data/
+results/
+FinAdvisor_Report_Overleaf/
+report/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+build/
+dist/
+
+# Frontend
+node_modules/
+web/dist/
+*.tsbuildinfo
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log

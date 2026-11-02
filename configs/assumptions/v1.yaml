@@ -1,0 +1,31 @@
+# Planning assumptions shown to users as assumptions, never as promises.
+# Each value carries its source and the date it was set. Change values by adding v2, not by editing v1.
+version: assumptions-v1
+set_on: 2026-10-31
+
+inflation_pa:
+  value: 6.0
+  source: "Long-run planning assumption; RBI CPI target is 4% with a ±2% band (upper bound used)."
+
+# Expected long-run returns by product, for goal-SIP sizing only.
+returns_pa:
+  savings_account: {value: 3.0, source: "Typical large-bank savings rate"}
+  fixed_deposit: {value: 6.5, source: "Typical 1–3 year bank FD rate"}
+  recurring_deposit: {value: 6.5, source: "Typical bank RD rate"}
+  ppf: {value: 7.1, source: "Government-notified PPF rate (Ministry of Finance); revised quarterly"}
+  epf_vpf: {value: 8.25, source: "EPFO declared rate"}
+  liquid_fund: {value: 6.0, source: "Planning assumption"}
+  short_duration_debt_fund: {value: 6.8, source: "Planning assumption"}
+  nps: {value: 8.0, source: "Planning assumption (conservative life-cycle option)"}
+  hybrid_baf: {value: 9.0, source: "Planning assumption"}
+  gold_etf_fund: {value: 7.0, source: "Planning assumption"}
+  large_cap_index_fund: {value: 11.0, source: "Planning assumption"}
+  flexi_cap_fund: {value: 11.5, source: "Planning assumption"}
+  elss: {value: 11.5, source: "Planning assumption"}
+  mid_small_cap_fund: {value: 12.5, source: "Planning assumption"}
+
+# Facts quoted on "Not yet" cards.
+facts:
+  fno_losses:
+    text: "SEBI found that 87.7% of individual F&O traders lost money in FY26, and over 91% in FY25."
+    source: "SEBI equity-derivatives studies, summarised at https://taxguru.in/?p=1072039"
