@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import uuid
 from datetime import datetime, timezone
+from pathlib import Path
 
 from sqlalchemy import JSON, DateTime, String, create_engine, event, inspect
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, sessionmaker
@@ -48,6 +49,9 @@ def make_engine(url: str):
     kw = {}
     if url.startswith("sqlite"):
         kw["connect_args"] = {"check_same_thread": False, "timeout": 30}
+        path = url.split("///", 1)[-1]
+        if path and path != ":memory:":
+            Path(path).parent.mkdir(parents=True, exist_ok=True)   # data/ is not in the repo; a fresh clone has none
     engine = create_engine(url, pool_pre_ping=True, **kw)
     if url.startswith("sqlite"):
         @event.listens_for(engine, "connect")

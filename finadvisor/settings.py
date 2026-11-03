@@ -11,7 +11,8 @@ ROOT = Path(__file__).resolve().parent.parent
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=ROOT / ".env", extra="ignore")
+    # env_ignore_empty: "DATABASE_URL=" in a copied .env.example means "use the default", not an empty URL
+    model_config = SettingsConfigDict(env_file=ROOT / ".env", extra="ignore", env_ignore_empty=True)
 
     app_env: str = "dev"                          # dev | prod
     database_url: str = f"sqlite:///{(ROOT / 'data' / 'finadvisor.db').as_posix()}"

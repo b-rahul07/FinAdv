@@ -98,6 +98,17 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
+### 2026-11-03 — Setup guide for friends; fresh-clone fixes
+`docs/SETUP.md`: step-by-step local setup (Windows first, Mac/Linux notes), optional example accounts, every key and
+token the project uses and whether it is needed or secret, optional real sign-in with the project's public Supabase
+URL and anon key (data stays local), troubleshooting. The production `DATABASE_URL` (database password), service key,
+Google client secret and Oracle key are deliberately not in it: they give access to real users' data or accounts.
+Tested by cloning the GitHub repo into an empty folder and following the guide, which found four bugs that only a
+fresh machine hits (all fixed): an empty `DATABASE_URL=` with a trailing comment in `.env.example` was read as the
+URL (comments moved to their own lines; settings now ignore empty values); Windows has no time-zone database, so IST
+failed (`tzdata` dependency); `data/` doesn't exist in a fresh clone, so the first data job couldn't open the database
+(`make_engine` creates it); `python-multipart` (CAS upload form) was missing from the dependencies.
+
 ### 2026-11-02 — Repository cleanup
 Removed the earlier prototype (team request): `orchestrator/`, `preference/`, `persistence/`, `recommend_audit/`,
 `sentiment/` (replaced by `finadvisor/market/news.py`), the old `trace-wise-advisor-main/` frontend, prototype

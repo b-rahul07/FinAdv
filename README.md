@@ -30,12 +30,14 @@ individual stocks. It is not a SEBI-registered adviser; it gives education and p
 
 ## Run it locally
 
-Needs Python 3.11+, Node 20+ and [Ollama](https://ollama.com) with the model in `configs/models.yaml`
-(`ollama pull qwen2.5:3b`).
+**Step-by-step guide for running it on your own computer: [docs/SETUP.md](docs/SETUP.md)** (no keys needed).
+
+Short version, for people who have done this before. Needs Python 3.11+, Node 20+ and [Ollama](https://ollama.com) with
+the model in `configs/models.yaml` (`ollama pull qwen2.5:3b`).
 
 ```bash
 # backend
-pip install -e ".[all]"
+pip install -e ".[rag,news,cas]"
 cp .env.example .env                     # AUTH_MODE=dev for local sign-in
 python -m finadvisor.market.jobs masters # instrument lists (first run)
 python scripts/build_index.py            # document search index
