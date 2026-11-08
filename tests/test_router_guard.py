@@ -73,6 +73,7 @@ def test_number_guard_drops_invented_numbers():
     ("FDs pay about 7 a year.", False),
     ("Your money doubles in 6 months.", False),
     ("Inflation runs near 6.", False),
+    ("FDs give 8 pc.", False),
     ("Regular plans cost 1 point more.", False),
     ("Here are 3 steps to follow.", True),                   # genuine counts still pass
     ("Spread it over 6 months.", True),

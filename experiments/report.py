@@ -65,6 +65,14 @@ def main() -> None:
         for rid, x in a5.items():
             gap = f"{x['mean_abs_gap']:.1%}" if x["mean_abs_gap"] is not None else "—"
             lines.append(f"| {rid} | {gap} | {pct(x['overspend'])} | {pct(x['agrees_with_rule_check'])} |")
+    alloc = {rid: s["allocation"] for rid, s in summaries.items() if "allocation" in s}
+    if alloc:
+        lines += ["", "## Baseline ALLOCATION block", "",
+                  "Answers that ended with a parsable block (judged on it), and blocks that named a product the oracle "
+                  "recognises (otherwise products come from the text).", "",
+                  "| Run | Block present | Block names products |", "|---|---|---|"]
+        for rid, x in alloc.items():
+            lines.append(f"| {rid} | {pct(x['block'])} | {pct(x['named_products'])} |")
     lines += ["", "## Provenance", "", "| Run | Commit | Config hash | Rule check | Traceable |", "|---|---|---|---|---|"]
     for rid, s in summaries.items():
         p = s["provenance"]

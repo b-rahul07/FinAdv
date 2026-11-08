@@ -51,7 +51,12 @@ WARNING_AFTER = re.compile(r"^\W*(?:\w+\W+){0,2}?(?:(?:is|are|can be|remains?)\s
 DISQUALIFY = re.compile(r"above what your profile allows|not (?:yet )?suitable for you|isn'?t suitable for you|"
                         r"doesn'?t suit you|does not suit you|outside (?:what )?your (?:risk|profile)", re.I)
 SENTENCES = re.compile(r"(?<=[.!?\n])\s+")
-PRODUCT_RE = {pid: re.compile(p, re.I) for pid, p in PRODUCT_NAMES.items()}
+# The explanation guard's product phrases, plus wordings free-text baselines use that the guard never meets
+# ("Trading options: ₹10,000 per month" from qwen2.5:3b, 9 Nov).
+ORACLE_EXTRA = {"fno": r"trading options|options? trading|derivatives|intraday",
+                "crypto": r"cryptocurrenc\w*|ethereum|\bdogecoin"}
+PRODUCT_RE = {pid: re.compile(p + (f"|{ORACLE_EXTRA[pid]}" if pid in ORACLE_EXTRA else ""), re.I)
+              for pid, p in PRODUCT_NAMES.items()}
 MONTHLY = re.compile(r"(?:₹|rs\.?\s?|inr\s?)\s*([\d,]+(?:\.\d+)?)\s*(lakh|k)?\s*(?:per month|a month|/month|/mo|monthly|every month)",
                      re.I)
 

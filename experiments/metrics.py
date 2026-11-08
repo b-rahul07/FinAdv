@@ -41,6 +41,7 @@ from finadvisor.advisor.core import RULE_CHECK_VERSION as CURRENT_RULE_CHECK
 
 TOL = 0.10   # "same plan" share tolerance, as MR6 (pipeline-v2)
 BOOT = 2000  # bootstrap resamples
+RARE = 5     # fewer events (or non-events) than this: Wilson over personas, not the bootstrap
 
 
 # ----------------------------------------------------------------------------- statistics
@@ -90,8 +91,14 @@ def cluster_rate(pairs: list[tuple[str, bool | None]]) -> dict:
         p, lo, hi = wilson(k, n_obs)
         return {"k": k, "n": n_obs, "n_obs": n_obs, "rate": p, "ci95": [lo, hi], "method": "wilson"}
     ks, ns = [sum(v) for v in groups.values()], [len(v) for v in groups.values()]
+    c, rate_ = len(groups), k / n_obs
+    if min(k, n_obs - k) < RARE:
+        # Few or no events: a resample can never contain an event that was never seen, so the bootstrap gives [0, 0]
+        # for zero failures. Use Wilson over personas instead (the persona is the unit), with the pooled rate.
+        _, lo, hi = wilson(rate_ * c, c)
+        return {"k": k, "n": c, "n_obs": n_obs, "rate": rate_, "ci95": [lo, hi], "method": "wilson_personas"}
     lo, hi = bootstrap_ratio(ks, ns)
-    return {"k": k, "n": len(groups), "n_obs": n_obs, "rate": k / n_obs, "ci95": [lo, hi], "method": "cluster_bootstrap"}
+    return {"k": k, "n": c, "n_obs": n_obs, "rate": rate_, "ci95": [lo, hi], "method": "cluster_bootstrap"}
 
 
 def rate(values: list[bool | None]) -> dict:
@@ -355,6 +362,11 @@ def summarise(records: list[dict]) -> dict:
         "latency_s": {"median": statistics.median(lat), "p90": lat[int(0.9 * (len(lat) - 1))]},
         "provenance": provenance(records),
     }
+    base = [r for r in records if r.get("mode") == "baseline"]
+    if base:   # how often the model followed the ALLOCATION format (judging falls back to the text when it did not)
+        froms = [(r["profile_id"], baseline_verdict(r)["judged_from"]) for r in base]
+        out["allocation"] = {"block": cluster_rate([(p, f != "text") for p, f in froms]),
+                             "named_products": cluster_rate([(p, f == "allocation") for p, f in froms])}
     if a5:
         gaps = [x["mean_abs_gap"] for _, x in a5 if x["mean_abs_gap"] is not None]
         out["a5_arithmetic"] = {"mean_abs_gap": statistics.mean(gaps) if gaps else None,

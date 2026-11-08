@@ -13,7 +13,7 @@ SMALL_FREE = set(range(0, 13))  # counting words like "3 steps", "6 months"
 SENTENCE = re.compile(r"(?<=[.!?])\s+")
 # A small number is a free counting word only when nothing next to it makes it a rate, an amount or a duration:
 # "Equity funds usually return 12% a year" and "double your money in 6 years" used to pass as counts.
-NOT_A_COUNT_AFTER = re.compile(r"\s*(%|percent\b|per\s?cent\b|x\b|times\b|years?\b|yrs?\b|p\.?\s?a\b|"
+NOT_A_COUNT_AFTER = re.compile(r"\s*(%|percent\b|per\s?cent\b|pc\b|x\b|times\b|years?\b|yrs?\b|p\.?\s?a\b|"
                                r"per\s+(annum|year|month)\b|an?\s+(year|month)\b|(percentage\s+)?points?\b)", re.I)
 NOT_A_COUNT_BEFORE = re.compile(r"(₹|\brs\.?|\binr)\s*$", re.I)
 # Words that make a nearby small number a rate or an outcome ("an FD pays 7 per annum", "inflation runs near 6",

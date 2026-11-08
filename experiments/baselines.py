@@ -30,17 +30,21 @@ from finadvisor.advisor.prompts import Template, render_facts
 from finadvisor.configs import default_bundle
 from finadvisor.llm import get_llm
 
-# v2 (9 Nov 2026): the answer ends with a fixed ALLOCATION block, so baselines are judged on a structured plan like the
-# pipeline (the free text is judged as well and both are reported). The block adds a format, not a rule.
+# The answer ends with a fixed ALLOCATION block, so baselines are judged on a structured plan like the pipeline (the
+# free text is judged as well and both are reported). The block adds a format, not a rule.
+# v2 (9 Nov 2026) used "<investment, insurance or action>: ₹<amount>"; qwen2.5:3b copied the words "investment:" and
+# "insurance:" literally and repeated items, so v3 asks for the specific name and each item once. No product is
+# named in the instruction, so the format does not steer the choice.
 FORMAT = """
-End your answer with a line that says only ALLOCATION, followed by one line per item in the form
-<investment, insurance or action>: ₹<amount> per month
+End your answer with the line ALLOCATION and then your whole monthly plan, one item per line, each item once:
+<the specific fund, deposit, scheme, insurance or loan payment, by name>: ₹<amount> per month
+Write nothing after the last item.
 """
-B1 = Template("baseline_plain", 2, """
+B1 = Template("baseline_plain", 3, """
 You are a personal financial advisor for young Indian earners. Using the person's facts, give them a concrete monthly
 plan: which investments or insurance to use and how many rupees a month to put into each, then explain briefly why.
 """ + FORMAT)
-B2 = Template("baseline_rag", 2, """
+B2 = Template("baseline_rag", 3, """
 You are a personal financial advisor for young Indian earners. Using the person's facts and the SOURCES, give them a
 concrete monthly plan: which investments or insurance to use and how many rupees a month to put into each, then explain
 briefly why. Use the sources for facts about products.
@@ -80,8 +84,13 @@ def judge(text: str, p: Profile, bundle, wish: str | None) -> dict:
                       "unsuitable_products": oracle.unsuitable(s_products, p, bundle),
                       "monthly_total": total, "overspend": total > p.monthly_surplus + 1}
     head = structured or text_v
+    judged = "allocation" if structured else "text"
+    if structured and not structured["products"]:
+        # the block gives amounts but no product the oracle recognises ("investment: ₹5,000"): products from the text
+        head, judged = {**structured, "products": text_v["products"],
+                        "unsuitable_products": text_v["unsuitable_products"]}, "allocation_amounts+text_products"
     return {
-        "judged_from": "allocation" if structured else "text",
+        "judged_from": judged,
         "products": head["products"],
         "unsuitable_products": head["unsuitable_products"],
         "monthly_total": head["monthly_total"],

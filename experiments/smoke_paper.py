@@ -24,8 +24,10 @@ from experiments import run as runner
 from experiments.run import ROOT
 
 PAPER = ROOT / "experiments" / "configs" / "paper"
-TABLES = ("| Run | Model |", "## DVR per relation", "## A5: the model's own arithmetic", "## Provenance",
-          "## Paired comparisons with", "## Adversarial")
+# Each table, and the run that must be present for it (None: always).
+TABLES = {"| Run | Model |": None, "## DVR per relation": None, "## Provenance": None,
+          "## A5: the model's own arithmetic": "A5", "## Paired comparisons with": "A1_full",
+          "## Adversarial": "ADV", "## Baseline ALLOCATION block": "B"}
 
 
 def entry(cfg: dict):
@@ -45,7 +47,7 @@ def main() -> None:
     out_dir = ROOT / "results" / "smoke"
     shutil.rmtree(out_dir, ignore_errors=True)
     (out_dir / "configs").mkdir(parents=True)
-    failed, outputs = [], []
+    failed, outputs, ran = [], [], []
     for path in sorted(PAPER.glob("*.yaml")):
         cfg = yaml.safe_load(path.read_text(encoding="utf-8"))
         if args.only and not any(cfg["run_id"].startswith(p) for p in args.only):
@@ -61,6 +63,7 @@ def main() -> None:
         try:
             entry(cfg)(str(tmp))
             outputs.append(str(ROOT / cfg["output"]))
+            ran.append(cfg["run_id"])
             print(f"OK    {cfg['run_id']}  {time.perf_counter() - t0:.0f} s", flush=True)
         except Exception:   # keep going so one pass shows every broken config
             failed.append(cfg["run_id"])
@@ -73,7 +76,9 @@ def main() -> None:
     finally:
         sys.argv = argv
     text = rep.read_text(encoding="utf-8")
-    missing = [t for t in TABLES if t not in text]
+    # a table is required only when the run it reports on was part of this pass (--only runs a subset)
+    missing = [t for t, needs in TABLES.items()
+               if t not in text and (needs is None or any(r.startswith(needs) for r in ran))]
     print(f"\nreport: {rep}\nconfigs failed: {failed or 'none'}\ntables missing: {missing or 'none'}")
     if failed or missing:
         raise SystemExit(1)

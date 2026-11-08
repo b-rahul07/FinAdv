@@ -182,6 +182,7 @@ ORACLE_CASES = [
     ("There is no need for crypto.", set()),
     ("Build your emergency fund in a liquid fund, not in small caps.", {"liquid_fund"}),
     ("Your plan has no crypto; it uses an index fund.", {"large_cap_index_fund"}),
+    ("Trading Options: ₹10,000 per month", {"fno"}),                 # qwen2.5:3b baseline wording
 ]
 
 
@@ -213,9 +214,9 @@ def test_baselines_are_judged_on_the_allocation_block_and_on_the_text():
 
 
 def test_replicates_are_not_counted_as_independent_personas():
-    recs = [("p1", True), ("p1", True), ("p1", False), ("p2", False), ("p2", False), ("p2", False)]
+    recs = [(f"p{i}", v) for i in range(10) for v in (i < 4, i < 4, False)]   # 8 events in 30 rows, 10 personas
     r = metrics.cluster_rate(recs)
-    assert (r["n"], r["n_obs"], r["method"]) == (2, 6, "cluster_bootstrap") and r["rate"] == pytest.approx(2 / 6)
+    assert (r["n"], r["n_obs"], r["method"]) == (10, 30, "cluster_bootstrap") and r["rate"] == pytest.approx(8 / 30)
     assert r["ci95"][0] <= r["rate"] <= r["ci95"][1]
     one = metrics.cluster_rate([("p1", True), ("p2", False)])
     assert one["method"] == "wilson" and one["n"] == 2
@@ -224,6 +225,18 @@ def test_replicates_are_not_counted_as_independent_personas():
     honest, pooled = metrics.cluster_rate(reps), metrics.rate([v for _, v in reps])
     assert honest["n"] == 40 and pooled["n"] == 120
     assert honest["ci95"][1] - honest["ci95"][0] > 1.4 * (pooled["ci95"][1] - pooled["ci95"][0])
+
+
+def test_no_failures_still_gets_an_honest_interval():
+    """The reviewer's case: 240 personas x 3 replicates, zero failures. The bootstrap can only return [0, 0]; Wilson
+    over the 240 personas gives 0 to about 1.6%. Rare events (fewer than 5) use it too, as do all-success rates."""
+    zero = metrics.cluster_rate([(f"p{i}", False) for i in range(240) for _ in range(3)])
+    assert zero["method"] == "wilson_personas" and zero["n"] == 240 and zero["rate"] == 0.0
+    assert zero["ci95"][0] == 0.0 and zero["ci95"][1] == pytest.approx(0.0158, abs=5e-4)
+    rare = metrics.cluster_rate([(f"p{i}", i == 0) for i in range(240) for _ in range(3)])
+    assert rare["method"] == "wilson_personas" and rare["ci95"][1] > rare["rate"] > 0
+    full = metrics.cluster_rate([(f"p{i}", True) for i in range(240) for _ in range(3)])
+    assert full["ci95"][1] == 1.0 and full["ci95"][0] == pytest.approx(1 - 0.0158, abs=5e-4)
 
 
 def test_holm_and_weighted_kappa():
