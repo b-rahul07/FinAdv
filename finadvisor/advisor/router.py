@@ -18,7 +18,8 @@ CHECK = re.compile(
     r"|\b(right|good|suitable|a good (idea|fit|choice)|ok|okay|wise|safe) for me\b|\bsuits? me\b|\bsuitable\b"
     r"|\bworth (it|buying)\b.*\b(emi|loan)\b|\boptions? (to )?trad|\btrad\w* options\b"
     r"|f&o|\bfno\b|\bfutures\b|\bcrypto|\bbitcoin|\bsmall[- ]?caps?\b|\bmid[- ]?caps?\b", re.I)
-LEARN = re.compile(r"^\s*(what|what's|whats|how does|how do|explain|define|difference|meaning|tell me about|why do|why is|is there)\b", re.I)
+LEARN = re.compile(r"^\s*(what|what's|whats|how does|how do|how is|how are|explain|define|difference|meaning|tell me about"
+                   r"|why do|why is|is there)\b", re.I)
 GREETING = re.compile(r"^\s*(hi|hello|hey|thanks|thank you|ok|okay|good (morning|evening))\b[\s!.]*$", re.I)
 
 

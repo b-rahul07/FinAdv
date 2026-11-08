@@ -28,7 +28,7 @@ from pathlib import Path
 
 from finadvisor.advisor import numbers
 from finadvisor.advisor.capacity import assess
-from finadvisor.advisor.gate import gate, risk_rank, suitability
+from finadvisor.advisor.gate import risk_rank, suitability
 from finadvisor.advisor.pipeline import GOAL_WORDS, PROMISE_WORDS, Advisor, TurnInput
 from finadvisor.advisor.profile import Profile
 from finadvisor.advisor.willingness import assess as assess_will

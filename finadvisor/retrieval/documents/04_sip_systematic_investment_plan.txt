@@ -1,47 +1,34 @@
-Systematic Investment Plan (SIP) — Complete Guide
+SIP: Systematic Investment Plan
+Last checked: 2026-11-08
 
-Overview
-A Systematic Investment Plan (SIP) is a disciplined method of investing a fixed amount of money at regular intervals (usually monthly) in a mutual fund scheme. SIP is not a product — it is a mode of investing in mutual funds. It leverages the power of rupee cost averaging and compounding.
+What a SIP is
+A SIP is a standing instruction to invest a fixed amount in a mutual fund at a regular interval, usually monthly. The money is debited from your bank account by auto-debit (NACH or UPI AutoPay) and units are bought at that day's NAV. A SIP is not a product; it is a way of buying mutual fund units.
 
-How SIP Works
-- The investor chooses a mutual fund scheme, an investment amount, and a frequency (monthly, quarterly, weekly).
-- On the scheduled date each period, the fixed amount is automatically debited from the investor's bank account and used to purchase units of the chosen mutual fund at the prevailing NAV (Net Asset Value).
-- When NAV is low, more units are purchased; when NAV is high, fewer units are purchased — this is rupee cost averaging.
+Why monthly investing helps
+- Habit: investing on payday, before spending, makes saving automatic.
+- Rupee cost averaging: the same amount buys more units when prices are low and fewer when prices are high, so you do not need to time the market. Over a long period this smooths out the ups and downs; it does not guarantee a profit.
+- Small start: many funds accept SIPs from ₹100 to ₹500 a month.
 
-Minimum SIP Amount
-- Most mutual fund houses in India allow SIPs starting from ₹500 per month.
-- Some fund houses offer SIPs starting from ₹100 per month (micro-SIPs).
+Setting one up
+1. Complete KYC once (PAN, Aadhaar-based e-KYC or in-person).
+2. Choose the fund and the Direct plan with the Growth option for the lowest cost.
+3. Pick the amount, the date (a few days after salary credit) and the duration; "until cancelled" is common.
+4. Approve the auto-debit mandate.
+You can buy directly from the fund house's website or app, through MF Central, or through a registered platform.
 
-SIP Types
-1. Regular SIP: Fixed amount invested at fixed intervals.
-2. Top-up SIP (Step-up SIP): The SIP amount increases by a fixed amount or percentage at specified intervals (e.g., increasing by ₹500 every year).
-3. Flexible SIP: The investor can increase or decrease the SIP amount based on market conditions or personal cash flow.
-4. Perpetual SIP: No end date — continues until the investor actively stops it.
-5. Trigger SIP: Investment is triggered based on specific market conditions (e.g., when NAV drops below a certain level).
+Changing or stopping
+You can pause, change or cancel a SIP at any time without penalty. Missing an instalment does not cause a fine from the fund, though your bank may charge for a bounced debit. Units already bought stay invested. A step-up (top-up) SIP increases the amount automatically every year, for example by 10% when your salary rises.
 
-SIP vs Lump Sum
-- SIP: Spreads investment over time, reduces timing risk, suitable for salaried investors with regular income. Ideal when markets are volatile.
-- Lump Sum: Entire amount invested at once. Better when markets are low and expected to rise. Requires more market timing skill.
+SIPs and market falls
+Stopping a SIP when markets fall is the most common mistake. During a fall each instalment buys more units, and those units benefit most when markets recover. Keep SIPs for goals at least 5 years away going, as long as your emergency fund is in place and you can afford the instalment.
 
-Tax Implications
-- SIP in ELSS funds: Each installment has its own 3-year lock-in for 80C deduction.
-- SIP in equity funds (held >12 months): LTCG up to ₹1,25,000 is exempt. Each SIP installment's holding period is calculated individually.
-- SIP in debt funds: Gains are taxed at the investor's income tax slab rate (for investments made after April 1, 2023).
-- IDCW distributions from SIP investments are taxed at the investor's slab rate.
+SIP or lump sum?
+Money you earn every month is naturally invested by SIP. For a large one-time amount (a bonus or savings above your emergency fund), spreading it over 6 to 12 months, for example through a Systematic Transfer Plan from a liquid fund, reduces the risk of investing everything just before a fall.
 
-Rupee Cost Averaging Example
-If you invest ₹5,000 monthly and the NAV varies:
-- Month 1: NAV = ₹50 → 100 units purchased
-- Month 2: NAV = ₹40 → 125 units purchased
-- Month 3: NAV = ₹60 → 83.33 units purchased
-- Total invested: ₹15,000, Total units: 308.33, Average cost: ₹48.65 per unit
-This is lower than the simple average NAV of ₹50.
+Taxes and lock-ins
+Each SIP instalment is a separate purchase for tax and lock-in purposes: in ELSS each instalment is locked for 3 years, and the holding period for capital gains is counted per instalment.
 
-Power of Compounding
-Starting a SIP of ₹5,000 per month at age 25 vs age 35 (assuming 12% annual return):
-- Starting at 25 (35 years of investing): Corpus ≈ ₹3.25 crore
-- Starting at 35 (25 years of investing): Corpus ≈ ₹95 lakh
-The 10-year head start results in approximately 3.4x more wealth.
-
-AMFI Registration
-All mutual fund schemes offering SIP are regulated by SEBI and distributed through AMFI-registered entities. Investors should verify that their distributor or platform is registered with AMFI.
+Sources
+- AMFI, SIP and investor education: https://www.amfiindia.com/investor-corner
+- MF Central (registrars' official platform): https://www.mfcentral.com/
+- SEBI investor website: https://investor.sebi.gov.in/

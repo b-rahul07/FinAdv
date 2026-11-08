@@ -1,0 +1,82 @@
+{"synthetic": true, "q": "How much can I save in tax with 80C investments?", "docs": ["01_tax_saving_deductions.txt"]}
+{"synthetic": true, "q": "What is section 123 of the new income tax act?", "docs": ["01_tax_saving_deductions.txt", "17_income_tax_act_2025_sections.txt"]}
+{"synthetic": true, "q": "What is the current PPF interest rate?", "docs": ["02_ppf_public_provident_fund.txt"]}
+{"synthetic": true, "q": "Can I withdraw money from my PPF account before 15 years?", "docs": ["02_ppf_public_provident_fund.txt"]}
+{"synthetic": true, "q": "What is the lock-in period of ELSS funds?", "docs": ["03_elss_equity_linked_savings.txt"]}
+{"synthetic": true, "q": "Is ELSS useful if I am in the new tax regime?", "docs": ["03_elss_equity_linked_savings.txt", "16_income_tax_regimes.txt"]}
+{"synthetic": true, "q": "How does a SIP work?", "docs": ["04_sip_systematic_investment_plan.txt"]}
+{"synthetic": true, "q": "What is rupee cost averaging?", "docs": ["04_sip_systematic_investment_plan.txt"]}
+{"synthetic": true, "q": "How much of my NPS can I take out as a lump sum at 60?", "docs": ["05_nps_national_pension_system.txt"]}
+{"synthetic": true, "q": "What is the extra 50000 deduction for NPS?", "docs": ["05_nps_national_pension_system.txt"]}
+{"synthetic": true, "q": "Are bank fixed deposits insured?", "docs": ["06_fixed_deposits_guide.txt"]}
+{"synthetic": true, "q": "Is FD interest taxable and when is TDS deducted?", "docs": ["06_fixed_deposits_guide.txt"]}
+{"synthetic": true, "q": "What does the mutual fund riskometer mean?", "docs": ["07_sebi_mutual_fund_regulations.txt", "19_mutual_fund_basics.txt"]}
+{"synthetic": true, "q": "What changed in SEBI's 2026 mutual fund rules?", "docs": ["07_sebi_mutual_fund_regulations.txt"]}
+{"synthetic": true, "q": "Is buy now pay later a good idea?", "docs": ["08_bnpl_buy_now_pay_later.txt"]}
+{"synthetic": true, "q": "Does BNPL affect my credit score?", "docs": ["08_bnpl_buy_now_pay_later.txt", "26_credit_score.txt"]}
+{"synthetic": true, "q": "Can I still buy sovereign gold bonds?", "docs": ["09_sovereign_gold_bonds_sgb.txt", "23_gold_investment_options.txt"]}
+{"synthetic": true, "q": "When can I redeem my SGB early?", "docs": ["09_sovereign_gold_bonds_sgb.txt"]}
+{"synthetic": true, "q": "How much health insurance cover do I need?", "docs": ["10_health_insurance.txt"]}
+{"synthetic": true, "q": "What is the waiting period for pre-existing diseases in health insurance?", "docs": ["10_health_insurance.txt"]}
+{"synthetic": true, "q": "Where should I keep my emergency fund?", "docs": ["11_emergency_fund_liquid_funds.txt"]}
+{"synthetic": true, "q": "What is a liquid fund?", "docs": ["11_emergency_fund_liquid_funds.txt", "21_debt_funds.txt"]}
+{"synthetic": true, "q": "What interest does the senior citizen savings scheme pay?", "docs": ["12_senior_citizen_savings_scss.txt"]}
+{"synthetic": true, "q": "Can my parents invest in SCSS?", "docs": ["12_senior_citizen_savings_scss.txt"]}
+{"synthetic": true, "q": "Is interest on an education loan tax deductible?", "docs": ["13_education_loan.txt"]}
+{"synthetic": true, "q": "How do education loans for studying abroad work?", "docs": ["13_education_loan.txt"]}
+{"synthetic": true, "q": "What is Sukanya Samriddhi Yojana?", "docs": ["14_sukanya_samriddhi_yojana.txt"]}
+{"synthetic": true, "q": "How much can I deposit in SSY for my daughter?", "docs": ["14_sukanya_samriddhi_yojana.txt"]}
+{"synthetic": true, "q": "Will the bank charge me for closing my home loan early?", "docs": ["15_loan_prepayment_and_foreclosure.txt", "28_home_loans.txt"]}
+{"synthetic": true, "q": "What is a loan moratorium?", "docs": ["15_loan_prepayment_and_foreclosure.txt"]}
+{"synthetic": true, "q": "Old regime or new regime, which is better?", "docs": ["16_income_tax_regimes.txt"]}
+{"synthetic": true, "q": "Up to what income is there no tax under the new regime?", "docs": ["16_income_tax_regimes.txt"]}
+{"synthetic": true, "q": "What are the new section numbers for 80D and 80E?", "docs": ["17_income_tax_act_2025_sections.txt"]}
+{"synthetic": true, "q": "When did the Income-tax Act 2025 come into force?", "docs": ["17_income_tax_act_2025_sections.txt", "16_income_tax_regimes.txt"]}
+{"synthetic": true, "q": "How much term insurance cover should I buy?", "docs": ["18_term_life_insurance.txt"]}
+{"synthetic": true, "q": "Term plan or endowment policy, which is better?", "docs": ["18_term_life_insurance.txt"]}
+{"synthetic": true, "q": "What is the difference between direct and regular plans of a mutual fund?", "docs": ["19_mutual_fund_basics.txt"]}
+{"synthetic": true, "q": "What is an expense ratio?", "docs": ["19_mutual_fund_basics.txt", "07_sebi_mutual_fund_regulations.txt"]}
+{"synthetic": true, "q": "What is NAV in mutual funds?", "docs": ["19_mutual_fund_basics.txt"]}
+{"synthetic": true, "q": "Growth option or IDCW option?", "docs": ["19_mutual_fund_basics.txt"]}
+{"synthetic": true, "q": "What is an index fund?", "docs": ["20_index_funds_and_etfs.txt"]}
+{"synthetic": true, "q": "ETF or index fund, which should I choose?", "docs": ["20_index_funds_and_etfs.txt"]}
+{"synthetic": true, "q": "What is tracking error?", "docs": ["20_index_funds_and_etfs.txt"]}
+{"synthetic": true, "q": "Are debt funds safe?", "docs": ["21_debt_funds.txt"]}
+{"synthetic": true, "q": "How are debt mutual funds taxed now?", "docs": ["21_debt_funds.txt", "22_capital_gains_tax.txt"]}
+{"synthetic": true, "q": "How much tax do I pay on long-term gains from shares?", "docs": ["22_capital_gains_tax.txt"]}
+{"synthetic": true, "q": "What is the 1.25 lakh LTCG exemption?", "docs": ["22_capital_gains_tax.txt"]}
+{"synthetic": true, "q": "What is the best way to invest in gold?", "docs": ["23_gold_investment_options.txt"]}
+{"synthetic": true, "q": "Is digital gold regulated?", "docs": ["23_gold_investment_options.txt"]}
+{"synthetic": true, "q": "What is the EPF interest rate?", "docs": ["24_epf_vpf.txt"]}
+{"synthetic": true, "q": "Should I contribute to VPF?", "docs": ["24_epf_vpf.txt"]}
+{"synthetic": true, "q": "What do NSC and KVP pay?", "docs": ["25_post_office_savings_schemes.txt"]}
+{"synthetic": true, "q": "Post office monthly income scheme details", "docs": ["25_post_office_savings_schemes.txt"]}
+{"synthetic": true, "q": "How can I improve my CIBIL score?", "docs": ["26_credit_score.txt"]}
+{"synthetic": true, "q": "How often is my credit report updated?", "docs": ["26_credit_score.txt"]}
+{"synthetic": true, "q": "What happens if I pay only the minimum amount due on my credit card?", "docs": ["27_credit_cards.txt"]}
+{"synthetic": true, "q": "How does the interest-free period on credit cards work?", "docs": ["27_credit_cards.txt"]}
+{"synthetic": true, "q": "Fixed or floating rate home loan?", "docs": ["28_home_loans.txt"]}
+{"synthetic": true, "q": "How much home loan can I get on my salary?", "docs": ["28_home_loans.txt"]}
+{"synthetic": true, "q": "Which loan should I pay off first?", "docs": ["29_paying_off_debt.txt"]}
+{"synthetic": true, "q": "What is the debt avalanche method?", "docs": ["29_paying_off_debt.txt"]}
+{"synthetic": true, "q": "How should I split my money between equity and debt?", "docs": ["30_asset_allocation.txt"]}
+{"synthetic": true, "q": "What is rebalancing a portfolio?", "docs": ["30_asset_allocation.txt"]}
+{"synthetic": true, "q": "Should I stop my SIP when the market crashes?", "docs": ["31_investing_when_markets_fall.txt", "04_sip_systematic_investment_plan.txt"]}
+{"synthetic": true, "q": "Is it a good time to invest when markets are falling?", "docs": ["31_investing_when_markets_fall.txt"]}
+{"synthetic": true, "q": "How does compounding work?", "docs": ["32_compounding_and_inflation.txt"]}
+{"synthetic": true, "q": "How does inflation reduce my savings?", "docs": ["32_compounding_and_inflation.txt"]}
+{"synthetic": true, "q": "How do I complain against a broker or mutual fund?", "docs": ["33_investor_complaints_and_protection.txt"]}
+{"synthetic": true, "q": "Where do I complain if my bank does not resolve my issue?", "docs": ["33_investor_complaints_and_protection.txt"]}
+{"synthetic": true, "q": "How can I check if an investment adviser is SEBI registered?", "docs": ["33_investor_complaints_and_protection.txt", "34_avoiding_financial_scams.txt"]}
+{"synthetic": true, "q": "Someone on Telegram promises guaranteed 5% a month, is it safe?", "docs": ["34_avoiding_financial_scams.txt"]}
+{"synthetic": true, "q": "What should I do if I lose money in an online fraud?", "docs": ["34_avoiding_financial_scams.txt", "33_investor_complaints_and_protection.txt"]}
+{"synthetic": true, "q": "How many nominees can I add to my mutual funds?", "docs": ["35_kyc_nomination_and_cas.txt"]}
+{"synthetic": true, "q": "What is a consolidated account statement?", "docs": ["35_kyc_nomination_and_cas.txt"]}
+{"synthetic": true, "q": "How can I buy government bonds directly?", "docs": ["36_government_bonds_rbi_retail_direct.txt"]}
+{"synthetic": true, "q": "What are treasury bills?", "docs": ["36_government_bonds_rbi_retail_direct.txt"]}
+{"synthetic": true, "q": "I just got my first job, what should I do with my salary?", "docs": ["37_money_basics_for_young_earners.txt"]}
+{"synthetic": true, "q": "How much of my salary should I save?", "docs": ["37_money_basics_for_young_earners.txt"]}
+{"synthetic": true, "q": "How much money do I need to retire?", "docs": ["38_retirement_planning.txt"]}
+{"synthetic": true, "q": "How do I plan for my child's education?", "docs": ["39_goal_based_investing.txt"]}
+{"synthetic": true, "q": "Why do most people lose money in futures and options?", "docs": ["40_fno_and_trading_risks.txt"]}
+{"synthetic": true, "q": "How is crypto taxed in India?", "docs": ["41_crypto_in_india.txt"]}

@@ -15,6 +15,7 @@ import hashlib
 import re
 from pathlib import Path
 
+from finadvisor.advisor import topics
 from finadvisor.advisor.gate import RISK_LABEL, risk_rank
 from finadvisor.calc.money import inr
 
@@ -48,7 +49,8 @@ FOLLOWUPS = {
 
 
 def template_id() -> str:
-    text = Path(__file__).read_text(encoding="utf-8").replace(chr(13), "")
+    """Hash of this file and topics.py, the two halves of the reply template."""
+    text = "".join(Path(f).read_text(encoding="utf-8").replace(chr(13), "") for f in (__file__, topics.__file__))
     return f"compose-v1@{hashlib.sha256(text.encode()).hexdigest()[:8]}"
 
 
@@ -138,16 +140,42 @@ def _fund_lines(plan, bundle) -> list[str]:
     return [f"{SHORT.get(pid, pid)} ({inr(v)} a month)" for pid, v in sorted(totals.items(), key=lambda x: -x[1])]
 
 
-def answer(question: str, final, profile, cap, bundle, held: list[dict] | None = None) -> dict:
-    """Returns {"intent", "short", "held", "todo", "why", "followups"}. `held`: current holdings by product type."""
+def answer(question: str, final, profile, cap, bundle, held: list[dict] | None = None, fund_lists: bool = False,
+           snap: dict | None = None) -> dict:
+    """Returns {"intent", "short", "held", "todo", "guide", "why", "followups"}. `held`: current holdings by product
+    type. `fund_lists`: the reply carries fund finder cards. `snap`: the fund finder snapshot (expense ratios)."""
+    steps = todo(final.plan, profile, bundle.rules)
+    ctx = topics.Ctx(question, final, profile, cap, bundle, held or [], snap, steps)
+    base, special = intent_of(question), topics.intent_of(question)
+    # Specific topics answer the question asked; a loan or insurance question keeps its own answer.
+    if special and not (special == "goal" and base not in ("plan", "how_much")) and base not in ("debt", "insurance"):
+        t = topics.TOPICS[special](ctx)
+        if t is not None:
+            return _from_topic(special, t, ctx, final, bundle)
+    if base == "debt" and (t := topics.debt(ctx)) is not None:
+        return _from_topic("debt", t, ctx, final, bundle)
+    out = _answer(question, final, profile, cap, bundle, held, fund_lists, steps)
+    if base == "insurance":
+        out["guide"] = topics.insurance_guide(ctx)
+    return out
+
+
+def _from_topic(intent: str, t, ctx, final, bundle) -> dict:
+    ceiling_level = bundle.rules["suitability"]["max_risk"][final.suitability]
+    why = _why(intent, final, ctx.profile, ctx.cap, bundle) if t.why else []
+    have = held_line(ctx.held, ceiling_level, bundle) if t.held else None
+    pick = ctx.steps if t.pick is None else t.pick
+    return {"intent": intent, "short": t.short, "held": have, "todo": pick[:5], "guide": t.guide, "why": why[:3],
+            "followups": topics.FOLLOWUPS.get(intent, FOLLOWUPS["plan"])}
+
+
+def _answer(question: str, final, profile, cap, bundle, held, fund_lists, steps) -> dict:
     rules = bundle.rules
     plan = final.plan
     intent = intent_of(question)
     c = rules["capacity"]
     ef_target = c["emergency_months"] * profile.expenses_monthly
     ceiling_level = rules["suitability"]["max_risk"][final.suitability]
-    ceiling = RISK_LABEL[ceiling_level]
-    steps = todo(plan, profile, rules)
     priority = [s for s in plan.steps if s.action not in ("invest", "deploy_excess_savings")]
     invest_from = plan.invest_start_month
     surplus = profile.monthly_surplus
@@ -198,7 +226,9 @@ def answer(question: str, final, profile, cap, bundle, held: list[dict] | None =
                 short += f" Start them from month {invest_from}, after the steps that protect you first."
         else:
             short = "Not yet: your plan has no mutual funds until the steps below are done."
-        short += " FinAdvisor suggests fund types, not specific schemes or fund houses."
+        short += (" Below, each type lists its actual funds with their costs and past returns, cheapest first. "
+                  "FinAdvisor doesn't pick a specific scheme for you; compare them yourself."
+                  if fund_lists and lines else " FinAdvisor suggests fund types, not specific schemes or fund houses.")
         pick = steps
     elif intent == "how_much":
         if plan.investing_monthly > 0:
@@ -232,6 +262,15 @@ def answer(question: str, final, profile, cap, bundle, held: list[dict] | None =
                  + (", starting with what protects you." if priority else ".") if surplus > 0 else
                  "Right now your expenses and EMIs use all of your take-home pay, so the first step is to free up money.")
 
+    why = _why(intent, final, profile, cap, bundle)
+    have = held_line(held or [], ceiling_level, bundle) if intent in ("plan", "funds", "how_much", "retirement") else None
+    return {"intent": intent, "short": short, "held": have, "todo": pick[:5], "guide": [], "why": why[:3],
+            "followups": FOLLOWUPS.get(intent, FOLLOWUPS["plan"])}
+
+
+def _why(intent: str, final, profile, cap, bundle) -> list[str]:
+    c = bundle.rules["capacity"]
+    ceiling = RISK_LABEL[bundle.rules["suitability"]["max_risk"][final.suitability]]
     why = []
     if "R1" in cap.rule_ids and intent != "emergency":
         why.append(f"Your emergency fund covers {cap.E:.1f} of the {c['emergency_months']} months a safety net needs.")
@@ -247,15 +286,15 @@ def answer(question: str, final, profile, cap, bundle, held: list[dict] | None =
     if not profile.goals and intent in ("plan", "funds", "how_much"):
         why.append("You haven't added goals yet, so long-term money uses one standard mix. Add a goal such as a home "
                    "or retirement on your profile to get a separate amount for each.")
-    have = held_line(held or [], ceiling_level, bundle) if intent in ("plan", "funds", "how_much", "retirement") else None
-    return {"intent": intent, "short": short, "held": have, "todo": pick[:5], "why": why[:3],
-            "followups": FOLLOWUPS.get(intent, FOLLOWUPS["plan"])}
+    return why
 
 
 def render(a: dict, with_short: bool = True) -> str:
     parts = []
     if with_short and a["short"]:
         parts.append(a["short"])
+    for title, lines in a.get("guide") or []:
+        parts.append(f"**{title}**\n\n" + "\n".join(f"- {t}" for t in lines))
     if a.get("held"):
         parts.append("**What you already have**\n\n" + a["held"])
     if a["todo"]:

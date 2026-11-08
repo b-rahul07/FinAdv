@@ -1,0 +1,35 @@
+Debt Mutual Funds
+Last checked: 2026-11-08
+
+What they are
+Debt funds lend money by buying bonds and money-market instruments issued by the government, banks and companies. They earn interest, and their value also moves a little when interest rates change. They are steadier than equity funds and are used for short and medium-term goals and for the safe part of a long-term plan.
+
+Common types, from lowest to higher risk
+- Overnight funds: lend for one day. Almost no rate risk.
+- Liquid funds: instruments up to 91 days. Popular for emergency funds and parking money.
+- Money market and ultra short duration funds: up to about a year.
+- Short duration funds: roughly 1 to 3 years; for goals a few years away.
+- Corporate bond and banking & PSU funds: higher-rated company and public sector bonds.
+- Gilt funds: government bonds only; no default risk but sensitive to interest rates.
+- Credit risk funds: lower-rated bonds for extra yield; higher risk of defaults. Most people should avoid them.
+
+The risks
+- Interest rate risk: when rates rise, bond prices fall, so funds holding longer bonds can lose value for a while. Shorter funds are affected less.
+- Credit risk: a company may fail to pay. Higher-rated and government bonds carry less risk.
+- Liquidity risk: some bonds are hard to sell in a crisis.
+Debt funds are not deposits and are not insured, but their risks are usually small for liquid, overnight and high-quality short-duration funds. Check the riskometer and the portfolio's credit quality.
+
+Tax
+Gains on debt funds bought on or after 1 April 2023 are added to your income and taxed at your slab rate, however long you hold them, like FD interest. Tax is paid only when you sell, not every year, which can help compared with FDs.
+
+Debt fund or FD?
+- FD: fixed rate, insured up to ₹5 lakh per bank, penalty for early exit, tax on interest every year.
+- Debt fund: market-linked return, not insured, usually no penalty after a short period, tax only on sale, easy partial withdrawals.
+
+Choosing one
+Match the fund's typical maturity to when you need the money, prefer high credit quality, pick the Direct plan, and compare expense ratios, which matter a lot when returns are modest.
+
+Sources
+- AMFI, debt fund categories: https://www.amfiindia.com/investor-corner
+- SEBI scheme categorisation: https://www.sebi.gov.in/
+- Debt fund taxation after 2023: https://www.dspim.com/knowledge-hub/personal-finance-guide/capital-gains-filing-in-india-what-to-report-where-and-how/stcg-and-ltcg-rules-in-india

@@ -1,0 +1,29 @@
+KYC, Nominees and Your Consolidated Account Statement
+Last checked: 2026-11-08
+
+KYC (Know Your Customer)
+Before investing in mutual funds, shares or NPS you must complete KYC once with your PAN, Aadhaar, address proof, photo and a live check. It is recorded with a KYC Registration Agency (KRA) and the Central KYC registry, so you usually don't repeat it for each fund house. If your KYC status shows "on hold" or "registered" rather than "validated", update it (often linked to Aadhaar or a changed mobile or email) before investing more. Keep your PAN linked to Aadhaar; an inoperative PAN causes problems with investments and tax.
+
+Nominees
+A nominee receives your investments if you die, without long legal processes.
+- SEBI's 2025 rules allow up to 10 nominees for mutual fund folios and demat accounts, with the share for each.
+- Nominate in every bank account, FD, PPF, EPF, NPS, insurance policy, mutual fund folio and demat account; each is separate.
+- A nominee is a trustee who receives the money; your legal heirs under your will or succession law still decide who finally owns it. Writing a simple will avoids disputes.
+- Review nominees after marriage, children or a death in the family.
+
+Consolidated Account Statement (CAS)
+- A CAS shows all your mutual fund holdings across fund houses in one statement, and, from the depositories (NSDL or CDSL), your shares, ETFs and bonds too.
+- You receive it every month in which there is a transaction, and every six months otherwise, by email.
+- You can also request one any time from CAMS and KFintech (mutual funds) or MF Central, and from NSDL or CDSL for demat holdings.
+- FinAdvisor can import a CAS PDF to fill in your holdings; the statement's password is used only to open it and is never stored.
+
+Keep records in order
+- One email and mobile number, updated everywhere.
+- A simple list of all accounts, policies and loans, shared with your family.
+- Check unclaimed money: SEBI's and RBI's portals (such as UDGAM for bank deposits) help families find forgotten deposits and investments.
+
+Sources
+- SEBI, nomination rules (2025) summary: https://www.businesstoday.in/mutual-funds/story/now-mutual-fund-investors-can-add-up-to-10-nominees-check-details-460716-2025-01-14
+- MF Central: https://www.mfcentral.com/
+- NSDL CAS: https://nsdlcas.nsdl.com/
+- RBI UDGAM (unclaimed deposits): https://udgam.rbi.org.in/

@@ -39,11 +39,27 @@ def product_of(inst: dict) -> str | None:
 
 
 def existing(s: Session, user_id: str, tax_cfg: dict) -> list[dict]:
-    """Current market value per product type: [{"product_id", "value"}], largest first."""
     from finadvisor.portfolio.service import holdings
-    totals: dict[str, float] = {}
-    for h in holdings(s, user_id, tax_cfg)["items"]:
+    return summarise(holdings(s, user_id, tax_cfg)["items"])
+
+
+def summarise(items: list[dict]) -> list[dict]:
+    """Per product type, largest first: [{"product_id", "value", "invested", "funds", "regular"}]. `funds` counts the
+    mutual funds; `regular` lists those held in a Regular plan ({"name", "value", "code"}), which the same scheme's
+    Direct plan would cost less."""
+    out: dict[str, dict] = {}
+    for h in items:
         pid = product_of(h["instrument"])
-        if pid and h.get("value"):
-            totals[pid] = totals.get(pid, 0) + h["value"]
-    return [{"product_id": k, "value": round(v, 2)} for k, v in sorted(totals.items(), key=lambda x: -x[1])]
+        if not pid or not h.get("value"):
+            continue
+        p = out.setdefault(pid, {"product_id": pid, "value": 0.0, "invested": 0.0, "funds": 0, "regular": []})
+        p["value"] += h["value"]
+        p["invested"] += h.get("invested") or 0
+        inst = h["instrument"]
+        if inst.get("kind") == "mf":
+            p["funds"] += 1
+            if (inst.get("plan") or "").lower() == "regular":
+                p["regular"].append({"name": inst["name"], "value": round(h["value"], 2), "code": inst.get("scheme_code")})
+    for p in out.values():
+        p["value"], p["invested"] = round(p["value"], 2), round(p["invested"], 2)
+    return sorted(out.values(), key=lambda p: -p["value"])

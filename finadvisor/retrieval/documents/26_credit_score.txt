@@ -1,0 +1,31 @@
+Credit Scores and Credit Reports
+Last checked: 2026-11-08
+
+What a credit score is
+A credit score is a number from 300 to 900 that lenders use to judge how likely you are to repay. It is calculated by credit bureaus (credit information companies) licensed by the RBI: TransUnion CIBIL, Experian, Equifax and CRIF High Mark. A score above about 750 usually gets faster approvals and lower interest rates on loans and credit cards.
+
+What is in your credit report
+Every loan, credit card and BNPL account, your repayment history, outstanding balances, credit limits, how many new loans you applied for, and any defaults or settlements. Your score is calculated from this report.
+
+How often it updates
+Since January 2025, the RBI requires lenders to report to the bureaus every 15 days instead of monthly, so payments, and missed payments, show up quickly. The RBI has also moved towards even more frequent reporting from July 2026.
+
+What helps and what hurts
+- Paying every EMI and card bill in full and on time matters most; one 30-day delay can stay on your report for years.
+- Using a small share of your card limit, ideally under 30%, helps; maxing out cards hurts.
+- A mix of secured (home, car) and unsecured (card) credit and a long history help.
+- Many loan or card applications in a short time hurt (each is a "hard enquiry"). Checking your own score does not.
+- "Settled" instead of "closed" on a loan is a serious negative; it means you paid less than you owed.
+
+Your rights
+- You are entitled to one free full credit report a year from each bureau; most banks and apps also show your score free.
+- Lenders must tell you when they check your report, and bureaus must notify you of defaults being reported.
+- If you find a mistake, raise a dispute with the bureau and the lender; it must be fixed within 30 days, or the bureau pays you compensation for each day of delay.
+
+Building credit from scratch
+A first credit card (or a card against an FD) used for small regular spends and paid in full every month builds a good score within months. Avoid taking loans just to build a score.
+
+Sources
+- RBI, credit information reporting directions: https://www.rbi.org.in/
+- TransUnion CIBIL: https://www.cibil.com/
+- RBI's 15-day credit reporting rule: https://www.business-standard.com/finance/personal-finance/rbi-s-new-15-day-credit-reporting-rule-what-it-means-for-your-credit-score-125010601170_1.html

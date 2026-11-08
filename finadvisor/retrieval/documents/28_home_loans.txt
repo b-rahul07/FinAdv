@@ -1,0 +1,35 @@
+Home Loans
+Last checked: 2026-11-08
+
+How much you can borrow
+- Down payment: under RBI rules, banks can lend at most 90% of the property value for loans up to ₹30 lakh, 80% for ₹30 to 75 lakh and 75% above ₹75 lakh. You pay the rest, plus stamp duty, registration and interiors, from your own savings.
+- EMI affordability: lenders typically allow total EMIs of 40% to 50% of take-home pay. FinAdvisor treats 40% for all EMIs together as the safe limit, so a new home loan EMI should fit within what is left after your existing EMIs.
+- Keep your emergency fund intact; don't empty it for the down payment.
+
+Fixed or floating rate?
+Most home loans in India are floating, linked to an external benchmark such as the RBI repo rate, so your rate moves when the benchmark moves, usually with a reset every few months. Fixed rates are higher and often fixed only for a few years. When rates rise, banks usually extend the tenure rather than raise the EMI; ask them to raise the EMI instead if you can, to avoid paying interest for much longer.
+
+Costs to compare
+Interest rate (and the spread over the benchmark), processing fee, legal and valuation charges, and insurance the bank bundles (you are not obliged to buy the lender's insurance). Compare the Key Facts Statement from two or three lenders.
+
+Prepaying
+There is no prepayment or foreclosure charge on floating-rate home loans for individuals. Prepaying early in the loan saves the most interest, because early EMIs are mostly interest. Ask the bank to reduce the tenure, not the EMI, to save more. Whether to prepay or invest depends on your loan rate versus what your investments are expected to earn; FinAdvisor compares the two for you.
+
+Tax (old regime only, for a self-occupied home)
+- Interest up to ₹2,00,000 a year is deductible.
+- Principal repaid counts towards the ₹1,50,000 deduction under section 123 (formerly 80C), along with stamp duty and registration in the year of purchase.
+The new regime gives no deduction for a self-occupied home. For a let-out property, interest is deductible against rental income under both regimes, within limits.
+
+Joint loans
+Borrowing jointly with a spouse can raise eligibility, and each co-owner who is also a co-borrower can claim their own deductions under the old regime. Both become fully responsible for repayment.
+
+Before you sign
+1. Read the sanction letter and Key Facts Statement for the rate, reset frequency and all fees.
+2. Check that the property has clear title and approvals (the bank's legal check helps but is not a guarantee).
+3. Buy term insurance to cover the loan separately; it is usually cheaper than a single-premium loan insurance policy.
+4. After closing the loan, collect all original documents; banks must return them within 30 days.
+
+Sources
+- RBI, housing loan guidelines: https://www.rbi.org.in/
+- National Housing Bank: https://nhb.org.in/
+- Income Tax Department: https://www.incometax.gov.in/iec/foportal/

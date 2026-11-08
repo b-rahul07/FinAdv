@@ -72,9 +72,12 @@ def check(p: Profile, bundle, product_ids: list[str], text: str) -> dict:
 
     if pid == "new_emi":
         emi = parse_new_emi(text)
+        # How much a new EMI could be before all EMIs pass the cap, so an answer without an amount still has one
+        extra = {"emi_ratio_now": cap.D, "emi_cap": rules["capacity"]["emi_cap"],
+                 "emi_room": max(0.0, rules["capacity"]["emi_cap"] * p.take_home_monthly - p.total_emi)}
         if emi:
             new_d = (p.total_emi + emi) / p.take_home_monthly if p.take_home_monthly else float("inf")
-            extra = {"new_emi": emi, "emi_ratio_now": cap.D, "emi_ratio_after": new_d}
+            extra.update(new_emi=emi, emi_ratio_after=new_d)
             if new_d > rules["capacity"]["emi_cap"] and "R5" not in cap.rule_ids:
                 blockers.append(f"R5: with this EMI, EMIs would take {new_d * 100:.1f}% of take-home pay "
                                 f"(limit {rules['capacity']['emi_cap'] * 100:.0f}%)")

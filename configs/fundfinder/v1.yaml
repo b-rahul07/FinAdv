@@ -1,0 +1,64 @@
+# Fund finder: which real schemes belong to each mutual-fund product on the shelf, and how they are listed.
+# Display only. The plan, the gate and the audit never read this file; it is not part of the pipeline fingerprint.
+# FinAdvisor lists every matching scheme in a neutral order (lowest expense ratio first). It never picks one:
+# naming "the best fund" would be investment advice that needs SEBI registration (brief §2.5).
+version: fundfinder-v1
+
+# Only Direct plans with the Growth option (lower cost, no payouts), priced by AMFI in the last N days.
+plan: Direct
+option: growth
+fresh_nav_days: 10
+show: 8                      # rows on the card; the total count and a link cover the rest
+sort: expense_ratio          # ascending, missing last, then name
+
+# category: case-insensitive substrings of AMFI's scheme category (old and new AMFI wording both occur).
+# name / not_name: case-insensitive regular expressions on the scheme name.
+products:
+  liquid_fund:
+    label: Liquid funds
+    category: ["liquid fund"]
+  short_duration_debt_fund:
+    label: Short-duration debt funds
+    category: ["- short duration fund", "- short term fund"]   # AMFI's newer wording is "Short Term Fund"
+    not_name: "index"
+  hybrid_baf:
+    label: Balanced advantage funds
+    category: ["balanced advantage"]
+  gold_etf_fund:
+    label: Gold funds
+    category: ["fof", "fund of funds"]
+    name: "gold"
+    not_name: "silver|multi"
+  large_cap_index_fund:
+    label: Nifty 50 index funds
+    category: ["index"]
+    name: "nifty ?50\\b"
+    not_name: "next|equal|value|quality|momentum|low vol|alpha|elss|tax|arbitrage|dividend"
+  flexi_cap_fund:
+    label: Flexi-cap funds
+    category: ["flexi cap"]
+  elss:
+    label: ELSS tax-saving funds
+    category: ["elss"]
+  mid_small_cap_fund:
+    label: Mid-cap and small-cap funds
+    category: ["- mid cap fund", "small cap fund"]
+
+checklist:
+  all:
+    - "Pick a Direct plan with the Growth option: the same fund, lower cost (these lists show only those)."
+    - "Compare the expense ratio first. It is charged every year, whatever the fund returns."
+    - "Past returns don't predict future returns. Prefer funds with a longer record over a short hot streak."
+    - "One or two funds of a type are enough; more of the same type adds no diversification."
+  large_cap_index_fund:
+    - "All Nifty 50 index funds hold the same 50 companies, so the cheapest one with a long record is usually enough."
+  elss:
+    - "ELSS money is locked for 3 years from each instalment."
+  mid_small_cap_fund:
+    - "These funds can fall much more than the market in bad years. Hold them only for goals 7 or more years away."
+
+links:
+  - label: Compare these funds on AMFI (official)
+    url: https://www.amfiindia.com/otherdata/fund-performance
+  - label: Expense ratios on AMFI (official)
+    url: https://www.amfiindia.com/ter-of-mf-schemes

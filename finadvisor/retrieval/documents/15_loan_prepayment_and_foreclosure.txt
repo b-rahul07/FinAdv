@@ -1,0 +1,32 @@
+Loan Prepayment, Foreclosure and Moratorium
+Last checked: 2026-11-08
+
+The words
+- Prepayment (part-payment): paying extra towards the principal before it is due.
+- Foreclosure: paying off the whole loan early and closing it.
+- Moratorium: a period when you are allowed not to pay EMIs (for example during a course for education loans); interest usually keeps adding up.
+
+Charges: what RBI allows
+Banks and NBFCs cannot charge any prepayment or foreclosure fee on floating-rate loans taken by individuals for personal, non-business purposes, such as most home loans. Under the RBI's Pre-payment Charges on Loans Directions, 2025, from 1 January 2026 this also covers floating-rate business loans to individuals and micro and small enterprises, for loans sanctioned or renewed from that date. Fixed-rate loans can still carry a prepayment charge, which must be shown in the sanction letter and the Key Facts Statement.
+
+Shorter tenure or smaller EMI?
+When you prepay, the lender either reduces your EMI or reduces the number of remaining EMIs. Cutting the tenure saves much more interest; cutting the EMI frees up monthly cash. Tell the lender which one you want in writing.
+
+When prepaying is a good idea
+- The loan is costly: personal loans, credit card loans and BNPL dues almost always cost more than any safe investment earns.
+- Your emergency fund and insurance are already in place.
+- Your loan rate is higher than what your plan's investments are expected to earn after tax.
+For a low-rate home loan, investing for long-term goals may earn more than the interest you save, especially if you claim home-loan tax deductions under the old regime. FinAdvisor compares your loan rate with your plan's expected return.
+
+Before you foreclose
+1. Ask for a foreclosure statement with the exact amount and date.
+2. Collect all original property documents within the time the lender promises; RBI rules require their return within 30 days of closure, with compensation for delays.
+3. Get a no-dues certificate and check that your credit report shows the loan as closed.
+
+Moratoriums
+A moratorium pauses EMIs but rarely pauses interest. Taking one makes the loan more expensive overall, so use it only when you truly need the cash.
+
+Sources
+- RBI, Pre-payment Charges on Loans Directions, 2025 (summary): https://www.taxscan.in/top-stories/rbi-restricts-pre-payment-charges-on-floating-rate-loans-to-individuals-and-mses-1427046
+- RBI: https://www.rbi.org.in/
+- Upstox explainer on the 2026 prepayment rules: https://upstox.com/news/personal-finance/financial-regulations/new-rbi-rule-on-prepayment-charges-for-floating-rate-home-personal-mse-loans-from-january-1-2026-explained/article-177494

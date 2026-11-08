@@ -1,0 +1,35 @@
+Index Funds and ETFs
+Last checked: 2026-11-08
+
+What they are
+An index fund buys all the companies in an index, such as the Nifty 50 (India's 50 largest listed companies) or the Sensex, in the same proportions. Nobody picks stocks, so costs are very low and you get the market's return minus a small fee. An ETF (exchange-traded fund) does the same but trades on the stock exchange like a share.
+
+Why many investors prefer them
+- Low cost: Direct plans of Nifty 50 index funds often charge around 0.1% to 0.3% a year. SEBI's 2026 rules cap the base expenses of index funds and ETFs at 0.90%.
+- No manager risk: you won't underperform the market because of a fund manager's bad choices.
+- Simple and diversified: one Nifty 50 fund holds 50 large companies across sectors.
+Over long periods, many actively managed large-cap funds have struggled to beat the index after their higher fees.
+
+Index fund or ETF?
+- Index fund: bought from the fund house at the day's NAV, by SIP or lump sum, no demat account needed. Easiest for most people.
+- ETF: needs a demat and trading account; bought at the market price during the day, plus brokerage. Very low expense ratios, but check that it trades in good volume so the price stays close to its value (iNAV).
+
+Choosing between index funds tracking the same index
+All Nifty 50 index funds hold the same 50 companies, so differences come down to:
+- Expense ratio: lower is better.
+- Tracking difference: how far the fund's return falls behind the index; tracking error measures how much it wobbles around the index.
+- Fund size and age: a longer record shows how well it tracks.
+FinAdvisor's fund lists show the real funds of each type cheapest first, so you can compare these.
+
+Which index?
+- Nifty 50 / Sensex: large, established companies; the core holding for most investors.
+- Nifty Next 50, Midcap 150, Smallcap 250: smaller companies, higher risk and higher ups and downs.
+- Equal-weight, momentum, value and other "smart beta" indices: rule-based strategies with their own risks; not as simple as a plain index.
+
+Risk
+An index fund is still an equity fund: when the market falls 30%, it falls about 30%. It suits goals 5 to 7 years or more away. Tax is the same as other equity funds: gains within 12 months taxed at 20%, after 12 months at 12.5% above ₹1,25,000 a year.
+
+Sources
+- NSE Indices, Nifty 50: https://www.niftyindices.com/
+- AMFI, expense ratios: https://www.amfiindia.com/ter-of-mf-schemes
+- SEBI 2026 mutual fund rules (expense caps): https://upstox.com/learning-center/personal-finance/sebi-mutual-fund-rules-2026/article-1563/

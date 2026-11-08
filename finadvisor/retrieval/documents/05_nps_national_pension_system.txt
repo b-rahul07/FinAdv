@@ -1,50 +1,32 @@
-National Pension System (NPS) — Complete Guide
+NPS: National Pension System
+Last checked: 2026-11-08
 
-Overview
-The National Pension System (NPS) is a voluntary, long-term retirement savings scheme designed to enable systematic savings during the subscriber's working life. It is regulated by the Pension Fund Regulatory and Development Authority (PFRDA) and was made available to all Indian citizens from May 1, 2009.
+What it is
+NPS is a low-cost, government-regulated retirement account run under the Pension Fund Regulatory and Development Authority (PFRDA). You contribute while working; the money is invested by pension fund managers in equity, corporate bonds and government bonds; at retirement you take part as a lump sum and use the rest for a pension. Any Indian citizen aged 18 to 70 can open one, online through eNPS or through a bank.
 
-Account Types
-1. Tier I (Pension Account): Mandatory for NPS enrollment. Has restrictions on withdrawals. Contributions are eligible for tax deductions.
-2. Tier II (Investment Account): Optional savings account with no withdrawal restrictions. No additional tax benefits (except for central government employees).
+Accounts and choices
+- Tier I: the main retirement account, locked until 60 except for limited withdrawals. Tax benefits apply here.
+- Tier II: an optional, flexible savings account without the tax benefits (except a special version for government employees).
+- Investment choice: "Auto" choice reduces equity as you age; "Active" choice lets you set the mix. Since October 2025 the Multiple Scheme Framework lets non-government subscribers hold more than one scheme under the same account, including options with higher equity.
 
-Tax Benefits
-NPS offers tax deductions under three sections:
+Getting money out at 60 (rules from December 2025)
+- Non-government subscribers can take up to 80% of the corpus as a lump sum and must use at least 20% to buy an annuity (a monthly pension). Earlier the split was 60:40.
+- Government employees: up to 60% lump sum, at least 40% annuity.
+- If the corpus is ₹8 lakh or less, all of it can be withdrawn. Between ₹8 lakh and ₹12 lakh, part can be taken as a lump sum and the rest as an annuity or a systematic withdrawal over several years.
+- You can defer the withdrawal and keep the money invested beyond 60.
 
-1. Section 80CCD(1): Employee's contribution — up to 10% of salary (for salaried) or 20% of gross total income (for self-employed), within the overall ₹1,50,000 limit of Section 80C.
+Leaving before 60
+Exiting early usually means at least 80% goes into an annuity and only 20% comes as a lump sum; small balances (₹5 lakh or less) can be withdrawn fully. Partial withdrawals of your own contributions are allowed for specific needs such as children's education, marriage, buying a house or serious illness, a limited number of times.
 
-2. Section 80CCD(1B): Additional deduction of up to ₹50,000 over and above the ₹1,50,000 limit under 80C. This makes the total NPS-related deduction potentially ₹2,00,000.
+Tax
+- Your own contribution counts within the ₹1.5 lakh deduction (old regime), plus an extra ₹50,000 deduction only for NPS (old regime).
+- Your employer's contribution is deductible in both regimes, up to 14% of salary in the new regime.
+- Part of the lump sum at retirement has been tax-free; check how the larger 80% lump sum is taxed before you withdraw. Annuity income is taxed at your slab rate.
 
-3. Section 80CCD(2): Employer's contribution — up to 10% of salary (basic + DA) for private sector, up to 14% for central government employees. This is over and above the ₹1,50,000 limit and has no separate cap (except the 10%/14% of salary limit).
+Who it suits
+People who want a disciplined, very low-cost retirement product and do not need the money before 60, especially if the employer contributes. Its main drawbacks are the long lock-in and the compulsory annuity part.
 
-Investment Choices
-- Active Choice: Subscriber selects the allocation among three asset classes:
-  - Equity (E): Up to 75% until age 50, then reduced by 2.5% each year
-  - Corporate Bonds (C): No cap
-  - Government Securities (G): No cap
-- Auto Choice (Lifecycle Fund): Allocation automatically adjusts based on age:
-  - Aggressive (LC75): 75% equity until age 35
-  - Moderate (LC50): 50% equity until age 35
-  - Conservative (LC25): 25% equity until age 35
-
-Withdrawal Rules
-At Maturity (age 60):
-- At least 40% of the corpus must be used to purchase an annuity from a PFRDA-registered annuity service provider.
-- Up to 60% can be withdrawn as a lump sum, which is fully tax-exempt.
-
-Premature Exit (before age 60):
-- Allowed after 5 years of contributions.
-- At least 80% of the corpus must be used to purchase an annuity.
-- Only 20% can be withdrawn as lump sum.
-
-Partial Withdrawal:
-- Allowed after 3 years for specific purposes: children's education/marriage, construction/purchase of house, treatment of specified illnesses, for skill development/re-skilling.
-- Maximum: 25% of the subscriber's own contributions (not including employer contributions or returns).
-- Up to 3 partial withdrawals allowed during the entire subscription period.
-
-Minimum Contribution
-- Tier I: Minimum ₹500 per contribution, minimum ₹1,000 per financial year.
-- Tier II: Minimum ₹250 per contribution.
-
-Fund Managers
-PFRDA has empaneled several Pension Fund Managers (PFMs):
-- SBI Pension Funds, LIC Pension Fund, UTI Retirement Solutions, HDFC Pension Management, ICICI Prudential Pension Funds, Kotak Mahindra Pension Fund, Aditya Birla Sun Life Pension Management, Tata Pension Management, Max Life Pension Fund Management, DSP Pension Fund Managers.
+Sources
+- PFRDA, exits and withdrawals FAQ: https://www.pfrda.org.in/
+- NPS Trust: https://npstrust.org.in/
+- NPS rule changes 2025-26 summary: https://www.pensionbazaar.com/nps/pfrda-nps-reform/

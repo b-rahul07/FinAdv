@@ -1,0 +1,24 @@
+Government Bonds, Treasury Bills and RBI Retail Direct
+Last checked: 2026-11-08
+
+What they are
+- Government securities (G-secs): bonds issued by the central government for 5 to 40 years, paying fixed interest every six months.
+- State development loans (SDLs): similar bonds issued by state governments, usually at slightly higher rates.
+- Treasury bills (T-bills): short-term central government borrowing for 91, 182 or 364 days, bought at a discount and repaid at full value.
+- RBI Floating Rate Savings Bonds: 7-year bonds whose rate is reset every six months at 0.35 percentage points above the National Savings Certificate rate, paid half-yearly; they can't be traded.
+Central government securities carry no default risk, which is why they are the safest fixed-income investments.
+
+Buying them: RBI Retail Direct
+The RBI Retail Direct portal (rbiretaildirect.org.in) lets individuals open a free gilt account directly with the RBI and bid in government bond and T-bill auctions as non-competitive bidders, getting the same rate as big institutions. You can also buy and sell existing bonds on the RBI's secondary platform. Some brokers offer G-secs and T-bills through their apps too.
+
+Things to understand
+- Price risk: if you sell a long bond before maturity when interest rates have risen, you may get less than you paid. Held to maturity, you get the full face value back.
+- Liquidity: selling small amounts before maturity can be slow.
+- Tax: interest is taxed at your slab rate; no TDS on G-secs, so declare it yourself.
+
+Who they suit
+People who want the safety of the government with a fixed rate for a fixed period: for example parking money for a known future expense with a T-bill, or locking a long-term rate with a bond held to maturity. Gilt mutual funds are an alternative that handles buying and selling for you, at a small cost and with price ups and downs.
+
+Sources
+- RBI Retail Direct: https://rbiretaildirect.org.in/
+- RBI, government securities market FAQ: https://www.rbi.org.in/

@@ -1,0 +1,29 @@
+The Income-tax Act, 2025: Old and New Section Numbers
+Last checked: 2026-11-08
+
+What the new Act is
+The Income-tax Act, 2025 came into force on 1 April 2026 and replaced the Income-tax Act, 1961. It is a rewrite in simpler language with fewer sections; it did not change tax rates or the main deductions. One visible change is the term "tax year", which replaces the old pair of "previous year" and "assessment year".
+
+Which numbers apply when
+- Income earned up to 31 March 2026 (FY 2025-26), including the return you file in 2026: the old 1961 Act numbers.
+- Income earned from 1 April 2026 (FY 2026-27) onwards: the new section numbers.
+
+Familiar deductions and their new numbers
+- 80C (EPF, PPF, ELSS, life insurance, home-loan principal and more, ₹1.5 lakh): section 123, with the eligible items listed in Schedule XV.
+- 80D (health insurance premiums): section 126.
+- 80E (education loan interest): section 129.
+- NPS deductions (80CCD): moved to section 124 for the extra ₹50,000 and the employer's contribution; your own contribution also counts within the ₹1.5 lakh limit.
+Summaries by tax professionals differ on a few finer points, such as the exact sub-section for each NPS deduction and the new number for home-loan interest, so check the official text or your tax filing utility for those.
+
+What did not change
+- The limits: ₹1,50,000 for the main deduction, ₹25,000 or ₹50,000 for health insurance, ₹2,00,000 for home-loan interest on a self-occupied house (old regime).
+- The two regimes, and the rule that most deductions apply only under the old regime.
+- Capital gains rates on shares and mutual funds.
+
+Why it matters for you
+Articles, payslips and forms will start using the new numbers. If you see "section 123", read it as the old 80C; "section 126" is the old 80D. FinAdvisor's guides mention both while people get used to the change.
+
+Sources
+- Income Tax Department: https://www.incometax.gov.in/iec/foportal/
+- Income-tax Act, 2025 (overview): https://en.wikipedia.org/wiki/Income-tax_Act,_2025
+- Section mapping summaries: https://www.taxaj.com/learn/income-tax-act-2025-vs-1961-section-mapping-cheat-sheet/ and https://savetaxs.com/blog/income-tax-act-2025-section-mapping

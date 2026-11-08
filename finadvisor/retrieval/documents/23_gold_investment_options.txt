@@ -1,0 +1,29 @@
+Ways to Invest in Gold
+Last checked: 2026-11-08
+
+Why gold
+Gold often holds its value when shares fall or the rupee weakens, so a small amount can steady a portfolio. It pays no interest or dividends, and its price can stay flat for years, so most plans keep it to around 5% to 10% of long-term money. FinAdvisor includes gold as a small part of the mix when your risk level allows.
+
+The options
+- Gold ETFs: units on the stock exchange, each backed by physical gold held by a custodian. Low cost, regulated by SEBI; need a demat account.
+- Gold mutual funds (fund of funds): mutual funds that invest in gold ETFs. No demat needed, SIPs from small amounts; slightly higher cost than buying the ETF directly.
+- Sovereign Gold Bonds: no new issues since February 2024; existing bonds can only be bought on the stock exchange. See the SGB guide.
+- Physical gold (coins, bars, jewellery): making charges, storage and purity risks; jewellery loses value through making charges and GST. Buy hallmarked (BIS HUID) if you do.
+- Digital gold sold on apps: convenient, but it is not regulated by SEBI or the RBI; SEBI has warned investors that such products are outside its oversight. Prefer regulated gold ETFs or gold funds.
+
+Costs to compare
+Expense ratio for ETFs and gold funds; brokerage and bid-ask spread for ETFs; making charges, GST (3% on gold) and storage for physical gold.
+
+Tax
+- Gold ETFs: long-term after 12 months, taxed at 12.5%; earlier at your slab rate.
+- Gold mutual funds (fund of funds) and physical gold: long-term after 24 months at 12.5%; earlier at your slab rate.
+- SGBs: interest taxed at your slab rate; redemption at maturity has been tax-free for individuals.
+
+Choosing within the category
+All gold ETFs track the domestic price of gold, so compare the expense ratio, how closely the fund tracks the gold price, and trading volume. FinAdvisor's fund lists show gold funds cheapest first.
+
+Sources
+- SEBI investor website: https://investor.sebi.gov.in/
+- AMFI, expense ratios: https://www.amfiindia.com/ter-of-mf-schemes
+- Gold ETF and gold fund tax: https://taxguru.in/income-tax/new-income-tax-rules-sale-gold-etf-gold-mutual-funds.html
+- SGB alternatives after discontinuation: https://www.safegold.com/blog/gold-investment/sovereign-gold-bond-discontinued-2026/

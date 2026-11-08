@@ -11,7 +11,7 @@ from __future__ import annotations
 import uuid
 from datetime import date
 
-from sqlalchemy import delete, select
+from sqlalchemy import select
 
 from finadvisor.advisor.profile import Debt, Goal, Profile
 from finadvisor.api.store import save_profile

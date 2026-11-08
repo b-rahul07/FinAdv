@@ -16,6 +16,10 @@ from finadvisor.advisor.router import route
     ("Can I afford a car loan?", "check"),
     ("hi", "chat"),
     ("What should I do with my bonus?", "plan"),
+    ("How is crypto taxed in India?", "learn"),          # a general question that names a product
+    ("How are small cap funds different from large cap?", "learn"),
+    ("How is my portfolio doing?", "plan"),              # personal: still the pipeline
+    ("Should I buy bitcoin?", "check"),
 ])
 def test_routes(text, kind):
     assert route(text).kind == kind

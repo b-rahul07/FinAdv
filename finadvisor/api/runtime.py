@@ -7,19 +7,21 @@ import threading
 from functools import lru_cache
 from pathlib import Path
 
+from finadvisor.advisor.fundfinder import FundFinder
 from finadvisor.advisor.pipeline import Advisor
 from finadvisor.api.auth import DevAuth, SupabaseAuth
 from finadvisor.configs import default_bundle
 from finadvisor.db.base import Base, make_engine, make_sessionmaker
 from finadvisor.llm import get_llm
 from finadvisor.retrieval import DOCS_DIR
+from finadvisor.retrieval.chunks import chunk_file, doc_title
 from finadvisor.settings import get_settings
 
 log = logging.getLogger(__name__)
 
 
 class Runtime:
-    def __init__(self, settings=None, llm=None, retriever=None, news=None):
+    def __init__(self, settings=None, llm=None, retriever=None, news=None, funds=None):
         self.settings = settings or get_settings()
         self.engine = make_engine(self.settings.database_url)
         if self.settings.database_url.startswith("sqlite"):
@@ -33,9 +35,22 @@ class Runtime:
             from finadvisor.market.news import NewsDesk
             news = NewsDesk().get
         self.advisor = Advisor(self.bundle, self.llm, retriever if retriever is not None else make_retriever(self.settings.retrieval),
-                               real_users=True, news=news)
+                               real_users=True, news=news, funds=funds if funds is not None else FundFinder())
         self.live: dict[str, threading.Event] = {}     # chat_id -> cancel flag of the running generation
         self.lock = threading.Lock()
+
+    def warm(self) -> None:
+        """Run at start-up: the first answer waited ~28 s for the search models to load. Also loads the language model
+        and its explanation prompt, so the first explanation starts sooner. Outputs are unchanged."""
+        try:
+            if self.advisor.retriever is not None:
+                self.advisor.retriever("emergency fund", 1)
+        except Exception as e:  # noqa: BLE001 - the first question loads them instead
+            log.warning("warm-up: search not loaded (%s)", e)
+        warm = getattr(self.llm, "warm", None)
+        if warm is not None:
+            from finadvisor.advisor.prompts import EXPLAIN_WORDS
+            warm(EXPLAIN_WORDS.system)
 
 
 def make_retriever(kind: str):
@@ -58,26 +73,20 @@ def make_retriever(kind: str):
     return keyword
 
 
-ACRONYMS = {"elss", "ppf", "nps", "sip", "sebi", "sgb", "bnpl", "fd", "fds", "scss", "ssy", "emi", "rbi", "80c", "80d", "80e"}
-
-
 def _title(name: str) -> str:
-    """'01_section_80c_tax_deductions.txt' -> 'Section 80C Tax Deductions'."""
-    parts = Path(name).stem.split("_")
-    if parts and parts[0].isdigit():
-        parts = parts[1:]
-    return " ".join(p.upper() if p in ACRONYMS else p.capitalize() for p in parts)
+    """The guide's title, from its first line."""
+    return doc_title(name)
 
 
 @lru_cache(maxsize=1)
 def _keyword_index():
+    """The same section pieces Chroma indexes; each starts with '<guide title> — <heading>'."""
     docs = []
     for f in sorted(DOCS_DIR.glob("*.txt")):
-        text = f.read_text(encoding="utf-8", errors="ignore")
-        paras = [p.strip() for p in text.split("\n\n") if len(p.strip()) > 80]
-        for i, p in enumerate(paras):
-            docs.append({"id": f"{f.stem}#{i}", "title": _title(f.name), "source": f.name, "text": p,
-                         "terms": set(_terms(p + " " + f.stem)), "title_terms": set(_terms(f.stem))})
+        title = doc_title(f.name)
+        for c in chunk_file(f):
+            docs.append({"id": c.chunk_id, "title": title, "source": f.name, "text": c.content,
+                         "terms": set(_terms(c.content + " " + f.stem)), "title_terms": set(_terms(title + " " + f.stem))})
     return docs
 
 

@@ -1,49 +1,36 @@
-Fixed Deposits (FD) in India — Complete Guide
+Bank Fixed Deposits (FDs)
+Last checked: 2026-11-08
 
-Overview
-Fixed Deposits (FDs) are one of the most popular and traditional savings instruments in India. An FD is a financial product offered by banks and non-banking financial companies (NBFCs) where money is deposited for a fixed tenure at a predetermined interest rate. The principal and interest are guaranteed, making FDs one of the safest investment options.
+What an FD is
+You lend a lump sum to a bank for a fixed period, from 7 days to 10 years, at an interest rate fixed on the day you open it. The rate does not change for that deposit even if the bank changes its rates later. Senior citizens usually get about 0.25 to 0.5 percentage points more.
 
-Interest Rates (General Range)
-- Major banks (SBI, HDFC, ICICI, etc.): 6.0% to 7.25% for regular citizens, depending on tenure.
-- Senior citizens typically receive an additional 0.25% to 0.50% above the regular rate.
-- Small finance banks and NBFCs may offer higher rates (7.5% to 9.0%) but carry slightly higher risk.
-- Interest rates are fixed at the time of deposit and do not change during the tenure (unless it's a floating-rate FD, which is rare).
+How safe is it?
+Deposits in banks are insured by the DICGC (a subsidiary of the RBI) up to ₹5,00,000 per depositor per bank, covering principal and interest together across all branches of that bank. If you hold more than ₹5 lakh, spreading it across different banks keeps all of it insured. Small finance banks are covered too, but company FDs and NBFC deposits are not covered by DICGC; their safety depends on the company's credit rating.
 
-Tenure
-- Minimum: 7 days
-- Maximum: 10 years
-- Most common tenures: 1 year, 2 years, 3 years, 5 years.
+Interest and payouts
+- Cumulative FDs add interest to the deposit and pay everything at maturity.
+- Non-cumulative FDs pay interest monthly or quarterly, useful for regular income.
+- Compare banks using the effective annual yield, not just the headline rate.
 
-Types of Fixed Deposits
-1. Regular FD: Standard term deposit with fixed interest rate.
-2. Tax-Saving FD: 5-year lock-in period, eligible for Section 80C deduction up to ₹1,50,000. Cannot be prematurely withdrawn or used as collateral for loans.
-3. Senior Citizen FD: Higher interest rate for depositors aged 60 and above.
-4. Cumulative FD: Interest is compounded and paid at maturity along with the principal.
-5. Non-Cumulative FD: Interest is paid out periodically (monthly, quarterly, half-yearly, or annually).
-6. Flexi FD / Sweep-in FD: Linked to a savings account; excess balance above a threshold is automatically transferred to FD.
+Tax
+- FD interest is added to your income and taxed at your slab rate, whether it is paid out or added to the deposit.
+- Banks deduct TDS of 10% when your interest from that bank in a year crosses the threshold (₹50,000 a year for most people and ₹1,00,000 for senior citizens after Budget 2025). TDS is not the final tax; you still declare the interest in your return.
+- If your total income is below the taxable limit, submit Form 15G (or 15H for senior citizens) to avoid TDS.
+- The 5-year tax-saver FD qualifies for the section 123 deduction (formerly 80C) under the old regime but cannot be broken early.
 
-Tax Treatment
-- Interest earned on FDs is fully taxable at the investor's income tax slab rate.
-- TDS (Tax Deducted at Source) is deducted at 10% if interest income exceeds ₹40,000 in a financial year (₹50,000 for senior citizens). If PAN is not furnished, TDS is deducted at 20%.
-- Tax-saving FDs: The principal investment is deductible under Section 80C, but the interest is still taxable.
+Breaking an FD early
+Most banks allow premature withdrawal with a penalty, often 0.5% to 1% off the rate. A sweep-in FD linked to your savings account breaks automatically in small amounts when you need money, which suits part of an emergency fund.
 
-Premature Withdrawal
-- Regular FDs can be prematurely closed, but banks levy a penalty of 0.5% to 1.0% on the applicable interest rate.
-- Tax-saving FDs cannot be prematurely withdrawn before 5 years.
-- Some banks offer partial withdrawal facilities on FDs.
+When FDs fit
+- Money needed within 1 to 3 years with zero tolerance for loss.
+- Part of an emergency fund.
+- Retirees who want predictable income.
+After tax and inflation, FD returns are often close to zero in real terms, so they are not the best home for long-term goals.
 
-Loan Against FD
-- Banks typically offer loans/overdrafts up to 90% of the FD value.
-- Interest rate on the loan is usually 1% to 2% above the FD interest rate.
-- Tax-saving FDs cannot be pledged as collateral.
+Laddering
+Splitting a large amount into FDs of different maturities (1, 2, 3, 4 and 5 years) means some money matures every year, reducing the risk of locking everything in at a low rate.
 
-Deposit Insurance
-- FDs in scheduled commercial banks are insured by the Deposit Insurance and Credit Guarantee Corporation (DICGC) up to ₹5,00,000 per depositor per bank. This covers both principal and interest.
-- NBFC deposits are NOT covered by DICGC insurance.
-
-Who Should Invest in FDs
-- Conservative investors seeking guaranteed returns
-- Senior citizens who need regular income
-- Investors looking for capital preservation
-- Those who want to park short-term surplus funds
-- Not ideal for long-term wealth creation due to low real returns after tax and inflation.
+Sources
+- DICGC, deposit insurance: https://www.dicgc.org.in/
+- RBI, Financial Education: https://www.rbi.org.in/FinancialEducation/
+- DICGC ₹5 lakh cover explained: https://www.thefixedincome.com/blog/fixed-deposits/is-your-fd-safe-complete-guide-to-dicgc-insurance-deposit-protection/

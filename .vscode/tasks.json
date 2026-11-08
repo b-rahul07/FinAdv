@@ -1,0 +1,28 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Prepare FinAdvisor",
+      "detail": "Creates missing .env files, installs the website's packages on first run, starts Ollama if it is not running",
+      "type": "shell",
+      "windows": {
+        "options": { "shell": { "executable": "powershell.exe", "args": ["-NoProfile", "-Command"] } },
+        "command": "if (-not (Test-Path .env)) { Copy-Item .env.example .env }; if (-not (Test-Path web/.env.local)) { Copy-Item web/.env.example web/.env.local }; if (-not (Test-Path web/node_modules)) { npm --prefix web install }; try { Invoke-WebRequest -UseBasicParsing -TimeoutSec 2 http://localhost:11434/api/tags | Out-Null; 'Ollama is running.' } catch { if (Get-Command ollama -ErrorAction SilentlyContinue) { Start-Process ollama -ArgumentList serve -WindowStyle Hidden; 'Started Ollama.' } else { 'Ollama is not installed: chat explanations will be missing (see docs/SETUP.md step 4).' } }"
+      },
+      "command": "[ -f .env ] || cp .env.example .env; [ -f web/.env.local ] || cp web/.env.example web/.env.local; [ -d web/node_modules ] || npm --prefix web install; curl -s -o /dev/null http://localhost:11434/api/tags && echo 'Ollama is running.' || { command -v ollama >/dev/null && { nohup ollama serve >/dev/null 2>&1 & echo 'Started Ollama.'; } || echo 'Ollama is not installed: chat explanations will be missing (see docs/SETUP.md step 4).'; }",
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": { "reveal": "silent", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build website for the public link",
+      "detail": "Builds web/ so the API can serve it; VITE_API_URL=/ makes it call the API on the same address",
+      "dependsOn": "Prepare FinAdvisor",
+      "type": "shell",
+      "command": "npm run build",
+      "options": { "cwd": "${workspaceFolder}/web", "env": { "VITE_API_URL": "/" } },
+      "presentation": { "reveal": "silent", "panel": "shared" },
+      "problemMatcher": []
+    }
+  ]
+}

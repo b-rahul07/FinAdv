@@ -5,11 +5,11 @@ Living document. Newest entries first in the changelog. Decisions record *why*, 
 ## Architecture
 
 ```
-React + TS SPA (web/)  ── Cloudflare Pages (planned)
+React + TS SPA (web/)  ── Vercel (https://finadvisor-india.vercel.app)
   │  supabase-js for sign-in only (email + Google); dev sign-in locally
   │  HTTPS + bearer token; answers stream as Server-Sent Events over POST
   ▼
-FastAPI (finadvisor/api)  ── Oracle Always Free Arm VM (planned)
+FastAPI (finadvisor/api)  ── laptop + Tailscale Funnel (online while it runs; see docs/DEPLOY.md)
   ├─ finadvisor/advisor   one pipeline, used by the API and experiments/run.py
   ├─ finadvisor/calc      XIRR, goal SIP, EMI, FD/RD accrual, tax (unit-tested)
   ├─ finadvisor/llm       Ollama client (self-hosted), fake client for tests
@@ -63,8 +63,8 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 | Need | Choice | Limits |
 |---|---|---|
 | Database/auth | Supabase free (planned) | 500 MB DB, 50k MAU, pauses after 7 days idle — the daily data job will keep it awake |
-| LLM hosting | Ollama on Oracle Always Free Arm (planned; user is signing up) | 2 OCPU / 12 GB; expect ≥ the laptop timings below |
-| Frontend | Cloudflare Pages (planned) | free static hosting, commercial use allowed |
+| LLM hosting | Ollama on the laptop, reached through Tailscale Funnel | Oracle limits 0, Azure MFA blocked, Hugging Face Docker paid (2026-11-08) |
+| Frontend | Vercel Hobby | free static hosting; project `finadvisor` |
 | Fonts | Manrope via @fontsource (self-hosted, no Google request) | — |
 
 ## Measured latency (dev laptop, CPU only, qwen2.5:3b)
@@ -97,6 +97,107 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 - Without the service-role key, deleting an account removes all FinAdvisor data but not the Supabase sign-in itself.
 
 ## Changelog
+
+### 2026-11-08 — Document library: 15 → 41 guides, section-aware search, measured
+**Request:** the library behind Learn answers and the "What I looked at" card was too small. **Sources (user's choice):**
+official sites (SEBI, RBI, AMFI, PFRDA, IRDAI, Income Tax Department, EPFO, India Post, NSI, DICGC) plus reputable
+explainers, always rewritten in FinAdvisor's own words; each guide ends with its sources and has a
+"Last checked: YYYY-MM-DD" line (the library API now shows that date instead of the file time).
+- Rewrote all 15 guides for FY 2026-27: Income-tax Act, 2025 (80C → section 123, 80D → 126, 80E → 129; the old
+  numbers only next to the new), small-savings rates for Oct–Dec 2026, NPS exit rules of December 2025, IRDAI 2024
+  health rules, no new SGB issues since Feb 2024, SEBI MF Regulations 2026 (base expense ratio), DICGC ₹5 lakh, RBI
+  2025 prepayment directions. Four files renamed because their titles named old sections.
+- 26 new guides: tax regimes, the 2025 Act's section numbers, term insurance, mutual fund basics, index funds and
+  ETFs, debt funds, capital gains, gold options, EPF/VPF, post office schemes, credit scores, credit cards, home loans,
+  paying off debt, asset allocation, market falls, compounding and inflation, complaints and protection, scams,
+  KYC/nominees/CAS, government bonds, first-salary basics, retirement, goal-based investing, F&O risks, crypto.
+  Facts that sources disagreed on (finer NPS and home-loan section numbers, gold FoF holding period details) are
+  left out or pointed to the official text.
+- Search: `retrieval/chunks.py` splits guides by section, every piece labelled "<guide title> — <heading>", Sources
+  not indexed (was fixed 512-character windows that cut sections and lost the topic). Chroma and keyword search share
+  it; titles come from each guide's first line.
+- Measured with `scripts/eval_retrieval.py`: 82 everyday questions (`experiments/data/retrieval_questions.jsonl`),
+  right guide in the top 3: 29% → 100% (first result 98%); keyword fallback 26% → 99%. A harder set of 24 casual,
+  Hinglish and misspelled questions written afterwards (`retrieval_questions_hard.jsonl`): 100% top-3, 83% first.
+  bge-small-en-v1.5 scored the same as all-MiniLM-L6-v2, so the smaller model stays.
+- Router: "How is / How are …" general questions now go to Learn ("How is crypto taxed in India?" had been treated
+  as a wish to buy crypto). Personal questions are unaffected.
+- Known: the 3B model sometimes garbles a sourced fact in its Learn paragraph (it once said Regular plans "add"
+  0.5–1 points to returns instead of costing that much); the number guard checks numbers, not meaning.
+
+### 2026-11-08 — Answers that address the question asked (advice audit); cleanup
+**Audit:** 30 common questions for two synthetic people (a 26-year-old with card debt and no cover; a 31-year-old with
+a home loan, two goals and holdings). 14 of 30 got the generic "here is what to do with your money" plan, and several
+more answered a different question. New `advisor/topics.py` (part of the compose-v1 template; `template_id` now hashes
+both files) gives each a direct answer from code, plus "how to choose" guides with official links where useful:
+- tax / regime: says FinAdvisor doesn't compute income tax yet, links the Income Tax Department's calculator, lists
+  what decides it and which of the person's items count only under the old regime (no slabs are invented);
+- Regular → Direct: names the person's Regular-plan funds and the yearly saving from AMFI's Regular and Direct TER
+  (the fund finder snapshot now keeps both for every scheme), with tax, exit-load and ELSS cautions and MF Central;
+- portfolio review: value, invested, gain, equity/debt/gold split, concentration in shares or one product type;
+- lump sum / idle savings: keep the emergency fund, stagger the rest; flags an amount that differs from the profile;
+- market fall / stop SIP; expected returns (the plan's assumed return, FV from `calc.goals`, inflation-adjusted);
+  salary raise (new surplus); when can I retire (`calc.goals.months_to_target`, new and tested, with why it's
+  slow when the expected return barely beats inflation); goals by kind (education, home with EMI room, ...);
+- comparisons ("PPF or ELSS"): which suit the person now and a side-by-side (risk, lock-in, tax, assumed return);
+- loans: prepay vs invest compares the loan rate with the plan's expected return (RBI no-penalty note); card
+  questions show the monthly interest, or say there is no card debt;
+- insurance "which/what kind": health and term buying checklists with IRDAI links;
+- EMI checks without an amount now state the EMI room under the 40% cap.
+Bugs found: "prepay my personal loan" was read as a wish for a new EMI (`pressure.products_in` now ignores the EMI
+words in repayment questions); savings exactly at the emergency target were called "short". Chat links open in a
+new tab. Tests: `tests/test_topics.py` (31). Not done: income-tax computation (needs FY 2026-27 slabs under the
+Income-tax Act 2025 as a new tax config version: ask first); the library's tax guides still use the old section
+numbers (80C, 80D); "how much should I have saved by 30" still gets the general plan.
+**Cleanup:** removed `scripts/oracle_launch.py` and the `oracle` extra (Oracle limits are 0), `web/public/_redirects`
+(Cloudflare Pages, replaced by `web/vercel.json`); `docs/DEPLOY.md` rewritten for the current hosting. `.gitignore`'s
+`data/` also hid `experiments/data/` (the synthetic personas the eval and tests need), now `/data/`.
+
+### 2026-11-08 — Fund finder: the real funds of each fund type (user request)
+**Request:** fund advice should be concrete (links, or specific funds), not a generic template.
+**Decision (user, 2026-11-08):** a fund finder card, not "best fund" picks. Naming the best scheme is investment
+advice that needs SEBI registration (brief §2.5, the "not a SEBI-registered adviser" notice), and ranking by past
+returns invites performance-chasing. New data source approved by the user: AMFI's expense ratios (TER).
+- For each mutual-fund type in the plan, a card lists every matching AMFI scheme (Direct plan, Growth option,
+  priced in the last 10 days), cheapest first: fund house, expense ratio, 1/3/5-year returns (CAGR, computed by
+  `calc/returns.py` from AMFI NAV history via MFapi.in), start year; a "how to choose" checklist; links to AMFI's
+  official comparison and TER pages; sources and as-of dates. Main card for "which funds" questions, a detail
+  otherwise. The reply then says each type lists its actual funds and that FinAdvisor doesn't pick one.
+- Display only: built after the plan and audit, never fed back; the model never sees scheme names, and fund lists
+  never approve numbers in the explanation. What was shown is stored in `advice_runs.record.fund_finder`. The
+  experiment runner passes no snapshot, so research runs are unchanged.
+- Which schemes belong to which type: `configs/fundfinder/v1.yaml` (own version, outside the pipeline fingerprint).
+- Snapshot job (weekly, ~10 min): `python -m finadvisor.market.fundfinder` → `data/fund_finder.json`. AMFI TER
+  comes from the JSON service behind amfiindia.com/ter-of-mf-schemes (undocumented; 100 rows a page, one row per
+  scheme per day; the latest day is kept; matched to NAV-file schemes by normalised name).
+
+### 2026-11-08 — Public link from the laptop (Tailscale Funnel)
+Hosting attempts: Oracle's Always Free compute limits on our account are now 0 (every launch refused with a 0–0
+memory ratio); Azure for Students (college account, Central India allowed) blocks create calls without MFA, which
+the college account can't register; Hugging Face Docker Spaces need PRO. Decision (user): run the public site from
+the laptop, online only while it runs. Cloudflare quick tunnels don't support Server-Sent Events, so Tailscale Funnel.
+- `SERVE_WEB` setting: the API also serves `web/dist` (SPA fallback to `index.html`, `/api/*` unaffected, no paths
+  outside the build), so one address serves both. Tests: `tests/test_serve_web.py`.
+- VS Code compound "FinAdvisor online (public link)" with `APP_ENV=prod` so the dev sign-in can't be used publicly.
+- Website moved to Vercel (user wanted a better address): https://finadvisor-india.vercel.app, calling the API on
+  the Tailscale address (CORS). `finadvisor.vercel.app` was taken; a manually set alias sat behind Vercel's
+  deployment protection, so the name is added as a project domain instead.
+- See `docs/DEPLOY.md` → Current setup.
+
+### 2026-11-04 — Faster advice answers; run from VS Code
+**Report:** advice answers were slow. Measured from the stored traces (`advice_runs.latency_s`) and by timing the
+pipeline directly: everything except the model takes ~0.3 s; the rest was the model plus three avoidable waits.
+- **"localhost" cost ~2.5 s per model call.** Ollama listens on IPv4 only; on Windows, `localhost` tries IPv6 first
+  and waits to fall back. The client now uses `127.0.0.1` (and rewrites `localhost` in older `.env` files).
+- **A new HTTP client per call cost ~0.5 s** (TLS setup). `OllamaLLM` keeps one client per thread.
+- **The first question waited ~28 s** for the search models to load. The API now loads them, the language model and
+  the explanation prompt in a background thread at start-up (`Runtime.warm`, ~36 s, before anyone asks).
+- **Result** (same laptop, plan answers): the direct answer and advice appear in 0.3–0.4 s, including the first
+  question; the "In plain words" paragraph finishes in 4–10 s (was 9–23 s; first question was 33 s). Reading facts
+  from a message (only when it states them) takes ~5 s (was 10–36 s). Outputs are unchanged: same model, options and
+  prompts.
+- `.vscode/launch.json` + `tasks.json`: Run and Debug → "FinAdvisor (API + website)" starts Ollama if needed, the API
+  and the website, and opens the browser. Both files are now tracked.
 
 ### 2026-11-03 — Setup guide for friends; fresh-clone fixes
 `docs/SETUP.md`: step-by-step local setup (Windows first, Mac/Linux notes), optional example accounts, every key and

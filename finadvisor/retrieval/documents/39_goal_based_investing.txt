@@ -1,0 +1,35 @@
+Goal-Based Investing: Home, Children's Education, Car, Wedding, Travel
+Last checked: 2026-11-08
+
+Why plan by goal
+Saving "in general" makes it hard to know if you're on track or how much risk to take. Giving each goal its own amount, date and investment mix answers both. FinAdvisor's plan creates a separate bucket for every goal you add.
+
+Set each goal up
+1. Name it and set the cost in today's money (for example ₹25 lakh for a child's graduation).
+2. Set the year you need it.
+3. Inflate the cost to that year: FinAdvisor uses 6% a year; education costs have often risen faster.
+4. Work out the monthly SIP needed, counting what you've already saved for it.
+FinAdvisor shows the target in today's and future money, the monthly amount, and whether your surplus can fund it fully.
+
+Match the mix to the time left
+- Under 3 years: savings account, FD, liquid or short-duration debt funds. A market fall right before you need the money could wreck the goal.
+- 3 to 7 years: mostly debt with some equity, such as balanced advantage funds.
+- 7 years or more: mostly equity (index or flexi-cap funds) if your risk level allows, with debt and some gold for stability.
+As the date approaches, move each goal's money gradually towards safer assets.
+
+Common goals
+- Home down payment: usually 20% or more of the price plus stamp duty and registration; keep it safe in the last 2 to 3 years before buying. Check how much EMI you can afford alongside existing EMIs.
+- Children's education: often 10 to 18 years away, so equity can do much of the work early; Sukanya Samriddhi (for a daughter) and PPF add a safe base. Education loans can cover a gap later, but don't rely on them.
+- Car or bike: short horizon, keep it safe; paying mostly in cash avoids a long EMI on a depreciating asset.
+- Wedding and travel: usually under 5 years; mostly safe instruments.
+- Retirement: the longest goal; see the retirement guide.
+
+Order and trade-offs
+Near goals usually get funded first, but don't neglect retirement for shorter wants. If your surplus can't fund every goal, extend a date, lower the target, or increase your income or savings, rather than taking more risk than your capacity allows.
+
+Review every year
+Update costs, dates and what you've saved, and raise SIPs with your salary.
+
+Sources
+- SEBI investor education: https://investor.sebi.gov.in/
+- AMFI investor corner: https://www.amfiindia.com/investor-corner

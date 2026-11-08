@@ -57,6 +57,7 @@ the short route):
 ```powershell
 python -m finadvisor.market.jobs masters      # about 10 seconds: 5,900+ stocks and 14,000+ funds
 python scripts/build_index.py                 # about 1 minute the first time
+python -m finadvisor.market.fundfinder        # optional, ~10 minutes: the fund lists the advisor shows
 ```
 
 ## 4. Download the AI model
@@ -120,7 +121,6 @@ Here is every key and token the project uses, so you know what each is for:
 | `DATABASE_URL` (production) | The live website's database | **No.** Leave it empty: you use your own local database. | **Yes.** It holds the database password and gives access to every real user's data. It is never shared or committed. |
 | `SUPABASE_SERVICE_KEY` | Lets "delete account" remove a Supabase sign-in on the live server | No | **Yes**, server only |
 | Google OAuth client ID and secret | Google sign-in; stored inside the Supabase dashboard | No, Supabase handles Google for you | The secret is |
-| Oracle Cloud API key | Creating the hosting server | No | **Yes** |
 | `VITE_API_URL` | Where the website finds the API | Already set to `http://localhost:8000` | No |
 | `VITE_GOOGLE_AUTH` | Shows the "Continue with Google" button | Only for real sign-in | No |
 
@@ -156,7 +156,12 @@ To go back to local sign-in, set `AUTH_MODE=dev` and empty the two `VITE_SUPABAS
 
 ## Next time
 
-You only need the last commands. Terminal 1:
+**In VS Code:** open the FinAdvisor folder, go to **Run and Debug** (Ctrl+Shift+D), pick
+**FinAdvisor (API + website)** and press the green ▶ (or F5). It starts Ollama if needed, runs the API and the website
+in two terminals, and opens http://localhost:5173 when the API is ready. The red ■ stops both. The first time, VS Code
+may ask you to pick a Python interpreter: choose the `.venv` one.
+
+Or by hand. Terminal 1:
 
 ```powershell
 cd FinAdv

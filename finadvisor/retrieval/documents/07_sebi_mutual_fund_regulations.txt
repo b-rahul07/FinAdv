@@ -1,56 +1,30 @@
-SEBI Mutual Fund Regulations — Key Rules for Investors
+How SEBI Regulates Mutual Funds (2026 Rules)
+Last checked: 2026-11-08
 
-Overview
-The Securities and Exchange Board of India (SEBI) regulates mutual funds in India under the SEBI (Mutual Funds) Regulations, 1996 (amended from time to time). These regulations govern the establishment, operation, and management of mutual fund schemes to protect investor interests.
+Who regulates mutual funds
+The Securities and Exchange Board of India (SEBI) regulates every mutual fund in India. Each fund house (asset management company, AMC) runs schemes under a trust, the money is held by an independent custodian, and the fund house itself cannot use investors' money. AMFI, the industry body, registers mutual fund distributors (ARN holders) and runs investor education. From 1 April 2026 the SEBI (Mutual Funds) Regulations, 2026 replaced the 1996 regulations.
 
-Mutual Fund Categorization (SEBI Circular, October 2017)
-SEBI mandated that all mutual funds must be categorized into the following broad categories, with each fund house allowed only one scheme per sub-category (except index funds/ETFs and sectoral/thematic funds):
+Costs: what changed in 2026
+- The cost you pay is the Total Expense Ratio (TER), deducted daily from the fund's NAV. From April 2026 it is made up of a Base Expense Ratio (the fund house's fees, with caps) plus brokerage, regulatory levies and statutory levies such as GST, which are charged at actual cost on top.
+- The caps were lowered. For example, index funds and ETFs can charge at most 0.90% as base expenses (earlier 1.00%), and the cap for smaller equity schemes fell from 2.25% to 2.10%. Larger schemes have lower caps.
+- Brokerage that can be charged to the scheme was cut, and the extra allowance some schemes got for charging exit loads was removed. Any exit load collected goes back into the scheme.
+- Expense ratios of every scheme are published daily on AMFI's website.
 
-1. Equity Schemes (11 sub-categories):
-   - Large Cap, Mid Cap, Small Cap, Multi Cap, Flexi Cap, Large & Mid Cap
-   - Dividend Yield, Value/Contra, Focused Fund (max 30 stocks)
-   - Sectoral/Thematic, ELSS
+Direct and Regular plans
+Every scheme has a Direct plan (bought from the fund house, MF Central or a registered investment adviser, no commission) and a Regular plan (bought through a distributor, who is paid a commission from the expense ratio). Same portfolio, but the Regular plan's expense ratio is higher, typically by 0.5 to 1 percentage point a year.
 
-2. Debt Schemes (16 sub-categories):
-   - Overnight, Liquid, Ultra Short Duration, Low Duration, Money Market
-   - Short Duration, Medium Duration, Medium to Long Duration, Long Duration
-   - Dynamic Bond, Corporate Bond, Credit Risk, Banking & PSU
-   - Gilt, Gilt with 10-year constant duration, Floater
+Scheme categories
+SEBI defines categories so that names mean the same thing everywhere: for example large cap (top 100 companies), mid cap, small cap, flexi cap, ELSS, index funds, liquid, overnight, short duration, corporate bond, gilt and balanced advantage. A fund house can generally have only one scheme per category, which makes comparisons fair.
 
-3. Hybrid Schemes (7 sub-categories):
-   - Conservative Hybrid, Balanced Hybrid, Aggressive Hybrid
-   - Dynamic Asset Allocation, Multi Asset Allocation
-   - Arbitrage Fund, Equity Savings
+The riskometer
+Every scheme shows a riskometer with six levels: Low, Low to Moderate, Moderate, Moderately High, High and Very High. It is reviewed monthly based on what the fund actually holds. FinAdvisor uses this scale to decide which products suit your risk level.
 
-4. Solution Oriented Schemes: Retirement Fund, Children's Fund (5-year lock-in or till retirement/majority)
+Other investor protections
+- Fund houses must disclose portfolios, NAVs (daily) and risk changes.
+- Investors receive a Consolidated Account Statement (CAS) every month there is a transaction.
+- Complaints go first to the fund house, then to SEBI's SCORES portal.
 
-5. Other Schemes: Index Funds/ETFs, Fund of Funds
-
-KYC Requirements
-- All mutual fund investors must complete KYC (Know Your Customer) verification through a SEBI-registered KRA (KYC Registration Agency).
-- Documents required: PAN card (mandatory), Aadhaar, address proof, photograph.
-- KYC is a one-time process — once completed, valid across all fund houses.
-
-Exit Load
-- SEBI allows fund houses to charge an exit load (a fee for redeeming units before a specified period).
-- Typical exit loads: 1% if redeemed within 1 year for equity funds, 0% for most debt funds after a few days.
-- ELSS funds: No exit load (lock-in serves the purpose).
-- Exit load revenues go into the scheme itself (benefiting remaining investors), not to the AMC.
-
-Expense Ratio Limits (Total Expense Ratio — TER)
-- SEBI has set maximum TER limits based on AUM (Assets Under Management):
-  - First ₹500 crore: 2.25% for equity, 2.00% for other schemes
-  - Next ₹250 crore: 2.00% for equity, 1.75% for other schemes
-  - Progressively lower for higher AUM
-  - Additional 0.30% for schemes predominantly investing in tier-2 and tier-3 cities
-- Direct plans have lower TER (no distributor commission) compared to regular plans.
-
-Direct vs Regular Plans
-- Direct Plan: Investor buys directly from the AMC. Lower expense ratio, higher returns over time.
-- Regular Plan: Bought through a distributor/advisor who receives commission from the AMC. Higher expense ratio.
-- SEBI mandates that both options must be available for every scheme.
-
-NAV Applicability
-- Equity funds: If application is received before 3:00 PM on a business day, same-day NAV applies for purchases. For amounts ≥ ₹2 lakh, NAV of the day on which funds are received by the AMC applies.
-- Liquid/overnight funds: Same-day NAV for applications received before 1:30 PM.
-- Redemption: Same-day NAV for requests received before 3:00 PM.
+Sources
+- SEBI (Mutual Funds) Regulations, 2026 summary: https://upstox.com/news/personal-finance/mutual-funds/sebi-mutual-funds-regulations-2026-highlights-lower-expense-ratios-revised-brokerage-limits/article-186377/
+- AMFI, total expense ratio of schemes: https://www.amfiindia.com/ter-of-mf-schemes
+- SEBI: https://www.sebi.gov.in/

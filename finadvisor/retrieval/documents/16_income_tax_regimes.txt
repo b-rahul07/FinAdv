@@ -1,0 +1,38 @@
+Income Tax Regimes: Old vs New (FY 2026-27)
+Last checked: 2026-11-08
+
+Two ways to calculate your tax
+India has two income-tax regimes for individuals. The new regime is the default: lower slab rates but almost no deductions. The old regime has higher rates but lets you claim deductions such as EPF, PPF, ELSS, insurance premiums, HRA and home-loan interest. From 1 April 2026 both are set out in the Income-tax Act, 2025, which kept the rates of the previous year.
+
+New regime slabs (FY 2026-27)
+- Up to ₹4,00,000: nil
+- ₹4,00,001 to ₹8,00,000: 5%
+- ₹8,00,001 to ₹12,00,000: 10%
+- ₹12,00,001 to ₹16,00,000: 15%
+- ₹16,00,001 to ₹20,00,000: 20%
+- ₹20,00,001 to ₹24,00,000: 25%
+- Above ₹24,00,000: 30%
+A rebate of up to ₹60,000 means no tax if your taxable income is up to ₹12,00,000. Salaried people also get a standard deduction of ₹75,000, so a salary of up to about ₹12,75,000 pays no income tax. Special-rate income, such as capital gains, does not get this rebate.
+
+Old regime slabs (below 60 years)
+- Up to ₹2,50,000: nil
+- ₹2,50,001 to ₹5,00,000: 5%
+- ₹5,00,001 to ₹10,00,000: 20%
+- Above ₹10,00,000: 30%
+The rebate makes income up to ₹5,00,000 tax-free, and the standard deduction for salaried people is ₹50,000. A 4% health and education cess is added to the tax in both regimes.
+
+Which one is cheaper for you?
+It depends on how much you can deduct. The new regime usually wins for people with few deductions, and for anyone earning up to about ₹12.75 lakh as salary. The old regime can win at higher incomes for people with large deductions, for example a big home-loan interest payment, full ₹1.5 lakh investments, HRA and health insurance together. The only reliable way is to calculate both with your own numbers; the Income Tax Department's calculator does this in a few minutes.
+
+Switching
+Salaried people can choose the regime every year when filing the return; tell your employer at the start of the year so the right tax is deducted from salary. People with business income have limited chances to switch back and forth.
+
+Common mistakes
+- Buying ELSS, insurance or tax-saver FDs for the deduction while on the new regime, where they save nothing.
+- Forgetting the employer's NPS contribution, which is deductible in both regimes.
+- Comparing regimes without the standard deduction.
+
+Sources
+- Income Tax Department, income and tax calculator: https://www.incometax.gov.in/iec/foportal/income-tax-calculator
+- HDFC Bank, Budget 2026-27 and the Income Tax Act: https://www.hdfc.bank.in/blogs/union-budget/budget-2026-27-income-tax-act-2026-tax-slabs-stt
+- New tax regime FY 2026-27 under the Income-tax Act, 2025: https://incometaxreturnindia.com/new-tax-regime-2026-27-income-tax-act-2025/

@@ -1,6 +1,6 @@
 """Holdings API on seeded prices: values reconcile between pages, adjustments apply, oversells are refused."""
 
-from datetime import date, timedelta
+from datetime import timedelta
 
 import pytest
 

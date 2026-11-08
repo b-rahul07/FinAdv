@@ -1,29 +1,29 @@
-Emergency Fund and Liquid Mutual Funds — Strategy
+Emergency Fund: How Much and Where to Keep It
+Last checked: 2026-11-08
 
-Overview
-An emergency fund is a financial safety net designed to cover unexpected expenses or a sudden loss of income. Financial planners typically recommend setting aside 3 to 6 months' worth of mandatory living expenses.
+What an emergency fund is for
+An emergency fund is money set aside only for surprises: losing your job, a medical bill beyond insurance, an urgent home or vehicle repair, or supporting family in a crisis. Without one, an emergency forces you to borrow on a credit card or personal loan, or to sell investments at a bad time.
 
-Where to Keep an Emergency Fund
-The primary requirement of an emergency fund is liquidity and safety of principal, not high returns. Common instruments include:
-1. Savings Bank Account: Highest liquidity but very low interest (usually 2.7% to 3.5%).
-2. Flexi/Sweep-in Fixed Deposits: Offers FD-like interest rates with the liquidity of a savings account.
-3. Liquid Mutual Funds: Often used to park the bulk of an emergency fund.
+How much
+FinAdvisor's plan uses 6 months of your monthly expenses (including EMIs you must keep paying). Consider more, up to 9 to 12 months, if your income is irregular, you are the only earner, you have dependants, or your job is in a volatile industry. Build it before investing for long-term goals; FinAdvisor's plan puts it right after basic insurance and paying off costly debt.
 
-What are Liquid Funds?
-- Liquid funds are debt mutual funds that invest in short-term fixed-income instruments like commercial papers, treasury bills, and certificates of deposit.
-- The maturity of these underlying securities is up to 91 days.
-- They carry minimal interest rate risk and credit risk.
+Where to keep it: safe and quick to reach
+- Savings account: instant access, about 2.5% to 4% interest, insured up to ₹5 lakh per bank by DICGC.
+- Sweep-in FD: a fixed deposit linked to your savings account that breaks automatically when needed; earns FD rates on idle money.
+- Liquid mutual funds: invest in very short-term debt (up to 91 days); returns are usually a little above savings accounts; most fund houses allow instant redemption of up to ₹50,000 a day, the rest arrives the next working day.
+- Overnight funds: even lower risk than liquid funds, slightly lower returns.
+A common split is one month of expenses in the savings account and the rest in a sweep-in FD or a liquid fund.
 
-Advantages of Liquid Funds
-- Returns are generally slightly better than regular savings bank accounts (historically 5.5% to 6.5%).
-- High liquidity: Redemption requests placed before the cut-off time (typically 1:30 PM) are credited to the bank account on the next business day. Some AMCs offer "Instant Redemption" facility up to ₹50,000 or 90% of folio value (whichever is lower) within minutes.
-- No exit load for withdrawals made after 7 days of investment. If withdrawn within 7 days, a graded exit load applies (e.g., 0.0070% on Day 1 down to 0.0045% on Day 6).
+Where not to keep it
+Equity funds, ELSS, PPF, NPS, long FDs with heavy penalties, gold, crypto or a friend's business. These can fall in value or lock your money exactly when you need it.
 
-Taxation of Liquid Funds
-- Capital gains from liquid funds are taxed according to the investor's income tax slab rate, regardless of the holding period (as per Finance Act 2023 rules for debt mutual funds).
-- Dividends (IDCW) are also taxed at the investor's slab rate.
+Tax on liquid funds
+Gains on debt funds, including liquid funds, bought from April 2023 are taxed at your income-tax slab rate whatever the holding period, the same as FD interest. A small exit load applies if you redeem a liquid fund within 7 days.
 
-Best Practices for Structuring Emergency Funds
-- Tier 1 (Immediate access): 1 month's expenses in a regular savings account or cash.
-- Tier 2 (Short-term access): 2-5 months' expenses in Liquid Funds or short-term Fixed Deposits.
-- Emergency funds should not be invested in equity markets (stocks or equity mutual funds) due to high volatility and risk of capital loss when the funds are needed the most.
+Rebuild after you use it
+If you dip into the fund, refilling it becomes the first step of your monthly savings again before new investing.
+
+Sources
+- AMFI, liquid and overnight funds: https://www.amfiindia.com/investor-corner
+- DICGC, deposit insurance: https://www.dicgc.org.in/
+- SEBI investor website: https://investor.sebi.gov.in/

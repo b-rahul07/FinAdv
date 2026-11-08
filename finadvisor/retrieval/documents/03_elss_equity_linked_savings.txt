@@ -1,43 +1,33 @@
-Equity Linked Savings Scheme (ELSS) — Complete Guide
+ELSS: Equity Linked Savings Schemes (Tax-Saving Mutual Funds)
+Last checked: 2026-11-08
 
-Overview
-Equity Linked Savings Scheme (ELSS) is a type of mutual fund that invests primarily in equity and equity-related instruments. ELSS funds are one of the eligible tax-saving instruments under Section 80C of the Income Tax Act, 1961. They offer the dual benefit of wealth creation through equity market participation and tax savings.
+What it is
+An ELSS is a diversified equity mutual fund with a 3-year lock-in. SEBI rules require it to keep at least 80% in shares. It was designed as the equity option for the tax deduction now in section 123 of the Income-tax Act, 2025 (formerly section 80C).
 
-Key Features
-- ELSS funds must invest at least 80% of their total assets in equity and equity-related instruments as per SEBI (Securities and Exchange Board of India) guidelines.
-- They are open-ended funds, meaning investors can invest at any time (though each investment has its own lock-in).
-- Available in both growth and IDCW (Income Distribution cum Capital Withdrawal, formerly called dividend) options.
+The lock-in
+Each investment is locked for 3 years from its own date. With a SIP, every monthly instalment has its own lock-in: the January 2026 instalment can be redeemed from January 2029, the February one from February 2029, and so on. Nobody can withdraw early, even in an emergency, so never put emergency money in ELSS.
 
-Lock-in Period
-ELSS has the shortest lock-in period among all Section 80C instruments — just 3 years. Each SIP installment is treated as a fresh investment and has its own 3-year lock-in period. For example, if you start a SIP in January 2024, the January 2024 installment is locked in until January 2027, the February 2024 installment until February 2027, and so on.
+Tax
+- Deduction: investments count towards the ₹1,50,000 limit only under the old tax regime. Under the new regime there is no deduction, and ELSS works like any other equity fund that happens to have a lock-in.
+- Gains: because units are held for 3 years, gains are long-term. Long-term gains on equity funds and shares above ₹1,25,000 a year (across all of them together) are taxed at 12.5%.
+- IDCW payouts (formerly dividends) are taxed at your slab rate; most investors prefer the growth option.
 
-Tax Benefits
-- Investment: Deduction under Section 80C up to ₹1,50,000 per financial year.
-- Long-Term Capital Gains (LTCG): Since the lock-in is 3 years, all ELSS redemptions are long-term. LTCG up to ₹1,25,000 per financial year (across all equity instruments) is tax-exempt. Gains exceeding ₹1,25,000 are taxed at 12.5% (as per the Finance Act, 2024 amendments).
-- Dividends: Taxable at the investor's applicable income tax slab rate.
+Risk and returns
+ELSS invests in shares, so its value rises and falls with the stock market and can drop sharply in some years. Returns are not guaranteed. On FinAdvisor's riskometer scale it is a Very High risk product, which is why FinAdvisor suggests it only when your capacity for loss and your questionnaire both allow equity.
 
-Returns
-ELSS returns are market-linked and not guaranteed. Historically, ELSS funds have delivered average annual returns in the range of 12–15% over 10+ year periods, but past performance does not guarantee future results. Returns can be negative in any given year.
+ELSS compared with other tax-saving options
+- PPF: guaranteed and tax-free, 15-year account, much lower risk, usually lower long-run growth.
+- 5-year tax-saver FD: guaranteed, interest taxed at your slab.
+- NPS: retirement-only, locked until 60, extra deductions.
+- ELSS: shortest lock-in (3 years) and highest potential growth, with the highest risk.
 
-Risk Profile
-ELSS funds carry equity market risk. They are suitable for investors with:
-- A minimum investment horizon of 3 years (lock-in) but ideally 5+ years for meaningful wealth creation
-- Moderate to aggressive risk tolerance
-- Willingness to accept short-term volatility for potentially higher long-term returns
+Choosing an ELSS fund
+- Pick the Direct plan with the Growth option for the lowest cost.
+- Compare expense ratios and long-term consistency, not last year's return.
+- One or two ELSS funds are enough; more adds no real diversification.
+- After 3 years you are not forced to sell; units can stay invested.
 
-ELSS vs Other 80C Instruments
-Compared to PPF (15-year lock-in, ~7.1% fixed), NSC (5-year lock-in, ~7.7% fixed), and tax-saving FDs (5-year lock-in, 6–7% fixed), ELSS offers:
-- Shortest lock-in (3 years)
-- Highest return potential (market-linked)
-- Highest risk (equity exposure)
-
-SEBI Regulations
-- ELSS funds are regulated by SEBI under the SEBI (Mutual Funds) Regulations, 1996.
-- Fund houses must clearly categorize ELSS as a distinct category.
-- There is no upper limit on investment in ELSS, but the 80C tax deduction is capped at ₹1,50,000.
-
-How to Invest
-- Through mutual fund AMCs (Asset Management Companies) directly
-- Through registered distributors and financial advisors
-- Through online platforms and apps registered with AMFI (Association of Mutual Funds in India)
-- Minimum investment: Typically ₹500 for SIP, ₹500 for lump sum (varies by fund house)
+Sources
+- SEBI, mutual fund scheme categories: https://www.sebi.gov.in/
+- AMFI, investor corner: https://www.amfiindia.com/investor-corner
+- Capital gains rules after Budget 2024: https://www.business-standard.com/amp/budget/news/budget-2024-brings-relief-for-gold-etfs-equity-fofs-international-schemes-124072301258_1.html

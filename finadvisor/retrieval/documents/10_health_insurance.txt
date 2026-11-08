@@ -1,0 +1,38 @@
+Health Insurance
+Last checked: 2026-11-08
+
+Why you need your own policy
+Health insurance (often called mediclaim) pays your hospital bills. One hospital stay can cost more than a year's savings. Employer group cover helps but ends when you change or lose your job, and is often too small for a family. A personal policy bought while young and healthy is cheaper and has its waiting periods done by the time you need it.
+
+How much cover
+FinAdvisor's plan asks for at least ₹5 lakh or half your annual income, whichever is larger, for yourself (and your family if they depend on you). In big cities, ₹10 lakh or more for a family is common. A "super top-up" policy adds a large amount of cover cheaply above a base amount (the deductible), and can be paired with employer or base cover.
+
+Rules that changed in 2024 (IRDAI)
+- Moratorium of 5 years: after 60 months of continuous cover, an insurer cannot reject a claim for non-disclosure or misrepresentation, except proven fraud. It used to be 8 years.
+- Pre-existing diseases: the waiting period is capped at 3 years (it was up to 4).
+- No upper age limit for buying a new health policy.
+- Faster cashless claims: insurers must decide a cashless request within an hour and give the final discharge approval within three hours of the hospital's request.
+- You can port (move) your policy to another insurer without losing waiting-period credit.
+
+What to check before buying
+- Room rent limits and disease-wise caps (prefer none).
+- Waiting periods: initial (usually 30 days), specific illnesses, pre-existing diseases.
+- Co-payment (you pay a share of every claim).
+- Restoration of cover if it is used up in a year, and no-claim bonus.
+- Network hospitals near you for cashless treatment.
+- The insurer's claim settlement record (IRDAI publishes it yearly).
+Disclose all existing illnesses honestly; hidden facts are the main reason claims are refused.
+
+Family floater or individual?
+A family floater shares one cover amount across the family and costs less; individual policies give each person their own amount. Senior parents are usually better on a separate policy, because their age raises the premium of a shared floater.
+
+Tax
+Premiums are deductible under section 126 of the Income-tax Act, 2025 (formerly 80D): up to ₹25,000 for yourself and family (₹50,000 if you are a senior citizen) and up to ₹25,000 or ₹50,000 more for parents, with ₹5,000 of preventive health check-ups within the limit. This applies only under the old tax regime.
+
+Complaints
+Contact the insurer's grievance officer first, then IRDAI's Bima Bharosa portal or the Insurance Ombudsman.
+
+Sources
+- IRDAI master circular on health insurance (May 2024) summary: https://arthgyaan.com/blog/understanding-latest-irda-master-circular-on-health-insurance-2024.html
+- IRDAI policyholder site: https://policyholder.gov.in/
+- Moratorium reduced to 5 years: https://www.axismaxlife.com/blog/health-insurance/moratorium-period-in-health-insurance

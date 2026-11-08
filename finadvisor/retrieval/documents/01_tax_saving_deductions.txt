@@ -1,0 +1,42 @@
+Tax-Saving Deductions (formerly Section 80C, now Section 123)
+Last checked: 2026-11-08
+
+What changed in 2026
+From 1 April 2026 the Income-tax Act, 2025 replaced the Income-tax Act, 1961. The popular "Section 80C" deduction is now section 123 of the new Act, and the list of eligible investments sits in Schedule XV. The limit and the eligible items did not change: you can still deduct up to ₹1,50,000 a year. Returns for income earned up to 31 March 2026 (FY 2025-26) still use the old section numbers.
+
+Only under the old regime
+These deductions reduce your tax only if you choose the old tax regime. The new regime, which is the default, has lower rates but does not allow them. If you are on the new regime, ELSS, PPF or a life insurance policy saves you no tax at all, so choose them for what they do, not for the deduction. See the guide on income-tax regimes to compare the two.
+
+What counts towards the ₹1.5 lakh limit
+- Your own EPF contribution (deducted from salary) and Voluntary PF
+- Public Provident Fund (PPF)
+- ELSS tax-saving mutual funds (3-year lock-in)
+- Life insurance premiums (term, endowment, ULIP)
+- Principal repaid on a home loan, plus stamp duty and registration in the year of purchase
+- Sukanya Samriddhi Yojana deposits for a daughter
+- 5-year tax-saver bank fixed deposits and the post office 5-year time deposit
+- National Savings Certificate (NSC) and Senior Citizens' Savings Scheme (SCSS)
+- Tuition fees for up to two children
+- Your own NPS contribution (within the same overall limit)
+
+Many salaried people already fill most of the ₹1.5 lakh with EPF and a home-loan principal. Check your payslip before buying anything new for tax.
+
+Other common deductions (old regime only)
+- Health insurance premiums: section 126 (formerly 80D), ₹25,000 for yourself and family, ₹50,000 if you are a senior citizen, and a further ₹25,000 or ₹50,000 for parents.
+- NPS: an extra ₹50,000 for your own contribution above the ₹1.5 lakh limit.
+- Education loan interest: section 129 (formerly 80E), no upper limit, for up to 8 years.
+- Home-loan interest on a self-occupied house: up to ₹2,00,000 a year.
+
+Allowed in both regimes
+Your employer's contribution to your NPS account is deductible in both regimes (up to 14% of salary in the new regime). The standard deduction for salaried people is also available in both: ₹75,000 in the new regime and ₹50,000 in the old.
+
+How to use this sensibly
+1. First decide your regime with the official tax calculator.
+2. If the old regime wins, count what you already have (EPF, home loan, insurance, tuition) before investing more.
+3. Fill any gap with products that suit your plan anyway: PPF for safe long-term money, ELSS if equity suits your risk level, NPS for retirement.
+4. Avoid buying insurance-cum-investment policies only for tax; a term plan plus separate investments usually does both jobs better.
+
+Sources
+- Income Tax Department, tax calculator and FAQs: https://www.incometax.gov.in/iec/foportal/
+- Income-tax Act, 2025 section mapping (secondary summaries): https://savetaxs.com/blog/income-tax-act-2025-section-mapping
+- Section 80C now section 123: https://askcasanjay.com/blog/section-80c-now-section-123-deduction-mapping

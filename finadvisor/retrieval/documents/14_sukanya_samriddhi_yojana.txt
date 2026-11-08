@@ -1,38 +1,32 @@
-Sukanya Samriddhi Yojana (SSY) — Complete Guide
+Sukanya Samriddhi Yojana (SSY)
+Last checked: 2026-11-08
 
-Overview
-The Sukanya Samriddhi Yojana (SSY) is a government-backed savings scheme launched as part of the 'Beti Bachao, Beti Padhao' campaign. It is aimed at encouraging parents to build a fund for the future education and marriage expenses of their female child.
+What it is
+SSY is a government-backed savings scheme for a girl child, aimed at her education and marriage. It offers one of the highest guaranteed rates among small savings schemes and fully tax-free returns. Accounts are opened at post offices and authorised banks.
 
-Eligibility and Account Opening
-- The account can be opened by the biological parents or legal guardian of a girl child.
-- The girl child must be below the age of 10 years at the time of account opening.
-- Only one account can be opened per girl child.
-- A maximum of two accounts can be opened in a family (for two daughters). In case of twins or triplets at the second birth, more than two accounts may be allowed.
+Who can open it
+A parent or legal guardian can open one account per girl, for up to two girls (three in the case of twins or triplets), any time before the girl turns 10.
 
-Deposit Rules
-- Minimum deposit: ₹250 per financial year.
-- Maximum deposit: ₹1,50,000 per financial year.
-- Deposits must be made for a period of 15 years from the date of opening the account. After 15 years, no further deposits are allowed, but the account continues to earn interest until maturity.
+Interest rate
+For October to December 2026 the rate is 8.2% a year, compounded yearly. The government reviews the rate every quarter, and the current rate applies to the whole balance.
 
-Maturity Period
-- The account matures 21 years from the date of account opening.
-- Alternatively, the account can be closed at the time of the girl child's marriage, provided she has attained the age of 18 years. The closure can happen 1 month before or 3 months after the marriage.
+Deposits
+- Minimum ₹250 and maximum ₹1,50,000 in a financial year.
+- Deposits are made for 15 years from opening; the account then keeps earning interest until it matures 21 years after opening.
+- Missing the yearly minimum makes the account "defaulted"; it can be revived with a small penalty.
 
-Interest Rate
-- The interest rate for SSY is reviewed and announced quarterly by the Government of India.
-- It typically offers a higher interest rate compared to PPF (often around 8.0% to 8.2%).
-- Interest is calculated on the lowest balance between the 5th and the end of the month and is compounded annually.
+Withdrawals
+- Up to 50% of the balance at the end of the previous year can be withdrawn after the girl turns 18 (or passes class 10), for higher education.
+- The account can be closed after she turns 18 for her marriage.
+- Early closure is allowed in limited cases such as the girl's serious illness or the guardian's death.
 
-Partial Withdrawal
-- Premature or partial withdrawal is allowed once the girl child attains the age of 18 years or completes her 10th standard, whichever is earlier.
-- Withdrawal is permitted only for the purpose of the girl child's higher education.
-- Maximum withdrawal limit: 50% of the balance at the end of the preceding financial year.
+Tax
+Deposits count for the ₹1,50,000 deduction under section 123 (formerly 80C) under the old regime. Interest and the maturity amount are tax-free in both regimes.
 
-Tax Benefits
-SSY falls under the Exempt-Exempt-Exempt (EEE) tax category:
-1. Contributions qualify for deduction under Section 80C (up to ₹1,50,000).
-2. The interest earned is completely tax-exempt.
-3. The maturity amount is entirely tax-free.
+How it fits a plan
+SSY suits the safe part of a daughter's education goal, especially if she is very young, because the money is locked and guaranteed. For goals 10 or more years away, many parents combine SSY with equity funds for growth, since SSY alone may not keep up with education inflation.
 
-Premature Closure
-- Premature closure is permitted in extreme compassionate grounds such as the death of the account holder or life-threatening diseases of the account holder, subject to documentation.
+Sources
+- National Savings Institute: https://www.nsiindia.gov.in/
+- India Post, Sukanya Samriddhi Account: https://www.indiapost.gov.in/
+- Small savings rates October-December 2026: https://blinkmoney.in/news/small-savings-rates-unchanged-for-october-december-2026-ppf-at-7-1-nsc-at-7-7-ssy-and-scss-at-8-2

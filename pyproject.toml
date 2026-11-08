@@ -28,7 +28,6 @@ rag = ["chromadb>=0.5", "sentence-transformers>=3"]          # document search (
 news = ["feedparser>=6", "transformers>=4.40", "torch>=2.2"]  # market headlines with FinBERT mood
 cas = ["casparser>=0.7"]                                       # CAS statement import
 postgres = ["psycopg[binary]>=3.1"]                            # Supabase / Postgres in production
-oracle = ["oci>=2.120"]                                        # scripts/oracle_launch.py
 dev = ["pytest>=8", "playwright>=1.45"]
 all = ["finadvisor[rag,news,cas,postgres,dev]"]
 

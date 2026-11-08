@@ -1,0 +1,31 @@
+EPF and VPF: Employees' Provident Fund
+Last checked: 2026-11-08
+
+What EPF is
+If you are salaried in an organisation covered by the EPFO, 12% of your basic pay plus dearness allowance goes into your Employees' Provident Fund every month, and your employer adds 12% too. Of the employer's share, 8.33% (on wages up to ₹15,000) goes to the Employees' Pension Scheme (EPS) and the rest to your EPF. It is a safe, government-backed retirement savings account that many people forget is already one of their biggest investments.
+
+Interest rate
+EPFO declared 8.25% for FY 2025-26, the same as the previous two years. The rate is declared once a year and credited to your account after government approval.
+
+VPF: putting in more
+Voluntary Provident Fund lets you contribute more than 12% of basic pay through your employer. It earns the same rate as EPF and is as safe. It suits people who want guaranteed, long-term savings and are comfortable with EPF's withdrawal rules. Tell your HR or payroll team to start it.
+
+Tax
+- Your own contribution counts towards the ₹1,50,000 deduction under section 123 (formerly 80C) in the old regime.
+- Interest is tax-free only on your contributions up to ₹2,50,000 a year (₹5,00,000 if the employer does not contribute). Interest on anything above is taxable every year, which matters mainly for large VPF contributions.
+- Withdrawals after 5 years of continuous service are tax-free.
+
+Withdrawals
+- Partial withdrawals are allowed for specific needs such as a house purchase or construction, medical treatment, marriage, children's education or unemployment; the rules and limits are set by EPFO and were simplified in 2025. Apply online on the EPFO member portal with your UAN.
+- Full withdrawal is allowed at retirement (58) or after two months of unemployment.
+- Avoid withdrawing when you change jobs; transfer the balance to the new employer instead, so compounding and the 5-year tax rule continue.
+
+Keeping it in order
+- Your UAN (Universal Account Number) stays the same across jobs; link it to Aadhaar, PAN and your bank account.
+- Check your passbook on the EPFO portal or UMANG app to make sure your employer deposits every month.
+- Add or update nominees online.
+
+Sources
+- EPFO: https://www.epfindia.gov.in/
+- EPFO member portal: https://unifiedportal-mem.epfindia.gov.in/
+- EPF rate 8.25% for FY 2025-26: https://theprint.in/economy/govt-ratifies-8-25-pc-epf-interest-rate-for-fy26-to-be-credited-this-month/2963099/

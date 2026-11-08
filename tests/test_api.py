@@ -192,6 +192,6 @@ def test_library_documents_are_readable_by_name_only(client):
 
 def test_keyword_retrieval_handles_short_questions():
     from finadvisor.api.runtime import keyword
-    assert keyword("What is ELSS?", 3)[0]["title"].startswith("ELSS")      # one content word is enough
-    assert keyword("How does PPF work?", 3)[0]["title"].startswith("PPF")
+    assert keyword("What is ELSS?", 3)[0]["source"] == "03_elss_equity_linked_savings.txt"   # one content word is enough
+    assert keyword("How does PPF work?", 3)[0]["source"] == "02_ppf_public_provident_fund.txt"
     assert keyword("what is the meaning of life", 3) == []                  # no match -> honest "not found"

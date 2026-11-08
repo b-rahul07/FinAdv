@@ -1,0 +1,37 @@
+Where to Complain: Investor and Customer Protection
+Last checked: 2026-11-08
+
+Start with the company
+Always complain first to the bank, broker, fund house, insurer or pension fund in writing (email or their grievance portal) and keep the reference number. Each regulated company has a grievance officer whose details are on its website. Regulators expect you to give the company a chance first, usually 21 to 30 days.
+
+Securities and mutual funds: SEBI SCORES
+- SCORES 2.0 (scores.sebi.gov.in or the SCORES app) handles complaints against brokers, depository participants, mutual funds, listed companies, investment advisers and research analysts.
+- File within one year of the problem. The company must reply within 21 days; if you're not satisfied, you can ask for a review, and SEBI itself then looks at it.
+- For disputes about money, SEBI's Online Dispute Resolution (SMART ODR) portal offers conciliation and arbitration.
+- SEBI helpline: 1800 22 7575 or 1800 266 7575.
+
+Banks, NBFCs and digital payments: RBI Ombudsman
+If your bank, NBFC or payment app doesn't resolve your complaint within 30 days, or you're unhappy with the reply, file under the RBI Integrated Ombudsman Scheme at cms.rbi.org.in. It covers deficiencies in service, wrong charges, card and UPI problems, loan issues and recovery-agent harassment. It is free.
+
+Insurance: IRDAI
+Use the insurer's grievance cell, then IRDAI's Bima Bharosa portal (bimabharosa.irdai.gov.in). For claim disputes up to a set limit, the Insurance Ombudsman can decide, free of charge.
+
+Pensions: PFRDA
+NPS complaints go through the Centralised Grievance Management System on the NPS website (CRA portal).
+
+Online fraud
+- Call 1930 (the national cybercrime helpline) immediately after a fraudulent transfer; quick reporting gives the best chance of freezing the money.
+- Report at cybercrime.gov.in and inform your bank to block cards or UPI.
+- Under RBI rules, if you report an unauthorised electronic transaction within 3 days and it wasn't your fault, your liability is zero.
+
+Check before you invest
+- Investment advisers and research analysts must be registered with SEBI; check the name and registration number on SEBI's website before taking advice or paying fees.
+- Brokers and mutual fund distributors must be registered (distributors have an ARN from AMFI).
+- Advice from an unregistered person, including many social-media "finfluencers", has none of these protections.
+
+Sources
+- SEBI SCORES: https://scores.sebi.gov.in/
+- SEBI investor website: https://investor.sebi.gov.in/
+- RBI complaint management system: https://cms.rbi.org.in/
+- IRDAI Bima Bharosa: https://bimabharosa.irdai.gov.in/
+- National Cyber Crime Reporting Portal: https://cybercrime.gov.in/

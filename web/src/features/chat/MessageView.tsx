@@ -1,6 +1,6 @@
 import { Check, ChevronDown, Copy, Loader2, RefreshCw, ThumbsDown, ThumbsUp } from "lucide-react";
 import { memo, useState } from "react";
-import ReactMarkdown from "react-markdown";
+import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { toast } from "sonner";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -9,6 +9,7 @@ import type { Card, FollowupsCard, Stage } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { GoalView, HealthCheckView, NotYetView, PlanView } from "./cards/AdviceCards";
 import { EvidenceView } from "./cards/EvidenceView";
+import { FundFinderView } from "./cards/FundFinderView";
 import { ChatProfileCard, ChatQuestionnaireCard } from "./cards/ProfileCards";
 import { WhatIfView } from "./cards/WhatIfView";
 import type { LiveMessage } from "./useChat";
@@ -25,6 +26,16 @@ const STAGE_LABEL: Record<string, string> = {
 
 const ROUTE_LABEL: Record<string, string> = { learn: "Learn", plan: "Plan", check: "Check" };
 
+/** Links in answers (official calculators, regulators) open in a new tab so the chat stays open. */
+const MD: Components = {
+  a: ({ href, children }) => (
+    <a href={href} target="_blank" rel="noopener noreferrer" className="font-semibold text-primary underline-offset-2 hover:underline">
+      {children}
+      <span className="sr-only"> (opens in a new tab)</span>
+    </a>
+  ),
+};
+
 export function CardView({ card, onAsk }: { card: Card; onAsk: (text: string) => void }) {
   switch (card.type) {
     case "health_check":
@@ -40,6 +51,8 @@ export function CardView({ card, onAsk }: { card: Card; onAsk: (text: string) =>
       return "sliders" in card ? <WhatIfView card={card} /> : null;
     case "evidence":
       return <EvidenceView card={card} />;
+    case "fund_finder":
+      return <FundFinderView card={card} />;
     case "profile":
       return <ChatProfileCard card={card} onConfirmed={() => onAsk("Build my plan with my confirmed profile")} />;
     case "questionnaire":
@@ -85,7 +98,7 @@ export const MessageView = memo(function MessageView({ m, isLast, onRegenerate, 
       {streaming && <Stages stages={m.stages ?? []} />}
       {m.content && (
         <div className="prose-chat">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{m.content}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]} components={MD}>{m.content}</ReactMarkdown>
           {streaming && <span className="ml-0.5 inline-block h-4 w-1.5 animate-pulse rounded-sm bg-foreground/60 align-middle motion-reduce:animate-none" aria-hidden />}
         </div>
       )}

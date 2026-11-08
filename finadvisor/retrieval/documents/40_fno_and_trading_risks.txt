@@ -1,0 +1,25 @@
+Futures & Options (F&O) and Intraday Trading: The Risks
+Last checked: 2026-11-08
+
+What F&O is
+Futures and options are derivative contracts on an index or a share. You put up only a margin, a fraction of the contract's value, so gains and losses are multiplied (leverage). Options can lose their entire value within days or hours as expiry approaches. These are tools for hedging and for professional traders; for most individuals they are closer to betting than investing.
+
+What SEBI's studies found
+SEBI studied individual F&O traders across years. It found that over 91% of individual traders lost money in FY 2024-25, and 87.7% in FY 2025-26. The losses were large on average, and transaction costs (brokerage, exchange charges, taxes) took a big share even from those who broke even. Most traders who continued after losing kept losing. Intraday cash trading shows a similar pattern in SEBI's research.
+
+Steps regulators have taken
+Since late 2024, SEBI has raised the minimum contract size, reduced the number of weekly expiries, required more upfront margin and tightened position monitoring, to curb speculative trading by individuals. Taxes on derivative trades (securities transaction tax) have also been raised in recent budgets.
+
+Why FinAdvisor never plans F&O
+FinAdvisor plans only suitable, diversified products. F&O and intraday trading are never part of a FinAdvisor plan, whatever your risk level, because the expected outcome for individuals is a loss.
+
+If you want market growth
+A Nifty 50 index fund or a flexi-cap fund gives exposure to India's stock market growth without leverage, at a low cost, and lets time work for you. If you still want to try trading, use only a small amount you can afford to lose completely, never borrowed money or your emergency fund, and stop if you're losing.
+
+Watch out for
+- Courses, tip groups and apps promising consistent trading profits; SEBI rules bar registered entities from associating with unregistered people who promise returns.
+- "Options selling is safe" claims: selling options can cause losses far bigger than the premium earned.
+
+Sources
+- SEBI, studies on profit and loss of individual traders in equity derivatives: https://www.sebi.gov.in/
+- SEBI F&O study FY26 summary: https://taxguru.in/?p=1072039

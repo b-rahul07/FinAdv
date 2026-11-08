@@ -1,0 +1,65 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "API",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["finadvisor.api.app:app", "--port", "8000"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "serverReadyAction": {
+        "pattern": "Application startup complete",
+        "uriFormat": "http://localhost:5173",
+        "action": "openExternally"
+      }
+    },
+    {
+      "name": "Website",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev",
+      "cwd": "${workspaceFolder}/web"
+    },
+    {
+      "name": "API + website (public)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["finadvisor.api.app:app", "--port", "8000"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      // APP_ENV=prod refuses the local any-email sign-in: the public link must use real Supabase sign-in
+      // CORS: the website on Vercel calls this API from the browser
+      "env": {
+        "SERVE_WEB": "true", "APP_ENV": "prod",
+        "CORS_ORIGINS": "https://finadvisor-india.vercel.app,https://finadvisor-kappa.vercel.app,http://localhost:5173"
+      }
+    },
+    {
+      "name": "Public link",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "tailscale funnel 8000",
+      "cwd": "${workspaceFolder}"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "FinAdvisor (API + website)",
+      "configurations": ["API", "Website"],
+      "preLaunchTask": "Prepare FinAdvisor",
+      "stopAll": true
+    },
+    {
+      // Online only while this runs: the red stop button ends the public link too
+      "name": "FinAdvisor online (public link)",
+      "configurations": ["API + website (public)", "Public link"],
+      "preLaunchTask": "Build website for the public link",
+      "stopAll": true
+    }
+  ]
+}

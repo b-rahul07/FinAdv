@@ -1,0 +1,35 @@
+Retirement Planning
+Last checked: 2026-11-08
+
+Why start in your 20s and 30s
+Retirement is usually the biggest and longest goal you'll have: 25 to 30 years of expenses with no salary, while prices keep rising. Money invested early has decades to compound, so small monthly amounts started early do the work that would need very large amounts later.
+
+How much money you need to retire
+1. Estimate yearly expenses in retirement in today's money (often 70% to 80% of current expenses, plus higher healthcare costs).
+2. Inflate them to your retirement year; at 6% inflation, costs roughly triple in 20 years.
+3. A rough guide is a corpus of 25 to 30 times your first-year retirement expenses, invested sensibly so it lasts. This is a starting point, not a precise rule; longer lives and lower returns need more.
+FinAdvisor's retirement goal does this arithmetic for you: add the amount you'd want in today's money and the years left, and the plan shows the monthly amount and whether you're on track.
+
+Where retirement money usually comes from
+- EPF (and VPF): automatic, safe, 8.25% for FY 2025-26; don't withdraw it when changing jobs.
+- NPS: low-cost, locked until 60, extra tax benefits, part must buy a pension.
+- PPF: safe, tax-free, 15 years and extendable.
+- Equity funds (index or flexi-cap) for growth over decades, if your risk level allows.
+Safe products alone often struggle to beat inflation over 30 years; equity adds growth, with ups and downs that a long horizon can absorb.
+
+As retirement gets closer
+- Move gradually from equity towards debt over the last 5 to 10 years, so a crash right before retiring can't derail you.
+- Keep 1 to 2 years of expenses in very safe, easy-to-reach places once retired.
+- Retirees often combine SCSS, the Post Office Monthly Income Scheme, an annuity, debt funds and some equity for income that keeps up with inflation.
+- Health insurance becomes more important with age; keep your own policy going, as employer cover ends at retirement.
+
+Common mistakes
+- Using retirement savings (EPF, NPS) for other goals.
+- Relying only on children or property for old age.
+- Assuming expenses will fall a lot; healthcare and inflation often push them up.
+- Stopping investments during market falls.
+
+Sources
+- EPFO: https://www.epfindia.gov.in/
+- PFRDA and NPS Trust: https://npstrust.org.in/
+- SEBI investor education: https://investor.sebi.gov.in/

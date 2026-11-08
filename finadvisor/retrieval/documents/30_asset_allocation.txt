@@ -1,0 +1,30 @@
+Asset Allocation and Rebalancing
+Last checked: 2026-11-08
+
+What asset allocation means
+Asset allocation is how you split your money between asset types: equity (shares and equity funds), debt (FDs, PPF, EPF, debt funds), gold and cash. It decides most of your portfolio's long-term return and how much it can fall in a bad year, much more than which individual fund you pick.
+
+What decides your mix
+- Time until you need the money: the main factor. Money needed within 3 years belongs in safe debt and cash; 3 to 7 years can mix in some equity; 7 years or more can hold mostly equity if your risk level allows.
+- Capacity for loss: your emergency fund, insurance, debts and dependants decide how big a fall you can afford.
+- Willingness to take risk: how you would actually feel and act in a crash.
+FinAdvisor sets your risk level as the lower of your capacity and your willingness, and builds a separate mix for each goal based on its horizon.
+
+Rules of thumb, used with care
+Formulas like "100 minus your age in equity" are rough starting points, not advice for your situation. A 25-year-old saving for a home in 3 years needs a cautious mix for that goal, even if their retirement money can be mostly equity.
+
+Diversify inside each asset
+- Equity: a broad index fund or a flexi-cap fund spreads money over many companies; adding many similar funds doesn't add diversification.
+- Debt: mix EPF, PPF and short-duration funds or FDs; avoid lending all your money to one company.
+- Gold: a small share, usually 5% to 10%.
+Individual shares concentrate risk; keep them a small part if you hold any.
+
+Rebalancing
+Over time, the asset that rises most takes up a bigger share than planned. Rebalancing brings the mix back to target, which quietly makes you sell some of what went up and buy what fell.
+- When: once a year, or when an asset drifts more than about 5 percentage points from target.
+- How: first redirect new SIPs towards the asset that is below target; sell only if needed, since selling can create tax.
+- As a goal gets close, shift gradually from equity to debt (a "glide path") so a late crash can't derail it.
+
+Sources
+- SEBI investor education: https://investor.sebi.gov.in/
+- AMFI investor corner: https://www.amfiindia.com/investor-corner

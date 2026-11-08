@@ -1,0 +1,26 @@
+Cryptocurrency in India
+Last checked: 2026-11-08
+
+Legal status
+Buying and selling cryptocurrency (Bitcoin, Ethereum and others) is not banned in India, but crypto is not legal tender and is not regulated as an investment by SEBI or the RBI. The RBI has repeatedly warned about its risks. Exchanges serving Indian users must register with the Financial Intelligence Unit (FIU-IND) for anti-money-laundering rules; that registration doesn't protect your money.
+
+Tax
+- Gains on crypto and other virtual digital assets are taxed at a flat 30% (plus cess), regardless of your income or how long you held them.
+- Only the purchase cost can be deducted; no other expenses.
+- Losses on one crypto cannot be set off against gains on another, or against any other income, and cannot be carried forward.
+- 1% TDS is deducted on sales above set thresholds, even if you made a loss.
+- Gifts of crypto can be taxed in the receiver's hands.
+
+The risks
+- Extreme price swings: falls of 50% to 80% have happened several times.
+- No investor protection: if an exchange is hacked or shuts down, there is no regulator or deposit insurance to help.
+- Scams: fake exchanges, "crypto trading bots", pump-and-dump coins and romance-investment frauds are common.
+- No underlying earnings or interest to value most coins on.
+
+FinAdvisor's view
+FinAdvisor never includes crypto in a plan, because it is unregulated and its risk can't be matched to anyone's capacity for loss. If you decide to buy some anyway, treat it as money you can afford to lose entirely, keep it to a very small share of your savings, use a FIU-registered exchange, and never use borrowed money or your emergency fund.
+
+Sources
+- RBI statements on virtual currencies: https://www.rbi.org.in/
+- Income Tax Department, virtual digital assets: https://www.incometax.gov.in/iec/foportal/
+- FIU-IND: https://fiuindia.gov.in/

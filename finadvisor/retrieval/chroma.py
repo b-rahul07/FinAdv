@@ -1,6 +1,7 @@
 """Two-stage search over the document library (from the earlier prototype's retrieval module).
 
-Stage 1: dense vector search in ChromaDB (all-MiniLM-L6-v2 embeddings) returns 3x the wanted number of chunks.
+Guides are split by section (finadvisor/retrieval/chunks.py), each piece labelled with its guide and heading.
+Stage 1: dense vector search in ChromaDB returns 3x the wanted number of pieces.
 Stage 2: a cross-encoder (ms-marco-MiniLM-L-6-v2) rescores each (query, chunk) pair and the best are kept.
 
 The index lives in data/chroma_db and is rebuilt with `python scripts/build_index.py` after the documents change.
@@ -9,25 +10,14 @@ Needs the `rag` extra (chromadb, sentence-transformers); the API falls back to k
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from pathlib import Path
-
 from finadvisor.retrieval import DOCS_DIR
+from finadvisor.retrieval.chunks import Chunk, chunk_file
 from finadvisor.settings import ROOT
 
 PERSIST_DIR = ROOT / "data" / "chroma_db"
 COLLECTION = "finadvisor_docs"
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 RERANKER = "cross-encoder/ms-marco-MiniLM-L-6-v2"
-CHUNK_SIZE, CHUNK_OVERLAP = 512, 64       # characters
-
-
-@dataclass
-class Chunk:
-    chunk_id: str          # "{file}_chunk{n}", stable for citations
-    document_name: str
-    content: str
-    relevance_score: float = 0.0
 
 
 _collection = None
@@ -47,19 +37,6 @@ def _open(reset: bool = False):
     ef = embedding_functions.SentenceTransformerEmbeddingFunction(model_name=EMBEDDING_MODEL)
     _collection = client.get_or_create_collection(name=COLLECTION, embedding_function=ef)
     return _collection
-
-
-def chunk_file(path: Path) -> list[Chunk]:
-    """Overlapping character windows, so sentences on a boundary appear whole in one chunk."""
-    text = path.read_text(encoding="utf-8")
-    out, start, n, step = [], 0, 0, CHUNK_SIZE - CHUNK_OVERLAP
-    while start < len(text):
-        piece = text[start:start + CHUNK_SIZE].strip()
-        if piece:
-            out.append(Chunk(f"{path.name}_chunk{n}", path.name, piece))
-            n += 1
-        start += step
-    return out
 
 
 def build_index() -> int:

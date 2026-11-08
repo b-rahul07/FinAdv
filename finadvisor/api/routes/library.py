@@ -9,13 +9,15 @@ from fastapi import APIRouter, Depends, HTTPException
 from finadvisor.api.deps import Current, current
 from finadvisor.api.runtime import _title
 from finadvisor.retrieval import DOCS_DIR as DOCS
+from finadvisor.retrieval.chunks import last_checked
 
 router = APIRouter(prefix="/api/library", tags=["library"])
 
 
 def _updated(f) -> str:
-    """The guide's last edit (file time), shown so readers know how old its rates and limits may be."""
-    return datetime.fromtimestamp(f.stat().st_mtime, timezone.utc).date().isoformat()
+    """When the guide's facts were last checked (its "Last checked:" line, else the file time), shown so readers know
+    how old its rates and limits may be."""
+    return last_checked(f.name) or datetime.fromtimestamp(f.stat().st_mtime, timezone.utc).date().isoformat()
 
 
 @router.get("")

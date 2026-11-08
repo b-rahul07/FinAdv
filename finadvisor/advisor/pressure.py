@@ -47,11 +47,17 @@ class PressureReading:
         return bool(self.types) or self.persistent
 
 
+# Repaying a loan you already have ("prepay my personal loan") is not a wish to take a new EMI.
+REPAY = re.compile(r"prepay|pre-pay|pay (it |them )?off|close (my |the )?loan|foreclos|part[- ]?pay|repay", re.I)
+
+
 def products_in(text: str) -> list[str]:
     seen = []
     for pid, pat in PRODUCT_WORDS:
         if pat.search(text) and pid not in seen:
             seen.append(pid)
+    if REPAY.search(text):
+        seen = [p for p in seen if p != "new_emi"]
     return seen
 
 

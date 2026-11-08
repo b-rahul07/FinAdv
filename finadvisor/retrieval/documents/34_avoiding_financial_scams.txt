@@ -1,0 +1,33 @@
+Avoiding Financial Scams
+Last checked: 2026-11-08
+
+The warning signs
+- Guaranteed high returns ("5% a month", "double in a year"). Nothing legitimate guarantees returns far above FD rates.
+- Pressure to act now, secrecy, or a "limited slot".
+- Unregistered tipsters on WhatsApp, Telegram or Instagram selling "sure-shot" stock calls or courses with trading tips.
+- Requests to install an app, share your screen, or move money to a personal UPI ID or someone else's account.
+- Anyone asking for OTPs, PINs, passwords or card CVVs. No bank, regulator or police officer ever needs them.
+
+Common scams in India
+- Fake trading and investment apps: show big "profits" on screen, then demand fees or taxes before you can withdraw, and disappear.
+- Pump-and-dump groups: promoters push a small stock in a chat group, then sell to the members.
+- Ponzi and chit schemes: early investors are paid from new investors' money until it collapses.
+- "Digital arrest" calls: fraudsters posing as police, CBI, customs or courier companies claim you're under investigation and demand money. Police never arrest anyone over a video call.
+- KYC-update and electricity-bill messages with links that steal your banking details.
+- UPI collect requests: you never need to enter your PIN to receive money.
+- Fake loan apps that charge huge fees and harass borrowers; legitimate digital loans come only from RBI-regulated banks and NBFCs.
+
+Protect yourself
+1. Invest only through SEBI-registered brokers, AMFI-registered distributors, fund houses and banks; check registrations on SEBI's website.
+2. Take advice only from SEBI-registered investment advisers or research analysts. SEBI rules stop registered entities from working with unregistered finfluencers who give advice or promise returns.
+3. Download apps only from official app stores and check the publisher.
+4. Enable SMS and email alerts on all accounts, and set limits on UPI and card transactions.
+5. If an offer sounds too good to be true, it is.
+
+If it happens to you
+Call 1930 immediately and report at cybercrime.gov.in, inform your bank to block cards and UPI, and keep screenshots and transaction IDs. Reporting within hours gives the best chance of recovering money. See FinAdvisor's guide on where to complain.
+
+Sources
+- SEBI investor website (alerts and registered intermediaries): https://investor.sebi.gov.in/
+- RBI, "RBI Kehta Hai" awareness: https://rbikehtahai.rbi.org.in/
+- National Cyber Crime Reporting Portal: https://cybercrime.gov.in/

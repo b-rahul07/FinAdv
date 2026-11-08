@@ -38,6 +38,18 @@ def sip_needed(target_fv: float, annual_pct: float, months: int, already_saved: 
     return gap / (((1 + i) ** months - 1) / i * (1 + i))
 
 
+def months_to_target(monthly: float, annual_pct: float, target_today: float, inflation_pct: float,
+                     already_saved: float = 0.0, start_month: int = 1, max_months: int = 720) -> int | None:
+    """Months from now until savings reach a target that grows with inflation, investing `monthly` from
+    `start_month`. None if it isn't reached within `max_months` (60 years)."""
+    for n in range(1, max_months + 1):
+        paid = max(0, n - (start_month - 1))
+        have = fv_sip(monthly, annual_pct, paid) + fv_lump(already_saved, annual_pct, n / 12)
+        if have >= inflate(target_today, inflation_pct, n / 12):
+            return n
+    return None
+
+
 def months_to_save(gap: float, monthly: float) -> int:
     """Months of a fixed monthly amount needed to cover a gap, without growth (used for priority steps)."""
     if gap <= 0:

@@ -1,0 +1,33 @@
+Capital Gains Tax on Investments (FY 2026-27)
+Last checked: 2026-11-08
+
+What a capital gain is
+When you sell an investment for more than you paid, the profit is a capital gain. It is "short-term" or "long-term" depending on how long you held it, and the tax depends on both the asset and the holding period. You pay tax only when you sell (redeem), not while you hold. The rates below have applied since 23 July 2024 and continue under the Income-tax Act, 2025.
+
+Listed shares and equity mutual funds (including ELSS and index funds)
+- Held 12 months or less: short-term capital gains (STCG), taxed at 20%.
+- Held more than 12 months: long-term capital gains (LTCG). The first ₹1,25,000 (₹1.25 lakh) of LTCG in a year, across all such investments together, is exempt from tax; the rest is taxed at 12.5%.
+- Securities transaction tax (STT) is charged when you buy or sell.
+
+Debt mutual funds
+Units bought on or after 1 April 2023 are taxed at your income-tax slab rate whatever the holding period, the same as FD interest. Older units have their own rules.
+
+Gold
+- Gold ETFs: long-term after 12 months, taxed at 12.5%; within 12 months at your slab rate.
+- Gold mutual funds (fund of funds) and physical gold or jewellery: long-term after 24 months at 12.5%; earlier at your slab rate.
+Sources describe the exact gold fund rules slightly differently, so check before a large sale.
+
+Property
+Long-term after 24 months, taxed at 12.5%. Special rules apply to property bought before 23 July 2024.
+
+Useful points
+- Long-term gains up to ₹1,25,000 a year on equity are tax-free, so selling and rebuying ("harvesting") some gains each year can reduce future tax. Many investors do this in March.
+- Losses can be set off: short-term losses against short- or long-term gains; long-term losses only against long-term gains, carried forward up to 8 years if you file your return on time.
+- Each SIP instalment is a separate purchase with its own holding period.
+- Switching from a Regular to a Direct plan, or between funds, counts as selling and can create tax.
+- The ₹12 lakh zero-tax rebate in the new regime does not apply to these special-rate gains.
+
+Sources
+- Income Tax Department: https://www.incometax.gov.in/iec/foportal/
+- Capital gains across investments (September 2026): https://www.businesstoday.in/personal-finance/story/how-different-assets-are-taxed-a-look-at-capital-gains-rules-across-investments-552385-2026-09-02
+- Gold ETF and gold fund tax rules: https://taxguru.in/income-tax/new-income-tax-rules-sale-gold-etf-gold-mutual-funds.html

@@ -1,0 +1,36 @@
+Mutual Fund Basics
+Last checked: 2026-11-08
+
+What a mutual fund is
+A mutual fund pools money from many investors and invests it in shares, bonds or money-market instruments, managed by a professional fund house (AMC) and regulated by SEBI. You own units; the value of each unit is the NAV (net asset value), calculated every business day after markets close. Funds can hold hundreds of companies or bonds, so even a small SIP gets wide diversification.
+
+Main types
+- Equity funds: invest mainly in shares (large cap, mid cap, small cap, flexi cap, ELSS, index funds). Highest growth potential, biggest ups and downs; for goals 5 to 7+ years away.
+- Debt funds: invest in bonds and money-market instruments (liquid, overnight, short duration, gilt, corporate bond). Steadier, for shorter goals and emergency money.
+- Hybrid funds: mix shares and bonds (balanced advantage, aggressive hybrid, equity savings).
+- Index funds and ETFs: copy an index such as the Nifty 50 at very low cost.
+- Solution-oriented and fund-of-funds: retirement or children's funds, gold funds, international funds.
+
+Direct or Regular plan?
+Every scheme comes in a Direct plan and a Regular plan with the same portfolio. The Regular plan pays a commission to the distributor out of its expense ratio, so its returns are lower every year, typically by 0.5 to 1 percentage point. Over 20 years that difference can reduce your final amount by a tenth or more. Direct plans are bought on the fund house's own website or app, on MF Central, or through a SEBI-registered investment adviser.
+
+Growth or IDCW?
+- Growth: profits stay invested and compound. Best for most long-term investors.
+- IDCW (Income Distribution cum Capital Withdrawal, formerly "dividend"): the fund pays out part of your own money from time to time, taxed at your slab rate. It is not extra income.
+
+Costs to know
+- Expense ratio (TER): a yearly fee taken daily from the NAV; lower is better, especially for index funds. AMFI publishes every scheme's expense ratio.
+- Exit load: a fee if you sell within a set period (often 1% within a year for equity funds; a small charge within 7 days for liquid funds).
+- No entry load is charged on any mutual fund in India.
+
+How to read a fund
+Check the category, the riskometer, the expense ratio, the fund's age and long-term consistency compared with its benchmark. Past returns, especially last year's, don't predict future returns. One or two funds per category are enough.
+
+Getting started
+Complete KYC once, choose the fund and plan, then invest by SIP or lump sum. Your holdings across all fund houses appear in a monthly Consolidated Account Statement (CAS) from CAMS and KFintech or the depositories.
+
+Sources
+- AMFI, investor corner: https://www.amfiindia.com/investor-corner
+- AMFI, expense ratios of all schemes: https://www.amfiindia.com/ter-of-mf-schemes
+- SEBI investor website: https://investor.sebi.gov.in/
+- MF Central: https://www.mfcentral.com/

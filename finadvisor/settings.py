@@ -26,10 +26,11 @@ class Settings(BaseSettings):
     supabase_jwt_secret: str = ""                 # legacy HS256 projects; newer projects use JWKS
     dev_auth_secret: str = "dev-only-signing-key-not-a-secret-0000"
 
-    ollama_base_url: str = "http://localhost:11434"
+    ollama_base_url: str = "http://127.0.0.1:11434"
     model_name: str = "website"                   # key in configs/models.yaml
     retrieval: str = "chroma"                     # chroma | keyword
     news: str = "rss"                             # rss (ET Markets + Moneycontrol, FinBERT mood) | off
+    serve_web: bool = False                       # also serve the built website (web/dist) from the API, one address
 
     def check(self) -> None:
         if self.app_env == "prod" and self.auth_mode == "dev":

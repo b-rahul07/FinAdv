@@ -67,4 +67,5 @@ Experiment inputs must be synthetic; real users' data never goes to a third-part
 
 ## Deployment
 
-Frontend on Cloudflare Pages, API and model on a free VM, database and sign-in on Supabase. See `docs/DEPLOY.md`.
+Website on Vercel (https://finadvisor-india.vercel.app); the API and model run on a laptop behind a Tailscale Funnel
+link, online while it runs; database and sign-in on Supabase. See `docs/DEPLOY.md`.

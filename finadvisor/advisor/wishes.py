@@ -18,6 +18,7 @@ import hashlib
 from pathlib import Path
 
 from finadvisor.advisor.gate import RISK_LABEL
+from finadvisor.calc.money import inr
 
 SAFETY_RULES = {"R1", "R2", "R3", "R4", "R5"}
 
@@ -100,6 +101,20 @@ def _first_step(card: dict, rule_ids: set[str], safety_only: bool) -> str | None
     return None
 
 
+def _emi_answer(card: dict) -> str:
+    cap = card["emi_cap"]
+    if card.get("new_emi"):
+        return (f"An EMI of {inr(card['new_emi'])} would take your EMIs from {card['emi_ratio_now']:.0%} to "
+                f"{card['emi_ratio_after']:.0%} of take-home pay; the safe limit is {cap:.0%}.")
+    if card["emi_room"] <= 0:
+        return (f"Your EMIs already take {card['emi_ratio_now']:.0%} of take-home pay, at or above the safe limit of "
+                f"{cap:.0%}, so there's no room for a new EMI.")
+    now = ("You have no EMIs now" if card["emi_ratio_now"] <= 0 else
+           f"Your EMIs take {card['emi_ratio_now']:.0%} of take-home pay now")
+    return (f"{now}, so a new EMI can be at most {inr(card['emi_room'])} a month before all EMIs pass the safe limit of "
+            f"{cap:.0%}. Tell me the EMI amount and I'll check it against your plan.")
+
+
 def frame(card: dict, decisions: dict, rule_ids: set[str], bundle, in_plan: list[str] | None = None,
           pressure_types: list[str] | None = None, goal_years: list[float] | None = None) -> dict:
     """Returns {"answer", "advice", "severity"}: the two paragraphs that open the reply.
@@ -113,7 +128,9 @@ def frame(card: dict, decisions: dict, rule_ids: set[str], bundle, in_plan: list
     idx = decisions.get("large_cap_index_fund")
     alt = INDEX_ALT[_status(idx)].format(risk=RISK_LABEL.get(idx.product.get("riskometer"), "") if idx else "")
     verdict = card["verdict"]
-    if pid in ABOUT:
+    if pid == "new_emi" and "emi_room" in card:
+        answer = _emi_answer(card)
+    elif pid in ABOUT:
         fact = bundle.assumptions["facts"]["fno_losses"]["text"] if pid == "fno" else ""
         answer = ABOUT[pid].format(alt=alt, fact=fact)
     else:
@@ -166,6 +183,9 @@ def frame(card: dict, decisions: dict, rule_ids: set[str], bundle, in_plan: list
     elif missing and need_years:
         advice = (f"I'd suggest keeping most of your stock market money in the plan's diversified funds; if you add "
                   f"{phrase}, keep them a small part of goals at least {need_years} years away.")
+    elif pid == "new_emi":
+        advice = ("If you go ahead, keep the EMI well below that limit and compare the total you'd pay, including interest "
+                  "and any processing fee, with paying from savings you've built for it.")
     elif in_plan is not None:
         advice = "I'd suggest keeping them at the share your plan below gives them, so they fit alongside everything else."
     else:

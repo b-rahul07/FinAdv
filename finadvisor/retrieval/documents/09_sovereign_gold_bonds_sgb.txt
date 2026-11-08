@@ -1,32 +1,27 @@
-Sovereign Gold Bonds (SGB) — Complete Guide
+Sovereign Gold Bonds (SGBs)
+Last checked: 2026-11-08
 
-Overview
-Sovereign Gold Bonds (SGBs) are government securities denominated in grams of gold. They are issued by the Reserve Bank of India (RBI) on behalf of the Government of India and offer an alternative to holding physical gold.
+No new issues
+The government has not issued any new Sovereign Gold Bond tranche since February 2024, and no issue calendar has been announced for 2026-27. You can no longer buy SGBs from the RBI or banks. Existing bonds can still be bought and sold on the stock exchanges (NSE, BSE) through a demat account, usually at a price close to the gold price, though trading volumes can be thin.
 
-Key Features
-- Investors pay the issue price in cash, and the bonds are redeemed in cash on maturity.
-- Issued in denominations of 1 gram of gold and multiples thereof.
-- Minimum investment: 1 gram.
-- Maximum limit: 4 kg for individuals, 4 kg for HUFs, and 20 kg for trusts and similar entities per financial year.
+How the bonds work
+- Each bond represents one gram of gold and is issued by the RBI on behalf of the Government of India.
+- The tenure is 8 years. At maturity you receive the then-current gold price in rupees, not physical gold.
+- They pay 2.5% a year interest on the issue price, every six months. This interest is taxable at your slab rate.
 
-Interest Rate
-- SGBs bear interest at a fixed rate (currently 2.50% per annum on the amount of initial investment).
-- Interest is credited semi-annually to the bank account of the investor.
+Early redemption
+Bonds can be redeemed early through the RBI after 5 years from the issue date, only on interest-payment dates in the redemption window that the RBI announces for each tranche. Several older tranches have early-redemption windows during 2026. You apply through the bank, post office or broker where you hold the bond.
 
-Tenure and Premature Redemption
-- The tenure of the bond is 8 years.
-- Premature encashment/redemption is allowed after the 5th year from the date of issue, on coupon payment dates.
+Tax
+Capital gains on redemption at maturity by an individual have been tax-free. The tax treatment of early redemptions and exchange sales differs and was reported to have changed in 2026, so check the current rules before selling. Gains on sale on the exchange after 12 months are long-term.
 
-Tax Implications
-- Interest on the bonds is taxable as per the provision of the Income Tax Act, 1961 (slab rate).
-- Capital gains tax arising on redemption of SGB to an individual has been exempted. The exemption on capital gains is one of the biggest advantages of holding SGBs till maturity.
-- If transferred before maturity (e.g., sold on exchanges), long-term capital gains (if held for >36 months) are taxed at 12.5% without indexation (as per new budget).
+If you hold SGBs
+Holding to maturity keeps the interest and the tax benefit. Selling on the exchange gives liquidity but may be at a small discount to the gold price.
 
-Tradability
-- Bonds are tradable on stock exchanges within a fortnight of the issuance on a date as notified by the RBI.
+If you want gold now
+Gold ETFs and gold mutual funds (fund of funds) are the simplest regulated ways to add gold today. See FinAdvisor's guide on gold investment options. Most plans keep gold to a small part of long-term money (around 5% to 10%).
 
-Advantages Over Physical Gold
-- No making charges or GST at the time of purchase.
-- No risk and cost of storage (theft risk).
-- Earns guaranteed interest in addition to gold price appreciation.
-- Exempt from capital gains tax upon maturity.
+Sources
+- RBI, Sovereign Gold Bond FAQs: https://www.rbi.org.in/
+- SGB scheme discontinued for new issues: https://goldenpi.com/blog/bond-news/sovereign-gold-bond-scheme-discontinued-for-new-issues/
+- SGB status and early redemption: https://cleartax.in/s/sovereign-gold-bonds

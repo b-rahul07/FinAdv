@@ -7,7 +7,8 @@
 !**/.env.example
 
 # Local data, caches and results (user data never leaves the machine)
-data/
+# Only the top-level dev data; experiments/data holds the synthetic research inputs
+/data/
 results/
 FinAdvisor_Report_Overleaf/
 report/
@@ -28,8 +29,11 @@ web/dist/
 *.tsbuildinfo
 
 # Editors and OS
-.vscode/
+.vscode/*
+!.vscode/launch.json
+!.vscode/tasks.json
 .idea/
 .DS_Store
 Thumbs.db
 *.log
+

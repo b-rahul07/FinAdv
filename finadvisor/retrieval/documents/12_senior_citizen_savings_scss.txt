@@ -1,37 +1,33 @@
-Senior Citizen Savings Scheme (SCSS) — Complete Guide
+Senior Citizens' Savings Scheme (SCSS)
+Last checked: 2026-11-08
 
-Overview
-The Senior Citizen Savings Scheme (SCSS) is a government-backed retirement benefits program designed to provide a regular income stream to senior citizens in India with a high level of safety.
+What it is
+SCSS is a government-backed savings scheme for retirees that pays a fixed interest every quarter. It is among the safest sources of regular income for older people and is available at post offices and authorised banks. If your parents are retired, it is often one of the first products to look at for them.
 
-Eligibility
-- Individuals aged 60 years or above.
-- Retirees aged between 55 and 60 years who have retired under Voluntary Retirement Scheme (VRS) or Superannuation, provided the account is opened within one month of receiving retirement benefits.
-- Retired defense personnel aged 50 years and above.
-- NRIs and HUFs are NOT eligible to open SCSS accounts.
+Who can open it
+- Anyone aged 60 or above.
+- People aged 55 to 60 who retired under voluntary or superannuation retirement, if they invest within a month of receiving retirement benefits.
+- Retired defence personnel from age 50, under similar conditions.
+An account can be single or joint with a spouse.
 
-Deposit Limits
-- Minimum deposit: ₹1,000
-- Maximum deposit: ₹30,00,000 (increased from ₹15 lakh in Budget 2023).
-- Deposits can only be made in multiples of ₹1,000.
-- An individual can open multiple accounts, but the combined balance across all accounts cannot exceed the maximum limit.
+Interest rate and payout
+For October to December 2026 the rate is 8.2% a year, paid quarterly. The rate is fixed for the whole term on the day you invest, even if later quarters change. Interest not withdrawn does not earn extra interest, so it suits people who need income.
 
-Tenure and Extension
-- The initial maturity period is 5 years.
-- The account can be extended once for an additional block of 3 years. The extension must be requested within 1 year of maturity.
+Limits and term
+- Minimum ₹1,000, maximum ₹30,00,000 per person across all SCSS accounts.
+- Term of 5 years, extendable once by 3 years.
+- Early closure is allowed with a penalty: 1.5% of the deposit if closed after 1 year, 1% after 2 years.
 
-Interest Rate and Payout
-- SCSS offers one of the highest interest rates among fixed-income government schemes (often around 8.0% to 8.2% per annum, subject to quarterly review by the Finance Ministry).
-- The interest is payable on a quarterly basis (on the 1st working day of April, July, October, and January).
-- Unlike PPF or NSC, the interest is not compounded; it is paid out regularly to provide income.
+Tax
+Interest is taxable at the slab rate; TDS applies when a senior citizen's interest from a bank or post office crosses ₹1,00,000 a year (submit Form 15H if your total income is below the taxable limit). The deposit counts for the section 123 deduction (formerly 80C) under the old regime.
 
-Taxation
-- Investment: Deposits in SCSS qualify for a deduction under Section 80C up to ₹1,50,000.
-- Interest: The interest earned is fully taxable as per the investor's income tax slab.
-- TDS: If the interest earned exceeds ₹50,000 in a financial year, Tax Deducted at Source (TDS) applies. Senior citizens can submit Form 15H to avoid TDS if their total income is below the taxable limit.
+How it fits with other options
+- SCSS: highest guaranteed rate among small savings schemes, quarterly income, 5-year lock.
+- Post Office Monthly Income Scheme: monthly income, lower rate, smaller limits.
+- Bank FDs for seniors: flexible terms, rates vary by bank, insured up to ₹5 lakh per bank.
+- Many retirees combine SCSS for income with a liquid fund or savings account for emergencies.
 
-Premature Closure
-- Allowed at any time, but subject to penalties:
-  - Before 1 year: No interest is payable. If interest has already been paid, it will be recovered from the principal.
-  - After 1 year but before 2 years: Penalty of 1.5% of the deposit amount is deducted.
-  - After 2 years but before 5 years: Penalty of 1.0% of the deposit amount is deducted.
-  - In case of extended accounts (during the 3-year extension block), premature closure is allowed after 1 year without any penalty.
+Sources
+- National Savings Institute, SCSS: https://www.nsiindia.gov.in/
+- India Post: https://www.indiapost.gov.in/
+- Small savings rates October-December 2026: https://wealthstar.in/news/small-savings-rates-unchanged-october-december-2026-ppf-7-1-scss-8-2/

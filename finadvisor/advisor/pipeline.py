@@ -13,7 +13,8 @@ from dataclasses import dataclass, field
 import httpx
 from typing import Callable
 
-from finadvisor.advisor import auditor, cards, check as check_mod, compose, extract as extract_mod, numbers, pressure, wishes
+from finadvisor.advisor import auditor, cards, check as check_mod, compose, extract as extract_mod, fundfinder, numbers, \
+    pressure, wishes
 from finadvisor.advisor.capacity import assess as assess_capacity
 from finadvisor.advisor.core import plan_once
 from finadvisor.advisor.gate import RISK_LABEL, gate
@@ -27,6 +28,7 @@ from finadvisor.llm.base import LLM, Generation, require_self_hosted
 Emit = Callable[[str, dict], None]
 Retriever = Callable[[str, int], list[dict]]
 News = Callable[[list[str], int], dict]          # products in the answer, k -> cached headlines
+Funds = Callable[[], dict | None]                 # the fund finder snapshot (display only; see advisor/fundfinder.py)
 
 MODEL_DOWN = ("FinAdvisor's language model isn't reachable right now, so I can't write an explanation. Please try again "
               "in a minute.")
@@ -162,13 +164,14 @@ class TurnOutput:
 
 class Advisor:
     def __init__(self, bundle, llm: LLM, retriever: Retriever | None = None, real_users: bool = False,
-                 news: News | None = None):
+                 news: News | None = None, funds: Funds | None = None):
         if real_users:
             require_self_hosted(llm)
         self.bundle = bundle
         self.llm = llm
         self.retriever = retriever
         self.news = news
+        self.funds = funds
 
     # ------------------------------------------------------------------ public
     def turn(self, inp: TurnInput, emit: Emit, cancel: threading.Event | None = None) -> TurnOutput:
@@ -299,11 +302,24 @@ class Advisor:
                 held = inp.holdings()
             except Exception:  # noqa: BLE001 - the reply simply leaves out "what you already have"
                 held = []
-        comp = compose.answer(inp.text, final, profile, cap, self.bundle, held)
+        # The real schemes of each fund type in the plan (display only: built from the plan, never fed back into it).
+        snap = self.funds() if self.funds is not None else None
+        monthly: dict[str, float] = {}
+        for b in final.plan.buckets:
+            for m in b.mix:
+                monthly[m.product_id] = monthly.get(m.product_id, 0) + m.monthly
+        # Largest monthly amount first, the order the reply names the fund types in
+        fund_cards = fundfinder.cards_for(sorted(in_plan, key=lambda p: -monthly.get(p, 0)), snap)
+        comp = compose.answer(inp.text, final, profile, cap, self.bundle, held, fund_lists=bool(fund_cards), snap=snap)
+        if comp["intent"] == "compare":
+            wish = conflict = None   # the comparison covers every product named; the "not yet" card still shows
+        new_cards += fund_cards
         new_cards.append({"type": "followups", "items": comp["followups"]})
         for c in new_cards:
             c.setdefault("show", "main" if c["type"] in MAIN_CARDS else "details")
             if comp["intent"] == "emergency" and c["type"] == "health_check":
+                c["show"] = "main"
+            if comp["intent"] == "funds" and c["type"] == "fund_finder":
                 c["show"] = "main"
         why = cards.why_panel(final, result, {"pressure": {"types": reading.types, "products": reading.products}})
         for c in new_cards:
@@ -321,11 +337,14 @@ class Advisor:
         other = [PRODUCT_NAMES[p] for p in PRODUCT_NAMES if p not in allowed]
         bans = [PROMISE_WORDS.pattern, *other] + ([] if profile.goals else [GOAL_WORDS.pattern])
         ban = re.compile("|".join(f"(?:{b})" for b in bans), re.I)
+        # The model explains the plan steps; a reply that lists none (switch to Direct, no card debt, ...) has nothing
+        # for it to explain, and its paragraph about the plan read as off-topic.
         self._explain(facts, conflict, inp.text, new_cards, emit, cancel, out, lead=lead, ban=ban, wish=wish,
                       word_facts=step_words(final.plan, self.bundle),
-                      docs=self._docs_for_prompt(evidence))
+                      docs=self._docs_for_prompt(evidence), model=bool(comp["todo"]))
         out.advice = self._record("plan", inp, profile, final, result, why, reading, out)
-        out.advice.update(wish=wish, evidence=evidence, compose={"intent": comp["intent"], "holdings": held,
+        out.advice.update(wish=wish, evidence=evidence, fund_finder=fundfinder.record(fund_cards, snap),
+                          compose={"intent": comp["intent"], "holdings": held,
                                                                  "summary": plan_summary(final, profile, inp.text, self.bundle)})
 
     def _check(self, inp: TurnInput, emit: Emit, cancel, out: TurnOutput) -> None:
@@ -428,7 +447,9 @@ class Advisor:
             prompt += "\n\nALREADY TOLD THE PERSON (do not repeat): " + " ".join(told)
         prompt += f"\n\nUSER ASKED: {question}"
         template = EXPLAIN
-        allowed = numbers.collect([facts, [c for c in card_list if c.get("type") != "evidence"], question, lead or ""])
+        # Library passages and fund lists hold numbers the plan didn't produce, so they never approve a number.
+        allowed = numbers.collect([facts, [c for c in card_list if c.get("type") not in ("evidence", "fund_finder")],
+                                   question, lead or ""])
         if words_only:
             # Amounts live on the plan card only: any sentence with a number (beyond small counts), ₹ or % is dropped.
             template, allowed = EXPLAIN_WORDS, set()

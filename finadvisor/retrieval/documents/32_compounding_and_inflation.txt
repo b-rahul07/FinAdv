@@ -1,0 +1,28 @@
+Compounding and Inflation
+Last checked: 2026-11-08
+
+Compounding
+Compounding means earning returns on your returns. If you invest ₹1,00,000 at 10% a year, you have ₹1,10,000 after a year; the next year's 10% is earned on ₹1,10,000, and so on. After 10 years it is about ₹2,59,000, after 20 years about ₹6,73,000 and after 30 years about ₹17,45,000. Most of the growth comes in the later years, which is why starting early matters more than investing large amounts later.
+
+The rule of 72
+Divide 72 by the yearly return to estimate how many years money takes to double: about 10 years at 7%, about 7 years at 10%, about 6 years at 12%. It works the other way too: at 6% inflation, prices double in about 12 years.
+
+Starting early
+Someone who invests ₹5,000 a month from age 25 to 35 and then stops can end up with more at 60 than someone who invests ₹5,000 a month from 35 to 60, at the same return, because the early money compounds for longer. Small, regular amounts started early beat large amounts started late.
+
+Inflation
+Inflation is the rise in prices over time. India's central bank targets 4% consumer inflation with a band of 2% to 6%; FinAdvisor uses 6% for long-term planning to be cautious. At 6%, something that costs ₹1,00,000 today will cost about ₹1,79,000 in 10 years and ₹3,21,000 in 20 years. Education and healthcare costs have often risen faster than general inflation.
+
+Real returns
+What matters is your return after inflation (and after tax):
+- A savings account at 3% loses value in real terms when inflation is 6%.
+- An FD at 7%, taxed at 30%, earns about 4.9% after tax, which is below 6% inflation.
+- Long-term equity investing has historically beaten inflation by a wider margin, with much bigger ups and downs along the way.
+This is why goals many years away usually need some growth assets, and why FinAdvisor shows goal targets in today's money and in future, inflated money.
+
+Costs compound too
+A 1% higher yearly fee, such as a Regular plan instead of a Direct plan, can reduce a 25-year investment's final value by around a fifth. Low costs are one of the few things you control.
+
+Sources
+- RBI, monetary policy and inflation target: https://www.rbi.org.in/
+- SEBI investor education: https://investor.sebi.gov.in/

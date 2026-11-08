@@ -147,8 +147,37 @@ export type EvidenceCard = {
 
 export type FollowupsCard = { type: "followups"; items: string[] };
 
+/** One scheme in a fund finder list. Returns are fractions a year (CAGR); expense_ratio is in percent (0.74 = 0.74%). */
+export type FundRow = {
+  code: string;
+  name: string;
+  amc: string;
+  category: string;
+  nav: number;
+  nav_date: string;
+  expense_ratio: number | null;
+  expense_ratio_date: string | null;
+  since: string | null;
+  returns: { "1y": number | null; "3y": number | null; "5y": number | null } | null;
+};
+
+/** The real schemes of one fund type in the plan, cheapest first. Display only; FinAdvisor never picks one. */
+export type FundFinderCard = {
+  type: "fund_finder";
+  product_id: string;
+  label: string;
+  total: number;
+  funds: FundRow[];
+  checklist: string[];
+  links: { label: string; url: string }[];
+  note: string;
+  sources: { nav: string; expense_ratio: string | null; returns: string };
+  built_at: string;
+  stale: boolean;
+};
+
 /** "main" cards sit in the reply; "details" cards (full plan, goals, health check, what-if) open on request. */
-export type Card = (HealthCheck | PlanCard | GoalCard | NotYetCard | WhatIfCard | ProfileCardT | QuestionnaireCard | EvidenceCard | FollowupsCard) & {
+export type Card = (HealthCheck | PlanCard | GoalCard | NotYetCard | WhatIfCard | ProfileCardT | QuestionnaireCard | EvidenceCard | FundFinderCard | FollowupsCard) & {
   show?: "main" | "details";
 };
 

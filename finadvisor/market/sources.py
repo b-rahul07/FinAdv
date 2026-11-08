@@ -48,6 +48,10 @@ NSE_INDICES = Source("nse_indices", "NSE Indices daily close",
 NSE_52W = Source("nse_52w", "NSE adjusted 52-week high/low",
                  "https://nsearchives.nseindia.com/content/CM_52_wk_High_low_{d:%d%m%Y}.csv")
 AMFI_NAV = Source("amfi_nav", "AMFI daily NAV", "https://portal.amfiindia.com/spages/NAVAll.txt", expect="Scheme Code")
+# The JSON service behind AMFI's "TER of MF Schemes" page (undocumented; 100 rows a page, one row per scheme per day).
+AMFI_TER = Source("amfi_ter", "AMFI total expense ratio (TER)", "https://www.amfiindia.com/api/populate-te-rdata-revised")
+AMFI_TER_MONTHS = Source("amfi_ter_months", "AMFI TER months", "https://www.amfiindia.com/api/populate-ter-month")
+MFAPI = Source("mfapi", "MFapi.in (AMFI NAV history)", "https://api.mfapi.in/mf/{code}")
 
 
 class NotPublished(Exception):
@@ -68,14 +72,29 @@ def _cache_path(src: Source, d: date | None) -> Path:
     return RAW_DIR / src.key / f"{stamp}.txt.gz"
 
 
-def _get(url: str) -> httpx.Response:
+def _get(url: str, params: dict | None = None, headers: dict | None = None) -> httpx.Response:
     global _last
     with _lock:
         wait = MIN_INTERVAL_S - (time.monotonic() - _last)
         if wait > 0:
             time.sleep(wait)
         _last = time.monotonic()
-    return httpx.get(url, headers={"User-Agent": UA, "Accept": "*/*"}, timeout=40, follow_redirects=True)
+    return httpx.get(url, params=params, headers={"User-Agent": UA, "Accept": "*/*", **(headers or {})}, timeout=60,
+                     follow_redirects=True)
+
+
+def get_json(url: str, params: dict | None = None, headers: dict | None = None, tries: int = 3):
+    """A JSON API call, spaced like file downloads, retried on network errors (a dropped DNS lookup once lost a
+    whole run's expense ratios). Not cached: callers keep what they need."""
+    for attempt in range(tries):
+        try:
+            r = _get(url, params, headers)
+            r.raise_for_status()
+            return r.json()
+        except httpx.TransportError:
+            if attempt == tries - 1:
+                raise
+            time.sleep(2 * (attempt + 1))
 
 
 def fetch(src: Source, d: date | None = None, *, use_cache: bool = True) -> Fetched:

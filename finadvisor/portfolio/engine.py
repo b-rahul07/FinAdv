@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import bisect
 from dataclasses import dataclass, field
-from datetime import date, timedelta
+from datetime import date
 
 from dateutil.relativedelta import relativedelta
 
