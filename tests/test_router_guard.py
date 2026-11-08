@@ -67,7 +67,15 @@ def test_number_guard_drops_invented_numbers():
     ("An FD pays about 7 percent.", False),
     ("Keep ₹5 aside every day.", False),
     ("Your money grows about 8 times over.", False),
+    ("Invest Rs.7,00,000 now.", False),                      # currency straight before the digits (review, 9 Nov)
+    ("Put INR7,00,000 in it.", False),
+    ("An FD pays 7 per annum.", False),
+    ("FDs pay about 7 a year.", False),
+    ("Your money doubles in 6 months.", False),
+    ("Inflation runs near 6.", False),
+    ("Regular plans cost 1 point more.", False),
     ("Here are 3 steps to follow.", True),                   # genuine counts still pass
+    ("Spread it over 6 months.", True),
     ("Your emergency fund should cover 6 months of expenses.", True),
     ("Pick 1 or 2 funds of each type.", True),
 ])

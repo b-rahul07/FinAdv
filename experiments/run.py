@@ -187,6 +187,7 @@ def main(cfg_path: str) -> None:
                     "replicate": rep,
                     "stratum": row.get("stratum"),
                     "wish": wish,
+                    "profile": row["profile"],   # lets the report re-judge text with the current oracle
                     "finished_at": datetime.now(timezone.utc).isoformat(),
                     "latency_s": round(time.perf_counter() - t0, 3),
                     **run_meta,

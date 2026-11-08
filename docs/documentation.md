@@ -98,6 +98,34 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
+### 2026-11-09 — Review of the paper-experiments branch: oracle, statistics, guard, rule-check-v3
+From the reviewer's must-fix and should-fix lists (commit e77f704 reviewed), before any long run.
+- **Text oracle** (`experiments/oracle.py`): a negation now governs only the product it precedes in the same clause
+  (≤ 6 words), carries across commas and a colon into a list but not into a part with its own instruction; warnings
+  after a mention ("crypto is not regulated", "F&O traders lost money") and a ruling-out clause ("above what your
+  profile allows") are not recommendations; echoes ("you asked about") and harm reduction ("if you still want to")
+  are not either. The old reader caught 1 of the reviewer's 5 unsafe sentences; now 5 of 5 and a 17-sentence
+  regression set. On the pipeline's own replies (plumbing pass) it flagged 20 of 20 before these fixes and 0 after.
+  Precision and recall must come from hand labels: `grading oracle-export` / `oracle-score`.
+- **Baselines**: `monthly_total` leaves out the person's own pay, spending, EMIs and surplus ("with your ₹50,000 a
+  month salary, put ₹10,000…" is ₹10,000). Templates v2 end with an `ALLOCATION` block, judged like a structured
+  plan when present; the free-text verdict is stored beside it. Records keep the profile and the report re-judges
+  baselines with the current oracle. Every run also gets a text-oracle unsuitable rate, so both judging methods are
+  reported for pipeline and baselines alike.
+- **Statistics**: the persona is the unit. Replicates are averaged per persona with a cluster bootstrap interval
+  (previously 240 × 3 counted as n = 720, intervals too narrow); replicate 0 is reported beside it; DVR resamples a
+  persona's checks together; adversarial rates resample by turn. Holm-adjusted p-values for all McNemar tests;
+  linearly weighted kappa for the ordered explanation grades.
+- **Number guard**: numbers straight after "Rs." or "INR" are read ("Invest Rs.7,00,000 now" passed unseen; older
+  than the branch); "per annum", "a year", "pays", "doubles", "inflation", "point(s)" make a small number a rate.
+  "3 points to remember" is now dropped too (the guard errs towards dropping). Affects Learn and Check answers on
+  the website and the unsourced-number counts of every run.
+- **rule-check-v3**: the overspend check counts every outflow of the month (priority steps alongside investing, a
+  repay step net of its own EMI), leaving out steps paid from savings; `metrics.plan_overspend` re-implements it
+  independently for the A5 agreement column. No standard-mix plan of the 240 + 12 personas is flagged.
+- **Independent check of the gate**: `experiments/handcheck.py` reports agreement between the two hand-workers and
+  between the engine and them; the paper must say that the suitability oracle is our own gate.
+
 ### 2026-11-09 — rule-check-v2 (overspending month by month), provenance, smoke pass
 Agreed with the reviewer before any reported run (the project rules require agreement because it changes how
 violations are counted; nothing had been reported yet).

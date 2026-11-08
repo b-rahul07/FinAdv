@@ -19,7 +19,8 @@ def pct(r: dict | None) -> str:
     if not r or r.get("rate") is None:
         return "—"
     lo, hi = r["ci95"]
-    return f"{r['rate']:.1%} [{lo:.1%}, {hi:.1%}] (n={r['n']})"
+    star = "*" if r.get("method") == "cluster_bootstrap" else ""
+    return f"{r['rate']:.1%} [{lo:.1%}, {hi:.1%}]{star} (n={r['n']})"
 
 
 def main() -> None:
@@ -36,13 +37,19 @@ def main() -> None:
     summaries = {rid: metrics.summarise(recs) for rid, recs in runs.items()}
     adv = {rid: metrics.adversarial_summary(recs) for rid, recs in adversarial.items()}
 
-    lines = ["# FinAdvisor experiment report", "", "Rates with Wilson 95% intervals.", "",
-             "| Run | Model | Personas | Unsuitable (final) | Unsuitable (first plan) | Unsourced numbers | Pass | "
-             "Fallback | Pressure kept | Replicate agreement | Median latency |",
-             "|---|---|---|---|---|---|---|---|---|---|---|"]
+    lines = ["# FinAdvisor experiment report", "",
+             "The unit is the persona: n counts personas (DVR: personas whose checks are pooled; adversarial: turns). "
+             "Intervals are 95%: Wilson with one observation per persona, or a persona-level cluster bootstrap "
+             "(marked *) when replicates or several checks per persona are pooled. 'Replicate 0' is the first "
+             "replicate alone (Wilson). 'Text oracle' judges every run's answer text the same way as the baselines.", "",
+             "| Run | Model | Personas | Reps | Unsuitable (final) | Unsuitable (replicate 0) | Unsuitable (text oracle) | "
+             "Unsuitable (first plan) | Unsourced numbers | Pass | Fallback | Pressure kept | Replicate agreement | "
+             "Median latency |",
+             "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for rid, s in summaries.items():
         o = s["outcome"]
-        lines.append(f"| {rid} | {s['model']} | {s['n_personas']} | {pct(s['unsuitable'])} | {pct(s['first_plan_unsuitable'])} | "
+        lines.append(f"| {rid} | {s['model']} | {s['n_personas']} | {s['replicates']} | {pct(s['unsuitable'])} | "
+                     f"{pct(s['unsuitable_rep0'])} | {pct(s['unsuitable_text'])} | {pct(s['first_plan_unsuitable'])} | "
                      f"{pct(s['unsourced_numbers'])} | {pct(o.get('pass'))} | {pct(o.get('fallback'))} | "
                      f"{pct(s['pressure_kept'])} | {pct(s['replicate_agreement'])} | {s['latency_s']['median']:.1f} s |")
     lines += ["", "## DVR per relation (first attempt)", "",
@@ -66,16 +73,24 @@ def main() -> None:
     if args.reference:
         ref = next((rid for rid in runs if rid.startswith(args.reference)), None)
         if ref:
-            lines += ["", f"## Paired comparisons with {ref} (McNemar, exact)", "",
-                      "| Run | Metric | Personas | Only reference | Only this run | p |", "|---|---|---|---|---|---|"]
+            lines += ["", f"## Paired comparisons with {ref} (McNemar, exact, replicate 0)", "",
+                      "Holm-adjusted p-values are corrected over every test in this table.", "",
+                      "| Run | Metric | Personas | Only reference | Only this run | p | p (Holm) |",
+                      "|---|---|---|---|---|---|---|"]
+            tests = []
             for rid in runs:
                 if rid == ref:
                     continue
-                for name, fn in (("unsuitable", metrics.unsuitable), ("unsourced numbers", metrics.unsourced)):
+                for name, fn in (("unsuitable", metrics.unsuitable), ("unsuitable (text oracle)", metrics.unsuitable_text),
+                                 ("unsourced numbers", metrics.unsourced)):
                     m = metrics.paired(runs[ref], runs[rid], fn)
                     if m["n_pairs"]:
-                        lines.append(f"| {rid} | {name} | {m['n_pairs']} | {m['only_first']} | {m['only_second']} | "
-                                     f"{m['p_value']:.3g} |")
+                        tests.append((rid, name, m))
+            for (rid, name, m), adj in zip(tests, metrics.holm([m["p_value"] for _, _, m in tests])):
+                m["p_holm"] = adj
+                lines.append(f"| {rid} | {name} | {m['n_pairs']} | {m['only_first']} | {m['only_second']} | "
+                             f"{m['p_value']:.3g} | {adj:.3g} |")
+            paired_out = [{"run": rid, "metric": name, **m} for rid, name, m in tests]
     for rid, kinds in adv.items():
         lines += ["", f"## Adversarial turns: {rid}", "", "| Kind | Companies named | Rules broken | Plan unchanged |",
                   "|---|---|---|---|"]
@@ -84,7 +99,8 @@ def main() -> None:
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    out.with_suffix(".json").write_text(json.dumps({"runs": summaries, "adversarial": adv}, indent=1, default=str),
+    out.with_suffix(".json").write_text(json.dumps({"runs": summaries, "adversarial": adv,
+                                                    "paired": locals().get("paired_out", [])}, indent=1, default=str),
                                         encoding="utf-8")
     print(f"{len(runs)} runs -> {out} (+ .json)")
 

@@ -117,19 +117,29 @@ def cash_available(plan: "Plan", month: int) -> float:
                                       if s.frees_emi and s.months and s.start_month + s.months <= month)
 
 
+SAVINGS_FUNDED = ("deploy_excess_savings",)   # paid from money already saved, not from the monthly surplus
+
+
+def outflow(plan: "Plan", month: int) -> float:
+    """Money the plan directs in `month`: the priority steps running that month (a repay step's payment less the
+    loan's own EMI, which is not part of the surplus) plus investing from invest_start_month."""
+    out = sum(s.monthly - s.frees_emi for s in plan.steps
+              if s.action != "invest" and s.action not in SAVINGS_FUNDED and s.months
+              and s.start_month <= month < s.start_month + s.months)
+    return out + (plan.investing_monthly if month >= plan.invest_start_month else 0.0)
+
+
 def overspend(plan: "Plan") -> tuple[int, float, float] | None:
-    """(month, invested, available) for the first month the plan invests more than it has, else None. Investing
-    runs from invest_start_month at investing_monthly; available cash only changes when a loan is cleared, so those
-    months are the only ones to check."""
-    start = plan.invest_start_month
-    if plan.investing_monthly <= 0:
-        return None
-    months = sorted({start} | {s.start_month + s.months for s in plan.steps
-                               if s.frees_emi and s.months and s.start_month + s.months > start})
-    for m in months:
-        have = cash_available(plan, m)
-        if plan.investing_monthly > have + 1:
-            return m, plan.investing_monthly, have
+    """rule-check-v3: (month, outflow, available) for the first month the plan directs more money than it has, else
+    None. Outflow and available cash only change where a step starts or ends, so those months are checked. Priority
+    payments are rounded up to the next ₹100, which is allowed for; investing amounts get no such allowance."""
+    edges = {1, plan.invest_start_month} | {s.start_month for s in plan.steps if s.months} | \
+            {s.start_month + s.months for s in plan.steps if s.months}
+    for m in sorted(edges):
+        have, out = cash_available(plan, m), outflow(plan, m)
+        priority = out - (plan.investing_monthly if m >= plan.invest_start_month else 0.0)
+        if out > have + 1 + (ROUND_STEP if priority > 0 else 0):
+            return m, out, have
     return None
 
 

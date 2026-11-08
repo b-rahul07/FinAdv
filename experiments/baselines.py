@@ -30,15 +30,21 @@ from finadvisor.advisor.prompts import Template, render_facts
 from finadvisor.configs import default_bundle
 from finadvisor.llm import get_llm
 
-B1 = Template("baseline_plain", 1, """
+# v2 (9 Nov 2026): the answer ends with a fixed ALLOCATION block, so baselines are judged on a structured plan like the
+# pipeline (the free text is judged as well and both are reported). The block adds a format, not a rule.
+FORMAT = """
+End your answer with a line that says only ALLOCATION, followed by one line per item in the form
+<investment, insurance or action>: ₹<amount> per month
+"""
+B1 = Template("baseline_plain", 2, """
 You are a personal financial advisor for young Indian earners. Using the person's facts, give them a concrete monthly
 plan: which investments or insurance to use and how many rupees a month to put into each, then explain briefly why.
-""")
-B2 = Template("baseline_rag", 1, """
+""" + FORMAT)
+B2 = Template("baseline_rag", 2, """
 You are a personal financial advisor for young Indian earners. Using the person's facts and the SOURCES, give them a
 concrete monthly plan: which investments or insurance to use and how many rupees a month to put into each, then explain
 briefly why. Use the sources for facts about products.
-""")
+""" + FORMAT)
 
 
 def facts(p: Profile) -> str:
@@ -56,16 +62,34 @@ def passages(retriever, p: Profile, k: int = 4) -> list[dict]:
 
 
 def judge(text: str, p: Profile, bundle, wish: str | None) -> dict:
-    products = oracle.recommended_products(text)
-    monthly = oracle.monthly_total(text)
+    """Two verdicts per answer. 'structured' reads the ALLOCATION block (products with an amount, and the block's
+    monthly total), the counterpart of judging the pipeline's plan; 'text' reads the whole free text. The headline
+    uses the structured verdict when the block is present and the text verdict otherwise ('judged_from')."""
+    own = oracle.own_figures(p)
+    t_products = oracle.recommended_products(text)
+    kept, skipped = oracle.monthly_amounts(text, own)
+    text_v = {"products": sorted(t_products), "unsuitable_products": oracle.unsuitable(t_products, p, bundle),
+              "monthly_total": sum(kept), "skipped_own_amounts": skipped, "overspend": sum(kept) > p.monthly_surplus + 1}
+    items = oracle.allocation(text)
+    structured = None
+    if items:
+        s_products = oracle.allocation_products(items)
+        own_block = oracle.own_figures(p, surplus=False)   # "Car loan EMI: ₹28,000" is not a new outflow
+        total = sum(v for _, v in items if round(v) not in own_block)
+        structured = {"items": items, "products": sorted(s_products),
+                      "unsuitable_products": oracle.unsuitable(s_products, p, bundle),
+                      "monthly_total": total, "overspend": total > p.monthly_surplus + 1}
+    head = structured or text_v
     return {
-        "products": sorted(products),
-        "unsuitable_products": oracle.unsuitable(products, p, bundle),
-        "companies_named": oracle.companies_named(text, wish or ""),
-        "monthly_total": monthly,
+        "judged_from": "allocation" if structured else "text",
+        "products": head["products"],
+        "unsuitable_products": head["unsuitable_products"],
+        "monthly_total": head["monthly_total"],
+        "overspend": head["overspend"],
         "surplus": p.monthly_surplus,
-        "overspend": monthly > p.monthly_surplus + 1,
+        "companies_named": oracle.companies_named(text, wish or ""),
         "unsourced_numbers": oracle.unsourced_numbers(text, oracle.profile_numbers(p)),
+        "verdicts": {"text": text_v, "structured": structured},
     }
 
 
@@ -110,6 +134,7 @@ def main(cfg_path: str) -> None:
                 t0 = time.perf_counter()
                 text = "".join(llm.stream(template.system, prompt, purpose=f"baseline:{kind}", template=template.id))
                 rec = {"profile_id": row["id"], "replicate": rep, "stratum": row.get("stratum"), "wish": wish,
+                       "profile": row["profile"],
                        "finished_at": datetime.now(timezone.utc).isoformat(),
                        "latency_s": round(time.perf_counter() - t0, 3), **meta, "model": llm.identity.to_dict(),
                        "sources": [d.get("source") for d in docs], "text": text, **judge(text, p, bundle, wish)}

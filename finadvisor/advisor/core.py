@@ -115,8 +115,9 @@ def _model_amounts(profile, bundle, llm, cap, will, suit, decisions, specs, styl
 
 
 # Version of rule_violations, stored with every result. v1 (until 2026-11-09) let a plan invest the surplus plus ALL
-# EMIs from month 1; v2 checks month by month and adds only the EMIs of loans the plan has already cleared.
-RULE_CHECK_VERSION = "rule-check-v2"
+# EMIs from month 1; v2 checked investing month by month against the surplus plus EMIs of loans already cleared; v3
+# counts every outflow of the month (priority steps running alongside investing too), not investing alone.
+RULE_CHECK_VERSION = "rule-check-v3"
 
 
 def rule_violations(res: CoreResult, bundle) -> list[str]:
@@ -142,6 +143,6 @@ def rule_violations(res: CoreResult, bundle) -> list[str]:
             ok, why = allowed_for_goal(d.product, goals.get(b.id), rules)
             if not ok:
                 out.append(f"{d.product['name']} in '{b.name}': {why}")
-    if overspend(res.plan):   # RULE_CHECK_VERSION rule-check-v2: month by month, only EMIs of cleared loans
+    if overspend(res.plan):   # rule-check-v3: every outflow, month by month, against surplus + cleared EMIs
         out.append("plan invests more than the monthly surplus")
     return sorted(set(out))

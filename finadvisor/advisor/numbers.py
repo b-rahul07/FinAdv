@@ -5,14 +5,22 @@ from __future__ import annotations
 import re
 from typing import Iterable
 
-NUM = re.compile(r"(?<![\w.])(\d{1,3}(?:,\d{2,3})+|\d+)(?:\.(\d+))?\s*(lakh|lakhs|lac|crore|crores|cr|k)?", re.I)
+# A number may not start inside a word or right after a dot ("v2"; "3.5" read as 5), except straight after a currency
+# mark: "Rs.7,00,000" and "INR7,00,000" are amounts.
+NUM = re.compile(r"(?:(?<![\w.])|(?<=\brs\.)|(?<=\brs)|(?<=\binr))(\d{1,3}(?:,\d{2,3})+|\d+)(?:\.(\d+))?\s*"
+                 r"(lakh|lakhs|lac|crore|crores|cr|k)?", re.I)
 SMALL_FREE = set(range(0, 13))  # counting words like "3 steps", "6 months"
 SENTENCE = re.compile(r"(?<=[.!?])\s+")
 # A small number is a free counting word only when nothing next to it makes it a rate, an amount or a duration:
 # "Equity funds usually return 12% a year" and "double your money in 6 years" used to pass as counts.
-NOT_A_COUNT_AFTER = re.compile(r"\s*(%|percent\b|per\s?cent\b|x\b|times\b|years?\b|yrs?\b|p\.?\s?a\b)", re.I)
+NOT_A_COUNT_AFTER = re.compile(r"\s*(%|percent\b|per\s?cent\b|x\b|times\b|years?\b|yrs?\b|p\.?\s?a\b|"
+                               r"per\s+(annum|year|month)\b|an?\s+(year|month)\b|(percentage\s+)?points?\b)", re.I)
 NOT_A_COUNT_BEFORE = re.compile(r"(₹|\brs\.?|\binr)\s*$", re.I)
-RATE_WORDS = re.compile(r"\b(returns?|returned|interest|yields?|cagr|growth|grows?|rate)\b", re.I)
+# Words that make a nearby small number a rate or an outcome ("an FD pays 7 per annum", "inflation runs near 6",
+# "your money doubles in 6 months"). "points" is a cue too, so "3 points to remember" is dropped: the guard errs
+# towards dropping a sentence.
+RATE_WORDS = re.compile(r"\b(returns?|returned|interest|yields?|cagr|growth|grows?|rate|pays?|paid|doubles?|doubling|"
+                        r"triples?|inflation|per annum|points?)\b", re.I)
 
 
 def _is_count(sentence: str, m: re.Match) -> bool:

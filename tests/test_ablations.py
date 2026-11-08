@@ -117,3 +117,18 @@ def test_a_cleared_loans_emi_is_spendable_only_after_it_is_cleared(bundle):
     for r in (ok, over):
         a5 = metrics.a5_arithmetic({"first_plan": r.plan.to_dict(), "first_violations": r.violations})
         assert a5["agrees"] and a5["overspend"] == (r is over)
+
+
+def test_rule_check_v3_counts_priority_steps_running_alongside_investing(bundle, healthy):
+    """Investing from month 1 while an emergency-fund step also runs: v2 looked at investing alone and passed it."""
+    from finadvisor.advisor.core import RULE_CHECK_VERSION
+    from finadvisor.advisor.plan import Step, overspend
+    plan = plan_once(healthy, bundle, FakeLLM(consistent_planner)).plan
+    assert RULE_CHECK_VERSION == "rule-check-v3" and overspend(plan) is None
+    s = healthy.monthly_surplus
+    plan.invest_start_month, plan.investing_monthly = 1, s * 0.75
+    plan.steps.insert(0, Step(order=0, action="build_emergency_fund", text="", monthly=s * 0.5, months=4, start_month=1))
+    assert overspend(plan) == (1, s * 1.25, s)
+    assert metrics.plan_overspend(plan.to_dict())                       # the independent re-implementation agrees
+    plan.steps[0].action = "deploy_excess_savings"                     # paid from savings: not an outflow
+    assert overspend(plan) is None and not metrics.plan_overspend(plan.to_dict())
