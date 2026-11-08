@@ -98,6 +98,53 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
+### 2026-11-09 — rule-check-v2 (overspending month by month), provenance, smoke pass
+Agreed with the reviewer before any reported run (the project rules require agreement because it changes how
+violations are counted; nothing had been reported yet).
+- **Bug fixed in the overspend rule**: the check compared a plan's monthly investing with the surplus plus ALL EMIs,
+  so a plan could invest money still going to EMIs before any loan was cleared. Live A5 case S7-002: ₹10,000 a
+  month on a ₹4,000 surplus with a ₹28,000 car EMI the plan never clears passed. Now month by month: investing in
+  month m ≤ surplus + EMIs of loans cleared by month m (`plan.cash_available`, `plan.overspend`; repay steps record
+  `frees_emi`). Versioned as `core.RULE_CHECK_VERSION = "rule-check-v2"`, stored in every advice record and result
+  row. No calculator or standard-mix plan of the 240 personas changes verdict (the website's plans are unaffected).
+- **A5 overspend agrees with the rule check**: `plan.amounts["available"]` is the cash when investing starts;
+  `metrics.a5_arithmetic` compares the model's total with it and reports agreement with the rule check (must be 100%).
+- **Provenance**: every result row stores `git_commit`, `git_dirty`, run config and hash, and `rule_check`; the
+  report's Provenance table flags runs that are not traceable to one clean commit.
+- **Smoke pass**: `python -m experiments.smoke_paper` runs every paper config at 1 replicate × 20 personas, then the
+  report, and fails on a crash or missing table. Plumbing pass (scripted model): all 16 configs ran, every table
+  present. Adversarial runner takes `limit` (turns).
+- The reviewer confirmed the twin-case count 39 / 3 / 14 (their script missed horizon cuts that change the menu);
+  the paper uses it.
+
+### 2026-11-09 — Paper track from the code review: audit cases, ablations, baselines, metrics
+Decisions (user, 2026-11-09): add the audit case split; build the paper track first; keep qwen2.5:3b for research.
+- **Audit cases** (team-approved change to relation reporting; pass/fail unchanged): every twin check records
+  `case` = trivial / gate_decides / tests_llm / no_model (`auditor.CASES`). "gate_decides" means the twin's allowed
+  products differ from the original's (the reviewer counted only suitability drops; horizon cuts that remove
+  long-goal products count too). Eval personas: 39 trivial, 3 gate-decided, 14 test the model of 56 MR1–MR5 checks.
+- **Explanation trace**: each explanation stores the model's raw text before the guard and the approved numbers, so
+  unsourced-number rates are measured on what the model wrote. `explainer.number_guard: false` (A4) shows sentences
+  with unapproved numbers and switches off the words-only ₹/% ban; product and promise bans stay.
+- **A5 calculators off** (was NotImplementedError): template `planner_amounts`; the model writes monthly rupee
+  amounts per product; priority steps stay code; `plan.amounts` keeps the model's and the calculators' amounts; rho
+  recomputed from the model's amounts; overspending flagged. Checked live: qwen2.5:3b planned ₹4,000/month on a ₹700
+  surplus.
+- **Runner**: `mode: turn` (full reply incl. explanation), neutral re-run for personas with a wish (pressure), `rules`
+  override for sensitivity runs, `limit`. Advice records now store the final plan's `violations`.
+- **New**: `experiments/personas.py` (240 stratified personas + hand-check sheet), `adversarial_turns.jsonl` (50),
+  `experiments/oracle.py`, `baselines.py` (B1, B2), `adversarial.py`, `metrics.py` (Wilson, exact McNemar, Cohen's
+  kappa, DVR by case), `report.py`, `grading.py`; 16 configs in `experiments/configs/paper/`; `configs/rules/
+  rules-v2-ef3.yaml` (S1, 3-month emergency fund); models qwen2.5 1.5B/7B and llama3.2 3B for M1. Runbook:
+  `docs/EXPERIMENTS.md`. Tests: `test_auditor_cases.py`, `test_ablations.py`, `test_paper_tools.py`.
+
+### 2026-11-09 — Number guard: small numbers are free only as counts (code review finding 3)
+The guard always allowed 0–12 as "counting words", so "Equity funds usually return 12% a year" and "double your
+money in 6 years" reached users in Learn answers. A small number is now free only when it reads as a count: not
+followed by %, percent, years, times or x, not preceded by ₹/Rs, and no return/interest/rate/growth word within 25
+characters. "3 steps", "6 months of expenses" and "1 or 2 funds" still pass. Tests: 10 sentences in
+`tests/test_router_guard.py`. Experiments that report unsourced-number rates should note runs before and after this.
+
 ### 2026-11-08 — Document library: 15 → 41 guides, section-aware search, measured
 **Request:** the library behind Learn answers and the "What I looked at" card was too small. **Sources (user's choice):**
 official sites (SEBI, RBI, AMFI, PFRDA, IRDAI, Income Tax Department, EPFO, India Post, NSI, DICGC) plus reputable

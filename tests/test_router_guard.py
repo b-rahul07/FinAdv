@@ -59,6 +59,23 @@ def test_number_guard_drops_invented_numbers():
     assert any(bad == ["15%"] or bad == ["15"] for _, bad in out if bad)
 
 
+@pytest.mark.parametrize("sentence,kept", [
+    ("Equity funds usually return 12% a year.", False),     # small, but a rate: was let through as a "count"
+    ("You could double your money in 6 years.", False),     # small, but a duration
+    ("Expect 9.5% returns.", False),
+    ("Put 50% in small caps.", False),
+    ("An FD pays about 7 percent.", False),
+    ("Keep ₹5 aside every day.", False),
+    ("Your money grows about 8 times over.", False),
+    ("Here are 3 steps to follow.", True),                   # genuine counts still pass
+    ("Your emergency fund should cover 6 months of expenses.", True),
+    ("Pick 1 or 2 funds of each type.", True),
+])
+def test_number_guard_small_numbers_are_free_only_as_counts(sentence, kept):
+    out = list(numbers.guard_sentences([sentence], set()))
+    assert (out[0][0] != "") is kept, out
+
+
 def test_number_guard_allows_lakh_and_percent_forms():
     allowed = numbers.collect({"target": 150000, "share": 0.4})
     assert numbers.unapproved("Save ₹1.5 lakh, that is 40% of it.", allowed) == []

@@ -31,6 +31,18 @@ riskier mix. Output JSON with one string per bucket: {"<bucket id>": "code:weigh
 Example: {"g1": "sdebt:6,liq:4"}
 """)
 
+# Ablation A5 only (pipeline stage calculators: false): the model must work out every rupee amount itself. Never used
+# on the website; it exists to test the claim that letting the model compute numbers makes plans less reliable.
+PLANNER_AMOUNTS = Template("planner_amounts", 1, """
+You are the planning step of a financial planner for Indian earners. Work out how much the person should invest
+every month, in rupees, in each product of each bucket. Do the arithmetic yourself: work out the money left each month
+after expenses and EMIs, keep nothing back unless the facts call for it, and size each goal so it reaches its target
+by its date, using the given yearly returns and inflation.
+Use only products listed for each bucket. Never invest more than the money left each month.
+Output JSON with one string per bucket: {"<bucket id>": "code:amount,code:amount", ...}, amounts in rupees per month.
+Example: {"g1": "sdebt:6000,liq:4000"}
+""")
+
 EXTRACT = Template("extract", 1, """
 You read a chat message from an Indian user and extract financial facts they state about THEMSELVES.
 Only include fields the message states or clearly implies; leave everything else out.
@@ -80,7 +92,7 @@ Rules:
 - No headings, no lists, no disclaimers (the app adds them).
 """)
 
-ALL = [PLANNER, EXTRACT, EXPLAIN, EXPLAIN_WORDS, LEARN]
+ALL = [PLANNER, PLANNER_AMOUNTS, EXTRACT, EXPLAIN, EXPLAIN_WORDS, LEARN]
 
 
 def render_facts(p: Profile, style: str = "plain") -> str:

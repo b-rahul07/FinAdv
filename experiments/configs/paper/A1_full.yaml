@@ -1,0 +1,10 @@
+# Main result: full pipeline, plan and audit.
+run_id: A1_full
+model: website
+pipeline: pipeline/default.yaml
+inputs: experiments/data/personas_v1.jsonl
+replicates: 3
+auditor: {early_exit: false, time_budget_s: null}   # every relation evaluated (DVR per relation); no time limit
+planner: {mode: model}                               # the language model chooses the mix (the report's design)
+mode: plan
+output: results/paper/A1_full.jsonl

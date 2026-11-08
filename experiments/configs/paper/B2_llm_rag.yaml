@@ -1,0 +1,8 @@
+# Baseline B2: the plain model with FinAdvisor's library passages. Run with: python -m experiments.baselines <this file>
+run_id: B2_llm_rag
+model: website
+inputs: experiments/data/personas_v1.jsonl
+replicates: 3
+baseline: B2
+retrieval: chroma
+output: results/paper/B2_llm_rag.jsonl

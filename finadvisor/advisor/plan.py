@@ -38,6 +38,7 @@ class Step:
     target: float = 0.0
     product_id: str | None = None
     goal_id: str | None = None
+    frees_emi: float = 0.0       # repay steps: the loan's EMI, free for other use from month start_month + months
 
 
 ACTIONS = ("buy_health_cover", "buy_term_cover", "clear_card_dues", "repay_costly_loan",
@@ -74,8 +75,11 @@ class Plan:
     invest_start_month: int
     rho: float
     rho_by_goal: dict[str, float]
-    source: str = "planner"      # planner | repair | safe_fallback | illustrative
+    source: str = "planner"      # planner | repair | safe_fallback | illustrative | model_amounts
     notes: list[str] = field(default_factory=list)
+    # Ablation A5 (calculators off): monthly amounts per bucket as the model wrote them and as the calculators
+    # would have computed them for the same mix, so the paper can measure the model's arithmetic.
+    amounts: dict | None = None
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -104,6 +108,29 @@ def bucket_specs(profile: Profile, decisions: list[GateDecision], rules: dict) -
     general = [p for p in candidates if allowed_for_goal(p, None, rules)[0]]
     specs.append(BucketSpec(GENERAL, "Long-term investing (no set goal)", None, general))
     return specs
+
+
+def cash_available(plan: "Plan", month: int) -> float:
+    """Money a plan can direct in `month`: the monthly surplus plus the EMIs of loans already cleared (a loan
+    repaid in months s .. s+n-1 frees its EMI from month s+n). Loans that are not cleared keep their EMI."""
+    return plan.monthly_surplus + sum(s.frees_emi for s in plan.steps
+                                      if s.frees_emi and s.months and s.start_month + s.months <= month)
+
+
+def overspend(plan: "Plan") -> tuple[int, float, float] | None:
+    """(month, invested, available) for the first month the plan invests more than it has, else None. Investing
+    runs from invest_start_month at investing_monthly; available cash only changes when a loan is cleared, so those
+    months are the only ones to check."""
+    start = plan.invest_start_month
+    if plan.investing_monthly <= 0:
+        return None
+    months = sorted({start} | {s.start_month + s.months for s in plan.steps
+                               if s.frees_emi and s.months and s.start_month + s.months > start})
+    for m in months:
+        have = cash_available(plan, m)
+        if plan.investing_monthly > have + 1:
+            return m, plan.investing_monthly, have
+    return None
 
 
 def is_risky(product: dict, rules: dict) -> bool:
@@ -164,7 +191,7 @@ def priority_steps(profile: Profile, cap: CapacityResult, rules: dict) -> tuple[
                          "avoid new debt.")
                 continue
             add(action="repay_costly_loan", rule="R4", monthly=round_up_to(payment, ROUND_STEP), months=m,
-                start_month=month, target=d.outstanding,
+                start_month=month, target=d.outstanding, frees_emi=d.emi_monthly,
                 text=f"Prepay your {label} ({inr(d.outstanding)} outstanding"
                      + (f" at {d.rate_pa:g}%" if d.rate_pa else "")
                      + f"): put {inr(round_up_to(payment, ROUND_STEP))}/month towards it for about {n_months(m)}.")

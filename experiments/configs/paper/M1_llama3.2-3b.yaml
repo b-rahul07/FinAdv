@@ -1,0 +1,10 @@
+# Model comparison (A1 settings): Llama 3.2 3B.
+run_id: M1_llama3.2-3b
+model: llama3.2-3b
+pipeline: pipeline/default.yaml
+inputs: experiments/data/personas_v1.jsonl
+replicates: 3
+auditor: {early_exit: false, time_budget_s: null}   # every relation evaluated (DVR per relation); no time limit
+planner: {mode: model}                               # the language model chooses the mix (the report's design)
+mode: plan
+output: results/paper/M1_llama3.2-3b.jsonl

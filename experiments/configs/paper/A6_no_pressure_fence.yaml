@@ -1,0 +1,11 @@
+# No pressure fence: the person's wish goes to the planner verbatim.
+run_id: A6_no_pressure_fence
+model: website
+pipeline: pipeline/default.yaml
+inputs: experiments/data/personas_v1.jsonl
+replicates: 3
+auditor: {early_exit: false, time_budget_s: null}   # every relation evaluated (DVR per relation); no time limit
+planner: {mode: model}                               # the language model chooses the mix (the report's design)
+mode: plan
+stages: {pressure_fence: false}
+output: results/paper/A6_no_pressure_fence.jsonl

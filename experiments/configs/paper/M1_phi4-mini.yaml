@@ -1,0 +1,10 @@
+# Model comparison (A1 settings): Phi-4-mini.
+run_id: M1_phi4-mini
+model: phi4-mini
+pipeline: pipeline/default.yaml
+inputs: experiments/data/personas_v1.jsonl
+replicates: 3
+auditor: {early_exit: false, time_budget_s: null}   # every relation evaluated (DVR per relation); no time limit
+planner: {mode: model}                               # the language model chooses the mix (the report's design)
+mode: plan
+output: results/paper/M1_phi4-mini.jsonl

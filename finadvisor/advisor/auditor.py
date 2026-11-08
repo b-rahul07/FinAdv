@@ -37,6 +37,23 @@ class TwinCheck:
     twin_suitability: str | None = None
     twin_invest_start_month: int | None = None
     twin_plan: dict | None = None
+    # What could make this check fail (reporting only; pass/fail is unchanged). See CASES.
+    case: str | None = None
+
+
+# Why a check holds or fails, so DVR can be reported on the checks that actually test the model (code review,
+# 2026-11-09: on the 12 eval personas 41 of 56 MR1-MR5 checks were settled before the model acted).
+CASES = {
+    "trivial": "no risky product is allowed for the twin; the check holds by construction and the planner is not called",
+    "gate_decides": "the twin's allowed products differ from the original's, so the gate settles part of the check",
+    "tests_llm": "same allowed products for twin and original; only the model's choice can make the check fail",
+    "no_model": "the mix comes from the standard table (planner.mode standard); no model choice is tested",
+}
+
+
+def _allowed_ids(specs, goal_id: str | None) -> set[str]:
+    scope = [s for s in specs if s.id == goal_id] if goal_id else specs
+    return {p["id"] for s in scope for p in s.allowed}
 
 
 @dataclass
@@ -121,6 +138,7 @@ def _check(base: CoreResult, bundle, llm: LLM, hint: list[str] | None, gens: lis
     tol = cfg["rho_tolerance"]
     early = cfg.get("early_exit", False)
     gate_on = bundle.pipeline["stages"]["gate"]
+    standard = bundle.pipeline.get("planner", {}).get("mode", "model") == "standard"
     twin_list = {rel: [] for rel in cfg["relations"]}
     for rel, change, twin, goal_id in twins(base.profile, bundle):
         twin_list.setdefault(rel, []).append((change, twin, goal_id))
@@ -139,7 +157,8 @@ def _check(base: CoreResult, bundle, llm: LLM, hint: list[str] | None, gens: lis
                 t = plan_once(base.profile, bundle, llm, style=style, repair_hint=hint)
                 gens += t.generations
                 same = same_plan(t.plan.mix_signature(), base.plan.mix_signature(), cfg["twins"].get("MR6_share_tolerance", 0.0))
-                checks.append(TwinCheck("MR6", DESCRIPTIONS["MR6"], f"facts written in '{style}' style", same, False))
+                checks.append(TwinCheck("MR6", DESCRIPTIONS["MR6"], f"facts written in '{style}' style", same, False,
+                                        case="no_model" if standard else "tests_llm"))
                 if early and not same:
                     return checks
             continue
@@ -160,8 +179,16 @@ def _check(base: CoreResult, bundle, llm: LLM, hint: list[str] | None, gens: lis
             else:
                 bv, tv = base.plan.rho, t.plan.rho
             holds = trivial or tv <= bv + tol
+            if trivial:
+                case = "trivial"
+            elif standard:
+                case = "no_model"
+            elif rel != "MR5" and _allowed_ids(specs, goal_id) != _allowed_ids(base.specs, goal_id):
+                case = "gate_decides"
+            else:
+                case = "tests_llm"
             checks.append(TwinCheck(rel, DESCRIPTIONS[rel], change, holds, trivial, round(bv, 4), round(tv, 4), goal_id,
-                                    cap.level, suit, t.plan.invest_start_month, t.plan.to_dict()))
+                                    cap.level, suit, t.plan.invest_start_month, t.plan.to_dict(), case))
             if early and not holds:
                 return checks
     return checks

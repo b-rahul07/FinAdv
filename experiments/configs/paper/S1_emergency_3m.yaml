@@ -1,0 +1,11 @@
+# Sensitivity: a 3-month emergency fund target instead of 6.
+run_id: S1_emergency_3m
+model: website
+pipeline: pipeline/default.yaml
+inputs: experiments/data/personas_v1.jsonl
+replicates: 3
+auditor: {early_exit: false, time_budget_s: null}   # every relation evaluated (DVR per relation); no time limit
+planner: {mode: model}                               # the language model chooses the mix (the report's design)
+mode: plan
+rules: rules-v2-ef3
+output: results/paper/S1_emergency_3m.jsonl

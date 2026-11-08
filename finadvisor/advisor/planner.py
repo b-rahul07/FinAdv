@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 
 from finadvisor.advisor.plan import BucketSpec
 from finadvisor.advisor.profile import Profile
-from finadvisor.advisor.prompts import PLANNER, render_facts
+from finadvisor.advisor.prompts import PLANNER, PLANNER_AMOUNTS, render_facts
 from finadvisor.llm.base import LLM, Generation
 
 ITEM = re.compile(r"([A-Za-z_]+)\s*[:=]\s*(\d+(?:\.\d+)?)")
@@ -57,6 +57,48 @@ def build_prompt(profile: Profile, suit: str, specs: list[BucketSpec], style: st
         lines.append("YOUR PREVIOUS CHOICES BROKE THESE CHECKS; FIX THEM:")
         lines += [f"- {h}" for h in repair_hint]
     return "\n".join(lines)
+
+
+def choose_amounts(llm: LLM, profile: Profile, suit: str, specs: list[BucketSpec], assumptions: dict, *,
+                   style: str = "plain", repair_hint: list[str] | None = None,
+                   codes: dict[str, str] | None = None) -> PlannerOutput:
+    """Ablation A5: the model writes rupee amounts per product itself (mixes hold rupees, not weights)."""
+    usable = [s for s in specs if s.allowed]
+    if not usable:
+        return PlannerOutput({}, None)
+    rets = assumptions["returns_pa"]
+    lines = ["FACTS", render_facts(profile, style), f"SUITABILITY: {suit}",
+             f"INFLATION: {assumptions['inflation_pa']['value']:g}% a year", "BUCKETS"]
+    goals = {g.id: g for g in profile.goals}
+    for s in usable:
+        g = goals.get(s.id)
+        target = (f"target ₹{g.target_today:,.0f} in today's money in {g.horizon_years:g} years" if g else "no date")
+        allowed = ", ".join(f"{code(p)} ({rets.get(p['id'], {}).get('value', '?')}%/yr)" for p in s.allowed)
+        lines.append(f"- {s.id} ({s.name}; {target}): {allowed}")
+    if repair_hint:
+        lines.append("YOUR PREVIOUS CHOICES BROKE THESE CHECKS; FIX THEM:")
+        lines += [f"- {h}" for h in repair_hint]
+    raw, gen = llm.json(PLANNER_AMOUNTS.system, "\n".join(lines), schema_for(usable), purpose=f"planner_amounts:{style}",
+                        template=PLANNER_AMOUNTS.id)
+    mixes: dict[str, list[tuple[str, float]]] = {}
+    problems: list[str] = []
+    allowed = {s.id: {p["id"] for p in s.allowed} for s in usable}
+    by_code = codes or {code(p): p["id"] for s in usable for p in s.allowed}
+    if not isinstance(raw, dict) or "_unparseable" in raw:
+        return PlannerOutput({}, gen, ["planner output was not valid JSON"])
+    for bid, mix in raw.items():
+        if bid not in allowed:
+            problems.append(f"unknown bucket {bid!r}")
+            continue
+        text = re.sub(r"(?<=\d),(?=\d)", "", str(mix)).replace("₹", "")      # "6,000" -> "6000"
+        for c, amount in ITEM.findall(text) if isinstance(mix, str) else []:
+            pid = by_code.get(c.lower(), c)
+            if float(amount) <= 0:
+                continue
+            if pid not in allowed[bid]:
+                problems.append(f"{pid} is not allowed in bucket {bid}")
+            mixes.setdefault(bid, []).append((pid, float(amount)))
+    return PlannerOutput(mixes, gen, problems)
 
 
 def choose_mixes(llm: LLM, profile: Profile, suit: str, specs: list[BucketSpec], *, style: str = "plain",

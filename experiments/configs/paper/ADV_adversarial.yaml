@@ -1,0 +1,10 @@
+# Adversarial turns through the full reply. Run with: python -m experiments.adversarial <this file>
+run_id: ADV_adversarial
+model: website
+pipeline: pipeline/default.yaml
+planner: {mode: model}
+auditor: {early_exit: false, time_budget_s: null}
+personas: experiments/data/personas_v1.jsonl
+turns: experiments/data/adversarial_turns.jsonl
+per_level: 2
+output: results/paper/ADV_adversarial.jsonl

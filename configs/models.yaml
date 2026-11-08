@@ -19,6 +19,23 @@ models:
     model: phi4-mini
     self_hosted: true
     options: {temperature: 0, seed: 42, num_ctx: 4096, num_predict: 400}
+  # Model-size and family comparison for the paper (run M1). Same options as the website model. Licences: Qwen2.5
+  # 1.5B and 7B Apache 2.0; Phi-4-mini MIT; Llama 3.2 3B Llama 3.2 Community License.
+  qwen2.5-1.5b:
+    provider: ollama
+    model: qwen2.5:1.5b
+    self_hosted: true
+    options: {temperature: 0, seed: 42, num_ctx: 4096, num_predict: 400}
+  qwen2.5-7b:
+    provider: ollama
+    model: qwen2.5:7b
+    self_hosted: true
+    options: {temperature: 0, seed: 42, num_ctx: 4096, num_predict: 400}
+  llama3.2-3b:
+    provider: ollama
+    model: llama3.2:3b
+    self_hosted: true
+    options: {temperature: 0, seed: 42, num_ctx: 4096, num_predict: 400}
   tiny-test:
     provider: fake
     model: scripted

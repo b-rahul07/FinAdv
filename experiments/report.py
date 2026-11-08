@@ -1,0 +1,93 @@
+"""Turn result files into the paper's tables.
+
+    python -m experiments.report results/paper/*.jsonl --reference A1 --out results/paper/report.md
+
+Writes a markdown report (main table, DVR per relation and case, paired McNemar tests against the reference run) and
+a JSON file with every number next to it.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+
+from experiments import metrics
+
+
+def pct(r: dict | None) -> str:
+    if not r or r.get("rate") is None:
+        return "—"
+    lo, hi = r["ci95"]
+    return f"{r['rate']:.1%} [{lo:.1%}, {hi:.1%}] (n={r['n']})"
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("files", nargs="+")
+    ap.add_argument("--reference", help="run_id (or its prefix) to compare every other run with")
+    ap.add_argument("--out", default="results/report.md")
+    args = ap.parse_args()
+    runs, adversarial = {}, {}
+    for f in args.files:
+        recs = metrics.load(f)
+        if recs:
+            (adversarial if recs[0].get("mode") == "adversarial" else runs).setdefault(recs[0]["run_id"], []).extend(recs)
+    summaries = {rid: metrics.summarise(recs) for rid, recs in runs.items()}
+    adv = {rid: metrics.adversarial_summary(recs) for rid, recs in adversarial.items()}
+
+    lines = ["# FinAdvisor experiment report", "", "Rates with Wilson 95% intervals.", "",
+             "| Run | Model | Personas | Unsuitable (final) | Unsuitable (first plan) | Unsourced numbers | Pass | "
+             "Fallback | Pressure kept | Replicate agreement | Median latency |",
+             "|---|---|---|---|---|---|---|---|---|---|---|"]
+    for rid, s in summaries.items():
+        o = s["outcome"]
+        lines.append(f"| {rid} | {s['model']} | {s['n_personas']} | {pct(s['unsuitable'])} | {pct(s['first_plan_unsuitable'])} | "
+                     f"{pct(s['unsourced_numbers'])} | {pct(o.get('pass'))} | {pct(o.get('fallback'))} | "
+                     f"{pct(s['pressure_kept'])} | {pct(s['replicate_agreement'])} | {s['latency_s']['median']:.1f} s |")
+    lines += ["", "## DVR per relation (first attempt)", "",
+              "| Run | Relation | All | Non-trivial | Tests the LLM | Trivial checks |", "|---|---|---|---|---|---|"]
+    for rid, s in summaries.items():
+        for rel, cases in s["dvr"].items():
+            lines.append(f"| {rid} | {rel} | {pct(cases.get('all'))} | {pct(cases.get('non_trivial'))} | "
+                         f"{pct(cases.get('tests_llm'))} | {(cases.get('trivial') or {}).get('n', 0)} |")
+    a5 = {rid: s["a5_arithmetic"] for rid, s in summaries.items() if "a5_arithmetic" in s}
+    if a5:
+        lines += ["", "## A5: the model's own arithmetic", "",
+                  "| Run | Mean gap vs calculators | Overspend | Agrees with rule check |", "|---|---|---|---|"]
+        for rid, x in a5.items():
+            gap = f"{x['mean_abs_gap']:.1%}" if x["mean_abs_gap"] is not None else "—"
+            lines.append(f"| {rid} | {gap} | {pct(x['overspend'])} | {pct(x['agrees_with_rule_check'])} |")
+    lines += ["", "## Provenance", "", "| Run | Commit | Config hash | Rule check | Traceable |", "|---|---|---|---|---|"]
+    for rid, s in summaries.items():
+        p = s["provenance"]
+        lines.append(f"| {rid} | {', '.join(c[:10] for c in p['git_commits'])} | {', '.join(h[:10] for h in p['config_hashes'])} | "
+                     f"{', '.join(p['rule_checks'])} | {'yes' if p['traceable'] else 'NO' + (' (uncommitted code)' if p['dirty'] else '')} |")
+    if args.reference:
+        ref = next((rid for rid in runs if rid.startswith(args.reference)), None)
+        if ref:
+            lines += ["", f"## Paired comparisons with {ref} (McNemar, exact)", "",
+                      "| Run | Metric | Personas | Only reference | Only this run | p |", "|---|---|---|---|---|---|"]
+            for rid in runs:
+                if rid == ref:
+                    continue
+                for name, fn in (("unsuitable", metrics.unsuitable), ("unsourced numbers", metrics.unsourced)):
+                    m = metrics.paired(runs[ref], runs[rid], fn)
+                    if m["n_pairs"]:
+                        lines.append(f"| {rid} | {name} | {m['n_pairs']} | {m['only_first']} | {m['only_second']} | "
+                                     f"{m['p_value']:.3g} |")
+    for rid, kinds in adv.items():
+        lines += ["", f"## Adversarial turns: {rid}", "", "| Kind | Companies named | Rules broken | Plan unchanged |",
+                  "|---|---|---|---|"]
+        for kind, x in kinds.items():
+            lines.append(f"| {kind} | {pct(x['companies_named'])} | {pct(x['rule_breaks'])} | {pct(x['plan_unchanged'])} |")
+    out = Path(args.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    out.with_suffix(".json").write_text(json.dumps({"runs": summaries, "adversarial": adv}, indent=1, default=str),
+                                        encoding="utf-8")
+    print(f"{len(runs)} runs -> {out} (+ .json)")
+
+
+if __name__ == "__main__":
+    main()

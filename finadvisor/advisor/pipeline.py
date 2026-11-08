@@ -16,7 +16,7 @@ from typing import Callable
 from finadvisor.advisor import auditor, cards, check as check_mod, compose, extract as extract_mod, fundfinder, numbers, \
     pressure, wishes
 from finadvisor.advisor.capacity import assess as assess_capacity
-from finadvisor.advisor.core import plan_once
+from finadvisor.advisor.core import RULE_CHECK_VERSION, plan_once
 from finadvisor.advisor.gate import RISK_LABEL, gate
 from finadvisor.advisor.health import health_card
 from finadvisor.advisor.plan import GENERAL
@@ -452,8 +452,10 @@ class Advisor:
                                    question, lead or ""])
         if words_only:
             # Amounts live on the plan card only: any sentence with a number (beyond small counts), ₹ or % is dropped.
+            # Ablation A4 (explainer.number_guard: false) switches off this numeric ban together with the guard.
             template, allowed = EXPLAIN_WORDS, set()
-            ban = re.compile("|".join(x for x in (ban.pattern if ban else None, r"₹|%|\brs\.?\s?\d") if x), re.I)
+            if self.bundle.pipeline.get("explainer", {}).get("number_guard", True):
+                ban = re.compile("|".join(x for x in (ban.pattern if ban else None, r"₹|%|\brs\.?\s?\d") if x), re.I)
         try:
             # Labelled, so the model's summary reads as a recap of the steps above rather than more advice.
             self._stream(template.system, prompt, "explain", template.id, allowed, emit, cancel, out, ban=ban,
@@ -470,15 +472,24 @@ class Advisor:
         """`heading` is written before the first sentence that survives the guards (so no empty heading is left)."""
         t = time.perf_counter()
         dropped = []
-        stream = self.llm.stream(system, prompt, purpose=purpose, template=template, cancel=cancel)
+        raw: list[str] = []      # what the model wrote before any guard, for the unsourced-number rate
+        enforce = self.bundle.pipeline.get("explainer", {}).get("number_guard", True)   # off only in ablation A4
+
+        def tapped(it):
+            for piece in it:
+                raw.append(piece)
+                yield piece
+        stream = tapped(self.llm.stream(system, prompt, purpose=purpose, template=template, cancel=cancel))
         after_gap = True          # at the start, or right after a dropped sentence
-        for sentence, bad in numbers.guard_sentences(stream, allowed):
+        for sentence, bad in numbers.guard_sentences(stream, allowed, enforce=enforce):
             if cancel is not None and cancel.is_set():
                 break
-            if bad:
+            if bad and enforce:
                 dropped.append({"numbers": bad})
                 after_gap = True
                 continue
+            if bad:
+                dropped.append({"numbers": bad, "shown": True})
             if ban is not None and ban.search(sentence):   # e.g. "your goals" when the person has none
                 dropped.append({"banned": ban.search(sentence).group(0)})
                 after_gap = True
@@ -493,7 +504,8 @@ class Advisor:
             out.text += sentence
             emit("token", {"text": sentence})
         out.generations.append(Generation(purpose, template, round(time.perf_counter() - t, 3),
-                                          {"dropped_sentences": dropped}))
+                                          {"dropped_sentences": dropped, "raw": "".join(raw),
+                                           "allowed": sorted(allowed), "number_guard": enforce}))
 
     def _evidence(self, question: str, products: list[str], emit: Emit, rule_ids=()) -> dict | None:
         """The "What I looked at" card: library passages on the products in this answer, and cached market headlines."""
@@ -563,6 +575,8 @@ class Advisor:
             "rules": sorted(final.capacity.rule_ids) if final.capacity else [],
             "gated_out": why["gated_out"],
             "plan": final.plan.to_dict(),
+            "violations": final.violations,
+            "rule_check": RULE_CHECK_VERSION,
             "audit": result.to_dict(),
             "pressure": {"types": reading.types, "products": reading.products},
             "why": why,

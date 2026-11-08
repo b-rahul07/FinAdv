@@ -1,0 +1,11 @@
+# No calculators: the model writes every investing amount itself.
+run_id: A5_no_calculators
+model: website
+pipeline: pipeline/default.yaml
+inputs: experiments/data/personas_v1.jsonl
+replicates: 3
+auditor: {early_exit: false, time_budget_s: null}   # every relation evaluated (DVR per relation); no time limit
+planner: {mode: model}                               # the language model chooses the mix (the report's design)
+mode: plan
+stages: {calculators: false}
+output: results/paper/A5_no_calculators.jsonl

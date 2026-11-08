@@ -8,6 +8,17 @@ from typing import Iterable
 NUM = re.compile(r"(?<![\w.])(\d{1,3}(?:,\d{2,3})+|\d+)(?:\.(\d+))?\s*(lakh|lakhs|lac|crore|crores|cr|k)?", re.I)
 SMALL_FREE = set(range(0, 13))  # counting words like "3 steps", "6 months"
 SENTENCE = re.compile(r"(?<=[.!?])\s+")
+# A small number is a free counting word only when nothing next to it makes it a rate, an amount or a duration:
+# "Equity funds usually return 12% a year" and "double your money in 6 years" used to pass as counts.
+NOT_A_COUNT_AFTER = re.compile(r"\s*(%|percent\b|per\s?cent\b|x\b|times\b|years?\b|yrs?\b|p\.?\s?a\b)", re.I)
+NOT_A_COUNT_BEFORE = re.compile(r"(₹|\brs\.?|\binr)\s*$", re.I)
+RATE_WORDS = re.compile(r"\b(returns?|returned|interest|yields?|cagr|growth|grows?|rate)\b", re.I)
+
+
+def _is_count(sentence: str, m: re.Match) -> bool:
+    if NOT_A_COUNT_AFTER.match(sentence, m.end()) or NOT_A_COUNT_BEFORE.search(sentence[:m.start()]):
+        return False
+    return not RATE_WORDS.search(sentence[max(0, m.start() - 25):m.end() + 25])
 
 
 def _value(m: re.Match) -> float:
@@ -65,22 +76,23 @@ def unapproved(sentence: str, allowed: set[float]) -> list[str]:
     bad = []
     for m in NUM.finditer(sentence):
         v = _value(m)
-        if v in SMALL_FREE or round(v, 2) in allowed or round(v) in allowed:
+        if (v in SMALL_FREE and _is_count(sentence, m)) or round(v, 2) in allowed or round(v) in allowed:
             continue
         bad.append(m.group(0))
     return bad
 
 
-def guard_sentences(chunks: Iterable[str], allowed: set[float]):
-    """Re-chunk streamed text into sentences; yield (sentence, dropped_numbers). Dropped sentences yield ''."""
+def guard_sentences(chunks: Iterable[str], allowed: set[float], enforce: bool = True):
+    """Re-chunk streamed text into sentences; yield (sentence, unapproved numbers). Dropped sentences yield ''.
+    enforce=False (ablation A4) reports the unapproved numbers but lets every sentence through."""
     buf = ""
     for piece in chunks:
         buf += piece
         parts = SENTENCE.split(buf)
         for s in parts[:-1]:
             bad = unapproved(s, allowed)
-            yield ("" if bad else s + " "), bad
+            yield ("" if bad and enforce else s + " "), bad
         buf = parts[-1]
     if buf.strip():
         bad = unapproved(buf, allowed)
-        yield ("" if bad else buf), bad
+        yield ("" if bad and enforce else buf), bad

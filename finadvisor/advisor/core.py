@@ -8,8 +8,9 @@ from finadvisor.advisor import capacity as capacity_mod
 from finadvisor.advisor import willingness as willingness_mod
 from finadvisor.advisor.capacity import CapacityResult
 from finadvisor.advisor.gate import GateDecision, allowed_for_goal, gate, suitability
-from finadvisor.advisor.plan import BucketSpec, Plan, bucket_specs, build_plan, safe_mixes
-from finadvisor.advisor.planner import PlannerOutput, choose_mixes
+from finadvisor.advisor.plan import (BucketSpec, Plan, bucket_specs, build_plan, cash_available, is_risky, overspend,
+                                     safe_mixes)
+from finadvisor.advisor.planner import PlannerOutput, choose_amounts, choose_mixes
 from finadvisor.advisor.profile import Profile
 from finadvisor.advisor.willingness import WillingnessResult
 from finadvisor.llm.base import LLM, Generation
@@ -57,10 +58,10 @@ def deterministic(profile: Profile, bundle) -> tuple[CapacityResult, Willingness
 def plan_once(profile: Profile, bundle, llm: LLM, *, style: str = "plain", repair_hint: list[str] | None = None,
               wish: str | None = None, use_safe_mix: bool = False) -> CoreResult:
     st = bundle.pipeline["stages"]
-    if not st["calculators"]:
-        raise NotImplementedError("The calculators-off ablation is built with the experiment runner (Phase 4).")
     cap, will, suit, decisions, specs = deterministic(profile, bundle)
     standard = bundle.pipeline.get("planner", {}).get("mode", "model") == "standard"
+    if not st["calculators"] and not use_safe_mix:
+        return _model_amounts(profile, bundle, llm, cap, will, suit, decisions, specs, style, repair_hint)
     if use_safe_mix or standard:
         # planner.mode standard (the website since 2026-11-02): the tested mix for the suitability level, no model
         # call. The auditor still checks it against its twins (MR1-MR5; MR6 holds by construction).
@@ -83,6 +84,39 @@ def plan_once(profile: Profile, bundle, llm: LLM, *, style: str = "plain", repai
     res = CoreResult(profile, cap if st["capacity"] else None, will, suit, decisions, specs, plan, out)
     res.violations = rule_violations(res, bundle)
     return res
+
+
+def _model_amounts(profile, bundle, llm, cap, will, suit, decisions, specs, style, repair_hint) -> CoreResult:
+    """Ablation A5 (calculators off): the model writes the monthly rupee amounts itself. The priority steps still
+    come from code; the investing amounts are the model's. The calculators' amounts for the same mix are kept next to
+    them (plan.amounts) so the paper can report the model's arithmetic errors and overspending."""
+    out = choose_amounts(llm, profile, suit, specs, bundle.assumptions, style=style, repair_hint=repair_hint,
+                         codes={p.get("code", p["id"]): p["id"] for p in bundle.shelf["products"]})
+    plan = build_plan(profile, cap, decisions, out.mixes, bundle, source="model_amounts")
+    calc = {b.id: round(b.monthly, 2) for b in plan.buckets}
+    model = {}
+    for b in plan.buckets:
+        written = {pid: amt for pid, amt in out.mixes.get(b.id, [])}
+        b.monthly = sum(written.values())
+        for m in b.mix:
+            m.monthly = written.get(m.product_id, m.share * b.monthly)
+        model[b.id] = round(b.monthly, 2)
+    plan.investing_monthly = sum(model.values())
+    # the risky share the auditor compares, weighted by the model's amounts rather than the calculators'
+    products = {p["id"]: p for p in bundle.shelf["products"]}
+    risky = sum(m.monthly for b in plan.buckets for m in b.mix
+                if m.product_id in products and is_risky(products[m.product_id], bundle.rules))
+    plan.rho = risky / plan.investing_monthly if plan.investing_monthly else 0.0
+    plan.amounts = {"model": model, "calculator": calc, "surplus": profile.monthly_surplus,
+                    "available": cash_available(plan, plan.invest_start_month)}
+    res = CoreResult(profile, cap, will, suit, decisions, specs, plan, out)
+    res.violations = rule_violations(res, bundle)
+    return res
+
+
+# Version of rule_violations, stored with every result. v1 (until 2026-11-09) let a plan invest the surplus plus ALL
+# EMIs from month 1; v2 checks month by month and adds only the EMIs of loans the plan has already cleared.
+RULE_CHECK_VERSION = "rule-check-v2"
 
 
 def rule_violations(res: CoreResult, bundle) -> list[str]:
@@ -108,7 +142,6 @@ def rule_violations(res: CoreResult, bundle) -> list[str]:
             ok, why = allowed_for_goal(d.product, goals.get(b.id), rules)
             if not ok:
                 out.append(f"{d.product['name']} in '{b.name}': {why}")
-    if res.plan.investing_monthly > res.profile.monthly_surplus + sum(
-            x.emi_monthly for x in res.profile.debts) + 1:
+    if overspend(res.plan):   # RULE_CHECK_VERSION rule-check-v2: month by month, only EMIs of cleared loans
         out.append("plan invests more than the monthly surplus")
     return sorted(set(out))

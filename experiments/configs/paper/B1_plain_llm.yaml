@@ -1,0 +1,7 @@
+# Baseline B1: the plain model, no rules, tools or guards. Run with: python -m experiments.baselines <this file>
+run_id: B1_plain_llm
+model: website
+inputs: experiments/data/personas_v1.jsonl
+replicates: 3
+baseline: B1
+output: results/paper/B1_plain_llm.jsonl

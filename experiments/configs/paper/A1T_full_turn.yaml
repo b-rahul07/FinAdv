@@ -1,0 +1,10 @@
+# Main result with the full reply (answer + explanation), for the explanation and number metrics.
+run_id: A1T_full_turn
+model: website
+pipeline: pipeline/default.yaml
+inputs: experiments/data/personas_v1.jsonl
+replicates: 3
+auditor: {early_exit: false, time_budget_s: null}   # every relation evaluated (DVR per relation); no time limit
+planner: {mode: model}                               # the language model chooses the mix (the report's design)
+mode: turn
+output: results/paper/A1T_full_turn.jsonl
