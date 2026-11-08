@@ -107,6 +107,7 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
   count (lump sums and goal targets had pushed totals to ₹22 lakh), EMI lines only above current EMIs, generic
   equity/debt mutual funds mapped to flexi-cap/short-duration debt, "trading options"/"derivatives"/"intraday" are F&O.
 - Number guard: "8 pc" is a rate. `smoke_paper --only` requires only the tables of the configs it ran.
+- Signed off by the reviewer at 5836617 with one fix: a block line naming spending ("Emergency fund (6 months of expenses)", "Household buffer savings") counts as saving when it names saving. Known and left: EMI lines are compared with all EMIs together; the oracle labels now include the monthly total to measure it.
 
 ### 2026-11-09 — Review of the paper-experiments branch: oracle, statistics, guard, rule-check-v3
 From the reviewer's must-fix and should-fix lists (commit e77f704 reviewed), before any long run.

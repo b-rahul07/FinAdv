@@ -104,11 +104,13 @@ def oracle_export(files: list[str], n: int, out: Path, seed: int = 5) -> None:
     with (out / "labels.csv").open("w", newline="", encoding="utf-8") as fs, \
             (out / "key.csv").open("w", newline="", encoding="utf-8") as fk:
         ws, wk = csv.writer(fs), csv.writer(fk)
-        ws.writerow(["item", "answer", "recommended (product ids, ; separated; empty = none)", "notes"])
+        ws.writerow(["item", "answer", "recommended (product ids, ; separated; empty = none)",
+                     "monthly total (rupees of NEW money put away each month; not existing EMIs, rent or spending; "
+                     "an EMI counts only above that loan's current EMI)", "notes"])
         wk.writerow(["item", "run_id", "profile_id", "profile"])
         for r in items:
             item = secrets.token_hex(4)
-            ws.writerow([item, r["text"], "", ""])
+            ws.writerow([item, r["text"], "", "", ""])
             wk.writerow([item, r["run_id"], r["profile_id"], json.dumps(r["profile"])])
     print(f"{len(items)} answers -> {out / 'labels.csv'} (label) and {out / 'key.csv'}")
 
@@ -126,10 +128,13 @@ def oracle_score(labels: Path, key: Path) -> dict:
         prof = {row["item"]: Profile(**json.loads(row["profile"])) for row in csv.DictReader(f)}
     with labels.open(encoding="utf-8") as f:
         rows = list(csv.reader(f))
+    from experiments.baselines import judge
     col = next(i for i, h in enumerate(rows[0]) if h.startswith("recommended"))
+    mcol = next((i for i, h in enumerate(rows[0]) if h.startswith("monthly total")), None)
     known = set(oracle.PRODUCT_RE) | {"direct_equity"}
     tp = fp = fn = 0
-    verdict = Counter()
+    verdict, over = Counter(), Counter()
+    gaps = []
     for row in rows[1:]:
         item, text = row[0], row[1]
         human = {x.strip() for x in row[col].split(";") if x.strip()} if len(row) > col else set()
@@ -140,8 +145,18 @@ def oracle_score(labels: Path, key: Path) -> dict:
         h_bad = bool(oracle.unsuitable(human, prof[item], bundle))
         m_bad = bool(oracle.unsuitable(machine, prof[item], bundle))
         verdict[("tp" if h_bad else "fp") if m_bad else ("fn" if h_bad else "tn")] += 1
-    return {"answers": len(rows) - 1, "products": _pr(tp, fp, fn),
-            "unsuitable_verdict": {**_pr(verdict["tp"], verdict["fp"], verdict["fn"]), "tn": verdict["tn"]}}
+        raw = (row[mcol] if mcol is not None and len(row) > mcol else "").replace(",", "").replace("₹", "").strip()
+        if raw:   # the monthly total and the overspend verdict, as the baselines are judged
+            h_total, j = float(raw), judge(text, prof[item], bundle, None)
+            gaps.append(abs(j["monthly_total"] - h_total) <= max(100.0, 0.10 * h_total))
+            h_over = h_total > prof[item].monthly_surplus + 1
+            over[("tp" if h_over else "fp") if j["overspend"] else ("fn" if h_over else "tn")] += 1
+    res = {"answers": len(rows) - 1, "products": _pr(tp, fp, fn),
+           "unsuitable_verdict": {**_pr(verdict["tp"], verdict["fp"], verdict["fn"]), "tn": verdict["tn"]}}
+    if gaps:
+        res["monthly_total"] = {"labelled": len(gaps), "within_10pct": sum(gaps) / len(gaps)}
+        res["overspend_verdict"] = {**_pr(over["tp"], over["fp"], over["fn"]), "tn": over["tn"]}
+    return res
 
 
 def main() -> None:

@@ -228,6 +228,11 @@ def test_allocation_block_as_qwen_writes_it():
     assert oracle.allocation_products(items) == {"flexi_cap_fund"}
     v = baselines.judge(text, p, default_bundle(), None)
     assert v["judged_from"] == "allocation" and v["overspend"]               # surplus is ₹0
+    # saving lines that mention spending are saving, not spending (reviewer, 9 Nov)
+    saving = oracle.allocation("ALLOCATION\nEmergency fund (6 months of expenses): ₹8,000 per month\n"
+                               "Household buffer savings: ₹2,000 per month\nRent: ₹15,000 per month")
+    assert oracle.allocation_total(saving, Profile(take_home_monthly=60_000, expenses_monthly=30_000)) == \
+        (10_000, ["Rent: the person's own figure"])
 
 
 def test_replicates_are_not_counted_as_independent_personas():
@@ -299,9 +304,10 @@ def test_oracle_score_against_hand_labels(tmp_path):
         w = csv.writer(f)
         w.writerow(rows[0])
         for row in rows[1:]:
-            w.writerow([row[0], row[1], ";".join(sorted(oracle.recommended_products(row[1]))), ""])
+            w.writerow([row[0], row[1], ";".join(sorted(oracle.recommended_products(row[1]))), "0", ""])
     s = grading.oracle_score(g / "labels.csv", g / "key.csv")
     assert s["answers"] == 3 and s["products"]["fp"] == 0 and s["products"]["fn"] == 0
+    assert s["monthly_total"]["labelled"] == 3 and "overspend_verdict" in s
     recs = metrics.load(out)
     assert all("profile" in r for r in recs)
     assert metrics.summarise(recs)["unsuitable_text"]["n"] == 3

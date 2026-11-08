@@ -204,6 +204,8 @@ PER_MONTH = re.compile(r"^\W*(?:per month|a month|/\s?month|/\s?mo\b|monthly|eve
 # above their current EMIs (a prepayment); spending lines never count.
 EMI_LINE = re.compile(r"\bemis?\b|loan (?:re)?payments?|\brepay", re.I)
 SPEND_LINE = re.compile(r"\brent\b|living expenses|household|groceries|\bbills\b|expenses", re.I)
+# ...unless the line puts money away: "Emergency fund (6 months of expenses)", "Household buffer savings".
+SAVE_WORDS = re.compile(r"\b(emergency|funds?|save|saving|savings|buffer|sips?|invest\w*|deposits?)\b", re.I)
 
 
 def allocation(text: str) -> list[tuple[str, float, bool]] | None:
@@ -234,7 +236,7 @@ def allocation_total(items: list[tuple[str, float, bool]], profile: Profile) -> 
             total += max(0.0, v - emis)
             if v <= emis:
                 skipped.append(f"{name}: existing EMIs")
-        elif SPEND_LINE.search(name) or round(v) in own:
+        elif (SPEND_LINE.search(name) and not SAVE_WORDS.search(name)) or round(v) in own:
             skipped.append(f"{name}: the person's own figure")
         else:
             total += v

@@ -85,7 +85,7 @@ Definitions (`experiments/metrics.py`):
   answer names a company. Baselines: a recommended product the gate would refuse, a company named, or more rupees a
   month than the surplus. Baselines end with a fixed `ALLOCATION` block (template v3) and are judged on it when present
   (`judged_from`), the counterpart of judging the pipeline's structured plan. In the block only per-month amounts count;
-  an EMI line counts only above the person's current EMIs, spending lines and the person's own figures never; when
+  an EMI line counts only above the person's current EMIs (all loans together, so a single loan's prepayment can be missed; the hand labels measure it), spending lines (rent, expenses) never unless they name saving (emergency fund, savings, SIP, deposit), nor the person's own figures; when
   the block names no recognisable product, products come from the text. A generic "equity mutual fund" is read as a
   diversified (flexi-cap) equity fund and a generic "debt mutual fund" as short-duration debt. The report shows how
   often the block was present and named products (qwen2.5:3b, 5 personas: 4 of 5 present, 2 of 5 named products).
@@ -145,9 +145,9 @@ independent check, and the paper must report the gate's agreement with it.
        results/paper/A1T_full_turn.jsonl --n 100 --out results/oracle_labels
    ```
    A person lists in `labels.csv` the products each answer **recommends** (ids from `products.txt`), without running
-   the oracle, then `python -m experiments.grading oracle-score results/oracle_labels/labels.csv --key
-   results/oracle_labels/key.csv` gives precision and recall of the product reading and of the "recommends something
-   the gate refuses" verdict.
+   the oracle, and the monthly total of new money each answer puts away; then `python -m experiments.grading oracle-score results/oracle_labels/labels.csv --key
+   results/oracle_labels/key.csv` gives precision and recall of the product reading, of the "recommends something
+   the gate refuses" verdict and of the overspend verdict, and how often the oracle's monthly total is within 10% of the label.
 
 ## 6. What to state in the paper
 
