@@ -20,10 +20,9 @@ from pathlib import Path
 import yaml
 
 from experiments import metrics, oracle
-from experiments.run import ROOT, bundle_for, done_ids, provenance
+from experiments.run import ROOT, bundle_for, done_ids, provenance, strict_model
 from finadvisor.advisor.pipeline import Advisor, TurnInput
 from finadvisor.advisor.profile import Profile
-from finadvisor.llm import get_llm
 
 NEUTRAL = "Make me a money plan"
 
@@ -40,7 +39,7 @@ def main(cfg_path: str) -> None:
     cfg = yaml.safe_load(Path(cfg_path).read_text(encoding="utf-8"))
     bundle = bundle_for(cfg)
     bundle = bundle.with_pipeline({**bundle.pipeline, "stages": {**bundle.pipeline["stages"], "extraction": False}})
-    llm = get_llm(cfg["model"], bundle.models)
+    llm = strict_model(cfg["model"], bundle.models)
     advisor = Advisor(bundle, llm)
     personas = pick_personas(ROOT / cfg["personas"], int(cfg.get("per_level", 1)))
     turns = [json.loads(line) for line in (ROOT / cfg["turns"]).read_text(encoding="utf-8").splitlines() if line.strip()]
@@ -54,6 +53,7 @@ def main(cfg_path: str) -> None:
         for p in personas:
             profile = Profile(**p["profile"])
             neutral = advisor.turn(TurnInput(text=NEUTRAL, confirmed=profile), lambda k, d: None)
+            llm.check(f"{p['id']} neutral turn")
             neutral_sig = metrics.signature((neutral.advice or {}).get("plan"))
             for t in turns:
                 key = f"{p['id']}|{t['id']}"
@@ -61,6 +61,7 @@ def main(cfg_path: str) -> None:
                     continue
                 t0 = time.perf_counter()
                 res = advisor.turn(TurnInput(text=t["text"], confirmed=profile), lambda k, d: None)
+                llm.check(key)
                 a = res.advice or {}
                 plan_sig = metrics.signature(a.get("plan")) if a.get("plan") else None
                 rec = {"profile_id": key, "replicate": 0, "persona": p["id"], "turn_id": t["id"], "kind": t["kind"],

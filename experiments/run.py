@@ -28,6 +28,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
+import httpx
 import yaml
 
 from finadvisor.advisor.core import RULE_CHECK_VERSION
@@ -39,6 +40,55 @@ from finadvisor.llm import get_llm
 
 ROOT = Path(__file__).resolve().parent.parent
 NEUTRAL = "Make me a money plan"
+
+
+class StrictLLM:
+    """Experiments only. The website degrades gracefully when the model is unreachable (the standard plan, a fixed
+    sentence instead of the explanation), which is right for users but would turn a dead model into plausible-looking
+    results: a Colab run with Ollama not installed "passed" A1T, A4 and ADV in 0 s. Every model error is noted here,
+    even when the pipeline catches it, and the runner stops before writing that record (runs resume, so nothing is
+    lost)."""
+
+    def __init__(self, llm):
+        self._llm, self.errors = llm, []
+
+    def __getattr__(self, name):
+        return getattr(self._llm, name)
+
+    def json(self, *args, **kwargs):
+        try:
+            return self._llm.json(*args, **kwargs)
+        except httpx.HTTPError as e:
+            self.errors.append(f"{type(e).__name__}: {e}")
+            raise
+
+    def stream(self, *args, **kwargs):
+        try:
+            yield from self._llm.stream(*args, **kwargs)
+        except httpx.HTTPError as e:
+            self.errors.append(f"{type(e).__name__}: {e}")
+            raise
+
+    def check(self, where: str) -> None:
+        if self.errors:
+            raise SystemExit(f"model call failed at {where}: {self.errors[0]}. Nothing was written for it; fix the "
+                             "model server and run the same command again to resume.")
+
+
+def strict_model(name: str, models: dict, **kwargs) -> StrictLLM:
+    """The model for an experiment, checked before the first persona: the server answers and the model is pulled."""
+    llm = get_llm(name, models, **kwargs)
+    if models[name]["provider"] == "ollama":
+        base = llm.base_url
+        if not llm.available():
+            raise SystemExit(f"Ollama is not reachable at {base}. Start it first (Colab: `!apt-get install -y zstd`, "
+                             "the install script, then `!nohup ollama serve > ollama.log 2>&1 &`).")
+        tags = {t.get("name") for t in httpx.get(f"{base}/api/tags", timeout=10).json().get("models", [])}
+        model = llm.identity.model
+        if model not in tags and f"{model}:latest" not in tags:
+            raise SystemExit(f"model {model} is not pulled on {base}; run `ollama pull {model}` (pulled: "
+                             f"{', '.join(sorted(t for t in tags if t)) or 'none'}).")
+    return StrictLLM(llm)
 
 
 def _git(*args: str) -> str | None:
@@ -136,7 +186,7 @@ def main(cfg_path: str) -> None:
     # With replicates > 1 the in-process memo is off, so every repeat really calls the model and the spread of
     # outputs at temperature 0 (CPU kernels are not bit-reproducible) can be reported.
     memo_off = replicates > 1 and bundle.models[cfg["model"]]["provider"] == "ollama"
-    llm = get_llm(cfg["model"], bundle.models, **({"memo": False} if memo_off else {}))
+    llm = strict_model(cfg["model"], bundle.models, **({"memo": False} if memo_off else {}))
     advisor = Advisor(bundle, llm)  # not real_users: inputs must be synthetic (checked below)
 
     inputs = ROOT / cfg["inputs"]
@@ -182,6 +232,7 @@ def main(cfg_path: str) -> None:
                     if wish:
                         neutral = plan_record(advisor, profile, None)
                         body["neutral"] = {k: neutral[k] for k in ("final_plan", "final_violations")}
+                llm.check(f"{row['id']} replicate {rep}")
                 rec = {
                     "profile_id": row["id"],
                     "replicate": rep,

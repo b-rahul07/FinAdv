@@ -47,9 +47,13 @@ python -m experiments.smoke_paper --model tiny-test   # plumbing only, seconds, 
 ## 3. Colab (free GPU)
 
 ```bash
-!git clone -b paper-experiments https://github.com/b-rahul07/FinAdv.git && cd FinAdv && pip install -q -e ".[rag]"
+!git clone -b paper-experiments https://github.com/b-rahul07/FinAdv.git
+%cd FinAdv
+!pip install -q -e ".[rag]"   # the dependency-conflict warnings about Colab's own packages are harmless
+!apt-get install -y -qq zstd                # the Ollama installer needs it on Colab
 !curl -fsSL https://ollama.com/install.sh | sh
 !nohup ollama serve > ollama.log 2>&1 &
+!sleep 5 && curl -s http://127.0.0.1:11434/api/tags   # must print {"models":...}; if not, read ollama.log
 !ollama pull qwen2.5:3b   # and qwen2.5:1.5b, qwen2.5:7b, phi4-mini, llama3.2:3b for M1
 !python scripts/build_index.py          # B2 uses the Chroma index
 # keep results on Drive so a disconnect loses nothing:
@@ -58,6 +62,10 @@ from google.colab import drive; drive.mount('/content/drive')
 !python -m experiments.smoke_paper                      # 1 replicate x 20 personas, every config, then the report
 !python -m experiments.run experiments/configs/paper/A1_full.yaml
 ```
+Every runner checks before the first persona that Ollama answers and the model is pulled, and stops (writing
+nothing) if a model call fails mid-run; the website's graceful fallbacks never reach a result file. Fix the server
+and run the same command again to resume. A new Colab session needs `ollama serve` started again.
+
 Rough cost on a T4: a plan-mode persona needs about 10 model calls with the audit (more with repairs), so one run of
 240 personas × 3 replicates is several hours; B1/B2 are quicker. Run A1, A2, A3, A5, A6, B1, B2 first, then A1T, A4,
 S1, M1 and ADV.

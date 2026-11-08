@@ -24,11 +24,10 @@ from pathlib import Path
 import yaml
 
 from experiments import oracle
-from experiments.run import ROOT, done_ids, provenance
+from experiments.run import ROOT, done_ids, provenance, strict_model
 from finadvisor.advisor.profile import Profile
 from finadvisor.advisor.prompts import Template, render_facts
 from finadvisor.configs import default_bundle
-from finadvisor.llm import get_llm
 
 # The answer ends with a fixed ALLOCATION block, so baselines are judged on a structured plan like the pipeline (the
 # free text is judged as well and both are reported). The block adds a format, not a rule.
@@ -108,7 +107,7 @@ def main(cfg_path: str) -> None:
     bundle = default_bundle()
     replicates = int(cfg.get("replicates", 1))
     memo_off = replicates > 1 and bundle.models[cfg["model"]]["provider"] == "ollama"
-    llm = get_llm(cfg["model"], bundle.models, **({"memo": False} if memo_off else {}))
+    llm = strict_model(cfg["model"], bundle.models, **({"memo": False} if memo_off else {}))
     retriever = None
     if kind == "B2":
         from finadvisor.api.runtime import make_retriever
@@ -141,6 +140,7 @@ def main(cfg_path: str) -> None:
                     continue
                 t0 = time.perf_counter()
                 text = "".join(llm.stream(template.system, prompt, purpose=f"baseline:{kind}", template=template.id))
+                llm.check(f"{row['id']} replicate {rep}")
                 rec = {"profile_id": row["id"], "replicate": rep, "stratum": row.get("stratum"), "wish": wish,
                        "profile": row["profile"],
                        "finished_at": datetime.now(timezone.utc).isoformat(),

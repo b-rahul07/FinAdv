@@ -78,6 +78,32 @@ def test_oracle_reads_recommendations_negations_companies_and_amounts():
 
 # ----------------------------------------------------------------------------- runs, report, grading
 
+def test_runners_refuse_an_unreachable_model(tmp_path, monkeypatch):
+    """Colab, 9 Nov: Ollama failed to install and A1T, A4 and ADV 'passed' in 0 s on the website's fallbacks."""
+    monkeypatch.setenv("OLLAMA_BASE_URL", "http://127.0.0.1:9")   # nothing listens here
+    common = dict(model="website", inputs=PERSONAS, limit=2)
+    for main, cfg in ((runner.main, dict(run_id="A1T", pipeline="pipeline/default.yaml", mode="turn", **common)),
+                      (baselines.main, dict(run_id="B1", baseline="B1", **common))):
+        out = tmp_path / f"{cfg['run_id']}.jsonl"
+        with pytest.raises(SystemExit, match="not reachable"):
+            main(cfg_file(tmp_path, output=str(out), **cfg))
+        assert not out.exists() or not out.read_text()
+
+
+def test_a_model_failure_mid_run_stops_without_writing_a_fallback(tmp_path, monkeypatch):
+    import httpx
+    from finadvisor.llm import fake
+
+    def dying(system, prompt, purpose):
+        raise httpx.ConnectError("Connection refused")
+    monkeypatch.setattr(fake, "_default_text", dying)
+    out = tmp_path / "t.jsonl"
+    with pytest.raises(SystemExit, match="model call failed"):
+        runner.main(cfg_file(tmp_path, run_id="A1T", output=str(out), mode="turn", pipeline="pipeline/default.yaml",
+                             model="tiny-test", inputs=PERSONAS, limit=2))
+    assert not out.exists() or not out.read_text()     # the fallback reply was never stored as a result
+
+
 def test_runner_plan_and_turn_modes_record_what_the_metrics_need(tmp_path):
     out_p, out_t = tmp_path / "p.jsonl", tmp_path / "t.jsonl"
     common = dict(pipeline="pipeline/default.yaml", model="tiny-test", inputs=PERSONAS, limit=6,

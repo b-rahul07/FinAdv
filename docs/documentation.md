@@ -98,6 +98,15 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
+### 2026-11-09 — First Colab smoke pass: runners refuse a dead model
+The first Colab pass failed: the Ollama installer needs `zstd`, so no model server ran. 13 configs failed loudly, but
+A1T, A4 and ADV "passed" in 0 s, because the website degrades gracefully (standard plan, fixed sentence) when the
+model is unreachable; those records looked complete with no model output in them. Experiments now wrap the model in
+`run.StrictLLM`: before the first persona the server must answer and the model must be pulled, and any model error
+(even one the pipeline catches) stops the run before that record is written. Website behaviour is unchanged.
+`smoke_paper` reports such a stop as a failed config with its message. Runbook: `apt-get install zstd`, a check that
+Ollama answers, `%cd` (a `!cd` does not persist in Colab).
+
 ### 2026-11-09 — Zero-failure intervals, baseline format v3 (after the reviewer re-checked 3b0916d)
 - **[0, 0] intervals**: with no failures the cluster bootstrap can only return [0, 0], A1's likely headline case. Rates
   with fewer than 5 events (or non-events) now use Wilson over personas: 240 × 3 with zero failures gives 0 to 1.58%.

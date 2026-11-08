@@ -65,6 +65,9 @@ def main() -> None:
             outputs.append(str(ROOT / cfg["output"]))
             ran.append(cfg["run_id"])
             print(f"OK    {cfg['run_id']}  {time.perf_counter() - t0:.0f} s", flush=True)
+        except SystemExit as e:   # the runners stop with a message (model unreachable, not pulled, a failed call)
+            failed.append(cfg["run_id"])
+            print(f"FAIL  {cfg['run_id']}: {e}", flush=True)
         except Exception:   # keep going so one pass shows every broken config
             failed.append(cfg["run_id"])
             print(f"FAIL  {cfg['run_id']}\n{traceback.format_exc()}", flush=True)
