@@ -47,7 +47,7 @@ python -m experiments.smoke_paper --model tiny-test   # plumbing only, seconds, 
 ## 3. Colab (free GPU)
 
 ```bash
-!git clone https://github.com/b-rahul07/FinAdv.git && cd FinAdv && pip install -q -e ".[rag]"
+!git clone -b paper-experiments https://github.com/b-rahul07/FinAdv.git && cd FinAdv && pip install -q -e ".[rag]"
 !curl -fsSL https://ollama.com/install.sh | sh
 !nohup ollama serve > ollama.log 2>&1 &
 !ollama pull qwen2.5:3b   # and qwen2.5:1.5b, qwen2.5:7b, phi4-mini, llama3.2:3b for M1
