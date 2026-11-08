@@ -53,8 +53,12 @@ DISQUALIFY = re.compile(r"above what your profile allows|not (?:yet )?suitable f
 SENTENCES = re.compile(r"(?<=[.!?\n])\s+")
 # The explanation guard's product phrases, plus wordings free-text baselines use that the guard never meets
 # ("Trading options: ₹10,000 per month" from qwen2.5:3b, 9 Nov).
+# A generic "equity mutual fund" is read as a diversified equity fund (flexi-cap: same Very High riskometer); a
+# generic "debt mutual fund" as a short-duration debt fund. Stated in the paper; the hand labels check it.
 ORACLE_EXTRA = {"fno": r"trading options|options? trading|derivatives|intraday",
-                "crypto": r"cryptocurrenc\w*|ethereum|\bdogecoin"}
+                "crypto": r"cryptocurrenc\w*|ethereum|\bdogecoin",
+                "flexi_cap_fund": r"\bequity (?:mutual )?funds?\b|diversified equity|\bequity sips?\b|\bequity mfs?\b",
+                "short_duration_debt_fund": r"\bdebt mutual funds?\b"}
 PRODUCT_RE = {pid: re.compile(p + (f"|{ORACLE_EXTRA[pid]}" if pid in ORACLE_EXTRA else ""), re.I)
               for pid, p in PRODUCT_NAMES.items()}
 MONTHLY = re.compile(r"(?:₹|rs\.?\s?|inr\s?)\s*([\d,]+(?:\.\d+)?)\s*(lakh|k)?\s*(?:per month|a month|/month|/mo|monthly|every month)",
@@ -193,28 +197,54 @@ def own_figures(profile: Profile, surplus: bool = True) -> set[float]:
 #   ALLOCATION
 #   Nifty 50 index fund: ₹5,000 per month
 ALLOCATION = re.compile(r"^\s*\**\s*allocation\s*\**\s*:?\s*$", re.I | re.M)
-ALLOC_LINE = re.compile(r"^\s*[-*•\d.)]*\s*(.+?)\s*[:\-–—]\s*(?:₹|rs\.?\s?|inr\s?)\s*([\d,]+(?:\.\d+)?)\s*(lakh|k)?",
-                        re.I | re.M)
+ALLOC_LINE = re.compile(r"^\s*[-*•\d.)]*\s*(.+?)\s*[:\-–—]\s*\**\s*(?:₹|rs\.?\s?|inr\s?)\s*([\d,]+(?:\.\d+)?)\s*"
+                        r"(lakh|k)?([^\n]*)", re.I | re.M)
+PER_MONTH = re.compile(r"^\W*(?:per month|a month|/\s?month|/\s?mo\b|monthly|every month|pm\b|p\.m\.)", re.I)
+# Lines that restate what the person already pays rather than put money away. An EMI line counts only for the part
+# above their current EMIs (a prepayment); spending lines never count.
+EMI_LINE = re.compile(r"\bemis?\b|loan (?:re)?payments?|\brepay", re.I)
+SPEND_LINE = re.compile(r"\brent\b|living expenses|household|groceries|\bbills\b|expenses", re.I)
 
 
-def allocation(text: str) -> list[tuple[str, float]] | None:
-    """[(item, rupees a month)] from the ALLOCATION block, or None when the text has no such block."""
+def allocation(text: str) -> list[tuple[str, float, bool]] | None:
+    """[(item, rupees, per month?)] from the ALLOCATION block, or None when the text has no such block. An amount
+    without a monthly unit ("Emergency Savings: ₹10,80,000 (no monthly deposit needed)", "Wedding: ₹14,40,000 in 2
+    years") is kept but marked, and never counted as money put away each month."""
     m = None
     for m in ALLOCATION.finditer(text or ""):
         pass
     if m is None:
         return None
     out = []
-    for name, amount, unit in ALLOC_LINE.findall(text[m.end():]):
+    for name, amount, unit, rest in ALLOC_LINE.findall(text[m.end():]):
         v = float(amount.replace(",", "")) * (1e5 if unit.lower() == "lakh" else 1e3 if unit.lower() == "k" else 1)
-        out.append((name.strip(" *"), v))
+        out.append((name.strip(" *"), v, bool(PER_MONTH.match(rest))))
     return out
 
 
-def allocation_products(items: list[tuple[str, float]]) -> set[str]:
+def allocation_total(items: list[tuple[str, float, bool]], profile: Profile) -> tuple[float, list[str]]:
+    """(rupees a month the block puts away, lines left out and why)."""
+    emis = sum(d.emi_monthly for d in profile.debts)
+    own = own_figures(profile, surplus=False)   # an item equal to the surplus is kept: investing all of it is a plan
+    total, skipped = 0.0, []
+    for name, v, monthly in items:
+        if not monthly:
+            skipped.append(f"{name}: not monthly")
+        elif EMI_LINE.search(name):
+            total += max(0.0, v - emis)
+            if v <= emis:
+                skipped.append(f"{name}: existing EMIs")
+        elif SPEND_LINE.search(name) or round(v) in own:
+            skipped.append(f"{name}: the person's own figure")
+        else:
+            total += v
+    return total, skipped
+
+
+def allocation_products(items: list[tuple[str, float, bool]]) -> set[str]:
     out = set()
-    for name, amount in items:
-        if amount <= 0:
+    for name, amount, monthly in items:
+        if amount <= 0 or not monthly:
             continue
         out |= {pid for pid, rx in PRODUCT_RE.items() if rx.search(name)}
         if STOCKS.search(name) or COMPANIES.search(name):

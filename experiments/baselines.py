@@ -78,9 +78,8 @@ def judge(text: str, p: Profile, bundle, wish: str | None) -> dict:
     structured = None
     if items:
         s_products = oracle.allocation_products(items)
-        own_block = oracle.own_figures(p, surplus=False)   # "Car loan EMI: ₹28,000" is not a new outflow
-        total = sum(v for _, v in items if round(v) not in own_block)
-        structured = {"items": items, "products": sorted(s_products),
+        total, left_out = oracle.allocation_total(items, p)   # existing EMIs, spending, non-monthly amounts left out
+        structured = {"items": items, "left_out": left_out, "products": sorted(s_products),
                       "unsuitable_products": oracle.unsuitable(s_products, p, bundle),
                       "monthly_total": total, "overspend": total > p.monthly_surplus + 1}
     head = structured or text_v

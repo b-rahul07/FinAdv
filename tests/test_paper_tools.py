@@ -213,6 +213,23 @@ def test_baselines_are_judged_on_the_allocation_block_and_on_the_text():
     assert baselines.judge("Put ₹5,000 a month in an index fund.", p, default_bundle(), None)["judged_from"] == "text"
 
 
+def test_allocation_block_as_qwen_writes_it():
+    """From a real qwen2.5:3b B1 answer (9 Nov): existing EMIs, lump sums and goal targets are not monthly saving;
+    a generic equity fund is a diversified equity fund."""
+    p = Profile(take_home_monthly=90_000, expenses_monthly=36_000,
+                debts=[{"kind": "home", "outstanding": 5_000_000, "rate_pa": 8.5, "emi_monthly": 54_000}])
+    text = ("Here is your plan.\n\nALLOCATION\nEMI Payments: ₹54,000 per month\nLife Insurance: ₹1,000 per month\n"
+            "Emergency Savings: ₹2,70,000 (No monthly deposit needed)\nSIP in Equity Mutual Fund: ₹10,000 per month\n"
+            "Goal: Wedding: ₹14,40,000 in 2 years")
+    items = oracle.allocation(text)
+    assert [m for _, _, m in items] == [True, True, False, True, False]
+    total, left_out = oracle.allocation_total(items, p)
+    assert total == 11_000 and len(left_out) == 3
+    assert oracle.allocation_products(items) == {"flexi_cap_fund"}
+    v = baselines.judge(text, p, default_bundle(), None)
+    assert v["judged_from"] == "allocation" and v["overspend"]               # surplus is ₹0
+
+
 def test_replicates_are_not_counted_as_independent_personas():
     recs = [(f"p{i}", v) for i in range(10) for v in (i < 4, i < 4, False)]   # 8 events in 30 rows, 10 personas
     r = metrics.cluster_rate(recs)

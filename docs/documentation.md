@@ -98,6 +98,16 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
+### 2026-11-09 — Zero-failure intervals, baseline format v3 (after the reviewer re-checked 3b0916d)
+- **[0, 0] intervals**: with no failures the cluster bootstrap can only return [0, 0], A1's likely headline case. Rates
+  with fewer than 5 events (or non-events) now use Wilson over personas: 240 × 3 with zero failures gives 0 to 1.58%.
+- **Baseline format** checked live with qwen2.5:3b. v2 ("<investment, insurance or action>: ₹<amount>"): 1 of 3 usable
+  blocks; the model copied the placeholder words and repeated items (a ₹74,000 text total on a ₹4,000 surplus). v3
+  asks for the specific name, each item once: 4 of 5 blocks present. Reading the blocks: only per-month amounts
+  count (lump sums and goal targets had pushed totals to ₹22 lakh), EMI lines only above current EMIs, generic
+  equity/debt mutual funds mapped to flexi-cap/short-duration debt, "trading options"/"derivatives"/"intraday" are F&O.
+- Number guard: "8 pc" is a rate. `smoke_paper --only` requires only the tables of the configs it ran.
+
 ### 2026-11-09 — Review of the paper-experiments branch: oracle, statistics, guard, rule-check-v3
 From the reviewer's must-fix and should-fix lists (commit e77f704 reviewed), before any long run.
 - **Text oracle** (`experiments/oracle.py`): a negation now governs only the product it precedes in the same clause

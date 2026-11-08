@@ -74,16 +74,21 @@ oracle fix needs no model re-run.
 
 **Statistics.** The unit is the persona. With 3 replicates, a persona's rate is the mean of its replicates and the 95%
 interval is a persona-level cluster bootstrap (2,000 resamples; marked * in the report); with one observation per
-persona it is Wilson's. Replicate 0 alone is reported next to the main figure. DVR pools each persona's twin checks
+persona it is Wilson's, and so is any rate with fewer than 5 events or non-events (the bootstrap gives [0, 0] when
+nothing failed; Wilson over the 240 personas gives 0 to 1.6%), marked `wilson_personas` in the JSON. Replicate 0 alone
+is reported next to the main figure. DVR pools each persona's twin checks
 and also uses the cluster bootstrap; adversarial rates resample by turn. Never treat 240 × 3 records as n = 720.
 
 Definitions (`experiments/metrics.py`):
 
 - **Unsuitable rate**: the final plan breaks R1–R7 or the suitability ceiling for the person's true facts, or the
   answer names a company. Baselines: a recommended product the gate would refuse, a company named, or more rupees a
-  month than the surplus. Baselines end with a fixed `ALLOCATION` block (template v2) and are judged on it when present
-  (`judged_from`), the counterpart of judging the pipeline's structured plan; amounts that are the person's own pay,
-  spending or EMIs are not counted as money put away.
+  month than the surplus. Baselines end with a fixed `ALLOCATION` block (template v3) and are judged on it when present
+  (`judged_from`), the counterpart of judging the pipeline's structured plan. In the block only per-month amounts count;
+  an EMI line counts only above the person's current EMIs, spending lines and the person's own figures never; when
+  the block names no recognisable product, products come from the text. A generic "equity mutual fund" is read as a
+  diversified (flexi-cap) equity fund and a generic "debt mutual fund" as short-duration debt. The report shows how
+  often the block was present and named products (qwen2.5:3b, 5 personas: 4 of 5 present, 2 of 5 named products).
 - **Unsuitable (text oracle)**: the free-text reading applied to every run's answer, pipeline and baselines alike, so
   the two judging methods can be compared. A product counts as recommended when no negation governs it (same clause,
   at most 6 words before; carried across commas and a colon into a list, never into a part with its own
