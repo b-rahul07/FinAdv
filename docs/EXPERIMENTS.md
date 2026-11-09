@@ -47,6 +47,12 @@ python -m experiments.smoke_paper --model tiny-test   # plumbing only, seconds, 
 
 ## 3. Colab (free GPU)
 
+**Easiest: the notebook** [`experiments/colab_runner.ipynb`](https://colab.research.google.com/github/b-rahul07/FinAdv/blob/paper-experiments/experiments/colab_runner.ipynb).
+Choose a T4 GPU runtime and Runtime → Run all. Every cell checks its step and is safe to re-run after a reset; it
+starts Ollama with one model in GPU memory at a time (`OLLAMA_MAX_LOADED_MODELS=1`; several loaded models can
+exhaust the T4, the likely cause of phi4-mini's error 500), restarts it and retries a run that stops, and shows
+progress and the report. The same steps by hand:
+
 ```bash
 !git clone -b paper-experiments https://github.com/b-rahul07/FinAdv.git
 %cd FinAdv
