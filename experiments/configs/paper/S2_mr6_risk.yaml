@@ -1,0 +1,12 @@
+# Sensitivity (decided 2026-11-09): A1 settings, but MR6 compares the risky share instead of product shares.
+# Smoke runs showed most A1 fallbacks were MR6 failures on all-low-risk menus (money split differently among
+# low-risk products). The main results keep MR6 as in pipeline-v4; this run shows how much that choice matters.
+run_id: S2_mr6_risk
+model: website
+pipeline: pipeline/pipeline-v4-mr6risk.yaml
+inputs: experiments/data/personas_v1.jsonl
+replicates: 3
+auditor: {early_exit: false, time_budget_s: null}
+planner: {mode: model}
+mode: plan
+output: results/paper/S2_mr6_risk.jsonl

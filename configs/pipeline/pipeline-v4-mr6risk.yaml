@@ -1,0 +1,83 @@
+# Sensitivity variant of pipeline-v4 (decided 2026-11-09): identical except that MR6 compares the risky share
+# instead of product shares (twins.MR6_compare: risk). Experiments only (config S2); the website uses default.yaml.
+# Advisor pipeline configuration (report §7.2). The website always runs this file unchanged;
+# ablations copy it into configs/experiments/ and switch stages off. Flags are stored with every result.
+version: pipeline-v4-mr6risk
+rules: rules-v2
+shelf: shelf-v1
+assumptions: assumptions-v1
+tax: tax-fy2026-27
+willingness: gl13-in-v1
+model: website
+
+stages:
+  extraction: true        # LLM turns chat text into a draft profile
+  confirmation: true      # only confirmed profiles reach the engines
+  capacity: true          # off -> suitability uses willingness alone
+  willingness: true       # off -> willingness treated as High (capacity alone decides)
+  gate: true              # off -> the planner sees the whole plannable shelf
+  pressure_fence: true    # off -> the user's wish is passed to the planner verbatim
+  calculators: true       # off -> the planner is asked for rupee amounts itself (experiments only)
+  auditor: true           # off -> the first plan is returned unaudited
+
+planner:
+  # How the plan's fund mix is chosen (decided by the team on 2026-11-02 after measuring the website):
+  #   standard: the tested standard mix for the person's suitability level (shelf safe_mix), in milliseconds. The
+  #             auditor still checks it against its twins. The website uses this.
+  #   model:    the language model chooses weights from the allowed products, audited by MR1-MR6 (the report's design).
+  #             Experiments set this in their run config. On the website's CPU it took 60-115 s per plan with
+  #             qwen2.5:3b, and the audit usually fell back to the standard mix anyway.
+  mode: standard
+  # v3 (2026-11-01): give the planner the suitability-level standard mix as a starting point. Without it, the 3B model
+  # copied the first products listed (all fixed income) even when the person's suitability allowed hybrid and gold funds.
+  anchor_mix: true
+
+explainer:
+  # How the model's explanation under a plan may use numbers (decided by the team on 2026-11-01 after the advice
+  # evaluation). none: the model explains the order in words; any sentence with a number, ₹ or % is dropped, so
+  # amounts appear only on the plan card. approved: the report's original number guard (numbers must come from code).
+  numbers: none
+
+evidence:
+  # v4 (2026-11-01): Plan and Check answers show what FinAdvisor looked at. Library passages on the products in the
+  # answer are retrieved and shown; with documents_in_prompt the explainer may use them for wording (their numbers are
+  # not approved, so the number guard drops any sentence that quotes them). Headlines come from the cached news desk
+  # (RSS + FinBERT); they are shown for context and never reach the planner or the explainer.
+  documents: 3
+  # Off after the 2026-11-01 evaluation: with passages in the prompt the 3B explainer named products that are not in
+  # the plan (a "flexi-sweep FD" from the FD guide). The passages are still retrieved and shown to the person.
+  documents_in_prompt: false
+  headlines: 6
+
+pressure:
+  # Wishes and pressure are recorded and acknowledged. They do not change the measured willingness
+  # level; only retaking the questionnaire does. (Report Alg. 3 leaves adjust_willingness open;
+  # the build brief requires the plan to stay put unless facts change.)
+  willingness_adjustment: none
+
+auditor:
+  max_repairs: 2
+  # Evaluation order. MR6 first: with small models it is the relation most often broken, so a failing
+  # attempt is found with the fewest model calls.
+  relations: [MR6, MR1, MR2, MR3, MR4, MR5]
+  # Stop an attempt at its first failure and go straight to repair (the final output is the same kind of
+  # result either way). Experiments that report DVR per relation copy this file with early_exit: false.
+  early_exit: true
+  # Hard latency bound for the CPU-only website host: when exceeded, the deterministic safe plan is shown
+  # (status "fallback", reason "time_budget"). Never an unaudited plan.
+  time_budget_s: 240
+  twins:
+    MR1_savings_factor: 0.5          # twin has half the liquid savings
+    MR3_new_emi_share: 0.10          # twin adds an EMI of 10% of take-home
+    MR4_horizon_cut_years: 3         # twin goal horizon shortened by 3 years (minimum 1)
+    MR4_max_goals: 2
+    MR6_paraphrase_styles: [casual, table]
+    # "Same plan" for MR6 = the same products in every bucket, each share within this absolute tolerance.
+    # Planner weights are integers 1-10, so one part is ~0.1 of a bucket. 0.0 reproduces the report's strict P(x')=P(x);
+    # raw signatures are logged, so strict results can be recomputed from any run.
+    MR6_share_tolerance: 0.10
+    # shares (pipeline-v4): same products, each share within the tolerance. risk: the risky share of the plan and
+    # of every goal within the tolerance; the split among products of the same risk class may differ.
+    MR6_compare: risk
+  # rho comparisons allow this absolute tolerance for rounding of rupee amounts
+  rho_tolerance: 0.01

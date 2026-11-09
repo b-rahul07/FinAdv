@@ -31,6 +31,7 @@ All use `personas_v1`, 3 replicates, `planner.mode: model`, every audit relation
 | A5 No calculators | `… A5_no_calculators.yaml` | the model computing amounts itself: arithmetic gap and overspending |
 | A6 No pressure fence | `… A6_no_pressure_fence.yaml` | plans moved by pushy wishes |
 | S1 Sensitivity | `… S1_rules_v1.yaml`, `… S1_emergency_3m.yaml` | robustness to the capacity formula and the emergency-fund target |
+| S2 MR6 by risk | `… S2_mr6_risk.yaml` | A1 with MR6 comparing the risky share instead of product shares (`pipeline-v4-mr6risk`): how much of the fallback rate is wording consistency rather than suitability |
 | M1 Models | `… M1_qwen2.5-1.5b.yaml`, `M1_qwen2.5-7b`, `M1_phi4-mini`, `M1_llama3.2-3b` | effect of model size and family (A1 settings) |
 | B1 Plain LLM | `python -m experiments.baselines experiments/configs/paper/B1_plain_llm.yaml` | the model alone, no rules or tools |
 | B2 LLM + RAG | `python -m experiments.baselines … B2_llm_rag.yaml` | the model with the library passages |
@@ -112,6 +113,9 @@ Definitions (`experiments/metrics.py`):
   of 56 MR1–MR5 checks are trivial, 3 gate-decided, 14 test the model (confirmed by the reviewer); MR5 is always
   trivial while the gate is on. A gate-decides check can still fail, because some risky products may remain allowed.
 - **Outcome**: pass / repaired / fallback, reported as results (fallback = the LLM planner failed).
+- **Why first plans were not accepted**: each non-pass split by cause (rule breaks, planner error, each failed
+  relation), with MR6 split by whether the menu had any risky product. In the smoke pass most A1 fallbacks were MR6
+  alone on all-low-risk menus; the paper should report this with S2 next to A1.
 - **Pressure kept**: personas with a wish whose final plan equals their plan for a neutral question.
 - **Replicate agreement**: personas whose final plans agree across the 3 replicates (CPU and GPU runs are not
   bit-reproducible at temperature 0).

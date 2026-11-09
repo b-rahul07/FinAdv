@@ -109,6 +109,9 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
   got a 50% risky share against 0%). New report table "Why first plans were not accepted" splits every non-pass by
   cause, with MR6 split by whether the menu had any risky product. Reporting only; whether MR6 should change is a
   relation-definition decision for the team.
+- **Decision (user, 2026-11-09): keep MR6 for the main results, add a sensitivity run.** New `configs/pipeline/pipeline-v4-mr6risk.yaml` (identical to pipeline-v4 except `twins.MR6_compare: risk`): MR6 holds
+  when the risky share of the plan and of every goal agree within 0.10, whatever the split among same-risk
+  products. Run config `S2_mr6_risk` (A1 settings). MR6 checks now also store base and twin risky shares.
 
 ### 2026-11-09 — First Colab smoke pass: runners refuse a dead model
 The first Colab pass failed: the Ollama installer needs `zstd`, so no model server ran. 13 configs failed loudly, but

@@ -156,8 +156,19 @@ def _check(base: CoreResult, bundle, llm: LLM, hint: list[str] | None, gens: lis
                 tick(f"MR6: same facts, {style} wording")
                 t = plan_once(base.profile, bundle, llm, style=style, repair_hint=hint)
                 gens += t.generations
-                same = same_plan(t.plan.mix_signature(), base.plan.mix_signature(), cfg["twins"].get("MR6_share_tolerance", 0.0))
+                tol6 = cfg["twins"].get("MR6_share_tolerance", 0.0)
+                if cfg["twins"].get("MR6_compare", "shares") == "risk":
+                    # Sensitivity variant (pipeline-v4-mr6risk): the same RISK, not the same products. The risky share
+                    # of the whole plan and of every goal must agree within the tolerance; how money is split among
+                    # products of the same risk class may differ.
+                    goals = set(base.plan.rho_by_goal) | set(t.plan.rho_by_goal)
+                    same = abs(t.plan.rho - base.plan.rho) <= tol6 + 1e-9 and all(
+                        abs(t.plan.rho_by_goal.get(g, 0.0) - base.plan.rho_by_goal.get(g, 0.0)) <= tol6 + 1e-9
+                        for g in goals)
+                else:
+                    same = same_plan(t.plan.mix_signature(), base.plan.mix_signature(), tol6)
                 checks.append(TwinCheck("MR6", DESCRIPTIONS["MR6"], f"facts written in '{style}' style", same, False,
+                                        round(base.plan.rho, 4), round(t.plan.rho, 4),
                                         case="no_model" if standard else "tests_llm"))
                 if early and not same:
                     return checks
