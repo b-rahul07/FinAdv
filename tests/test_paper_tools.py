@@ -104,6 +104,39 @@ def test_a_model_failure_mid_run_stops_without_writing_a_fallback(tmp_path, monk
     assert not out.exists() or not out.read_text()     # the fallback reply was never stored as a result
 
 
+def test_transient_model_errors_are_retried(monkeypatch):
+    import httpx
+    from finadvisor.llm.fake import FakeLLM
+    monkeypatch.setattr(runner.StrictLLM, "RETRY_WAIT_S", (0, 0))
+    calls = []
+
+    def flaky(system, prompt, schema, purpose):
+        calls.append(1)
+        if len(calls) < 3:
+            req = httpx.Request("POST", "http://x/api/chat")
+            raise httpx.HTTPStatusError("500", request=req, response=httpx.Response(500, request=req))
+        return {"ok": True}
+    s = runner.StrictLLM(FakeLLM(flaky))
+    assert s.json("s", "p", {}, purpose="x", template="t")[0] == {"ok": True}
+    assert s.retries == 2 and not s.errors
+    always =runner.StrictLLM(FakeLLM(lambda *a: (_ for _ in ()).throw(httpx.ConnectError("refused"))))
+    with pytest.raises(httpx.ConnectError):
+        always.json("s", "p", {}, purpose="x", template="t")
+    assert always.errors and always.retries == 2
+
+
+def test_first_attempt_causes_split_mr6_by_menu():
+    rows = {json.loads(line)["id"]: json.loads(line) for line in Path(PERSONAS).read_text(encoding="utf-8").splitlines()}
+    low = rows["S7-006"]                                            # suitability low: no risky product allowed
+    rec = {"profile": low["profile"], "run_config": {"pipeline": "pipeline/default.yaml"},
+           "audit": {"attempts": [{"violations": [], "checks": [{"relation": "MR6", "holds": False}]}]}}
+    assert metrics.risky_menu(rec) is False
+    assert metrics.first_attempt_causes(rec) == ["MR6, all-low-risk menu"]
+    high = next(r for r in rows.values() if r["engine_oracle"]["suitability"] == "high")
+    rec_high = {**rec, "profile": high["profile"]}
+    assert metrics.first_attempt_causes(rec_high) == ["MR6, risky options"]
+
+
 def test_runner_plan_and_turn_modes_record_what_the_metrics_need(tmp_path):
     out_p, out_t = tmp_path / "p.jsonl", tmp_path / "t.jsonl"
     common = dict(pipeline="pipeline/default.yaml", model="tiny-test", inputs=PERSONAS, limit=6,

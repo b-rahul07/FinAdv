@@ -98,6 +98,18 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
+### 2026-11-09 — Second Colab smoke pass: 15 of 16 configs ran; why plans fall back
+- All configs except M1_phi4-mini ran with every table (T4, 1 replicate × 20 personas). phi4-mini got an Ollama
+  `500 Internal Server Error` at persona 13; StrictLLM now retries server errors and dropped connections twice
+  (10 s, 30 s; a stream only before its first chunk) before stopping.
+- **Why A1 plans fall back**: reproduced locally, 6 of the 7 A1 personas that were not passed first time failed MR6
+  alone, all with Low suitability, where every allowed product is low risk: the wording twins split money differently
+  among FD/RD/liquid/debt/PPF (e.g. PPF 15% vs none), beyond the 0.10 share tolerance. Suitability is unchanged, and
+  the fallback (standard mix) is equally low risk. Only S7-007 failed a suitability relation (MR3: a ₹3,500 EMI twin
+  got a 50% risky share against 0%). New report table "Why first plans were not accepted" splits every non-pass by
+  cause, with MR6 split by whether the menu had any risky product. Reporting only; whether MR6 should change is a
+  relation-definition decision for the team.
+
 ### 2026-11-09 — First Colab smoke pass: runners refuse a dead model
 The first Colab pass failed: the Ollama installer needs `zstd`, so no model server ran. 13 configs failed loudly, but
 A1T, A4 and ADV "passed" in 0 s, because the website degrades gracefully (standard plan, fixed sentence) when the

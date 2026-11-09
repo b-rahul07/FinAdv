@@ -65,6 +65,16 @@ def main() -> None:
         for rid, x in a5.items():
             gap = f"{x['mean_abs_gap']:.1%}" if x["mean_abs_gap"] is not None else "—"
             lines.append(f"| {rid} | {gap} | {pct(x['overspend'])} | {pct(x['agrees_with_rule_check'])} |")
+    causes = {rid: s for rid, s in summaries.items() if s.get("first_attempt_causes")}
+    if causes:
+        lines += ["", "## Why first plans were not accepted", "",
+                  "Share of audited records whose first plan failed for each reason (a record can have several). "
+                  "'MR6 only, low-risk menu': the only failure was a wording twin splitting money differently among "
+                  "low-risk products, which leaves suitability unchanged.", "",
+                  "| Run | Cause | Share | MR6 only, low-risk menu |", "|---|---|---|---|"]
+        for rid, s in causes.items():
+            for i, (cause, r) in enumerate(s["first_attempt_causes"].items()):
+                lines.append(f"| {rid} | {cause} | {pct(r)} | {pct(s['mr6_only_on_low_risk_menu']) if i == 0 else ''} |")
     alloc = {rid: s["allocation"] for rid, s in summaries.items() if "allocation" in s}
     if alloc:
         lines += ["", "## Baseline ALLOCATION block", "",

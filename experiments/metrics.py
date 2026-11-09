@@ -242,6 +242,40 @@ def checks(rec: dict) -> list[dict]:
     return attempts[0].get("checks", []) if attempts else []
 
 
+def risky_menu(rec: dict) -> bool | None:
+    """Whether the person's true allowed menu holds any risky product. With none, a plan can differ from its twin
+    only in how money is split among low-risk products, which leaves suitability unchanged."""
+    p = _profile(rec)
+    if p is None:
+        return None
+    from finadvisor.advisor.plan import is_risky
+    b = bundle_of(rec)
+    allowed = oracle.true_allowed(p, b)
+    return any(allowed.get(x["id"]) and x.get("plannable") and is_risky(x, b.rules) for x in b.shelf["products"])
+
+
+def first_attempt_causes(rec: dict) -> list[str]:
+    """Why the first plan was not accepted: rule breaks, planner errors, and each failed relation, with MR6 split by
+    whether the menu had any risky product (the smoke pass on Colab: 6 of 7 A1 non-passes were MR6 alone on
+    all-low-risk menus). Empty when the first attempt passed. Reporting only; pass/fail is unchanged."""
+    attempts = (rec.get("audit") or {}).get("attempts") or []
+    if not attempts:
+        return []
+    a0 = attempts[0]
+    out = []
+    v = a0.get("violations") or []
+    if _rule_breaks(v):
+        out.append("rule breaks")
+    if any(x.startswith("planner:") for x in v):
+        out.append("planner error")
+    for rel in sorted({c["relation"] for c in a0.get("checks", []) if not c["holds"]}):
+        if rel == "MR6":
+            out.append("MR6, risky options" if risky_menu(rec) else "MR6, all-low-risk menu")
+        else:
+            out.append(rel)
+    return out
+
+
 def pressure_kept(rec: dict) -> bool | None:
     if not rec.get("neutral"):
         return None
@@ -362,6 +396,12 @@ def summarise(records: list[dict]) -> dict:
         "latency_s": {"median": statistics.median(lat), "p90": lat[int(0.9 * (len(lat) - 1))]},
         "provenance": provenance(records),
     }
+    audited = [r for r in pipeline if (r.get("audit") or {}).get("attempts")]
+    if audited:   # why first plans were not accepted, as a share of all audited records
+        causes = [(r["profile_id"], first_attempt_causes(r)) for r in audited]
+        names = sorted({c for _, cs in causes for c in cs})
+        out["first_attempt_causes"] = {c: cluster_rate([(p, c in cs) for p, cs in causes]) for c in names}
+        out["mr6_only_on_low_risk_menu"] = cluster_rate([(p, cs == ["MR6, all-low-risk menu"]) for p, cs in causes])
     base = [r for r in records if r.get("mode") == "baseline"]
     if base:   # how often the model followed the ALLOCATION format (judging falls back to the text when it did not)
         froms = [(r["profile_id"], baseline_verdict(r)["judged_from"]) for r in base]

@@ -49,25 +49,47 @@ class StrictLLM:
     even when the pipeline catches it, and the runner stops before writing that record (runs resume, so nothing is
     lost)."""
 
+    RETRY_WAIT_S = (10, 30)   # a server error or dropped connection is retried twice (phi4-mini returned 500 on Colab)
+
     def __init__(self, llm):
-        self._llm, self.errors = llm, []
+        self._llm, self.errors, self.retries = llm, [], 0
 
     def __getattr__(self, name):
         return getattr(self._llm, name)
 
+    @staticmethod
+    def _transient(e: Exception) -> bool:
+        return isinstance(e, httpx.TransportError) or (
+            isinstance(e, httpx.HTTPStatusError) and e.response.status_code >= 500)
+
     def json(self, *args, **kwargs):
-        try:
-            return self._llm.json(*args, **kwargs)
-        except httpx.HTTPError as e:
-            self.errors.append(f"{type(e).__name__}: {e}")
-            raise
+        for wait in (*self.RETRY_WAIT_S, None):
+            try:
+                return self._llm.json(*args, **kwargs)
+            except httpx.HTTPError as e:
+                if wait is None or not self._transient(e):
+                    self.errors.append(f"{type(e).__name__}: {e}")
+                    raise
+                self.retries += 1
+                print(f"model error ({type(e).__name__}), retrying in {wait} s", file=sys.stderr, flush=True)
+                time.sleep(wait)
 
     def stream(self, *args, **kwargs):
-        try:
-            yield from self._llm.stream(*args, **kwargs)
-        except httpx.HTTPError as e:
-            self.errors.append(f"{type(e).__name__}: {e}")
-            raise
+        for wait in (*self.RETRY_WAIT_S, None):
+            started = False
+            try:
+                for chunk in self._llm.stream(*args, **kwargs):
+                    started = True
+                    yield chunk
+                return
+            except httpx.HTTPError as e:
+                # a stream can be retried only before its first chunk; after that the text is half written
+                if wait is None or started or not self._transient(e):
+                    self.errors.append(f"{type(e).__name__}: {e}")
+                    raise
+                self.retries += 1
+                print(f"model error ({type(e).__name__}), retrying in {wait} s", file=sys.stderr, flush=True)
+                time.sleep(wait)
 
     def check(self, where: str) -> None:
         if self.errors:
