@@ -131,9 +131,12 @@ class _OutOfTime(Exception):
 
 
 def _check(base: CoreResult, bundle, llm: LLM, hint: list[str] | None, gens: list[Generation],
-           progress: Callable[[str], None] | None = None, deadline: float | None = None) -> list[TwinCheck]:
+           progress: Callable[[str], None] | None = None, deadline: float | None = None,
+           wish: str | None = None) -> list[TwinCheck]:
     """Run the relations in config order. With early_exit, stop at the first failure (the attempt is repaired
-    anyway); otherwise evaluate all of them (experiments that report DVR per relation set early_exit: false)."""
+    anyway); otherwise evaluate all of them (experiments that report DVR per relation set early_exit: false).
+    `wish` is the person's request as the planner saw it: twins get the same input as the original, so a relation
+    compares plans that differ only in the twin's change (with the pressure fence on, plan_once drops it anyway)."""
     cfg = bundle.pipeline["auditor"]
     tol = cfg["rho_tolerance"]
     early = cfg.get("early_exit", False)
@@ -154,7 +157,7 @@ def _check(base: CoreResult, bundle, llm: LLM, hint: list[str] | None, gens: lis
         if rel == "MR6":
             for style in cfg["twins"]["MR6_paraphrase_styles"]:
                 tick(f"MR6: same facts, {style} wording")
-                t = plan_once(base.profile, bundle, llm, style=style, repair_hint=hint)
+                t = plan_once(base.profile, bundle, llm, style=style, repair_hint=hint, wish=wish)
                 gens += t.generations
                 tol6 = cfg["twins"].get("MR6_share_tolerance", 0.0)
                 if cfg["twins"].get("MR6_compare", "shares") == "risk":
@@ -181,7 +184,7 @@ def _check(base: CoreResult, bundle, llm: LLM, hint: list[str] | None, gens: lis
             if trivial:
                 t = plan_once(twin, bundle, llm, use_safe_mix=True)
             else:
-                t = plan_once(twin, bundle, llm, repair_hint=hint)
+                t = plan_once(twin, bundle, llm, repair_hint=hint, wish=wish)
                 gens += t.generations
             if rel == "MR5":
                 bv, tv = _rho_cap_low(bundle), t.plan.rho
@@ -221,7 +224,11 @@ def _hints(violations: list[str], checks: list[TwinCheck]) -> list[str]:
     return out
 
 
-def audit(base: CoreResult, bundle, llm: LLM, progress: Callable[[str], None] | None = None) -> AuditResult:
+def audit(base: CoreResult, bundle, llm: LLM, progress: Callable[[str], None] | None = None,
+          wish: str | None = None) -> AuditResult:
+    """`wish`: the request the first plan was made with. Twins and repairs are planned with the same request, so with
+    the pressure fence off (ablation A6) the audit measures the wish's effect rather than quietly removing it (until
+    11 Nov 2026 repairs and MR6 twins were planned without it, which put the fence back through the repair)."""
     if not bundle.pipeline["stages"]["auditor"]:
         return AuditResult("off", base)
     cfg = bundle.pipeline["auditor"]
@@ -238,7 +245,7 @@ def audit(base: CoreResult, bundle, llm: LLM, progress: Callable[[str], None] | 
             if current.violations and cfg.get("early_exit", False):
                 checks = []
             else:
-                checks = _check(current, bundle, llm, hint, gens, progress, deadline)
+                checks = _check(current, bundle, llm, hint, gens, progress, deadline, wish)
             attempts.append(Attempt(n, current.violations, checks, current.plan.to_dict()))
             if not current.violations and all(c.holds for c in checks):
                 return AuditResult("pass" if n == 0 else "repaired", current, attempts, gens)
@@ -249,7 +256,7 @@ def audit(base: CoreResult, bundle, llm: LLM, progress: Callable[[str], None] | 
                 raise _OutOfTime()
             if progress:
                 progress(f"repair {n + 1} of {max_repairs}")
-            current = plan_once(base.profile, bundle, llm, repair_hint=hint)
+            current = plan_once(base.profile, bundle, llm, repair_hint=hint, wish=wish)
             gens += current.generations
     except _OutOfTime:
         reason = "time_budget"

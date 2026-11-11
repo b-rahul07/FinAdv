@@ -98,6 +98,47 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
+### 2026-11-11 — Whole-codebase review: router, number words, the wish in the audit, API and form fixes
+Requested by the user ("evaluate the entire codebase, look for flaws, fix them") while the long Colab runs were in
+progress on commit 8240301. Rule kept throughout: a fix may not change a run that has started or finished. The plan-mode
+runs with the fence on (A1, S2, A2, A3, A5, S1, M1) are untouched by every change below; the four runs the changes do
+affect (A6, A1T, A4, ADV) had not started and now run last (notebook `RUN_ORDER`), on the fixed code.
+- **Ablation A6 was confounded.** `auditor.audit` planned the MR6 twins and every repair *without* the person's wish,
+  so with the pressure fence off the first plan saw the wish but its twins did not (an MR6 failure by construction)
+  and the repair quietly restored the fence. `audit(..., wish=)` now carries the same request into twins and repairs;
+  `Advisor.run_plan` and the Plan route pass it. With the fence on, `plan_once` drops the wish anyway, so A1 and the
+  website are unchanged (test: `test_twins_and_repairs_see_the_same_wish_as_the_first_plan`).
+- **Number guard reads numbers written as words.** "twelve percent", "double in seven years", "two lakh" passed the
+  guard and the unsourced-number metric. `numbers.WORD_NUM` (units, tens, compounds, "and a half", hundred to crore)
+  feeds the same count/rate rules as digits; ordinals and "one of the steps" stay free. `collect` reads them too.
+- **Router.** Hinglish turns ("mera salary 60k hai, plan bana do", "konsa share kharidu") and stock-naming questions
+  ("Is HDFC Bank a good buy right now?", "recommend 3 stocks", "wich stok to by tomorow") went to the Learn route,
+  bypassing the gate and the fixed "I can't name individual stocks" answer; "tell me about PPF" / "explain ELSS to me"
+  went to Plan because of the object pronoun. The router now knows first-person Hinglish words and verb endings,
+  common misspellings, and routes any request to pick, buy or sell a never-planned product (stocks, named companies,
+  F&O, crypto, small caps, a new EMI) to Check; general questions keep Learn ("How is crypto taxed in India?",
+  "F n O trading for beginers"). `pressure.PRODUCT_WORDS` now recognises large listed companies and misspellings
+  ("cripto", "stok", "F n O"); the experiments' text oracle keeps its own company list so judging stays independent.
+  Of the 50 adversarial turns, 17 change route (all towards the pipeline); 6 general ones stay Learn.
+- **Unsourced-number metric made comparable.** The pipeline's words-only explainer approves no number, so its metric
+  counted a repeated salary as unsourced while baselines were allowed the person's figures. `metrics.unsourced` now
+  adds the person's own figures for every run and re-judges baselines from the stored text.
+- **API.** Two messages sent together could start two generations on one chat (the live check and the claim were
+  not atomic): `_claim` now checks and sets under the lock. Editing a transaction onto another instrument skipped
+  the oversell check on the instrument it left, the future-date check and tracking of the new instrument.
+- **Extraction.** New goal ids counted goals (`g{n+1}`), which collides when an earlier goal was removed on the card
+  (g1, g3 → new "g3"); the first free id is used.
+- **Profile form.** An emptied number field became 0 (a goal "in 0 years" failed on save with a bare 422; a cleared
+  loan rate became 0% instead of unknown); empty is now NaN → null/0 as the field needs, and the save button waits for
+  a positive horizon.
+- **Notebook.** `RUN_ORDER` reordered as above; step 10 refuses to continue a run whose rows came from another commit
+  (a run must never mix commits); `UPDATE_CODE` defaults to True (pull at step 4), smoke off, long runs on.
+- Reviewed and left as is (for the paper's "simplifications", `docs/EXPERIMENTS.md` §6): insurance premiums not
+  deducted; card dues cleared without interest and a card's minimum-due EMI not freed (no persona has one; fix in a
+  later plan version, with a version tag, after the runs); lock-in products never offered for undated money; the
+  one-pass `max_share` cap (only gold is capped); replicates at temperature 0 measure kernel spread, not sampling.
+- Tests: 306 pass (`python -m pytest`); `npx tsc --noEmit` clean; `npm test` 8 pass.
+
 ### 2026-11-09 — Second Colab smoke pass: 15 of 16 configs ran; why plans fall back
 - All configs except M1_phi4-mini ran with every table (T4, 1 replicate × 20 personas). phi4-mini got an Ollama
   `500 Internal Server Error` at persona 13; StrictLLM now retries server errors and dropped connections twice

@@ -125,11 +125,17 @@ def edit_tx(tx_id: str, body: TxIn, me: Current = Depends(current), s: Session =
     t = s.get(Transaction, tx_id)
     if t is None or t.user_id != me.id:
         raise HTTPException(404, "Not found")
+    inst = _inst(s, body.instrument_id)
+    if body.trade_date > jobs.today_ist():
+        raise HTTPException(422, "The trade date is in the future.")
     new = Transaction(user_id=me.id, **body.model_dump())
-    _check_no_oversell(s, me.id, body.instrument_id, extra=[new], skip=tx_id)
+    _check_no_oversell(s, me.id, inst.id, extra=[new], skip=tx_id)
+    if t.instrument_id != inst.id:   # moving a buy away from an instrument can leave its later sales uncovered
+        _check_no_oversell(s, me.id, t.instrument_id, skip=tx_id)
     for k, v in body.model_dump().items():
         setattr(t, k, v)
     s.commit()
+    _start_tracking(inst.id)
     return {"ok": True}
 
 

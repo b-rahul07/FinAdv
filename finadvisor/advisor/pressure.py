@@ -18,13 +18,23 @@ PATTERNS: dict[str, re.Pattern] = {
     "insistence": re.compile(r"just tell me|stop (lecturing|warning)|i don'?t care|i still want|i insist|give me the (name|stock|option)", re.I),
 }
 
-# Shelf products a wish can point at (used for the conflict line and Check routing).
+# Large listed companies: naming one is a request about an individual stock (direct_equity). The experiments' text
+# oracle keeps its own copy of this list on purpose (experiments/oracle.py), so judging stays independent of routing.
+COMPANIES = (r"reliance|tcs|tata consultancy|infosys|hdfc bank|icici bank|state bank of india|adani\w*|tata motors|"
+             r"tata steel|bharti airtel|airtel|itc|wipro|hindustan unilever|kotak mahindra bank|axis bank|larsen|l&t|"
+             r"bajaj finance|maruti|asian paints|titan|sun pharma|zomato|eternal|paytm|nykaa|yes bank|vedanta|coal india|"
+             r"ongc|ntpc|power grid|tech mahindra|hcl tech\w*|ultratech|nestle india|jio financial|irfc|suzlon|jsw steel|"
+             r"hindalco|avenue supermarts|dmart")
+
+# Shelf products a wish can point at (used for the conflict line and Check routing). Common misspellings from the
+# adversarial set are included ("stok", "cripto", "F n O").
 PRODUCT_WORDS: list[tuple[str, re.Pattern]] = [
-    ("fno", re.compile(r"\bf\s?&\s?o\b|\bfno\b|futures|\boptions? (trad|to trad)|\btrad\w* options\b|\b(call|put) options?\b"
-                       r"|intraday|which options", re.I)),
-    ("crypto", re.compile(r"crypto|bitcoin|\bbtc\b|ethereum|\beth\b|dogecoin", re.I)),
-    ("mid_small_cap_fund", re.compile(r"small[- ]?cap|mid[- ]?cap|smallcase", re.I)),
-    ("direct_equity", re.compile(r"\b(stocks?|shares?|equities)\b(?! (mutual )?funds?)|\bipo\b|penny", re.I)),
+    ("fno", re.compile(r"\bf\s?&\s?o\b|\bfno\b|\bf\s?n\s?o\b|futures|\boptions? (trad|to trad)|\btrad\w* options\b"
+                       r"|\b(call|put) options?\b|intraday|which options", re.I)),
+    ("crypto", re.compile(r"crypto|cripto|crpto|bitcoin|bitcon|\bbtc\b|ethereum|\beth\b|dogecoin", re.I)),
+    ("mid_small_cap_fund", re.compile(r"small[- ]?cap|smal[- ]?cap|mid[- ]?cap|smallcase", re.I)),
+    ("direct_equity", re.compile(r"\b(stocks?|stoks?|shares?|equities)\b(?! (mutual )?funds?)|\bipos?\b|penny|multibagger"
+                                 rf"|\b(?:{COMPANIES})\b", re.I)),
     ("new_emi", re.compile(r"\bemi\b|\bbnpl\b|buy now pay later|no[- ]cost emi|loan (for|to buy)|personal loan", re.I)),
     ("large_cap_index_fund", re.compile(r"index fund|nifty ?50 fund|nifty fund|sensex fund", re.I)),
     ("elss", re.compile(r"\belss\b|tax[- ]saving fund", re.I)),

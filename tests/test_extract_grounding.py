@@ -56,3 +56,16 @@ def test_existing_debt_is_kept_but_needs_an_amount_in_the_message():
     assert changed == ["debts"] and p["debts"][-1]["emi_monthly"] == 9000
     _, changed = run("I have a car loan", {"debts": [{"kind": "car", "emi_monthly": 9000}]})
     assert changed == []
+
+
+def test_new_goal_ids_never_collide_with_existing_ones():
+    from finadvisor.advisor.profile import Goal
+    base = Profile(take_home_monthly=80000, expenses_monthly=30000,
+                   goals=[Goal(id="g1", name="Home", target_today=1000000, horizon_years=8),
+                          Goal(id="g3", name="Car", target_today=500000, horizon_years=3)])   # g2 was removed on the card
+    p, changed = run("I want 20 lakh for my child's education in 12 years",
+                     {"goals": [{"name": "Child's education", "kind": "education", "target_today": 2000000, "horizon_years": 12}]},
+                     base=base)
+    assert changed == ["goals"]
+    ids = [g["id"] for g in p["goals"]]
+    assert len(ids) == len(set(ids)) == 3 and ids[-1] == "g2"

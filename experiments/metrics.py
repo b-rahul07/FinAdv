@@ -229,12 +229,21 @@ def first_unsuitable(rec: dict) -> bool | None:
 
 
 def unsourced(rec: dict) -> bool | None:
+    """A number in the model's text (before any guard) that neither code nor the person produced. Judged the same way
+    for every run: the live guard's approved set (empty when the explainer is told to use no numbers) plus the person's
+    own figures, which the baselines are also allowed to repeat. Re-judged from the stored raw text, so a change to the
+    number rules applies to every run alike."""
+    p = _profile(rec)
+    own = oracle.profile_numbers(p) if p is not None else set()
     if rec.get("mode") == "baseline":
-        return bool(rec["unsourced_numbers"])
+        if p is None:
+            return bool(rec["unsourced_numbers"])
+        return bool(oracle.unsourced_numbers(rec.get("text", ""), own))
     gens = [g for g in rec.get("generations", []) if g.get("purpose") == "explain" and isinstance(g.get("output"), dict)]
     if not gens:
         return None   # plan-mode runs write no explanation
-    return any(oracle.unsourced_numbers(g["output"].get("raw", ""), set(g["output"].get("allowed", []))) for g in gens)
+    return any(oracle.unsourced_numbers(g["output"].get("raw", ""), set(g["output"].get("allowed", [])) | own)
+               for g in gens)
 
 
 def checks(rec: dict) -> list[dict]:

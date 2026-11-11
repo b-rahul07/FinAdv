@@ -79,7 +79,7 @@ function NumberField({ value, onChange, label, min = 0, max = 100, step = 1, suf
         {label}
       </label>
       <div className="flex items-center rounded-xl border bg-card px-3 focus-within:ring-2 focus-within:ring-ring">
-        <input id={id} type="number" min={min} max={max} step={step} className="num w-full bg-transparent py-2.5 outline-none" value={value ?? ""} onChange={(e) => onChange(Number(e.target.value))} />
+        <input id={id} type="number" min={min} max={max} step={step} className="num w-full bg-transparent py-2.5 outline-none" value={value ?? ""} onChange={(e) => onChange(e.target.value === "" ? NaN : Number(e.target.value))} />
         {suffix && <span className="text-sm text-muted-foreground">{suffix}</span>}
       </div>
     </div>
@@ -119,7 +119,7 @@ export function ProfileForm({ initial, changed = [], onSaved, compact = false }:
 
       <fieldset className={cn("grid gap-4", compact ? "sm:grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-3")}>
         <legend className="eyebrow mb-3">Family and protection</legend>
-        <NumberField label="People who depend on your income" value={p.dependants} onChange={(n) => set("dependants", Math.max(0, Math.round(n)))} max={20} />
+        <NumberField label="People who depend on your income" value={p.dependants} onChange={(n) => set("dependants", Math.max(0, Math.round(n) || 0))} max={20} />
         <MoneyInput label="Term life cover" value={p.life_cover} onChange={(n) => set("life_cover", n)} highlight={hl("life_cover")} />
         <MoneyInput label="Health cover" value={p.health_cover} onChange={(n) => set("health_cover", n)} highlight={hl("health_cover")} hint="Your own or family floater, not only your employer's" />
         <NumberField label="Age" value={p.age} onChange={(n) => set("age", n || null)} min={16} max={100} />
@@ -150,7 +150,7 @@ export function ProfileForm({ initial, changed = [], onSaved, compact = false }:
               </div>
               <MoneyInput label="Outstanding" value={d.outstanding} onChange={(n) => set("debts", p.debts.map((x, j) => (j === i ? { ...x, outstanding: n } : x)))} />
               <MoneyInput label="EMI per month" value={d.emi_monthly} onChange={(n) => set("debts", p.debts.map((x, j) => (j === i ? { ...x, emi_monthly: n } : x)))} />
-              <NumberField label="Rate" suffix="% a year" step={0.1} value={d.rate_pa} onChange={(n) => set("debts", p.debts.map((x, j) => (j === i ? { ...x, rate_pa: n } : x)))} />
+              <NumberField label="Rate" suffix="% a year" step={0.1} value={d.rate_pa} onChange={(n) => set("debts", p.debts.map((x, j) => (j === i ? { ...x, rate_pa: Number.isNaN(n) ? null : n } : x)))} />
               <Button type="button" variant="ghost" size="icon" aria-label="Remove loan" onClick={() => set("debts", p.debts.filter((_, j) => j !== i))}>
                 <Trash2 />
               </Button>
@@ -180,7 +180,7 @@ export function ProfileForm({ initial, changed = [], onSaved, compact = false }:
               </div>
               <MoneyInput label="Cost in today's money" value={g.target_today} onChange={(n) => set("goals", p.goals.map((x, j) => (j === i ? { ...x, target_today: n } : x)))} />
               <MoneyInput label="Saved so far" value={g.saved_so_far} onChange={(n) => set("goals", p.goals.map((x, j) => (j === i ? { ...x, saved_so_far: n } : x)))} />
-              <NumberField label="In" suffix="years" step={0.5} min={0.5} max={60} value={g.horizon_years} onChange={(n) => set("goals", p.goals.map((x, j) => (j === i ? { ...x, horizon_years: n } : x)))} />
+              <NumberField label="In" suffix="years" step={0.5} min={0.5} max={60} value={g.horizon_years} onChange={(n) => set("goals", p.goals.map((x, j) => (j === i ? { ...x, horizon_years: Number.isNaN(n) ? 0 : n } : x)))} />
               <Button type="button" variant="ghost" size="icon" aria-label="Remove goal" onClick={() => set("goals", p.goals.filter((_, j) => j !== i))}>
                 <Trash2 />
               </Button>
@@ -216,7 +216,7 @@ export function ProfileForm({ initial, changed = [], onSaved, compact = false }:
       </fieldset>
 
       <div className="flex flex-wrap items-center gap-3 border-t pt-4">
-        <Button type="submit" className="rounded-full px-6" disabled={save.isPending || p.goals.some((g) => !g.name || !g.target_today)}>
+        <Button type="submit" className="rounded-full px-6" disabled={save.isPending || p.goals.some((g) => !g.name || !g.target_today || !(g.horizon_years > 0))}>
           {save.isPending ? "Saving…" : "Confirm profile"}
         </Button>
         <p className="text-xs text-muted-foreground">FinAdvisor only uses facts you confirm. Each confirmation is saved as a new version.</p>

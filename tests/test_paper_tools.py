@@ -370,3 +370,19 @@ def test_oracle_score_against_hand_labels(tmp_path):
     recs = metrics.load(out)
     assert all("profile" in r for r in recs)
     assert metrics.summarise(recs)["unsuitable_text"]["n"] == 3
+
+
+def test_unsourced_numbers_allow_the_persons_own_figures_for_every_run():
+    """The pipeline's words-only explainer approves no number, so its own metric counted the person's salary as
+    unsourced while the baselines were allowed to repeat it (review, 11 Nov 2026). Both now get the same allowance."""
+    rows = [json.loads(line) for line in Path(PERSONAS).read_text(encoding="utf-8").splitlines()][:1]
+    p = rows[0]["profile"]
+    pay = int(p["take_home_monthly"])
+    gen = lambda raw: {"purpose": "explain", "output": {"raw": raw, "allowed": []}}
+    pipe = {"profile": p, "run_config": {}, "generations": [gen(f"You bring home ₹{pay:,} a month, so start small.")]}
+    assert metrics.unsourced(pipe) is False
+    pipe["generations"] = [gen("Equity funds return twelve percent a year.")]
+    assert metrics.unsourced(pipe) is True
+    base = {"mode": "baseline", "profile": p, "run_config": {}, "text": f"With ₹{pay:,} a month, save some.",
+            "unsourced_numbers": ["stale"]}
+    assert metrics.unsourced(base) is False

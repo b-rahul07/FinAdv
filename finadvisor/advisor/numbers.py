@@ -23,10 +23,42 @@ RATE_WORDS = re.compile(r"\b(returns?|returned|interest|yields?|cagr|growth|grow
                         r"triples?|inflation|per annum|points?)\b", re.I)
 
 
-def _is_count(sentence: str, m: re.Match) -> bool:
-    if NOT_A_COUNT_AFTER.match(sentence, m.end()) or NOT_A_COUNT_BEFORE.search(sentence[:m.start()]):
+# Numbers written as words ("twelve percent", "double in seven years", "two lakh"): the same rules as digits, so a
+# model told to use no numbers cannot spell one out instead (review, 11 Nov 2026). Ordinals ("first") are not numbers.
+_UNITS = {"zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9,
+          "ten": 10, "eleven": 11, "twelve": 12, "thirteen": 13, "fourteen": 14, "fifteen": 15, "sixteen": 16,
+          "seventeen": 17, "eighteen": 18, "nineteen": 19}
+_TENS = {"twenty": 20, "thirty": 30, "forty": 40, "fifty": 50, "sixty": 60, "seventy": 70, "eighty": 80, "ninety": 90}
+_SCALE = {"hundred": 100, "thousand": 1000, "lakh": 1e5, "lakhs": 1e5, "lac": 1e5, "crore": 1e7, "crores": 1e7}
+WORD_NUM = re.compile(
+    r"(?<![\w-])(?:(?P<tens>" + "|".join(_TENS) + r")(?:[-\s](?P<unit2>" + "|".join(_UNITS) + r"))?"
+    r"|(?P<unit>" + "|".join(_UNITS) + r"))"
+    r"(?:\s+(?P<half>and\s+a\s+half))?(?:\s+(?P<scale>" + "|".join(_SCALE) + r"))?\b", re.I)
+
+
+def _word_value(m: re.Match) -> float:
+    g = m.groupdict()
+    v = float(_TENS[g["tens"].lower()] + (_UNITS[g["unit2"].lower()] if g["unit2"] else 0)) if g["tens"] \
+        else float(_UNITS[g["unit"].lower()])
+    if g["half"]:
+        v += 0.5
+    if g["scale"]:
+        v *= _SCALE[g["scale"].lower()]
+    return v
+
+
+def _numbers(sentence: str):
+    """(text, value, start, end) for every number in a sentence, digits or words."""
+    for m in NUM.finditer(sentence):
+        yield m.group(0), _value(m), m.start(), m.end()
+    for m in WORD_NUM.finditer(sentence):
+        yield m.group(0), _word_value(m), m.start(), m.end()
+
+
+def _is_count(sentence: str, start: int, end: int) -> bool:
+    if NOT_A_COUNT_AFTER.match(sentence, end) or NOT_A_COUNT_BEFORE.search(sentence[:start]):
         return False
-    return not RATE_WORDS.search(sentence[max(0, m.start() - 25):m.end() + 25])
+    return not RATE_WORDS.search(sentence[max(0, start - 25):end + 25])
 
 
 def _value(m: re.Match) -> float:
@@ -65,8 +97,8 @@ def collect(obj) -> set[float]:
         if isinstance(x, (int, float)):
             add(float(x))
         elif isinstance(x, str):
-            for m in NUM.finditer(x):
-                add(_value(m))
+            for _, v, _, _ in _numbers(x):
+                add(v)
         elif isinstance(x, dict):
             for v in x.values():
                 walk(v)
@@ -82,11 +114,10 @@ def collect(obj) -> set[float]:
 
 def unapproved(sentence: str, allowed: set[float]) -> list[str]:
     bad = []
-    for m in NUM.finditer(sentence):
-        v = _value(m)
-        if (v in SMALL_FREE and _is_count(sentence, m)) or round(v, 2) in allowed or round(v) in allowed:
+    for text, v, start, end in _numbers(sentence):
+        if (v in SMALL_FREE and _is_count(sentence, start, end)) or round(v, 2) in allowed or round(v) in allowed:
             continue
-        bad.append(m.group(0))
+        bad.append(text)
     return bad
 
 

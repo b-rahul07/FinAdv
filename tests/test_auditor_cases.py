@@ -93,3 +93,28 @@ def test_mr6_risk_pipeline_file_differs_only_in_the_comparison():
     assert b["version"] == "pipeline-v4-mr6risk" and b["auditor"]["twins"].pop("MR6_compare") == "risk"
     b["version"] = a["version"]
     assert a == b
+
+
+def test_twins_and_repairs_see_the_same_wish_as_the_first_plan(bundle, healthy):
+    """Ablation A6 (pressure fence off): until 11 Nov 2026 the MR6 twins and the repairs were planned without the
+    person's wish, so the audit compared a wished plan with unwished twins and the repair put the fence back. Now every
+    planner call of one audit carries the same request."""
+    from test_pipeline import consistent_planner
+    stages = {**bundle.pipeline["stages"], "pressure_fence": False}
+    b = bundle.with_pipeline({**bundle.pipeline, "stages": stages,
+                              "auditor": {**bundle.pipeline["auditor"], "early_exit": False, "time_budget_s": None}})
+    seen = []
+
+    def planner(system, prompt, schema, purpose):
+        seen.append("THE PERSON SAYS: go aggressive" in prompt)
+        return consistent_planner(system, prompt, schema, purpose)
+    llm = FakeLLM(planner)
+    first = plan_once(healthy, b, llm, wish="go aggressive")
+    res = auditor.audit(first, b, llm, wish="go aggressive")
+    assert seen and all(seen), "every twin and repair must carry the wish"
+    assert all(c.holds for c in res.attempts[0].checks if c.relation == "MR6")
+    # with the fence on, the wish never reaches the planner at all
+    seen.clear()
+    first = plan_once(healthy, bundle, llm, wish="go aggressive")
+    auditor.audit(first, bundle, llm, wish="go aggressive")
+    assert seen and not any(seen)

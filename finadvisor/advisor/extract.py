@@ -122,18 +122,23 @@ def extract(llm: LLM, text: str, current: Profile | None, *, exclude_purchase: b
             proposed[k] = raw[k]
             changed.append(k)
     existing_goals = {g["name"].strip().lower() for g in base["goals"]}
-    for i, g in enumerate(raw.get("goals") or []):
+    used_ids = {g["id"] for g in base["goals"]}
+    for g in raw.get("goals") or []:
         if not g.get("name") or g["name"].strip().lower() in existing_goals or NOT_A_GOAL.search(g["name"]):
             continue
         if not g.get("target_today") or not g.get("horizon_years"):
             continue  # incomplete goals are asked for on the card instead of guessed
         if not (round(float(g["target_today"])) in nums or round(float(g["target_today"]), 2) in nums):
             continue  # the target must be stated in the message
+        # the first free gN: a profile whose g2 was removed on the card still has g3, so counting goals could collide
+        gid = next(f"g{n}" for n in range(1, len(used_ids) + 2) if f"g{n}" not in used_ids)
         try:
-            goal = Goal(id=f"g{len(base['goals']) + i + 1}", name=g["name"], kind=g.get("kind", "other"),
+            goal = Goal(id=gid, name=g["name"], kind=g.get("kind", "other"),
                         target_today=g["target_today"], horizon_years=g["horizon_years"])
         except ValidationError:
             continue
+        used_ids.add(gid)
+        existing_goals.add(g["name"].strip().lower())
         proposed["goals"] = [*proposed["goals"], goal.model_dump()]
         changed.append("goals")
     for d in raw.get("debts") or []:

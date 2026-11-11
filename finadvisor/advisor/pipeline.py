@@ -204,7 +204,7 @@ class Advisor:
     def run_plan(self, profile: Profile, wish: str | None = None, progress: Callable[[str], None] | None = None):
         """Headless entry for experiments: same code as the website's Plan route."""
         core = plan_once(profile, self.bundle, self.llm, wish=wish)
-        result = auditor.audit(core, self.bundle, self.llm, progress=progress)
+        result = auditor.audit(core, self.bundle, self.llm, progress=progress, wish=wish)
         return core, result
 
     # ------------------------------------------------------------------ routes
@@ -256,13 +256,14 @@ class Advisor:
             return
         reading = pressure.read(inp.text, inp.earlier_user_turns)
         emit("stage", {"stage": "capacity", "status": "running"})
+        wish_text = inp.text if reading.is_pressure else None
         try:
-            core = plan_once(profile, self.bundle, self.llm, wish=inp.text if reading.is_pressure else None)
+            core = plan_once(profile, self.bundle, self.llm, wish=wish_text)
             out.generations += core.generations
             emit("stage", {"stage": "capacity", "status": "done", "level": core.capacity.level if core.capacity else None})
             emit("stage", {"stage": "planner", "status": "done"})
             emit("stage", {"stage": "audit", "status": "running"})
-            result = auditor.audit(core, self.bundle, self.llm,
+            result = auditor.audit(core, self.bundle, self.llm, wish=wish_text,
                                    progress=lambda msg: emit("stage", {"stage": "audit", "status": "running", "detail": msg}))
         except httpx.TransportError:
             # Model unreachable: every number comes from code anyway, so show the deterministic safe plan, labelled.

@@ -105,34 +105,40 @@ def delete_chat(chat_id: str, me: Current = Depends(current), s: Session = Depen
 async def send(chat_id: str, body: Send, request: Request, me: Current = Depends(current), s: Session = Depends(db),
                runtime: Runtime = Depends(rt)):
     c = _chat(s, me, chat_id)
-    if chat_id in runtime.live:
-        raise HTTPException(409, "An answer is still being written in this chat")
-    first = not any(m.role == "user" for m in c.messages)
-    um = Message(chat_id=c.id, user_id=me.id, role="user", content=body.text.strip())
-    s.add(um)
-    if first and c.title == "New chat":
-        c.title = store.chat_title(body.text)
-    store.track(s, me.id, "message_sent", first=first)
-    s.commit()
-    return _stream(runtime, me.id, c.id, body.text.strip(), body.route, request, user_message_id=um.id)
+    cancel = _claim(runtime, chat_id)
+    try:
+        first = not any(m.role == "user" for m in c.messages)
+        um = Message(chat_id=c.id, user_id=me.id, role="user", content=body.text.strip())
+        s.add(um)
+        if first and c.title == "New chat":
+            c.title = store.chat_title(body.text)
+        store.track(s, me.id, "message_sent", first=first)
+        s.commit()
+    except Exception:
+        _release(runtime, chat_id)
+        raise
+    return _stream(runtime, me.id, c.id, body.text.strip(), body.route, request, user_message_id=um.id, cancel=cancel)
 
 
 @router.post("/chats/{chat_id}/regenerate")
 async def regenerate(chat_id: str, request: Request, me: Current = Depends(current), s: Session = Depends(db),
                      runtime: Runtime = Depends(rt)):
     c = _chat(s, me, chat_id)
-    if chat_id in runtime.live:
-        raise HTTPException(409, "An answer is still being written in this chat")
-    live = [m for m in c.messages if not m.superseded]
-    users = [m for m in live if m.role == "user"]
-    if not users:
-        raise HTTPException(400, "Nothing to regenerate")
-    for m in live:
-        if m.role == "assistant" and m.created_at >= users[-1].created_at:
-            m.superseded = True
-    store.track(s, me.id, "regenerate")
-    s.commit()
-    return _stream(runtime, me.id, c.id, users[-1].content, None, request, user_message_id=users[-1].id)
+    cancel = _claim(runtime, chat_id)
+    try:
+        live = [m for m in c.messages if not m.superseded]
+        users = [m for m in live if m.role == "user"]
+        if not users:
+            raise HTTPException(400, "Nothing to regenerate")
+        for m in live:
+            if m.role == "assistant" and m.created_at >= users[-1].created_at:
+                m.superseded = True
+        store.track(s, me.id, "regenerate")
+        s.commit()
+    except Exception:
+        _release(runtime, chat_id)
+        raise
+    return _stream(runtime, me.id, c.id, users[-1].content, None, request, user_message_id=users[-1].id, cancel=cancel)
 
 
 @router.post("/chats/{chat_id}/stop", status_code=204)
@@ -166,11 +172,23 @@ def _sse(kind: str, data: dict) -> bytes:
     return f"event: {kind}\ndata: {json.dumps(data, ensure_ascii=False, default=str)}\n\n".encode()
 
 
-def _stream(runtime: Runtime, user_id: str, chat_id: str, text: str, forced_route: str | None, request: Request,
-            user_message_id: str) -> StreamingResponse:
-    cancel = threading.Event()
+def _claim(runtime: Runtime, chat_id: str) -> threading.Event:
+    """Mark the chat as answering, atomically: two sends arriving together used to both pass the check and start two
+    generations on one chat."""
     with runtime.lock:
-        runtime.live[chat_id] = cancel
+        if chat_id in runtime.live:
+            raise HTTPException(409, "An answer is still being written in this chat")
+        runtime.live[chat_id] = cancel = threading.Event()
+    return cancel
+
+
+def _release(runtime: Runtime, chat_id: str) -> None:
+    with runtime.lock:
+        runtime.live.pop(chat_id, None)
+
+
+def _stream(runtime: Runtime, user_id: str, chat_id: str, text: str, forced_route: str | None, request: Request,
+            user_message_id: str, cancel: threading.Event) -> StreamingResponse:
     q: queue.Queue = queue.Queue()
 
     def worker():
@@ -197,8 +215,7 @@ def _stream(runtime: Runtime, user_id: str, chat_id: str, text: str, forced_rout
             q.put(("error", {"message": "Could not save this answer.", "detail": type(e).__name__}))
         finally:
             s.close()
-            with runtime.lock:
-                runtime.live.pop(chat_id, None)
+            _release(runtime, chat_id)
             q.put(None)
 
     threading.Thread(target=worker, daemon=True).start()
