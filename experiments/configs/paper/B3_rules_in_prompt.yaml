@@ -1,0 +1,9 @@
+# Baseline B3: the plain model with every rule the gate applies written into the prompt (R1-R7, capacity and
+# willingness levels, the suitability ceiling, the shelf with riskometer labels). No calculators, gate or auditor.
+# Run with: python -m experiments.baselines <this file>
+run_id: B3_rules_in_prompt
+model: website
+inputs: experiments/data/personas_v1.jsonl
+replicates: 3
+baseline: B3
+output: results/paper/B3_rules_in_prompt.jsonl

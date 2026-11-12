@@ -98,6 +98,24 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
+### 2026-11-12 — Paper plan: baseline B3, personalisation, capacity-share surrogate, LaTeX tables
+From `docs/PAPER_PLAN.md` (the paper's plan, written 12 Nov) and `docs/IMPROVEMENT_PLAN.md` (the product's). Nothing
+here touches the pipeline; the running experiments are unaffected.
+- **B3 "rules in the prompt"** (`experiments/baselines.py::rules_template`, `configs/paper/B3_rules_in_prompt.yaml`):
+  the same model told every rule the gate applies, in words built from the rules and shelf configs (R1–R7 with their
+  thresholds, how capacity and willingness levels are reached, the suitability ceiling per level, the plannable shelf
+  with riskometer labels, never shares/F&O/crypto), plus the questionnaire score in the facts. Judged like B1/B2. It is
+  the first alternative a reviewer proposes; it now gets measured. Added to the notebook's run order after B2.
+- **Personalisation** (`metrics.personalisation`): mean pairwise weighted Jaccard of plans across personas (replicate
+  0) with a persona bootstrap; `plan_weights` reads the final plan or the ALLOCATION block.
+- **Surrogate** (`metrics.surrogate`): numpy ridge of the risky share on 14 persona features (5-fold R², importance
+  shares on capacity vs willingness vs other features, FC). The paper's "heuristic collapse" reading on our own
+  personas; stated as not a replication of Ross & Lo.
+- Report: new table "Personalisation and what drives the risky share". `experiments/paper_tables.py` writes the paper's
+  LaTeX tables from `report.json` (main, ablations, models, DVR, causes, personalisation, adversarial, paired).
+- Tests: 4 new in `tests/test_paper_tools.py` (B3 text and run, personalisation, surrogate recovers a planted driver,
+  tables written).
+
 ### 2026-11-11 — Whole-codebase review: router, number words, the wish in the audit, API and form fixes
 Requested by the user ("evaluate the entire codebase, look for flaws, fix them") while the long Colab runs were in
 progress on commit 8240301. Rule kept throughout: a fix may not change a run that has started or finished. The plan-mode

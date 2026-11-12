@@ -23,6 +23,10 @@ Definitions (also in docs/EXPERIMENTS.md):
   replicate agreement share of personas whose final plans agree across replicates
   A5 arithmetic       mean absolute % gap between the model's monthly amounts and the calculators', and overspend
                       rate, computed here from the plan's steps independently of the rule check
+  personalisation     mean pairwise weighted Jaccard similarity of the plans given to different personas (lower =
+                      more personalised; 1 = everyone gets the same plan)
+  surrogate           ridge model of the risky share on the persona's features: R², feature concentration and the
+                      share of importance on capacity vs willingness features (the "heuristic collapse" reading)
 """
 
 from __future__ import annotations
@@ -333,6 +337,178 @@ def a5_arithmetic(rec: dict) -> dict | None:
             "agrees": over == (OVERSPEND in (rec.get("first_violations") or []))}
 
 
+# ----------------------------------------------------------------------------- personalisation and what drives risk
+
+def plan_weights(rec: dict) -> dict[str, float]:
+    """Product weights of an answer's plan (shares of the monthly investing amount). Pipeline runs: the final plan's
+    buckets. Baselines: the ALLOCATION block's per-month items that name a shelf product. Empty when nothing is
+    invested or no product is recognised."""
+    if rec.get("mode") == "baseline":
+        items = oracle.allocation(rec.get("text", "")) or []
+        out: dict[str, float] = {}
+        for name, amount, monthly in items:
+            if amount <= 0 or not monthly:
+                continue
+            for pid, rx in oracle.PRODUCT_RE.items():
+                if rx.search(name):
+                    out[pid] = out.get(pid, 0.0) + amount
+                    break
+    else:
+        out = {}
+        for b in (rec.get("final_plan") or {}).get("buckets", []):
+            for m in b["mix"]:
+                if m.get("monthly", 0) > 0:
+                    out[m["product_id"]] = out.get(m["product_id"], 0.0) + m["monthly"]
+    total = sum(out.values())
+    return {k: v / total for k, v in out.items()} if total > 0 else {}
+
+
+def weighted_jaccard(a: dict[str, float], b: dict[str, float]) -> float:
+    keys = set(a) | set(b)
+    num = sum(min(a.get(k, 0.0), b.get(k, 0.0)) for k in keys)
+    den = sum(max(a.get(k, 0.0), b.get(k, 0.0)) for k in keys)
+    return num / den if den > 0 else 1.0
+
+
+def personalisation(records: list[dict], b: int = 500, seed: int = 0) -> dict:
+    """Mean pairwise weighted Jaccard similarity of the plans given to different personas (replicate 0), with a
+    persona-bootstrap interval. Lower means more personalised; 1.0 means everyone gets the same plan (the report's
+    H4: the gate must not homogenise advice)."""
+    plans = {r["profile_id"]: plan_weights(r) for r in records if r.get("replicate", 0) == 0}
+    plans = {k: v for k, v in plans.items() if v}
+    ids = sorted(plans)
+    n = len(ids)
+    if n < 2:
+        return {"mean": None, "ci95": [None, None], "n": n}
+    prods = sorted({p for w in plans.values() for p in w})
+    try:
+        import numpy as np
+        W = np.array([[plans[i].get(p, 0.0) for p in prods] for i in ids])
+        mn = np.minimum(W[:, None, :], W[None, :, :]).sum(2)
+        mx = np.maximum(W[:, None, :], W[None, :, :]).sum(2)
+        J = np.where(mx > 0, mn / np.where(mx > 0, mx, 1), 1.0)
+        iu = np.triu_indices(n, 1)
+        mean = float(J[iu].mean())
+        rng = np.random.default_rng(seed)
+        est = []
+        for _ in range(b):
+            pick = rng.integers(0, n, n)
+            sub = J[np.ix_(pick, pick)]
+            est.append(float(sub[iu].mean()))
+        est.sort()
+        lo, hi = est[int(0.025 * (b - 1))], est[int(0.975 * (b - 1))]
+    except ImportError:
+        vals = [weighted_jaccard(plans[ids[i]], plans[ids[j]]) for i in range(n) for j in range(i + 1, n)]
+        mean, lo, hi = statistics.mean(vals), None, None
+    return {"mean": mean, "ci95": [lo, hi], "n": n}
+
+
+# Features a surrogate model may use to explain the risky share of the advice. Capacity features are what the
+# capacity engine reads; willingness features are the questionnaire and experience (the report's "heuristic
+# collapse": advice driven by stated appetite alone).
+CAPACITY_FEATURES = ("savings_months", "emi_share", "life_multiple", "health_cover_lakh", "card_unpaid", "costly_loan")
+WILLINGNESS_FEATURES = ("gl_score", "experience")
+OTHER_FEATURES = ("log_take_home", "expense_ratio", "dependants", "age", "n_goals", "min_horizon")
+FEATURES = CAPACITY_FEATURES + WILLINGNESS_FEATURES + OTHER_FEATURES
+_EXPERIENCE = {"none": 0, "beginner": 1, "intermediate": 2, "advanced": 3}
+
+
+def features(rec: dict) -> dict[str, float] | None:
+    p = _profile(rec)
+    if p is None:
+        return None
+    from finadvisor.advisor.capacity import costly_debts
+    from finadvisor.advisor.willingness import score_answers
+    b = bundle_of(rec)
+    y = p.take_home_monthly or 1.0
+    total, answered = score_answers(p.gl_answers, b.willingness)
+    return {
+        "savings_months": min(p.liquid_savings / p.expenses_monthly, 24.0) if p.expenses_monthly else 24.0,
+        "emi_share": p.total_emi / y,
+        "life_multiple": min(p.life_cover / (12 * y), 30.0),
+        "health_cover_lakh": p.health_cover / 1e5,
+        "card_unpaid": 0.0 if p.card_dues_paid_in_full else 1.0,
+        "costly_loan": 1.0 if costly_debts(p, b.rules) else 0.0,
+        "gl_score": float(total) if answered == len(b.willingness["items"]) else 13.0,
+        "experience": float(_EXPERIENCE.get(p.experience, 0)),
+        "log_take_home": math.log(y),
+        "expense_ratio": p.expenses_monthly / y,
+        "dependants": float(p.dependants),
+        "age": float(p.age or 30),
+        "n_goals": float(len(p.goals)),
+        "min_horizon": min((g.horizon_years for g in p.goals), default=0.0),
+    }
+
+
+def risky_share(rec: dict) -> float | None:
+    """The target the surrogate explains: the risky share of the final plan (pipeline), or of the recognised per-month
+    products in the ALLOCATION block (baselines)."""
+    if rec.get("mode") != "baseline":
+        plan = rec.get("final_plan") or {}
+        return plan.get("rho") if plan.get("investing_monthly", 0) > 0 else None
+    w = plan_weights(rec)
+    if not w:
+        return None
+    from finadvisor.advisor.plan import is_risky
+    b = bundle_of(rec)
+    prods = {p["id"]: p for p in b.shelf["products"]}
+    return sum(v for k, v in w.items() if k in prods and is_risky(prods[k], b.rules))
+
+
+def surrogate(records: list[dict], alphas=(0.01, 0.1, 1.0, 10.0, 100.0), folds: int = 5, seed: int = 0) -> dict:
+    """Ridge surrogate of the risky share on the persona features (replicate 0): 5-fold R² at the best alpha,
+    normalised importances |coef| on standardised features, feature concentration FC = sum of squared importances, and
+    the share of importance on capacity, willingness and other features. numpy only."""
+    rows = [(features(r), risky_share(r)) for r in records if r.get("replicate", 0) == 0]
+    rows = [(f, y) for f, y in rows if f is not None and y is not None]
+    empty = {"n": len(rows), "r2": None, "alpha": None, "fc": None, "importance": {},
+             "capacity_share": None, "willingness_share": None, "other_share": None}
+    if len(rows) < 3 * folds:
+        return empty
+    try:
+        import numpy as np
+    except ImportError:
+        return empty
+    X = np.array([[f[k] for k in FEATURES] for f, _ in rows], float)
+    y = np.array([t for _, t in rows], float)
+    if y.std() == 0:
+        return {**empty, "r2": 0.0}
+    mu, sd = X.mean(0), X.std(0)
+    sd[sd == 0] = 1.0
+    Z = (X - mu) / sd
+    ym = y.mean()
+
+    def fit(Zt, yt, a):
+        d = Zt.shape[1]
+        return np.linalg.solve(Zt.T @ Zt + a * np.eye(d), Zt.T @ (yt - yt.mean())), yt.mean()
+
+    rng = np.random.default_rng(seed)
+    idx = rng.permutation(len(y))
+    parts = np.array_split(idx, folds)
+    best = None
+    for a in alphas:
+        ss_res = ss_tot = 0.0
+        for k in range(folds):
+            test = parts[k]
+            train = np.concatenate([parts[j] for j in range(folds) if j != k])
+            coef, b0 = fit(Z[train], y[train], a)
+            pred = Z[test] @ coef + b0
+            ss_res += float(((y[test] - pred) ** 2).sum())
+            ss_tot += float(((y[test] - y[train].mean()) ** 2).sum())
+        r2 = 1 - ss_res / ss_tot if ss_tot > 0 else 0.0
+        if best is None or r2 > best[0]:
+            best = (r2, a)
+    r2, alpha = best
+    coef, _ = fit(Z, y, alpha)
+    imp = np.abs(coef)
+    imp = imp / imp.sum() if imp.sum() > 0 else imp
+    importance = {k: float(v) for k, v in zip(FEATURES, imp)}
+    share = lambda keys: float(sum(importance[k] for k in keys))
+    return {"n": len(rows), "r2": float(r2), "alpha": alpha, "fc": float((imp ** 2).sum()), "importance": importance,
+            "capacity_share": share(CAPACITY_FEATURES), "willingness_share": share(WILLINGNESS_FEATURES),
+            "other_share": share(OTHER_FEATURES), "mean_target": float(ym)}
+
+
 # ----------------------------------------------------------------------------- per run
 
 def per_persona(records: list[dict], fn) -> dict:
@@ -404,6 +580,8 @@ def summarise(records: list[dict]) -> dict:
         "replicate_agreement": replicate_agreement(records),
         "latency_s": {"median": statistics.median(lat), "p90": lat[int(0.9 * (len(lat) - 1))]},
         "provenance": provenance(records),
+        "personalisation": personalisation(records),
+        "surrogate": surrogate(records),
     }
     audited = [r for r in pipeline if (r.get("audit") or {}).get("attempts")]
     if audited:   # why first plans were not accepted, as a share of all audited records

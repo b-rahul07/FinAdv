@@ -50,6 +50,58 @@ briefly why. Use the sources for facts about products.
 """ + FORMAT)
 
 
+# B3 (12 Nov 2026, paper plan §2): every rule the gate applies, written into the prompt in words, with the shelf and
+# its riskometer labels. The obvious alternative to the pipeline ("just tell the model the rules") must be measured,
+# not assumed. Built from the rules and shelf configs, so the words track the thresholds the gate uses.
+B3_PREAMBLE = """
+You are a personal financial advisor for young Indian earners. Using the person's facts, give them a concrete monthly
+plan: which investments or insurance to use and how many rupees a month to put into each, then explain briefly why.
+Apply these rules exactly; they are the same rules a SEBI-style suitability check applies.
+"""
+
+
+def rules_text(bundle) -> str:
+    c, r = bundle.rules["capacity"], bundle.rules
+    bands = bundle.willingness["bands"]
+    mr = r["suitability"]["max_risk"]
+    labels = {"low": "Low", "low_to_moderate": "Low to Moderate", "moderate": "Moderate", "moderately_high": "Moderately High",
+              "high": "High", "very_high": "Very High", "unregulated": "Unregulated"}
+    lines = [
+        f"R1. Emergency savings below {c['emergency_months']} months of expenses: build them in a savings account or liquid "
+        f"fund before any market-linked investing.",
+        f"R2. Someone depends on the person and life cover is below {c['life_cover_multiple']} times annual take-home: "
+        f"term life cover before investing.",
+        f"R3. Health cover below the larger of Rs {c['health_cover_min_inr']:,} and {c['health_cover_income_share']:.0%} of "
+        f"annual take-home: health insurance before investing.",
+        f"R4. Credit-card bill not paid in full, or a personal, BNPL or other unsecured loan at {c['costly_debt']['unsecured_min_rate_pa']:g}% "
+        f"or more: clear it before investing.",
+        f"R5. EMIs above {c['emi_cap']:.0%} of take-home: no new EMI or BNPL, and plan to bring EMIs down.",
+        "R6. Low capacity for loss or no investing experience: no F&O, crypto, leverage or other complex products.",
+        f"R7. Money for a goal under {r['rules']['R7']['min_goal_years']} years away: nothing rated above "
+        f"{labels[r['rules']['R7']['max_risk_for_goal']]}.",
+        "Capacity for loss is High when all five checks (R1 emergency fund, R2 life cover, R3 health cover, R4 card dues "
+        "and costly loans, R5 EMI load) pass, Low when the weakest of them scores below half of its target (for example "
+        f"savings under {c['emergency_months'] / 2:g} months of expenses, or EMIs above {2 * c['emi_cap']:.0%} of take-home), "
+        "and Medium otherwise.",
+        f"Willingness to take risk comes from the risk questionnaire: {bands['low_max']} or less is Low, "
+        f"{bands['low_max'] + 1} to {bands['medium_max']} Medium, {bands['medium_max'] + 1} or more High; with no investing "
+        "experience it is at most Medium.",
+        "Suitability is the lower of capacity and willingness. "
+        f"Low suitability allows products rated up to {labels[mr['low']]}; Medium up to {labels[mr['medium']]}; "
+        f"High up to {labels[mr['high']]}. Never recommend a product rated above the person's suitability.",
+        "Recommend only these products (SEBI riskometer in brackets); never name a specific fund house, scheme or company, "
+        "and never recommend individual shares, F&O or cryptocurrency:",
+    ]
+    for p in bundle.shelf["products"]:
+        if p.get("plannable"):
+            lines.append(f"- {p['name']} [{labels.get(p.get('riskometer'), 'n/a')}]")
+    return "\n".join(lines)
+
+
+def rules_template(bundle) -> Template:
+    return Template("baseline_rules", 1, B3_PREAMBLE + "\n" + rules_text(bundle) + "\n" + FORMAT)
+
+
 def facts(p: Profile) -> str:
     lines = [render_facts(p, "plain"), f"age: {p.age or 'not given'}"]
     for g in p.goals:
@@ -103,8 +155,8 @@ def judge(text: str, p: Profile, bundle, wish: str | None) -> dict:
 def main(cfg_path: str) -> None:
     cfg = yaml.safe_load(Path(cfg_path).read_text(encoding="utf-8"))
     kind = cfg["baseline"]
-    template = {"B1": B1, "B2": B2}[kind]
     bundle = default_bundle()
+    template = {"B1": B1, "B2": B2, "B3": rules_template(bundle)}[kind]
     replicates = int(cfg.get("replicates", 1))
     memo_off = replicates > 1 and bundle.models[cfg["model"]]["provider"] == "ollama"
     llm = strict_model(cfg["model"], bundle.models, **({"memo": False} if memo_off else {}))
@@ -128,6 +180,10 @@ def main(cfg_path: str) -> None:
             p = Profile(**row["profile"])
             wish = row.get("wish")
             prompt = f"FACTS\n{facts(p)}"
+            if kind == "B3":   # the rules speak of the questionnaire score, so the model is given it
+                from finadvisor.advisor.willingness import assess as assess_will
+                w = assess_will(p, bundle.willingness)
+                prompt += f"\nrisk questionnaire score: {w.score if w.score is not None else 'incomplete'} of 47"
             docs = []
             if retriever is not None:
                 docs = passages(retriever, p)

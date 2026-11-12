@@ -386,3 +386,73 @@ def test_unsourced_numbers_allow_the_persons_own_figures_for_every_run():
     base = {"mode": "baseline", "profile": p, "run_config": {}, "text": f"With ₹{pay:,} a month, save some.",
             "unsourced_numbers": ["stale"]}
     assert metrics.unsourced(base) is False
+
+
+def test_rules_in_prompt_baseline_states_every_gate_rule(tmp_path, monkeypatch):
+    b = default_bundle()
+    t = baselines.rules_template(b)
+    text = t.system
+    assert t.id.startswith("baseline_rules-v1@")
+    for r in ("R1.", "R2.", "R3.", "R4.", "R5.", "R6.", "R7."):
+        assert r in text
+    assert "6 months" in text and "40%" in text and "15 times" in text and "Rs 500,000" in text
+    assert "Low to Moderate" in text and "Moderately High" in text and "Very High" in text
+    assert "Nifty 50 index fund [Very High]" in text and "Flexi-cap fund" in text and "ALLOCATION" in text
+    assert "Direct shares" not in text and "Cryptocurrency [" not in text      # never-plannable products are not offered
+    from finadvisor.llm import fake
+    monkeypatch.setattr(fake, "_default_text", lambda s, p, purpose: "ALLOCATION\nLiquid fund: ₹3,000 per month")
+    out = tmp_path / "b3.jsonl"
+    baselines.main(cfg_file(tmp_path, run_id="B3", baseline="B3", model="tiny-test", inputs=PERSONAS, limit=2,
+                            output=str(out)))
+    recs = metrics.load(out)
+    assert len(recs) == 2 and all(r["template"] == t.id and r["baseline"] == "B3" for r in recs)
+
+
+def test_personalisation_is_one_for_identical_plans_and_lower_otherwise():
+    same = {"id": "general", "mix": [{"product_id": "liquid_fund", "monthly": 5000}, {"product_id": "fixed_deposit", "monthly": 5000}]}
+    other = {"id": "general", "mix": [{"product_id": "flexi_cap_fund", "monthly": 8000}, {"product_id": "gold_etf_fund", "monthly": 2000}]}
+    rec = lambda pid, b: {"profile_id": pid, "replicate": 0, "final_plan": {"buckets": [b], "investing_monthly": 10000}}
+    assert metrics.personalisation([rec("a", same), rec("b", same), rec("c", same)])["mean"] == 1.0
+    p = metrics.personalisation([rec("a", same), rec("b", other), rec("c", same)])
+    assert p["n"] == 3 and p["mean"] < 0.5
+    base = {"profile_id": "x", "replicate": 0, "mode": "baseline",
+            "text": "Plan.\nALLOCATION\nNifty 50 index fund: ₹6,000 per month\nLiquid fund: ₹4,000 per month"}
+    assert metrics.plan_weights(base) == {"large_cap_index_fund": 0.6, "liquid_fund": 0.4}
+
+
+def test_surrogate_finds_the_feature_that_drives_the_risky_share():
+    rows = [json.loads(line) for line in Path(PERSONAS).read_text(encoding="utf-8").splitlines()]
+    recs = []
+    for r in rows[:120]:
+        p = r["profile"]
+        months = min(p["liquid_savings"] / p["expenses_monthly"], 24.0) if p["expenses_monthly"] else 24.0
+        rho = min(1.0, months / 12)                                           # risky share driven by savings alone
+        recs.append({"profile_id": r["id"], "replicate": 0, "profile": p, "run_config": {},
+                     "final_plan": {"rho": rho, "investing_monthly": 1000, "buckets": []}})
+    s = metrics.surrogate(recs)
+    assert s["n"] == 120 and s["r2"] > 0.8
+    assert max(s["importance"], key=s["importance"].get) == "savings_months"
+    assert s["capacity_share"] > s["willingness_share"]
+    flat = [{**r, "final_plan": {**r["final_plan"], "rho": 0.0}} for r in recs]
+    assert metrics.surrogate(flat)["r2"] == 0.0
+
+
+def test_paper_tables_are_written_from_the_report_json(tmp_path):
+    from experiments import paper_tables
+    out = tmp_path / "t.jsonl"
+    runner.main(cfg_file(tmp_path, run_id="A1_full", output=str(out), mode="plan", pipeline="pipeline/default.yaml",
+                         model="tiny-test", inputs=PERSONAS, limit=4, planner={"mode": "model"}))
+    rep = tmp_path / "report.md"
+    import sys
+    argv = sys.argv
+    sys.argv = ["report", str(out), "--reference", "A1_full", "--out", str(rep)]
+    try:
+        report.main()
+    finally:
+        sys.argv = argv
+    assert "Personalisation and what drives" in rep.read_text(encoding="utf-8")
+    files = paper_tables.write_all(rep.with_suffix(".json"), tmp_path / "tables")
+    names = {f.name for f in files}
+    assert {"main.tex", "ablations.tex", "models.tex", "dvr.tex", "causes.tex", "personalisation.tex"} <= names
+    main = (tmp_path / "tables" / "main.tex").read_text(encoding="utf-8")
+    assert "begin{table*}" in main and "FinAdvisor (full)" in main and "[" in main

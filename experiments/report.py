@@ -83,6 +83,20 @@ def main() -> None:
                   "| Run | Block present | Block names products |", "|---|---|---|"]
         for rid, x in alloc.items():
             lines.append(f"| {rid} | {pct(x['block'])} | {pct(x['named_products'])} |")
+    lines += ["", "## Personalisation and what drives the risky share", "",
+              "Personalisation: mean pairwise weighted Jaccard similarity of the plans different personas received "
+              "(replicate 0; lower is more personalised, 1.0 means one plan for everyone). Surrogate: a ridge model of "
+              "the plan's risky share on the persona's features; the shares say how much of the explained variation "
+              "sits on capacity features (savings months, EMI share, cover, card dues, costly loans) versus willingness "
+              "features (questionnaire score, experience). FC is the feature concentration (sum of squared importances).", "",
+              "| Run | Plan similarity | Personas | Surrogate R² | Capacity share | Willingness share | Other | FC |",
+              "|---|---|---|---|---|---|---|---|"]
+    for rid, s in summaries.items():
+        p, g = s["personalisation"], s["surrogate"]
+        sim = "—" if p["mean"] is None else (f"{p['mean']:.2f}" + (f" [{p['ci95'][0]:.2f}, {p['ci95'][1]:.2f}]" if p["ci95"][0] is not None else ""))
+        f = lambda v: "—" if v is None else f"{v:.2f}"
+        lines.append(f"| {rid} | {sim} | {p['n']} | {f(g['r2'])} | {f(g['capacity_share'])} | {f(g['willingness_share'])} | "
+                     f"{f(g['other_share'])} | {f(g['fc'])} |")
     lines += ["", "## Provenance", "", "| Run | Commit | Config hash | Rule check | Traceable |", "|---|---|---|---|---|"]
     for rid, s in summaries.items():
         p = s["provenance"]

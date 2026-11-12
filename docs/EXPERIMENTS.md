@@ -35,6 +35,7 @@ All use `personas_v1`, 3 replicates, `planner.mode: model`, every audit relation
 | M1 Models | `… M1_qwen2.5-1.5b.yaml`, `M1_qwen2.5-7b`, `M1_phi4-mini`, `M1_llama3.2-3b` | effect of model size and family (A1 settings) |
 | B1 Plain LLM | `python -m experiments.baselines experiments/configs/paper/B1_plain_llm.yaml` | the model alone, no rules or tools |
 | B2 LLM + RAG | `python -m experiments.baselines … B2_llm_rag.yaml` | the model with the library passages |
+| B3 Rules in the prompt | `python -m experiments.baselines … B3_rules_in_prompt.yaml` | the model told every rule the gate applies (R1–R7, capacity and willingness levels, the suitability ceiling, the shelf with riskometer labels), no code; the obvious alternative to the pipeline |
 | ADV Adversarial | `python -m experiments.adversarial experiments/configs/paper/ADV_adversarial.yaml` | 50 turns × 6 personas through the full reply |
 
 **Before the long runs**, do one pass of every config at 1 replicate on the first 20 personas (adversarial: one
@@ -138,6 +139,18 @@ Definitions (`experiments/metrics.py`):
 - **A5 arithmetic**: mean absolute gap between the model's monthly amounts and the calculators', and an overspend
   figure recomputed in `metrics.plan_overspend` from the stored plan, independently of the rule check; the report
   shows how often the two agree (must be 100%).
+- **Personalisation**: mean pairwise weighted Jaccard similarity of the plans different personas received (replicate
+  0; product weights are shares of the monthly investing amount, from the final plan or the ALLOCATION block). 1.0
+  means one plan for everyone; lower is more personalised. Answers "does the gate homogenise advice?" (the report's H4).
+- **Surrogate (what drives the risky share)**: a ridge regression (numpy, 5-fold R², alpha by CV) of the plan's risky
+  share on 14 persona features; importances are normalised |coefficients| on standardised features. Reported: R²,
+  feature concentration FC = Σ s², and the share of importance on capacity features (savings months, EMI share, life
+  multiple, health cover, card dues, costly loan) vs willingness features (questionnaire score, experience) vs the
+  rest. On the baselines this is our reading of "heuristic collapse" (advice driven by stated appetite); on the
+  pipeline, capacity should dominate. Not a replication of Ross & Lo (different profiles, surrogate and target).
+- **Paper tables**: `python -m experiments.paper_tables results/paper/report.json --out results/paper/tables` writes
+  the LaTeX tables (main, ablations, models, DVR, causes, personalisation, adversarial, paired) from the report's JSON,
+  so no number in the paper is typed by hand.
 - **Overspending (rule check, `rule-check-v3`)**: in every month, everything the plan directs (priority steps running
   that month, a repay step counted net of the loan's own EMI, plus investing) may not exceed the surplus plus the
   EMIs of loans already cleared. Steps paid from existing savings are left out; priority payments may round up by
