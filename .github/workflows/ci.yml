@@ -21,7 +21,15 @@ jobs:
           cache: pip
       # The core install is enough: document search, news and CAS parsing are optional and the tests use stand-ins.
       - run: pip install -e . pytest numpy
-      - run: python -m pytest
+      - name: Tests
+        run: |
+          set -o pipefail
+          python -m pytest -rfE --tb=short 2>&1 | tee pytest.log
+      - name: Name the failed tests on the run page
+        if: failure()
+        run: |
+          grep -E "^(FAILED|ERROR) " pytest.log | head -20 | while read -r line; do echo "::error::$line"; done
+          { echo '```'; tail -n 60 pytest.log; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
 
   web:
     runs-on: ubuntu-latest
