@@ -146,7 +146,9 @@ class NewsDesk:
         snap = {"fetched_at": datetime.now(timezone.utc).isoformat(), "model": FINBERT, "items": items}
         if items:   # keep the last good snapshot when every feed failed
             self.path.parent.mkdir(parents=True, exist_ok=True)
-            self.path.write_text(json.dumps(snap, ensure_ascii=False), encoding="utf-8")
+            tmp = self.path.with_suffix(".tmp")
+            tmp.write_text(json.dumps(snap, ensure_ascii=False), encoding="utf-8")
+            tmp.replace(self.path)   # readers (another process, or the API mid-refresh) never see a half-written file
             self._snap = snap
         return snap
 
