@@ -120,7 +120,7 @@ configs or `experiments/`, so the paper's runs are unaffected.
   *Update my facts* saves a new profile version. Nothing changes without the confirm.
 - **Phone:** holdings and the watchlist are cards below `md` (no sideways scrolling); the bottom bar has the four
   tabs.
-- **Verified.** 6 new backend tests (`tests/test_home.py`: cash flow equals the surplus, month arithmetic across
+- **Verified.** 5 new backend tests (`tests/test_home.py`: cash flow equals the surplus, month arithmetic across
   years, timeline offsets, step status, goal shares, the API through profile → plan → step done → newer facts);
   full suite passes; `tsc` clean; vitest 9 pass; production build succeeds. Driven in Edge against a throwaway
   database with example data: a step marked done (1 → 2 of 5), a question typed on Home sent exactly once, facts
