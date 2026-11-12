@@ -591,9 +591,20 @@ def summarise(records: list[dict]) -> dict:
         out["mr6_only_on_low_risk_menu"] = cluster_rate([(p, cs == ["MR6, all-low-risk menu"]) for p, cs in causes])
     base = [r for r in records if r.get("mode") == "baseline"]
     if base:   # how often the model followed the ALLOCATION format (judging falls back to the text when it did not)
-        froms = [(r["profile_id"], baseline_verdict(r)["judged_from"]) for r in base]
+        verdicts = [(r["profile_id"], baseline_verdict(r)) for r in base]
+        froms = [(p, v["judged_from"]) for p, v in verdicts]
         out["allocation"] = {"block": cluster_rate([(p, f != "text") for p, f in froms]),
                              "named_products": cluster_rate([(p, f == "allocation") for p, f in froms])}
+        # The same answer read twice, from its block and from its whole text. Agreement is a consistency check of
+        # the two readers (the text contains the block and both use the same product names), not their accuracy.
+        both = [(p, v["verdicts"]["text"], v["verdicts"]["structured"]) for p, v in verdicts
+                if (v.get("verdicts") or {}).get("structured") and v["judged_from"] == "allocation"]
+        if both:
+            out["two_readings"] = {
+                "answers": len(both),
+                "unsuitable_agree": cluster_rate([(p, bool(t["unsuitable_products"]) == bool(s["unsuitable_products"]))
+                                                  for p, t, s in both]),
+                "overspend_agree": cluster_rate([(p, t["overspend"] == s["overspend"]) for p, t, s in both])}
     if a5:
         gaps = [x["mean_abs_gap"] for _, x in a5 if x["mean_abs_gap"] is not None]
         out["a5_arithmetic"] = {"mean_abs_gap": statistics.mean(gaps) if gaps else None,

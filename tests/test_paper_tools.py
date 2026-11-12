@@ -515,3 +515,16 @@ def test_written_rules_and_engines_agree_on_every_persona():
     assert res["n"] == 240 and not any(res["differ"].values())
     key = rules_rework.score_key(rules_rework.RULES_MD.read_text(encoding="utf-8"))
     assert len(key) == 13 and key["9"] == {"a": 1, "b": 3}
+
+
+def test_baseline_answers_are_read_twice(tmp_path, monkeypatch):
+    from finadvisor.llm import fake
+    monkeypatch.setattr(fake, "_default_text",
+                        lambda s, p, purpose: "Start small.\n\nALLOCATION\n- Small cap fund: ₹4,000 per month")
+    out = tmp_path / "b.jsonl"
+    baselines.main(cfg_file(tmp_path, run_id="B1", baseline="B1", model="tiny-test", inputs=PERSONAS, limit=4,
+                            output=str(out)))
+    s = metrics.summarise(metrics.load(out))
+    two = s["two_readings"]
+    assert two["answers"] == 4 and two["unsuitable_agree"]["rate"] == 1.0 and two["overspend_agree"]["rate"] == 1.0
+    assert s["allocation"]["named_products"]["rate"] == 1.0

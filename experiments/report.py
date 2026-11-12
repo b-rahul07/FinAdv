@@ -83,6 +83,15 @@ def main() -> None:
                   "| Run | Block present | Block names products |", "|---|---|---|"]
         for rid, x in alloc.items():
             lines.append(f"| {rid} | {pct(x['block'])} | {pct(x['named_products'])} |")
+    two = {rid: s["two_readings"] for rid, s in summaries.items() if "two_readings" in s}
+    if two:
+        lines += ["", "Each answer judged on its block is also read as free text. The share on which the two readings "
+                  "give the same verdict is a consistency check of the readers, not a measure of their accuracy (the "
+                  "text contains the block and both use the same product names).", "",
+                  "| Run | Answers read twice | Same verdict: unsuitable product | Same verdict: overspend |",
+                  "|---|---|---|---|"]
+        for rid, x in two.items():
+            lines.append(f"| {rid} | {x['answers']} | {pct(x['unsuitable_agree'])} | {pct(x['overspend_agree'])} |")
     lines += ["", "## Personalisation and what drives the risky share", "",
               "Personalisation: mean pairwise weighted Jaccard similarity of the plans different personas received "
               "(replicate 0; lower is more personalised, 1.0 means one plan for everyone). Surrogate: a ridge model of "

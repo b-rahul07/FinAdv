@@ -73,7 +73,7 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 - Pressure turn on the same profile: 18 s (identical prompts are cached in-process).
 - Learn answer (Chroma + cross-encoder + streaming): 85 s on first use (models load), faster afterwards.
 
-## Methodology decisions (2026-10-31, delegated by the team)
+## Methodology decisions (2026-10-31)
 1. **Capacity EMI score (rules-v2).** The report's s_D = clip((0.40 − D)/0.40) equals 1 only with *no* EMIs, so a
    person whose EMIs pass SEBI's 40 % check could never reach High capacity, unlike every other component, which
    reaches 1 exactly when its SEBI check passes. rules-v2 uses s_D = min(1, 0.40 / D): 1 while the check passes,
@@ -98,9 +98,13 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
-### 2026-11-12 — The team's checks made ready; SEBI's tool read properly
-The paper plan's people-only tasks (hand-check, SEBI tool, oracle labels, blind grading), prepared so each is a
-sheet to fill. Nothing here touches the pipeline; the running experiments are unaffected.
+### 2026-11-12 — Venue and scope: an Indian IEEE conference, no hand tasks; SEBI's tool read properly
+Decisions of 12 Nov: the paper goes to any IEEE conference held in India, and no task that needs work by hand stays
+in the plan. Nothing here touches the pipeline; the running experiments are unaffected.
+- **Dropped:** the hand-worked sheet by two people, the click-through of SEBI's tool, labels for the free-text
+  reader, blind grading of explanations, annotated reading of failures. `docs/PAPER_PLAN.md` §3 lists what the paper
+  says in place of each (the oracle is our own engine, checked by programs; the reader not scored against labels; no
+  claim about the prose). The tools stay (`experiments/handcheck.py`, `experiments/grading.py`, `docs/handcheck/`).
 - **SEBI's Financial Health Check is a questionnaire, not a calculator.** Read from the page source on 12 Nov: 14
   questions, a fixed colour per option, no amounts, no arithmetic. The planned "40 personas through the live tool"
   would have tested only the arithmetic of whoever typed the answers, so it is replaced by
@@ -112,27 +116,22 @@ sheet to fill. Nothing here touches the pipeline; the running experiments are un
   larger of ₹5 lakh and half of annual take-home; the tool colours any cover green and gives the amount only as
   advice). R4: 90 %, the engine is more lenient (24 personas whose only unsecured loan is an education loan at
   10.5 %; the tool asks about "any personal loans or any unsecured loans"). No other mismatch. Neither rule was
-  changed: thresholds are the team's decision and runs are in progress. **Open for the team:** keep R4 as it is and
-  state it, or add a sensitivity rules version in which education loans count.
-- **Hand-check pack** (`experiments/handcheck_pack.py` → `docs/handcheck/`): `rules.md` (the five steps, rendered
-  from the rules and willingness configs, with a worked example for a person not on the sheet), `worksheet.md` (the
-  45 personas as readable facts, no derived values), `answer_sheet.csv`. Until now the graders had only a CSV with a
-  JSON column and no written rules to work from.
-- **Blind grading sheet now shows the person's facts** (`grading.export`): the docstring said it did; the sheet had
-  only the question, the plan and the answer, so a baseline answer could not be judged against anything.
-- `docs/TEAM_TASKS.md`: the four tasks step by step, the three click-through runs for SEBI's tool with what to
-  expect, the labelling rules, and the grading rubric (accurate / minor slip / materially wrong) with examples.
-- Tests: 2 new (`test_handcheck_pack_matches_the_configs_and_the_engines`, `test_sebi_tool_correspondence`), one
-  extended (facts column). The committed pack is checked against the generator, the worked example against the
-  engines.
-- **Not verified:** the live page was read from its source, not clicked through; that is task 2 in TEAM_TASKS.
-- **Written rules against the engines** (`experiments/rules_rework.py`):
-  a second working of `docs/handcheck/rules.md`, plain arithmetic on the
-  stored facts with the questionnaire key read from the sheet's own table, importing nothing from the capacity,
-  willingness or gate code. It agrees with the engines on 240 of 240 personas in all four fields. This is a
-  specification-against-code check by the same author, so it is reported as that and **does not replace** the
-  hand-check by people. Minimum for the paper: one person, 15 rows of the sheet, about an hour
-  (`experiments.handcheck` accepts one grader and a partly filled sheet).
+  changed: runs are in progress and thresholds are a team decision. **Open:** keep R4 as it is and state it, or add
+  a sensitivity rules version in which education loans count.
+- **Written rules against the engines** (`experiments/rules_rework.py`): `docs/handcheck/rules.md` (the five steps,
+  rendered from the rules and willingness configs by `experiments/handcheck_pack.py`, with a worked example) worked
+  in plain arithmetic on the stored facts, the questionnaire key read from the sheet's own table, nothing imported
+  from the capacity, willingness or gate code. Agrees with the engines on 240 of 240 personas in all four fields. A
+  check of the rule text against the code, not an independent check by other people; the paper says so.
+- **Two readings of each baseline answer** (`metrics.summarise` → `two_readings`, report section "Baseline
+  ALLOCATION block"): for answers judged on their block, how often the block reading and the free-text reading give
+  the same verdict on unsuitable products and on overspending. A consistency check of the reader, in place of hand
+  labels.
+- **Blind grading sheet shows the person's facts** (`grading.export`): the docstring said it did; the sheet had only
+  the question, the plan and the answer.
+- Tests: `test_handcheck_pack_matches_the_configs_and_the_engines`, `test_sebi_tool_correspondence`,
+  `test_written_rules_and_engines_agree_on_every_persona`; the baseline test checks `two_readings`.
+- **Not verified:** conference dates (aggregator listings only; confirm on the official sites).
 
 ### 2026-11-12 — Paper plan: baseline B3, personalisation, capacity-share surrogate, LaTeX tables
 From `docs/PAPER_PLAN.md` (the paper's plan, written 12 Nov) and `docs/IMPROVEMENT_PLAN.md` (the product's). Nothing
@@ -159,7 +158,7 @@ here touches the pipeline; the running experiments are unaffected.
   bed for the rules (median take-home ₹55,000, 71 % with a loan), not a sample of India; the paper says so.
 
 ### 2026-11-11 — Whole-codebase review: router, number words, the wish in the audit, API and form fixes
-Requested by the user ("evaluate the entire codebase, look for flaws, fix them") while the long Colab runs were in
+A review of the whole codebase for flaws, done while the long Colab runs were in
 progress on commit 8240301. Rule kept throughout: a fix may not change a run that has started or finished. The plan-mode
 runs with the fence on (A1, S2, A2, A3, A5, S1, M1) are untouched by every change below; the four runs the changes do
 affect (A6, A1T, A4, ADV) had not started and now run last (notebook `RUN_ORDER`), on the fixed code.
@@ -210,7 +209,7 @@ affect (A6, A1T, A4, ADV) had not started and now run last (notebook `RUN_ORDER`
   got a 50% risky share against 0%). New report table "Why first plans were not accepted" splits every non-pass by
   cause, with MR6 split by whether the menu had any risky product. Reporting only; whether MR6 should change is a
   relation-definition decision for the team.
-- **Decision (user, 2026-11-09): keep MR6 for the main results, add a sensitivity run.** New `configs/pipeline/pipeline-v4-mr6risk.yaml` (identical to pipeline-v4 except `twins.MR6_compare: risk`): MR6 holds
+- **Decision (2026-11-09): keep MR6 for the main results, add a sensitivity run.** New `configs/pipeline/pipeline-v4-mr6risk.yaml` (identical to pipeline-v4 except `twins.MR6_compare: risk`): MR6 holds
   when the risky share of the plan and of every goal agree within 0.10, whatever the split among same-risk
   products. Run config `S2_mr6_risk` (A1 settings). MR6 checks now also store base and twin risky shares.
 
@@ -364,9 +363,9 @@ numbers (80C, 80D); "how much should I have saved by 30" still gets the general 
 (Cloudflare Pages, replaced by `web/vercel.json`); `docs/DEPLOY.md` rewritten for the current hosting. `.gitignore`'s
 `data/` also hid `experiments/data/` (the synthetic personas the eval and tests need), now `/data/`.
 
-### 2026-11-08 — Fund finder: the real funds of each fund type (user request)
+### 2026-11-08 — Fund finder: the real funds of each fund type
 **Request:** fund advice should be concrete (links, or specific funds), not a generic template.
-**Decision (user, 2026-11-08):** a fund finder card, not "best fund" picks. Naming the best scheme is investment
+**Decision (2026-11-08):** a fund finder card, not "best fund" picks. Naming the best scheme is investment
 advice that needs SEBI registration (brief §2.5, the "not a SEBI-registered adviser" notice), and ranking by past
 returns invites performance-chasing. New data source approved by the user: AMFI's expense ratios (TER).
 - For each mutual-fund type in the plan, a card lists every matching AMFI scheme (Direct plan, Growth option,
@@ -385,7 +384,7 @@ returns invites performance-chasing. New data source approved by the user: AMFI'
 ### 2026-11-08 — Public link from the laptop (Tailscale Funnel)
 Hosting attempts: Oracle's Always Free compute limits on our account are now 0 (every launch refused with a 0–0
 memory ratio); Azure for Students (college account, Central India allowed) blocks create calls without MFA, which
-the college account can't register; Hugging Face Docker Spaces need PRO. Decision (user): run the public site from
+the college account can't register; Hugging Face Docker Spaces need PRO. Decision: run the public site from
 the laptop, online only while it runs. Cloudflare quick tunnels don't support Server-Sent Events, so Tailscale Funnel.
 - `SERVE_WEB` setting: the API also serves `web/dist` (SPA fallback to `index.html`, `/api/*` unaffected, no paths
   outside the build), so one address serves both. Tests: `tests/test_serve_web.py`.
@@ -664,14 +663,14 @@ copied the first products listed; the plan was consistent across rewordings, so 
   viewport screenshotted and reviewed. Plan arithmetic checked by hand for one profile.
 
 **Not done / not verified**
-- Supabase sign-in, Google OAuth and Postgres not exercised (project unreachable; needs the user, see below).
+- Supabase sign-in, Google OAuth and Postgres not exercised (project unreachable; see below).
 - Lighthouse/axe audits not run yet (Phase 6). JS bundle is 780 kB (code-splitting in Phase 6).
 - Learn answers from the 3B model do not always cite sources inline; sources are always listed under the answer.
 - Report tests T05, T07–T09 not identified (table not fully in the report text available).
 - The calculators-off ablation raises NotImplementedError (planned with the experiment phase).
-- Hosting not set up (Oracle signup pending with the user).
+- Hosting not set up (Oracle signup pending).
 
-**Needs the user**
+**Open items**
 - Restore (unpause) the Supabase project, then share the anon key and DB connection string (or apply
   `supabase/schema.sql` in the SQL editor) and enable Google as an auth provider if wanted.
 - Decide the open questions above.

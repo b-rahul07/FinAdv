@@ -7,9 +7,8 @@ sheet states them, the questionnaire key read from the sheet's own table. It imp
 willingness or gate code. Agreement on all personas shows that the written rules (which the paper describes) and the
 engines (which produced the results) say the same thing, with no behaviour hidden in the code.
 
-What this is not: the hand-check. It was written by the same author as the sheet, with the engine's code in view, so
-it is a specification-against-code check and is reported as that. The independent check is two people working
-docs/handcheck/ by hand (experiments/handcheck.py).
+What this is not: an independent check by other people. It is a check of the rule text against the code and is
+reported as that.
 """
 
 from __future__ import annotations

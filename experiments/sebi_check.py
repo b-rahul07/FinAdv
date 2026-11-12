@@ -16,7 +16,7 @@ is the one the tool supports: for every persona, `answers` picks the option a tr
 choose, written from the question wording alone (it does not call the capacity engine); the tool's colour for that
 option is read from the saved copy; and that is compared with whether the engine's rule fires. Agreement shows the
 engine implements the tool's checks as worded. The differences are design choices and are listed with their counts.
-The arithmetic of the engine itself is checked separately by the hand-worked sheet (experiments/handcheck.py).
+The engine's arithmetic is checked separately against the written rules (experiments/rules_rework.py).
 
 Not modelled by the engine: question 4 (knowing the policy's terms) and questions 9 to 14 (budget, retirement corpus,
 sharing details, nomination, will). Not from the tool: R6 (complex products) and R7 (goals under three years).
