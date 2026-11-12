@@ -456,3 +456,10 @@ def test_paper_tables_are_written_from_the_report_json(tmp_path):
     assert {"main.tex", "ablations.tex", "models.tex", "dvr.tex", "causes.tex", "personalisation.tex"} <= names
     main = (tmp_path / "tables" / "main.tex").read_text(encoding="utf-8")
     assert "begin{table*}" in main and "FinAdvisor (full)" in main and "[" in main
+
+
+def test_persona_ranges_table(capsys):
+    from experiments import persona_ranges
+    persona_ranges.main(PERSONAS)
+    out = capsys.readouterr().out
+    assert "240 personas" in out and "| Take-home pay a month |" in out and "AIDIS 2019" in out

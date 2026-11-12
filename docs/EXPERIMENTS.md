@@ -157,6 +157,35 @@ Definitions (`experiments/metrics.py`):
   ₹100. v1 allowed the surplus plus every EMI from month 1; v2 checked investing alone. Only smoke runs used v1/v2.
   No calculator or standard-mix plan of the 240 + 12 personas is flagged; only model-written amounts (A5) can be.
 
+### Persona realism (paper §4; `python -m experiments.persona_ranges`)
+
+The personas are stratified so every rule fires often, and they are urban salaried earners with take-home from
+₹22,000 to ₹3.5 lakh. They are a test bed for the rules, not a sample of India: the median sits above the urban
+salaried average and the debt and cover gaps are deliberately more common than in the population. The paper states
+this and shows the table (12 Nov 2026):
+
+| Quantity | Personas (p10 / median / p90, or share) | Published reference |
+|---|---|---|
+| Take-home pay a month | ₹22,000 / ₹55,000 / ₹2,00,000 | Urban regular-wage/salaried earnings ≈ ₹24,434 a month (PLFS, Apr–Jun 2024 quarter); all-India regular salaried ≈ ₹20,702 in 2023-24 (Economic Survey 2024-25) |
+| Expenses a month | ₹15,800 / ₹41,200 / ₹1,50,000 (expense ratio 45 % / 60 % / 90 %) | Urban average monthly per-capita consumption ₹6,459 (HCES 2022-23; ₹6,996 in 2023-24), so a household of 3–4 spends about ₹20,000–28,000 |
+| Emergency savings, months of expenses | 1.0 / 9.0 / 18.0; 39 % below 6 months | no national figure; the Health Check's target is 6 months |
+| Any loan | 71 % of personas | 22.4 % of urban households carried any debt (AIDIS 2019) |
+| Debt of indebted personas | ₹1.58 lakh / ₹13.4 lakh / ₹64.8 lakh | average debt of an indebted urban household ₹5.37 lakh (AIDIS 2019) |
+| EMIs as a share of take-home | 0 % / 10 % / 45 %; 21 % above 40 % | — |
+| Dependants | mean 1.0; 50 % with none | — |
+| Life cover of personas with dependants, × annual take-home | 0 / 15 / 20; 43 % below 15× | RBI Household Finance Committee 2017: 77 % of household wealth in real estate, 11 % gold, 5 % financial assets; pension wealth nearly absent; 51 % of the uninsured could not afford cover |
+| Health cover | 12 % none; 75 % ≥ ₹5 lakh | same |
+| Card bill unpaid / costly loan | 9 % / 10 % | — |
+| Age | 24 / 33 / 42 | target users: earners in their 20s–40s |
+
+Sources: [PLFS annual report 2023-24 (MoSPI)](https://ruralindiaonline.org/en/library/resource/periodic-labour-force-survey-plfs-annual-report-july-2023-june-2024/),
+[HCES 2022-23 factsheet (MoSPI)](https://www.mospi.gov.in/sites/default/files/publication_reports/Factsheet_HCES_2022-23.pdf),
+[HCES 2023-24 factsheet (MoSPI)](https://www.mospi.gov.in/sites/default/files/publication_reports/HCES%20FactSheet%202023-24.pdf),
+[AIDIS 2019 press note (MoSPI)](https://www.mospi.gov.in/sites/default/files/press_release/press_note-AIDIS-240821.pdf),
+[RBI Household Finance Committee report (2017)](https://www.rbi.org.in/scripts/PublicationReportDetails.aspx?ID=877).
+Check the exact figures against the primary PDFs before the camera-ready; the PLFS number is one quarter's urban
+average, not the annual figure.
+
 ## 5. Hand grading and the independent checks
 
 The suitability oracle is **our own gate**: `oracle.true_allowed` and `rule_violations` call the same `gate()` that

@@ -115,6 +115,12 @@ here touches the pipeline; the running experiments are unaffected.
   LaTeX tables from `report.json` (main, ablations, models, DVR, causes, personalisation, adversarial, paired).
 - Tests: 4 new in `tests/test_paper_tools.py` (B3 text and run, personalisation, surrogate recovers a planted driver,
   tables written).
+- **B3 checked with the real model** (qwen2.5:3b, two personas, locally): it follows the ALLOCATION format and still
+  gave a Low-suitability persona four Very High funds and ₹48,000 a month against a ₹4,000 surplus; the oracle flagged
+  both. Rules in the prompt are not a substitute for the gate; the full run will quantify it.
+- **Persona realism** (`experiments/persona_ranges.py`): the 240 personas' distribution next to PLFS, HCES, AIDIS 2019
+  and the RBI Household Finance Committee figures, with sources, in `docs/EXPERIMENTS.md` §4. The personas are a test
+  bed for the rules (median take-home ₹55,000, 71 % with a loan), not a sample of India; the paper says so.
 
 ### 2026-11-11 — Whole-codebase review: router, number words, the wish in the audit, API and form fixes
 Requested by the user ("evaluate the entire codebase, look for flaws, fix them") while the long Colab runs were in
