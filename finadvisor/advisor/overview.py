@@ -107,3 +107,35 @@ def health_history(snapshots: list[dict], now: dict | None = None, limit: int = 
     if now is not None and now["profile_version"] not in latest:
         latest[now["profile_version"]] = now
     return sorted(latest.values(), key=lambda x: x["at"])[-limit:]
+
+
+ACTION_WORDS = {"buy_health_cover": "buy health cover", "buy_term_cover": "buy term life cover",
+                "clear_card_dues": "clear card dues", "repay_costly_loan": "repay the costly loan",
+                "build_emergency_fund": "build the emergency fund", "no_new_emi": "no new EMIs", "invest": "invest"}
+
+
+def plan_changes(old: dict, new: dict, old_made_on: date) -> list[str]:
+    """What a re-made plan changed, in at most a few short lines (shown above the new plan)."""
+    from finadvisor.calc.money import inr
+    made = f"{old_made_on.day} {('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')[old_made_on.month - 1]} {old_made_on.year}"
+    lines = []
+    if abs(old["monthly_surplus"] - new["monthly_surplus"]) >= 1:
+        lines.append(f"Money left each month: {inr(old['monthly_surplus'])} → {inr(new['monthly_surplus'])}.")
+    names = {b["id"]: b["name"] for b in (old.get("buckets") or []) + (new.get("buckets") or [])}
+
+    def label(s: dict) -> str:
+        goal = names.get(s.get("goal_id"))
+        return ACTION_WORDS.get(s["action"], s["action"].replace("_", " ")) + (f" for {goal}" if goal else "")
+    before = {step_key(s): s for s in old["steps"]}
+    after = {step_key(s): s for s in new["steps"]}
+    gone = [label(before[k]) for k in before if k not in after]
+    added = [label(after[k]) for k in after if k not in before]
+    if gone:
+        lines.append("No longer in the plan: " + ", ".join(gone) + ".")
+    if added:
+        lines.append("New in the plan: " + ", ".join(added) + ".")
+    if old["invest_start_month"] != new["invest_start_month"]:
+        lines.append(f"Investing starts in month {new['invest_start_month']} instead of month {old['invest_start_month']}.")
+    if abs(old["investing_monthly"] - new["investing_monthly"]) >= 1:
+        lines.append(f"Investing: {inr(old['investing_monthly'])} → {inr(new['investing_monthly'])} a month.")
+    return lines or [f"Same plan as on {made}: nothing changed."]

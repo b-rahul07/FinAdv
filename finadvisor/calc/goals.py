@@ -57,3 +57,15 @@ def months_to_save(gap: float, monthly: float) -> int:
     if monthly <= 0:
         raise ValueError("monthly must be positive to close a gap")
     return math.ceil(gap / monthly - 1e-9)
+
+
+def retirement_corpus_today(spend_monthly: float, years: int, return_pct: float, inflation_pct: float) -> float:
+    """Corpus, in today's rupees, that pays `spend_monthly` (today's money, rising with inflation) at the start of every
+    month for `years`, while what remains earns `return_pct` a year. Worked in real terms, so the result can be used
+    as a goal's cost today."""
+    real = (1 + return_pct / 100) / (1 + inflation_pct / 100) - 1
+    i = (1 + real) ** (1 / 12) - 1
+    n = years * 12
+    if abs(i) < 1e-12:
+        return spend_monthly * n
+    return spend_monthly * (1 - (1 + i) ** -n) / i * (1 + i)

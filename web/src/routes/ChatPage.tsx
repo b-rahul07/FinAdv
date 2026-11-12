@@ -11,8 +11,8 @@ const STARTERS = [
   { title: "Make me a money plan", body: "for my salary and goals", text: "Make me a money plan for my salary and goals" },
   { title: "Do I have enough", body: "emergency savings?", text: "Do I have enough emergency savings?" },
   { title: "Should I buy a phone", body: "on a no-cost EMI?", text: "Should I buy a phone on a no-cost EMI?" },
-  { title: "Explain ELSS", body: "and how Section 80C works", text: "What is ELSS and how does Section 80C work?" },
-  { title: "Is F&O trading", body: "right for me?", text: "Is F&O trading right for me?" },
+  { title: "How much tax", body: "will I pay, old regime or new?", text: "How much tax will I pay, and which regime is better for me?" },
+  { title: "Am I on track", body: "with my plan and goals?", text: "Am I on track?" },
   { title: "How much should I save", body: "for retirement?", text: "How much should I save for retirement?" },
 ];
 

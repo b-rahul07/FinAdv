@@ -6,7 +6,7 @@ export type Message = {
   id: string;
   role: "user" | "assistant";
   content: string;
-  route: "learn" | "plan" | "check" | "chat" | null;
+  route: "learn" | "plan" | "check" | "chat" | "whatif" | "tax" | "track" | "ask" | null;
   cards: Card[];
   sources: Source[];
   status: "complete" | "stopped" | "error" | "streaming";
@@ -37,6 +37,8 @@ export type Profile = {
   experience: "none" | "beginner" | "intermediate" | "advanced";
   gl_answers: Record<string, string>;
   wishes: string[];
+  /** Optional facts for tax estimates; absent until the person gives one. */
+  tax?: { gross_salary_annual: number | null; deductions_80c: number | null; deductions_80d: number | null; nps_80ccd1b: number | null; hra_exemption_annual: number | null } | null;
 };
 
 export type HealthCheck = {
@@ -147,6 +149,53 @@ export type EvidenceCard = {
 
 export type FollowupsCard = { type: "followups"; items: string[] };
 
+/** One missing fact, asked once (advisor/converse.py). `then` is the question to ask again once it is saved. */
+export type AskCard = { type: "ask"; field: string; question: string; unit: string; min: number; max: number; hint: string; then: string };
+
+/** The answer to a follow-up "what if": today's facts against the changed ones, from the what-if engine. */
+export type WhatIfAnswerCard = {
+  type: "what_if_answer";
+  label: string;
+  changes: Record<string, number>;
+  before: Summary;
+  after: Summary;
+  explanations: string[];
+  apply: Profile | null;
+  apply_note: string | null;
+};
+
+export type TaxRegime = {
+  label: string;
+  gross: number;
+  standard_deduction: number;
+  deductions: Record<string, number>;
+  deductions_total: number;
+  taxable: number;
+  tax_before_rebate: number;
+  rebate: number;
+  surcharge: number;
+  cess: number;
+  total: number;
+  marginal_rate: number;
+};
+
+export type TaxCard = {
+  type: "tax";
+  financial_year: string;
+  as_of: string;
+  gross: number;
+  new: TaxRegime;
+  old: TaxRegime;
+  better: "new" | "old" | "same";
+  saving: number;
+  deductions: { deductions_80c: number; deductions_80d: number; nps_80ccd1b: number; hra_exemption_annual: number };
+  deductions_known: boolean;
+  then: string;
+  source: string;
+};
+
+export type PlanChangeCard = { type: "plan_change"; lines: string[] };
+
 /** One scheme in a fund finder list. Returns are fractions a year (CAGR); expense_ratio is in percent (0.74 = 0.74%). */
 export type FundRow = {
   code: string;
@@ -177,7 +226,8 @@ export type FundFinderCard = {
 };
 
 /** "main" cards sit in the reply; "details" cards (full plan, goals, health check, what-if) open on request. */
-export type Card = (HealthCheck | PlanCard | GoalCard | NotYetCard | WhatIfCard | ProfileCardT | QuestionnaireCard | EvidenceCard | FundFinderCard | FollowupsCard) & {
+export type Card = (HealthCheck | PlanCard | GoalCard | NotYetCard | WhatIfCard | ProfileCardT | QuestionnaireCard | EvidenceCard | FundFinderCard | FollowupsCard
+  | AskCard | WhatIfAnswerCard | TaxCard | PlanChangeCard) & {
   show?: "main" | "details";
 };
 

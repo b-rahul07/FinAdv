@@ -1,0 +1,41 @@
+# Income-tax rules for a resident individual below 60, FY 2026-27 (AY 2027-28). Used for estimates in the chat
+# ("estimated, not tax advice"). Budget 2026 left the slabs of Budget 2025 unchanged.
+# Sources (read 12 Nov 2026; check against incometax.gov.in before relying on a figure):
+#   https://cobrand.bankbazaar.com/tax/income-tax-slabs.html
+#   https://taxguru.in/income-tax/old-vs-new-tax-regime-fy-2026-27-salaried-employees-checklist.html
+# This file is not part of the advice bundle (configs/tax holds the capital-gains rules the bundle versions), so
+# adding it changes no experiment. A new year gets a new file; a used file is never edited.
+version: income-tax-fy2026-27
+financial_year: "2026-27"
+as_of: 2026-11-12
+cess: 0.04                      # health and education cess on tax plus surcharge
+
+# Each slab is [upper limit of the slab in rupees, rate]; null means no upper limit.
+new:
+  label: New regime
+  standard_deduction: 75000     # salaried
+  slabs: [[400000, 0.0], [800000, 0.05], [1200000, 0.10], [1600000, 0.15], [2000000, 0.20], [2400000, 0.25], [null, 0.30]]
+  rebate:
+    income_up_to: 1200000       # taxable income; tax is nil up to here
+    max: 60000
+    marginal_relief: true       # just above the limit, tax cannot exceed the income above the limit
+  surcharge: [[5000000, 0.10], [10000000, 0.15], [20000000, 0.25]]   # [taxable income above, rate on tax]
+  deductions: {}                # none of the common ones apply
+
+old:
+  label: Old regime
+  standard_deduction: 50000
+  slabs: [[250000, 0.0], [500000, 0.05], [1000000, 0.20], [null, 0.30]]
+  rebate:
+    income_up_to: 500000
+    max: 12500
+    marginal_relief: false
+  surcharge: [[5000000, 0.10], [10000000, 0.15], [20000000, 0.25], [50000000, 0.37]]
+  deductions:                   # field of the person's facts -> cap in rupees (null: taken as stated)
+    deductions_80c: 150000      # EPF, PPF, ELSS, life-insurance premium, home-loan principal, tuition fees
+    deductions_80d: 25000       # health-insurance premium for self and family (parents' cover is separate, not modelled)
+    nps_80ccd1b: 50000          # own NPS contribution over and above 80C
+    hra_exemption_annual: null  # the exempt part of HRA, as on the payslip or Form 16
+
+# What the estimate leaves out, shown with every answer.
+not_modelled: "other income, home-loan interest, parents' health cover, employer NPS, and marginal relief on surcharge"

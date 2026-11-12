@@ -13,8 +13,8 @@ from dataclasses import dataclass, field
 import httpx
 from typing import Callable
 
-from finadvisor.advisor import auditor, cards, check as check_mod, compose, extract as extract_mod, fundfinder, numbers, \
-    pressure, wishes
+from finadvisor.advisor import auditor, cards, check as check_mod, compose, converse, extract as extract_mod, \
+    fundfinder, numbers, pressure, wishes
 from finadvisor.advisor.capacity import assess as assess_capacity
 from finadvisor.advisor.core import RULE_CHECK_VERSION, plan_once
 from finadvisor.advisor.gate import RISK_LABEL, gate
@@ -147,6 +147,8 @@ class TurnInput:
     forced_route: str | None = None
     # Loads what the person already holds ([{"product_id", "value"}]); the website passes one, experiments don't.
     holdings: Callable[[], list[dict]] | None = None
+    # Loads what the conversation stage answers from ({"home": the home-page overview, "today": date}); website only.
+    context: Callable[[], dict] | None = None
 
 
 @dataclass
@@ -176,11 +178,26 @@ class Advisor:
     # ------------------------------------------------------------------ public
     def turn(self, inp: TurnInput, emit: Emit, cancel: threading.Event | None = None) -> TurnOutput:
         t0 = time.perf_counter()
-        r = inp.forced_route or route_message(inp.text).kind
+        # Conversation stage (website pipeline only; skipped when the flag is absent): follow-up what-ifs, one
+        # missing fact, tax, "am I on track?". It answers only what it recognises with confidence; everything else,
+        # every named risky product and every pressure turn goes to the routes below.
+        conv = None
+        if not inp.forced_route and self.bundle.pipeline["stages"].get("conversation"):
+            conv = converse.reply(inp, self.bundle)
+        r = conv.route if conv else (inp.forced_route or route_message(inp.text).kind)
         emit("route", {"route": r})
         out = TurnOutput(route=r)
         try:
-            if r == "chat":
+            if conv is not None:
+                out.text = conv.text
+                emit("token", {"text": conv.text})
+                for c in conv.cards:
+                    out.cards.append(c)
+                    emit("card", c)
+                if conv.record is not None:
+                    out.advice = {"route": conv.route, "profile_version": inp.profile_version, **conv.record,
+                                  **self._identity(out)}
+            elif r == "chat":
                 out.text = GREETING_TEXT
                 emit("token", {"text": out.text})
             elif r == "learn":

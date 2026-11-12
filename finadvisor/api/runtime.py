@@ -10,7 +10,7 @@ from pathlib import Path
 from finadvisor.advisor.fundfinder import FundFinder
 from finadvisor.advisor.pipeline import Advisor
 from finadvisor.api.auth import DevAuth, SupabaseAuth
-from finadvisor.configs import default_bundle
+from finadvisor.configs import load_bundle
 from finadvisor.db.base import Base, make_engine, make_sessionmaker
 from finadvisor.llm import get_llm
 from finadvisor.retrieval import DOCS_DIR
@@ -29,7 +29,7 @@ class Runtime:
             Base.metadata.create_all(self.engine)   # Postgres uses Alembic migrations instead
         self.Session = make_sessionmaker(self.engine)
         self.auth = SupabaseAuth(self.settings) if self.settings.auth_mode == "supabase" else DevAuth(self.settings.dev_auth_secret)
-        self.bundle = default_bundle()
+        self.bundle = load_bundle(self.settings.pipeline)
         self.llm = llm or get_llm(self.settings.model_name, self.bundle.models, base_url=self.settings.ollama_base_url)
         if news is None and self.settings.news == "rss":
             from finadvisor.market.news import NewsDesk

@@ -28,6 +28,7 @@ class Settings(BaseSettings):
 
     ollama_base_url: str = "http://127.0.0.1:11434"
     model_name: str = "website"                   # key in configs/models.yaml
+    pipeline: str = "pipeline/pipeline-v5-website.yaml"   # the website's pipeline file (experiments name their own)
     retrieval: str = "chroma"                     # chroma | keyword
     news: str = "rss"                             # rss (ET Markets + Moneycontrol, FinBERT mood) | off
     serve_web: bool = False                       # also serve the built website (web/dist) from the API, one address

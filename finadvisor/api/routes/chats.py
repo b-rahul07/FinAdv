@@ -13,8 +13,11 @@ from pydantic import BaseModel, Field
 from sqlalchemy import delete, desc, or_, select
 from sqlalchemy.orm import Session
 
+from finadvisor.advisor import overview
 from finadvisor.advisor.pipeline import TurnInput, TurnOutput
 from finadvisor.api import store
+from finadvisor.api.routes import home as home_route
+from finadvisor.market import jobs
 from finadvisor.portfolio import shelf_map
 from finadvisor.api.deps import Current, current, db, rt
 from finadvisor.api.runtime import Runtime
@@ -200,11 +203,19 @@ def _stream(runtime: Runtime, user_id: str, chat_id: str, text: str, forced_rout
                 Message.superseded.is_(False)).order_by(Message.created_at))]
             inp = TurnInput(text=text, confirmed=profile, profile_version=version, earlier_user_turns=earlier,
                             forced_route=forced_route,
-                            holdings=lambda: shelf_map.existing(s, user_id, runtime.bundle.tax))
+                            holdings=lambda: shelf_map.existing(s, user_id, runtime.bundle.tax),
+                            context=lambda: {"home": home_route.build(s, user_id, runtime.bundle), "today": jobs.today_ist()})
+            before = home_route.latest_plan_run(s, user_id)
             try:
                 out = runtime.advisor.turn(inp, lambda k, d: q.put((k, d)), cancel)
             except Exception:  # noqa: BLE001 - error event already emitted by the advisor
                 out = TurnOutput(route="error", status="error", text="")
+            if before is not None and out.route == "plan" and out.advice and out.advice.get("plan") and before.record.get("plan"):
+                # One plan at a time: a re-made plan says what it changed, in a line above the cards.
+                change = {"type": "plan_change", "show": "main", "lines": overview.plan_changes(
+                    before.record["plan"], out.advice["plan"], home_route._ist(before.created_at).date())}
+                out.cards.insert(0, change)
+                q.put(("card", change))
             mid, run_id = store.persist_turn(s, user_id, chat_id, out)
             if out.advice is not None:
                 store.track(s, user_id, "advice_shown", route=out.route, latency_s=out.latency_s)

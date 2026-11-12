@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from typing import Literal, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_serializer
 
 DebtKind = Literal["home", "car", "personal", "education", "bnpl", "credit_card", "gold", "two_wheeler", "other"]
 Experience = Literal["none", "beginner", "intermediate", "advanced"]
@@ -37,6 +37,16 @@ class Goal(BaseModel):
     saved_so_far: float = Field(0, ge=0)
 
 
+class TaxFacts(BaseModel):
+    """Optional facts for income-tax estimates, asked one at a time when a tax question needs them. No engine reads
+    them: they change no capacity score and no plan."""
+    gross_salary_annual: Optional[float] = Field(None, ge=0)
+    deductions_80c: Optional[float] = Field(None, ge=0)
+    deductions_80d: Optional[float] = Field(None, ge=0)
+    nps_80ccd1b: Optional[float] = Field(None, ge=0)
+    hra_exemption_annual: Optional[float] = Field(None, ge=0)
+
+
 class Profile(BaseModel):
     """Facts (x_f) and willingness inputs (x_w), report §3.1."""
 
@@ -56,6 +66,17 @@ class Profile(BaseModel):
     experience: Experience = "none"
     gl_answers: dict[int, str] = Field(default_factory=dict)   # item number -> option key
     wishes: list[str] = Field(default_factory=list)
+    # tax facts (website conversation layer only)
+    tax: Optional[TaxFacts] = None
+
+    @model_serializer(mode="wrap")
+    def _dump(self, handler):
+        """A profile without tax facts dumps exactly as it did before the field existed, so stored records, prompts
+        and experiment files built from dumps are unchanged."""
+        d = handler(self)
+        if d.get("tax") is None:
+            d.pop("tax", None)
+        return d
 
     @property
     def total_emi(self) -> float:

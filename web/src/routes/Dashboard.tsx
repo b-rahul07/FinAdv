@@ -182,7 +182,7 @@ function Trend({ points }: { points: HomeResp["health_history"] }) {
   );
 }
 
-const IDEAS = ["Do I have enough emergency savings?", "Should I buy a phone on a no-cost EMI?", "What is ELSS and how does 80C work?"];
+const IDEAS = ["Am I on track?", "How much tax will I pay this year?", "Should I buy a phone on a no-cost EMI?"];
 
 function Ask() {
   const navigate = useNavigate();

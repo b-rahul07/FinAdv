@@ -8,6 +8,7 @@ import { api } from "@/lib/api";
 import type { Card, FollowupsCard, Stage } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { GoalView, HealthCheckView, NotYetView, PlanView } from "./cards/AdviceCards";
+import { AskView, PlanChangeView, TaxView, WhatIfAnswerView } from "./cards/ConverseCards";
 import { EvidenceView } from "./cards/EvidenceView";
 import { FundFinderView } from "./cards/FundFinderView";
 import { ChatProfileCard, ChatQuestionnaireCard } from "./cards/ProfileCards";
@@ -24,7 +25,7 @@ const STAGE_LABEL: Record<string, string> = {
   retrieval: "Reading FinAdvisor's documents",
 };
 
-const ROUTE_LABEL: Record<string, string> = { learn: "Learn", plan: "Plan", check: "Check" };
+const ROUTE_LABEL: Record<string, string> = { learn: "Learn", plan: "Plan", check: "Check", whatif: "What if", tax: "Tax", track: "Progress" };
 
 /** Links in answers (official calculators, regulators) open in a new tab so the chat stays open. */
 const MD: Components = {
@@ -57,6 +58,16 @@ export function CardView({ card, onAsk }: { card: Card; onAsk: (text: string) =>
       return <ChatProfileCard card={card} onConfirmed={() => onAsk("Build my plan with my confirmed profile")} />;
     case "questionnaire":
       return <ChatQuestionnaireCard onDone={() => onAsk("Build my plan with my confirmed profile")} />;
+    case "ask":
+      return <AskView card={card} onAsk={onAsk} />;
+    case "what_if_answer":
+      return <WhatIfAnswerView card={card} />;
+    case "tax":
+      return <TaxView card={card} onAsk={onAsk} />;
+    case "plan_change":
+      return <PlanChangeView card={card} />;
+    default:
+      return null;      // a card type this build does not know: show nothing rather than break the reply
   }
 }
 
@@ -87,15 +98,23 @@ export const MessageView = memo(function MessageView({ m, isLast, onRegenerate, 
     );
   }
   const streaming = m.status === "streaming";
-  // Saved answers from before the question-first layout have no `show`; they keep every card in the reply.
-  const main = m.cards.filter((c) => c.show !== "details" && c.type !== "followups");
-  const details = m.cards.filter((c) => c.show === "details");
+  // A reply is the answer, the plan and what to do; everything else is one tap away under "More". The plan card is
+  // always in the reply and the sources always under More, whatever the stored `show` says. Saved answers from
+  // before the question-first layout have no `show`; they keep every card in the reply.
+  const more = (c: Card) => c.type !== "plan" && (c.show === "details" || (c.type === "evidence" && c.show !== undefined));
+  const changes = m.cards.filter((c) => c.type === "plan_change");
+  const main = m.cards.filter((c) => !more(c) && c.type !== "followups" && c.type !== "plan_change");
+  const details = m.cards.filter(more);
   const followups = m.cards.find((c) => c.type === "followups") as FollowupsCard | undefined;
-  const advice = m.cards.some((c) => c.type === "plan" || c.type === "not_yet" || c.type === "check_ok");
+  const advice = m.cards.some((c) => ["plan", "not_yet", "check_ok", "what_if_answer", "tax"].includes(c.type)) || m.route === "track";
+  const audited = m.cards.some((c) => c.type === "plan" || c.type === "not_yet" || c.type === "check_ok");
   return (
     <article className="group" aria-busy={streaming}>
       {m.route && ROUTE_LABEL[m.route] && <p className="eyebrow mb-2">{ROUTE_LABEL[m.route]}</p>}
       {streaming && <Stages stages={m.stages ?? []} />}
+      {changes.map((c, i) => (
+        <div key={i} className="mb-3"><CardView card={c} onAsk={onAsk} /></div>
+      ))}
       {m.content && (
         <div className="prose-chat">
           <ReactMarkdown remarkPlugins={[remarkGfm]} components={MD}>{m.content}</ReactMarkdown>
@@ -128,8 +147,8 @@ export const MessageView = memo(function MessageView({ m, isLast, onRegenerate, 
           ))}
         </div>
       )}
-      {(details.length > 0 || (advice && !streaming)) && (
-        <Details cards={details} onAsk={onAsk} why={advice && !streaming ? <WhyPanel runId={m.advice_run_id} live={m.why} /> : null} />
+      {(details.length > 0 || (audited && !streaming)) && (
+        <Details cards={details} onAsk={onAsk} why={audited && !streaming ? <WhyPanel runId={m.advice_run_id} live={m.why} /> : null} />
       )}
       {advice && <p className="mt-2 text-xs text-muted-foreground">Education and planning only. FinAdvisor is not a SEBI-registered investment adviser.</p>}
       {m.status === "stopped" && <p className="mt-2 text-xs font-semibold text-muted-foreground">Stopped</p>}
@@ -139,18 +158,18 @@ export const MessageView = memo(function MessageView({ m, isLast, onRegenerate, 
   );
 });
 
-const DETAIL_LABEL: Record<string, string> = { plan: "full plan", goal: "goals", health_check: "health check", what_if: "what-if" };
+const DETAIL_LABEL: Record<string, string> = { goal: "goals", health_check: "health check", what_if: "what-if", evidence: "sources", fund_finder: "funds" };
 
 /** The supporting cards, closed by default so the reply itself stays short. */
 function Details({ cards, onAsk, why }: { cards: Card[]; onAsk: (t: string) => void; why: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const names = [...new Set(cards.map((c) => DETAIL_LABEL[c.type]).filter(Boolean))];
-  const label = names.length ? `See the ${names.join(", ")}${why ? " and why" : ""}` : "Why this answer";
+  const label = names.length ? `More: ${names.join(", ")}${why ? " and why" : ""}` : "Why this answer";
   return (
     <div className="mt-3">
       <button className="flex items-center gap-1.5 text-sm font-semibold text-primary underline-offset-4 hover:underline" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
         <ChevronDown className={cn("size-4 transition-transform", open && "rotate-180")} aria-hidden />
-        {open ? "Hide details" : label}
+        {open ? "Show less" : label}
       </button>
       {open && (
         <div className="mt-3 grid gap-3">

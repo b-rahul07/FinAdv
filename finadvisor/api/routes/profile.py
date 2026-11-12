@@ -7,7 +7,7 @@ from pydantic import BaseModel, ValidationError
 from sqlalchemy import desc, select
 from sqlalchemy.orm import Session
 
-from finadvisor.advisor import cards
+from finadvisor.advisor import cards, converse
 from finadvisor.advisor.capacity import assess
 from finadvisor.advisor.health import health_card
 from finadvisor.advisor.profile import Profile, missing_fields
@@ -53,6 +53,28 @@ def confirm_profile(body: ProfileIn, me: Current = Depends(current), s: Session 
     store.track(s, me.id, "profile_confirmed", version=v, first=old is None)
     s.commit()
     return _profile_view(p, v, body.sources)
+
+
+class Answers(BaseModel):
+    answers: dict[str, float]
+
+
+@router.post("/profile/answer")
+def answer(body: Answers, me: Current = Depends(current), s: Session = Depends(db)):
+    """The answer to a single-question card in the chat (or the tax card's deductions). Saved as a new profile
+    version; a retirement spend becomes a retirement goal sized by the calculators."""
+    p, _, row = store.latest_profile(s, me.id)
+    if p is None:
+        raise HTTPException(400, "Confirm your profile first")
+    try:
+        new = converse.apply_answers(p, body.answers, rt().bundle)
+    except ValueError as e:
+        raise HTTPException(422, str(e))
+    sources = {**(row.sources or {}), **{k: "asked" for k in body.answers}}
+    v = store.save_profile(s, me.id, new, sources)
+    store.track(s, me.id, "profile_answer", fields=sorted(body.answers), version=v)
+    s.commit()
+    return _profile_view(new, v, sources)
 
 
 @router.get("/questionnaire")

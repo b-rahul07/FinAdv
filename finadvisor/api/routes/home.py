@@ -26,14 +26,23 @@ def _ist(dt):
 
 @router.get("/home")
 def home(me: Current = Depends(current), s: Session = Depends(db)):
-    b = rt().bundle
-    profile, version, row = store.latest_profile(s, me.id)
-    run = s.scalar(select(AdviceRun).where(AdviceRun.user_id == me.id, AdviceRun.route == "plan")
+    return build(s, me.id, rt().bundle)
+
+
+def latest_plan_run(s: Session, user_id: str) -> AdviceRun | None:
+    return s.scalar(select(AdviceRun).where(AdviceRun.user_id == user_id, AdviceRun.route == "plan")
+                    .order_by(desc(AdviceRun.created_at)).limit(1))
+
+
+def build(s: Session, user_id: str, b) -> dict:
+    """The home-page overview. Also what the chat's conversation stage answers "am I on track?" from."""
+    profile, version, row = store.latest_profile(s, user_id)
+    run = s.scalar(select(AdviceRun).where(AdviceRun.user_id == user_id, AdviceRun.route == "plan")
                    .order_by(desc(AdviceRun.created_at)).limit(1))
     plan = None
     if run is not None and run.record.get("plan"):
         recs: dict[str, dict] = {}
-        for r in s.scalars(select(Recommendation).where(Recommendation.user_id == me.id)
+        for r in s.scalars(select(Recommendation).where(Recommendation.user_id == user_id)
                            .order_by(Recommendation.last_suggested_at)):
             recs[r.key] = {"id": r.id, "status": r.status}          # the latest one per key wins
         made = _ist(run.created_at)
@@ -44,7 +53,7 @@ def home(me: Current = Depends(current), s: Session = Depends(db)):
             "stale": bool(version and run.profile_version and version > run.profile_version),
         }
     snaps = [{"at": _ist(h.created_at).isoformat(), "score": h.score, "out_of": h.out_of, "profile_version": h.profile_version}
-             for h in s.scalars(select(HealthSnapshot).where(HealthSnapshot.user_id == me.id).order_by(HealthSnapshot.created_at))]
+             for h in s.scalars(select(HealthSnapshot).where(HealthSnapshot.user_id == user_id).order_by(HealthSnapshot.created_at))]
     health = health_card(profile, assess(profile, b.rules), b.rules) if profile else None
     now = ({"at": _ist(row.created_at).isoformat(), "score": health["score"], "out_of": health["out_of"],
             "profile_version": version} if health else None)

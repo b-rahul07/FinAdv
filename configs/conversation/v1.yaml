@@ -1,0 +1,20 @@
+# Assumptions of the website's conversation layer (advisor/converse.py). Not part of the advice bundle.
+version: conversation-v1
+set_on: 2026-11-12
+
+retirement:
+  # Used once, to turn "I want to spend X a month in retirement" into a goal in today's rupees.
+  age: 60                 # planning retirement age; the goal's date can be changed on the Facts tab
+  years: 25               # years of spending the corpus must cover
+  return_after_pa: 7.0    # assumed yearly return on the corpus during retirement (conservative mix), before inflation
+  source: "Planning assumptions; inflation comes from the assumptions config."
+
+what_if:
+  # An amount at or above this without "a month" / "EMI" is read as a loan's size, not its EMI, and is not guessed at.
+  emi_max_without_monthly_word: 100000
+  # A new take-home figure at or above this is read as a yearly figure and is not guessed at.
+  take_home_monthly_max: 300000
+
+tax:
+  fd_vs_fund_amount: 100000
+  fd_vs_fund_years: 3
