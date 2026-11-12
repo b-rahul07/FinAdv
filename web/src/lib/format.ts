@@ -76,6 +76,12 @@ export function date(iso: string | Date): string {
   return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: IST }).format(d);
 }
 
+/** "Nov 2026" for timelines. */
+export function monthYear(iso: string | Date): string {
+  const d = typeof iso === "string" ? new Date(iso) : iso;
+  return new Intl.DateTimeFormat("en-GB", { month: "short", year: "numeric", timeZone: IST }).format(d);
+}
+
 /** "31 Oct 2026, 8:15 pm IST" */
 export function dateTime(iso: string | Date): string {
   const d = typeof iso === "string" ? new Date(iso) : iso;

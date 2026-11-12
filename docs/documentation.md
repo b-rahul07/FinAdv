@@ -98,6 +98,40 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
+### 2026-11-12 — Website phase 1, "One home": four tabs, a home that answers three questions, My money
+From `docs/IMPROVEMENT_PLAN.md` §3. A restructure, not new features. No change to the advice pipeline, the
+configs or `experiments/`, so the paper's runs are unaffected.
+- **Four tabs, the same on phone and desktop:** Home · Advisor · My money · Settings. The Profile and Holdings
+  pages are gone; `/profile` and `/holdings` redirect to the matching tab of `/money`.
+- **Home** (`web/src/routes/Dashboard.tsx`, `features/home/PlanBlock.tsx`) is three blocks. *Where you stand*: net
+  worth, a monthly cash-flow strip (take-home → EMIs, expenses, left over) and the health score with its history
+  across versions of the facts. *Your plan*: steps done, the next step with *I've done this* / *Skip*, every step
+  as a bar over months, a re-plan notice when the facts are newer than the plan, goals with their funded share.
+  *Ask*: one input that opens the advisor and sends the question once (`/chat?q=`).
+- **The left-over amount is the planner's surplus.** `GET /api/home` (`api/routes/home.py`) is built by
+  `finadvisor/advisor/overview.py`: `cash_flow` returns `Profile.monthly_surplus` as *left over*, so the number on
+  the home page is the number the advice uses. Bar positions, calendar months of each step, funded shares and
+  strip widths are all computed there; the web app only formats (non-negotiable 3).
+- **My money** (`web/src/routes/MoneyPage.tsx`): Overview (net worth in parts, value chart, allocation, returns,
+  movers: what used to fill the dashboard) · Stocks (with the watchlist) · Funds · Deposits & other · Loans ·
+  Insurance · Facts (the former profile page: facts, questionnaire, health check).
+- **Facts follow what is tracked, with one confirm** (`features/profile/FactsTab.tsx::FactsSync`): when a loan,
+  policy or liquid holding makes the tracked figures differ from the confirmed facts, a notice shows old → new and
+  *Update my facts* saves a new profile version. Nothing changes without the confirm.
+- **Phone:** holdings and the watchlist are cards below `md` (no sideways scrolling); the bottom bar has the four
+  tabs.
+- **Verified.** 6 new backend tests (`tests/test_home.py`: cash flow equals the surplus, month arithmetic across
+  years, timeline offsets, step status, goal shares, the API through profile → plan → step done → newer facts);
+  full suite passes; `tsc` clean; vitest 9 pass; production build succeeds. Driven in Edge against a throwaway
+  database with example data: a step marked done (1 → 2 of 5), a question typed on Home sent exactly once, facts
+  updated from a tracked policy (health 2 → 3 of 7, re-plan notice appears), old links redirect. No sideways
+  overflow at 390 px or 1360 px in either theme; no console errors. axe-core (WCAG 2 A/AA, 2.1 AA): 0
+  violations on Home and all seven My money tabs, light and dark, phone and desktop.
+- **Not verified / not done.** The preview used the fake model and development sign-in, not Ollama or Supabase.
+  The cash-flow strip has no SIP segment yet (no SIP data until Phase 3 detects them). The plan's "five people
+  find it without help" check has not been run. The deployed site changes only when this branch reaches the
+  branch it deploys from.
+
 ### 2026-11-12 — Venue and scope: an Indian IEEE conference, no hand tasks; SEBI's tool read properly
 Decisions of 12 Nov: the paper goes to any IEEE conference held in India, and no task that needs work by hand stays
 in the plan. Nothing here touches the pipeline; the running experiments are unaffected.

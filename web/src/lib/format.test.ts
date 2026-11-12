@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { date, dateGroup, dateTime, inr, inrAxis, inrParts, inrWords, pct, setIndianGrouping, signedInr } from "./format";
+import { date, dateGroup, dateTime, inr, inrAxis, inrParts, inrWords, monthYear, pct, setIndianGrouping, signedInr } from "./format";
 
 describe("indian formatting", () => {
   it("groups digits the Indian way", () => {
@@ -44,5 +44,12 @@ describe("indian formatting", () => {
     expect(dateGroup("2026-10-30T23:00:00+05:30", now)).toBe("Yesterday");
     expect(dateGroup("2026-10-26T10:00:00+05:30", now)).toBe("Previous 7 days");
     expect(dateGroup("2026-08-01T10:00:00+05:30", now)).toBe("August 2026");
+  });
+});
+
+describe("timeline months", () => {
+  it("names the month and year in IST", () => {
+    expect(monthYear("2026-11-01")).toBe("Nov 2026");
+    expect(monthYear("2027-01-01")).toBe("Jan 2027");
   });
 });

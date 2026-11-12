@@ -1,4 +1,4 @@
-import { useParams } from "@tanstack/react-router";
+import { useParams, useSearch } from "@tanstack/react-router";
 import { ArrowUp, PanelLeft, Square } from "lucide-react";
 import { memo, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ErrorState } from "@/components/common";
@@ -49,6 +49,16 @@ export function ChatPage() {
     },
     [busy, send],
   );
+
+  // A question typed on the home page arrives as /chat?q=…; send it once. Starting the chat replaces the URL.
+  const asked = useSearch({ strict: false }) as { q?: string };
+  const sent = useRef(false);
+  useEffect(() => {
+    if (asked.q && !chatId && !sent.current) {
+      sent.current = true;
+      ask(asked.q);
+    }
+  }, [asked.q, chatId, ask]);
 
   const empty = messages.length === 0 && (!chatId || !!detail.data);
   const lastAssistantId = [...messages].reverse().find((m) => m.role === "assistant")?.id;

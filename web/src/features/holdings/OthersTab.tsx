@@ -31,62 +31,73 @@ const KINDS: Record<string, { label: string; fields: [string, string, string?][]
 };
 const LOAN_KINDS = ["home", "car", "two_wheeler", "personal", "education", "bnpl", "credit_card", "gold", "other"];
 
-export function OthersTab() {
+export type OthersPart = "assets" | "loans" | "insurance";
+const DIALOG = { assets: "asset", loans: "loan", insurance: "cover" } as const;
+const BTN = "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold hover:bg-surface-2";
+
+/** One of the three things tracked outside the market: other assets, loans, insurance. Each is its own tab of My money. */
+export function OthersSection({ part }: { part: OthersPart }) {
   const qc = useQueryClient();
   const q = useQuery({ queryKey: ["others"], queryFn: () => api.get<Others>("/api/others") });
-  const [dialog, setDialog] = useState<null | "asset" | "loan" | "cover">(null);
+  const [open, setOpen] = useState(false);
   const del = useMutation({ mutationFn: (p: string) => api.del(p), onSuccess: () => qc.invalidateQueries() });
   if (!q.data) return <Skeleton className="h-64" />;
   const d = q.data;
-  const btn = "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold hover:bg-surface-2";
+  const add = <button className={BTN} onClick={() => setOpen(true)}><Plus className="size-4" aria-hidden /> Add</button>;
   return (
     <div className="space-y-4">
-      <Section eyebrow="Deposits, retirement, cash, gold, property" title="Other assets" action={<button className={btn} onClick={() => setDialog("asset")}><Plus className="size-4" aria-hidden /> Add</button>}>
-        {d.assets.length === 0 ? <EmptyState title="Nothing added yet" body="FDs, EPF/PPF/NPS, savings, physical gold and property make your net worth and emergency-fund check complete." /> : (
-          <ul className="divide-y">
-            {d.assets.map((a) => (
-              <li key={a.id} className="flex items-center gap-3 py-3">
-                <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-surface-2"><span className="size-3 rounded-full" style={{ background: `var(--series-${CLASS_META[a.asset_class]?.slot ?? 8})` }} aria-hidden /></span>
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-semibold">{a.name} {a.self_reported && <Pill className="ml-1">self-reported</Pill>} {a.matured && <Pill className="ml-1">matured</Pill>}</p>
-                  <p className="truncate text-xs text-muted-foreground">{KINDS[a.kind]?.label}{a.account_last4 ? ` · ending ${a.account_last4}` : ""} · {a.note ?? `${a.source}${a.as_of ? `, as of ${date(a.as_of)}` : ""}`}</p>
-                </div>
-                <span className="num text-right text-sm font-semibold">{a.value != null ? inr(a.value) : "—"}</span>
-                <button aria-label={`Delete ${a.name}`} className="rounded-lg p-1.5 text-muted-foreground hover:bg-surface-2" onClick={() => del.mutate(`/api/others/assets/${a.id}`)}><Trash2 className="size-4" /></button>
-              </li>
-            ))}
-          </ul>
-        )}
-        {d.gold_reference && <p className="mt-3 text-xs text-muted-foreground">Gold valued at {inr(d.gold_reference.rate_per_gram_999)}/g (999), {d.gold_reference.source}, as of {date(d.gold_reference.as_of)}. Not an IBJA rate.</p>}
-      </Section>
+      {part === "assets" && (
+        <Section eyebrow="Deposits, retirement, cash, gold, property" title="Deposits and other assets" action={add}>
+          {d.assets.length === 0 ? <EmptyState title="Nothing added yet" body="FDs, EPF/PPF/NPS, savings, physical gold and property make your net worth and emergency-fund check complete." /> : (
+            <ul className="divide-y">
+              {d.assets.map((a) => (
+                <li key={a.id} className="flex items-center gap-3 py-3">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-surface-2"><span className="size-3 rounded-full" style={{ background: `var(--series-${CLASS_META[a.asset_class]?.slot ?? 8})` }} aria-hidden /></span>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-semibold">{a.name} {a.self_reported && <Pill className="ml-1">self-reported</Pill>} {a.matured && <Pill className="ml-1">matured</Pill>}</p>
+                    <p className="truncate text-xs text-muted-foreground">{KINDS[a.kind]?.label}{a.account_last4 ? ` · ending ${a.account_last4}` : ""} · {a.note ?? `${a.source}${a.as_of ? `, as of ${date(a.as_of)}` : ""}`}</p>
+                  </div>
+                  <span className="num text-right text-sm font-semibold">{a.value != null ? inr(a.value) : "—"}</span>
+                  <button aria-label={`Delete ${a.name}`} className="rounded-lg p-1.5 text-muted-foreground hover:bg-surface-2" onClick={() => del.mutate(`/api/others/assets/${a.id}`)}><Trash2 className="size-4" /></button>
+                </li>
+              ))}
+            </ul>
+          )}
+          {d.gold_reference && <p className="mt-3 text-xs text-muted-foreground">Gold valued at {inr(d.gold_reference.rate_per_gram_999)}/g (999), {d.gold_reference.source}, as of {date(d.gold_reference.as_of)}. Not an IBJA rate.</p>}
+        </Section>
+      )}
 
-      <Section eyebrow="Counted against net worth" title="Loans and dues" action={<button className={btn} onClick={() => setDialog("loan")}><Plus className="size-4" aria-hidden /> Add</button>}>
-        {d.liabilities.length === 0 ? <p className="text-sm text-muted-foreground">No loans, BNPL or card dues added.</p> : (
-          <ul className="divide-y">
-            {d.liabilities.map((l) => (
-              <li key={l.id} className="flex items-center justify-between gap-3 py-3 text-sm">
-                <div><p className="font-semibold capitalize">{l.kind.replace("_", " ")}{l.lender ? ` · ${l.lender}` : ""}</p><p className="text-xs text-muted-foreground">{l.rate_pa != null ? `${l.rate_pa}% a year · ` : ""}EMI {inr(l.emi_monthly)}{l.end_date ? ` · ends ${date(l.end_date)}` : ""}{l.account_last4 ? ` · ending ${l.account_last4}` : ""} · as of {date(l.as_of)}</p></div>
-                <span className="flex items-center gap-2"><span className="num font-semibold">−{inr(l.outstanding)}</span><button aria-label="Delete loan" className="rounded-lg p-1.5 text-muted-foreground hover:bg-surface-2" onClick={() => del.mutate(`/api/others/liabilities/${l.id}`)}><Trash2 className="size-4" /></button></span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </Section>
+      {part === "loans" && (
+        <Section eyebrow="Counted against net worth" title="Loans and dues" action={add}>
+          {d.liabilities.length === 0 ? <EmptyState title="No loans added" body="Home, car, personal and education loans, BNPL and card dues. Their EMIs feed your monthly cash flow and the health check." /> : (
+            <ul className="divide-y">
+              {d.liabilities.map((l) => (
+                <li key={l.id} className="flex items-center justify-between gap-3 py-3 text-sm">
+                  <div className="min-w-0"><p className="font-semibold capitalize">{l.kind.replace("_", " ")}{l.lender ? ` · ${l.lender}` : ""}</p><p className="text-xs text-muted-foreground">{l.rate_pa != null ? `${l.rate_pa}% a year · ` : ""}EMI {inr(l.emi_monthly)}{l.end_date ? ` · ends ${date(l.end_date)}` : ""}{l.account_last4 ? ` · ending ${l.account_last4}` : ""} · as of {date(l.as_of)}</p></div>
+                  <span className="flex shrink-0 items-center gap-2"><span className="num font-semibold">−{inr(l.outstanding)}</span><button aria-label="Delete loan" className="rounded-lg p-1.5 text-muted-foreground hover:bg-surface-2" onClick={() => del.mutate(`/api/others/liabilities/${l.id}`)}><Trash2 className="size-4" /></button></span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Section>
+      )}
 
-      <Section eyebrow="Used by the health check, not net worth" title="Insurance" action={<button className={btn} onClick={() => setDialog("cover")}><Plus className="size-4" aria-hidden /> Add</button>}>
-        {d.insurance.length === 0 ? <p className="text-sm text-muted-foreground">No term or health cover added.</p> : (
-          <ul className="divide-y">
-            {d.insurance.map((c) => (
-              <li key={c.id} className="flex items-center justify-between gap-3 py-3 text-sm">
-                <div><p className="font-semibold">{c.kind === "term" ? "Term life" : "Health"}{c.insurer ? ` · ${c.insurer}` : ""}{c.employer_provided && <Pill className="ml-2">employer</Pill>}</p><p className="text-xs text-muted-foreground">{c.premium_yearly ? `${inr(c.premium_yearly)} a year · ` : ""}{c.renewal_date ? `renews ${date(c.renewal_date)}` : ""}</p></div>
-                <span className="flex items-center gap-2"><span className="num font-semibold">{inr(c.sum_assured)} cover</span><button aria-label="Delete policy" className="rounded-lg p-1.5 text-muted-foreground hover:bg-surface-2" onClick={() => del.mutate(`/api/others/insurance/${c.id}`)}><Trash2 className="size-4" /></button></span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </Section>
-      <InfoNote>Loan, folio and account numbers: enter only the last 4 digits. FinAdvisor never stores full numbers.</InfoNote>
-      <AddOther kind={dialog} onClose={() => setDialog(null)} />
+      {part === "insurance" && (
+        <Section eyebrow="Used by the health check, not net worth" title="Insurance" action={add}>
+          {d.insurance.length === 0 ? <EmptyState title="No cover added" body="Term life and health policies. The health check compares them with your income and dependants." /> : (
+            <ul className="divide-y">
+              {d.insurance.map((c) => (
+                <li key={c.id} className="flex items-center justify-between gap-3 py-3 text-sm">
+                  <div className="min-w-0"><p className="font-semibold">{c.kind === "term" ? "Term life" : "Health"}{c.insurer ? ` · ${c.insurer}` : ""}{c.employer_provided && <Pill className="ml-2">employer</Pill>}</p><p className="text-xs text-muted-foreground">{c.premium_yearly ? `${inr(c.premium_yearly)} a year · ` : ""}{c.renewal_date ? `renews ${date(c.renewal_date)}` : ""}</p></div>
+                  <span className="flex shrink-0 items-center gap-2"><span className="num font-semibold">{inr(c.sum_assured)} cover</span><button aria-label="Delete policy" className="rounded-lg p-1.5 text-muted-foreground hover:bg-surface-2" onClick={() => del.mutate(`/api/others/insurance/${c.id}`)}><Trash2 className="size-4" /></button></span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Section>
+      )}
+      {part !== "insurance" && <InfoNote>Loan, folio and account numbers: enter only the last 4 digits. FinAdvisor never stores full numbers.</InfoNote>}
+      <AddOther kind={open ? DIALOG[part] : null} onClose={() => setOpen(false)} />
     </div>
   );
 }

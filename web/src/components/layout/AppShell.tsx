@@ -1,6 +1,6 @@
 import { Link, Navigate, Outlet, useRouterState } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Home, LogOut, MessageCircle, Settings, UserRound, Wallet } from "lucide-react";
+import { Home, LogOut, MessageCircle, Settings, Wallet } from "lucide-react";
 import { useEffect } from "react";
 import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -10,15 +10,13 @@ import { setIndianGrouping } from "@/lib/format";
 import type { Me } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
+// Four places, the same on a phone and a desktop. `also` lists paths that belong to a tab without sharing its prefix.
 const NAV = [
   { to: "/", label: "Home", icon: Home, exact: true },
   { to: "/chat", label: "Advisor", icon: MessageCircle },
-  { to: "/holdings", label: "Holdings", icon: Wallet },
-  { to: "/profile", label: "Profile", icon: UserRound },
+  { to: "/money", label: "My money", icon: Wallet, also: ["/holdings"] },
   { to: "/settings", label: "Settings", icon: Settings },
 ] as const;
-
-const MOBILE = NAV.filter((n) => n.to !== "/profile");
 
 export function useMe() {
   const { signedIn } = useAuth();
@@ -37,7 +35,8 @@ export function AppShell() {
   if (!auth.ready) return null;
   if (!auth.signedIn) return <Navigate to="/signin" />;
 
-  const active = (to: string, exact?: boolean) => (exact ? path === to : path === to || path.startsWith(to + "/"));
+  const under = (to: string) => path === to || path.startsWith(to + "/");
+  const active = (n: (typeof NAV)[number]) => ("exact" in n ? path === n.to : under(n.to) || ("also" in n && n.also.some(under)));
   const isChat = path.startsWith("/chat");
 
   return (
@@ -50,8 +49,9 @@ export function AppShell() {
           <Logo />
         </div>
         <nav className="flex-1 space-y-1 px-3 py-2">
-          {NAV.map(({ to, label, icon: Icon, ...rest }) => {
-            const on = active(to, "exact" in rest);
+          {NAV.map((n) => {
+            const { to, label, icon: Icon } = n;
+            const on = active(n);
             return (
               <Link
                 key={to}
@@ -96,8 +96,9 @@ export function AppShell() {
           aria-label="Main"
           className="fixed inset-x-0 bottom-4 z-40 mx-auto flex w-[min(92vw,380px)] justify-between rounded-full border bg-card/90 p-1.5 shadow-lg backdrop-blur md:hidden"
         >
-          {MOBILE.map(({ to, label, icon: Icon, ...rest }) => {
-            const on = active(to, "exact" in rest);
+          {NAV.map((n) => {
+            const { to, label, icon: Icon } = n;
+            const on = active(n);
             return (
               <Link
                 key={to}

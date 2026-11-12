@@ -9,7 +9,7 @@ import { AddTransactionDialog } from "@/features/holdings/AddTransaction";
 import { api } from "@/lib/api";
 import { date, inr, num, pct, signedInr } from "@/lib/format";
 import type { Holding, Instrument, TxRow } from "@/lib/types";
-import { SourceNote } from "./HoldingsPage";
+import { SourceNote } from "@/features/holdings/HoldingsList";
 
 type Detail = {
   instrument: Instrument;
@@ -59,7 +59,7 @@ export function InstrumentPage() {
   const visibleMarks = from ? d.marks.filter((m) => m.date >= from) : [];
   return (
     <div className="mx-auto max-w-5xl px-4 py-6 md:px-8 md:py-10">
-      <PageHeader crumbs={["Holdings", mf ? "Mutual funds" : "Stocks"]} eyebrow={mf ? [i.amc, i.category].filter(Boolean).join(" · ") : `${i.exchange} · ${i.isin}`}
+      <PageHeader crumbs={["My money", mf ? "Funds" : "Stocks"]} eyebrow={mf ? [i.amc, i.category].filter(Boolean).join(" · ") : `${i.exchange} · ${i.isin}`}
         title={mf ? i.name : `${i.symbol}`}
         actions={<button onClick={() => setAdding(true)} className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold hover:bg-surface-2"><Plus className="size-4" aria-hidden /> Add transaction</button>} />
       {!mf && <p className="-mt-4 mb-6 text-muted-foreground">{i.name}</p>}

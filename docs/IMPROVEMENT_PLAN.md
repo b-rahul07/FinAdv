@@ -50,6 +50,9 @@ How the site serves them today:
 
 ### Phase 1: One home (2 weeks)
 
+**Status: built on 12 Nov 2026** (changelog entry of that date). Not done from this phase: SIPs in the cash-flow
+strip (they arrive with SIP detection in Phase 3) and the five-person findability check.
+
 **Restructure, not add.** Four tabs: **Home · Advisor · My money · Settings**. The Profile tab goes; its facts move to
 where they belong.
 

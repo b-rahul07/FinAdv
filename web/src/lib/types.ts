@@ -307,3 +307,76 @@ export type DashboardResp = {
   advice: { id: string; title: string; status: string; suggested_at: string }[];
   holdings_count: number;
 };
+
+/** GET /api/home. Every amount, share, offset and date is computed by the API (finadvisor/advisor/overview.py). */
+export type CashFlow = {
+  take_home: number;
+  emis: number;
+  expenses: number;
+  left_over: number;
+  short_by: number;
+  widths: { emis: number; expenses: number; left_over: number } | null;
+};
+
+export type TimelineStep = {
+  order: number;
+  action: string;
+  text: string;
+  rule: string | null;
+  kind: "dated" | "ongoing" | "one_off";
+  goal: string | null;
+  monthly: number;
+  months: number;
+  start_month: number;
+  end_month: number | null;
+  starts_on: string;
+  ends_on: string | null;
+  recommendation_id: string | null;
+  status: "suggested" | "pending" | "done" | "skipped";
+  offset: number;
+  width: number;
+};
+
+export type HomePlan = {
+  steps: TimelineStep[];
+  total: number;
+  done: number;
+  skipped: number;
+  next_order: number | null;
+  horizon_months: number;
+  axis: { month: number; label_on: string; offset: number }[];
+  monthly_surplus: number;
+  investing_monthly: number;
+  invest_start_month: number;
+  invest_starts_on: string;
+  notes: string[];
+  advice_run_id: string;
+  chat_id: string | null;
+  made_at: string;
+  profile_version: number | null;
+  audit_status: string | null;
+  stale: boolean;
+};
+
+export type GoalProgress = {
+  goal_id: string;
+  name: string;
+  target_today: number;
+  saved_so_far: number;
+  funded: number;
+  horizon_years: number;
+  target_future: number | null;
+  sip_needed: number | null;
+  monthly_assigned: number | null;
+  fundable: boolean | null;
+  shortfall: number;
+};
+
+export type HomeResp = {
+  profile_version: number | null;
+  cash_flow: CashFlow | null;
+  health: HealthCheck | null;
+  health_history: { at: string; score: number; out_of: number; profile_version: number | null }[];
+  plan: HomePlan | null;
+  goals: GoalProgress[];
+};
