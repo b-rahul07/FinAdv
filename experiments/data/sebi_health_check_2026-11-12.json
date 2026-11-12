@@ -1,0 +1,305 @@
+{
+ "source": "https://investor.sebi.gov.in/financial_health_check.html",
+ "retrieved": "2026-11-12",
+ "page_sha256": "6f6075094e483e380f0097b011bfe275bda8f214977ac8825ee1bdf1466490fc",
+ "skips": [
+  {
+   "when": "question 1 answered 'No'",
+   "skips": 2
+  },
+  {
+   "when": "question 3 answered 'I do not have any health insurance'",
+   "skips": 4
+  }
+ ],
+ "questions": [
+  {
+   "id": 1,
+   "question": "Do you have anyone who depends on you financially?",
+   "note": "",
+   "options": [
+    {
+     "text": "Yes",
+     "colour": "none",
+     "advice": ""
+    },
+    {
+     "text": "No",
+     "colour": "none",
+     "advice": ""
+    }
+   ]
+  },
+  {
+   "id": 2,
+   "question": "Do you have life insurance cover for at least 15 to 20 times your annual income?",
+   "note": "* (If you have sufficient net worth and believe you do not need such an amount of life insurance, you can select 'not applicable')",
+   "options": [
+    {
+     "text": "Yes",
+     "colour": "green",
+     "advice": "It is Great that you have life insurance cover for at least 15 to 20 times your annual income. Life insurance is a key component of financial security."
+    },
+    {
+     "text": "No",
+     "colour": "red",
+     "advice": "As you do not have life insurance cover for at least 15 to 20 times your annual income, it is recommended that you purchase a term life insurance policy with your dependents as nominees. This will ensure they can fend for themselves in the event of unfortunate demise of the breadwinner."
+    },
+    {
+     "text": "Not applicable",
+     "colour": "none",
+     "advice": ""
+    }
+   ]
+  },
+  {
+   "id": 3,
+   "question": "Do you have health insurance for yourself and all your dependents (if applicable)?",
+   "note": "* Insurance is a risk management tool, not an investment vehicle",
+   "options": [
+    {
+     "text": "I do not have any health insurance",
+     "colour": "red",
+     "advice": "As you donâ€™t have any health insurance, it is recommended to purchase a personal health insurance policy for at least Rs. 5 lakhs to 50% of your annual income (which is the higher), covering you."
+    },
+    {
+     "text": "I have health insurance provided by my employer",
+     "colour": "green",
+     "advice": "As you have health insurance provided by your employer, you can additionally consider purchasing a personal health insurance policy for at least Rs. 5 lakhs to 50% of your annual income (which is the higher), covering you."
+    },
+    {
+     "text": "I have personal health insurance",
+     "colour": "green",
+     "advice": "As you have personal health insurance, you may consider purchasing a Super-Top Up policy (policy that covers you over and above your existing primary health insurance policy)."
+    },
+    {
+     "text": "I have both personal and employer provided insurance",
+     "colour": "green",
+     "advice": "It is Great that you have both personal and employer provided insurance."
+    },
+    {
+     "text": "I have health insurance provided by Central / State Government",
+     "colour": "green",
+     "advice": "It is Great that you have health insurance provided by Central/State Government."
+    }
+   ]
+  },
+  {
+   "id": 4,
+   "question": "How well are you aware of the features, terms and conditions of your health insurance cover?",
+   "note": "* Insurance is a risk management tool, not an investment vehicle",
+   "options": [
+    {
+     "text": "I am well aware",
+     "colour": "green",
+     "advice": "Way to go! This will help you handle cashless and reimbursement claims at ease!"
+    },
+    {
+     "text": "I am not aware",
+     "colour": "red",
+     "advice": "Please spend time reading these. They are essential for the smooth processing of claims"
+    },
+    {
+     "text": "I know only the basics",
+     "colour": "amber",
+     "advice": "You are only one step away from being an expert! Read up more. It will help you handle hospitalizations with confidence."
+    }
+   ]
+  },
+  {
+   "id": 5,
+   "question": "How well can you handle sudden, unexpected expenses?",
+   "note": "",
+   "options": [
+    {
+     "text": "I cannot :(",
+     "colour": "red",
+     "advice": "As you are not able to handle sudden, unexpected expenses, it is recommended for you to build an emergency fund over the next few months from which you can withdraw immediately (e.g. a savings bank account other than your salary account or main account). The emergency fund should at least be six times your monthly expenses."
+    },
+    {
+     "text": "I can handle small emergency expenses",
+     "colour": "amber",
+     "advice": "It is a positive start that you can handle small emergency expenses. Additionally, it is recommended to build your emergency fund over the next few months to at least six to twelve times your monthly expenses."
+    },
+    {
+     "text": "I am confident of handling financial emergencies",
+     "colour": "green",
+     "advice": "It is great that you are confident of handling emergency expenses."
+    }
+   ]
+  },
+  {
+   "id": 6,
+   "question": "If you have a credit card do you manage to pay the bill in full before the due date each month?",
+   "note": "",
+   "options": [
+    {
+     "text": "I don't have a credit card",
+     "colour": "none",
+     "advice": ""
+    },
+    {
+     "text": "I pay in full each month",
+     "colour": "green",
+     "advice": "It is Fantastic that you manage to pay your credit card bill in full before due date each month."
+    },
+    {
+     "text": "Occasionally I fail to pay in full",
+     "colour": "red",
+     "advice": "As you occasionally fail in managing to pay your credit card bill in full before due date each month, it is recommended that you curb your spending within your ability to pay. If you don't pay your credit card bill in full on time, you will have to pay late fees, high interest charges and it can cause damage to your credit score, harming your ability to take other loans."
+    },
+    {
+     "text": "I often do not pay in full",
+     "colour": "red",
+     "advice": "As you do not pay your credit card bill in full before due date each month very often, you will be charged an annual interest of about 40% or oustanding! Failing to pay in full amount regularly is a sign of a spending problem and it is recommended that you return your credit card and seek the help of a credit / debt counsellor or a Registered investment advisor."
+    }
+   ]
+  },
+  {
+   "id": 7,
+   "question": "Do you have any personal loans or any unsecured loans?",
+   "note": "",
+   "options": [
+    {
+     "text": "Yes",
+     "colour": "red",
+     "advice": "As you have personal / unsecured loans, it is recommended that you close these loans as soon as possible as their interest rates are high."
+    },
+    {
+     "text": "No",
+     "colour": "green",
+     "advice": "It is Fantastic that you have no personal / unsecured loans."
+    }
+   ]
+  },
+  {
+   "id": 8,
+   "question": "Is the total EMI you pay towards the home loan, car loan, personal loan etc., greater than 40% of your monthly take-home pay?",
+   "note": "",
+   "options": [
+    {
+     "text": "Yes",
+     "colour": "red",
+     "advice": "As your total EMI towards the home loan, car loan, personal loan etc., is greater than 40% of your monthly take-home pay, it is recommended that you focus on reducing your debt burden. You can consider the possibility of refinancing some debt. Expert advice from a Registered investment advisor may help."
+    },
+    {
+     "text": "No",
+     "colour": "green",
+     "advice": "It is Great that your total EMI towards the home loan, car loan, personal loan etc., is less than 40% of your monthly take-home pay. It is recommended that you continue to keep debt as low as possible as it is the first step towards building wealth."
+    },
+    {
+     "text": "I don't have any debt",
+     "colour": "green",
+     "advice": "It is Great that you donâ€™t have any debt. You can try to invest as much as possible for as long as possible to build a sizeable corpus for retirement or achieving financial freedom."
+    }
+   ]
+  },
+  {
+   "id": 9,
+   "question": "Do you create a budget for your income?",
+   "note": "",
+   "options": [
+    {
+     "text": "Yes",
+     "colour": "green",
+     "advice": "It is a good habit to create a budget for your income to have control over your spending."
+    },
+    {
+     "text": "No",
+     "colour": "red",
+     "advice": "As you donâ€™t have a budget, it is recommended that you set a budget for income and expenditure each month. You can allocate a maximum target amount that can be spent for different â€˜needsâ€™ and â€˜wantsâ€™. The goal is to not exceed the amount set as a target for 'wants'."
+    }
+   ]
+  },
+  {
+   "id": 10,
+   "question": "Have you calculated the corpus needed for you to retire comfortably?",
+   "note": "",
+   "options": [
+    {
+     "text": "Yes",
+     "colour": "green",
+     "advice": "It is Great that you have calculated the corpus needed to retire comfortably. Further, you can also consider validating your calculations with our financial goal planner available on SEBI Investor Website."
+    },
+    {
+     "text": "No",
+     "colour": "red",
+     "advice": "As you have not calculated the corpus needed for you to retire comfortably, you may use the financial goal planner available on SEBI Investor Website to plan for your retirement and other financial goals. Delaying this exercise can be quite expensive as the total investment amount increases by 10-12% for each year of delay."
+    }
+   ]
+  },
+  {
+   "id": 11,
+   "question": "Are you investing enough for retirement?",
+   "note": "",
+   "options": [
+    {
+     "text": "Yes",
+     "colour": "green",
+     "advice": "It is great that you have invested enough for your financial independence after retirement."
+    },
+    {
+     "text": "No",
+     "colour": "red",
+     "advice": "As you havenâ€™t invested enough for your financial independence after retirement you can begin your retirement planning journey. With focus, discipline and small dash of luck, things will become progressively better. Don't lose heart!"
+    }
+   ]
+  },
+  {
+   "id": 12,
+   "question": "Have you shared the details of your investments with your spouse/children/or other dependents (as applicable/relevant)?",
+   "note": "",
+   "options": [
+    {
+     "text": "Yes",
+     "colour": "green",
+     "advice": "It is great that you have shared the details of your investments with your spouse/children/or other dependents. Now your net worth can be seamlessly managed by your loved ones in case you are unable to. Further, you can consider including the contact details of a Registered Investment Advisor to guide your family members."
+    },
+    {
+     "text": "No",
+     "colour": "red",
+     "advice": "As you havenâ€™t shared the details of your investments with your spouse/children/or other dependents, it is recommended to discuss your investments with them so that they do not suffer in case you are incapacitated / unable to manage your money"
+    },
+    {
+     "text": "I don't have any spouse/children/or other dependents",
+     "colour": "amber",
+     "advice": "As you donâ€™t have any spouse/children/other, you can consider taking legal advice on how your investments can be managed if you are incapacitated / unable to do so."
+    }
+   ]
+  },
+  {
+   "id": 13,
+   "question": "Have you added nomination details to all your investments?",
+   "note": "",
+   "options": [
+    {
+     "text": "Yes",
+     "colour": "green",
+     "advice": "It is Great that you have added nomination details to all your investments. Do also keep your nominees informed."
+    },
+    {
+     "text": "No",
+     "colour": "red",
+     "advice": "As you havenâ€™t added nomination details to all your investments, it is recommended you do this immediately! This is a crucial step to ensure your loved ones have easy access to your investments in the event of your demise."
+    }
+   ]
+  },
+  {
+   "id": 14,
+   "question": "Have you made a will? (This allows you to distribute your assets to your relatives/nominees as per your wishes)",
+   "note": "",
+   "options": [
+    {
+     "text": "Yes",
+     "colour": "green",
+     "advice": "Kudos to your foresight for creating a Will! If you ensure that the beneficiaries in the Will are also the nominees (when possible), asset disbursal can be hassle-free."
+    },
+    {
+     "text": "No",
+     "colour": "red",
+     "advice": "A nomination alone is not enough to ensure your assets are distributed to your kin as per your wishes. The provisions of a Will prevail over the nomination. Therefore, it is recommended to create a Will and ensure that beneficiaries in the Will are also the nominees (when possible) for smooth disbursement of the amount."
+    }
+   ]
+  }
+ ]
+}

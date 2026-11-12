@@ -187,6 +187,7 @@ def test_report_and_grading_round_trip(tmp_path):
     with (gdir / "sheet.csv").open(encoding="utf-8") as f:
         sheet = list(csv.reader(f))
     assert len(sheet) == 5 and not any("A1T" in cell for row in sheet for cell in row)   # blind: no run names
+    assert sheet[0][1] == "the person's facts" and all("take-home" in row[1] for row in sheet[1:])
     for name, label in (("a.csv", "accurate"), ("b.csv", "accurate")):
         (gdir / name).write_text("item,label (x)\n" + "\n".join(f"{row[0]},{label}" for row in sheet[1:]),
                                  encoding="utf-8")
@@ -463,3 +464,46 @@ def test_persona_ranges_table(capsys):
     persona_ranges.main(PERSONAS)
     out = capsys.readouterr().out
     assert "240 personas" in out and "| Take-home pay a month |" in out and "AIDIS 2019" in out
+
+
+def test_handcheck_pack_matches_the_configs_and_the_engines():
+    import csv
+    from experiments import handcheck_pack as pack
+    from finadvisor.configs import default_bundle
+    bundle = default_bundle()
+    assert personas.label(pack.EXAMPLE, bundle) == pack.EXAMPLE_ANSWER          # the worked example in rules.md
+    with pack.SHEET.open(encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    # the committed copies are what the generator writes today (python -m experiments.handcheck_pack)
+    assert (pack.OUT / "rules.md").read_text(encoding="utf-8") == pack.rules_md(bundle)
+    work = (pack.OUT / "worksheet.md").read_text(encoding="utf-8")
+    assert work == pack.worksheet_md(rows) and work.count("## S7-") == len(rows) == 45
+    assert "engine_oracle" not in work and "capacity" not in work               # facts only, no answers
+    with (pack.OUT / "answer_sheet.csv").open(encoding="utf-8") as f:
+        blank = list(csv.DictReader(f))
+    assert [r["id"] for r in blank] == [r["id"] for r in rows]
+    from experiments import handcheck
+    assert handcheck.read(pack.OUT / "answer_sheet.csv") == {}                  # nothing filled in
+
+
+def test_sebi_tool_correspondence():
+    from experiments import sebi_check
+    from finadvisor.configs import default_bundle
+    page = (b"<script>var jsonobj = {\"data\": {\"questions\": [{\"ques_id\": 7, \"question\": \"Any  loans?<br>x\", "
+            b"\"options\": [\"Select\", \"Yes\", \"No\"], \"optionsHint\": [\"close <a href='u'>them</a>\", \"good\"], "
+            b"\"optionsColor\": [\"\", \"#EC1212\", \"#008A27\"], \"hints\": \"\"}], \"results\": \"r\"}}; "
+            b"$(document).ready(function(){});</script>")
+    q = sebi_check.parse_page(page)[0]
+    assert q["question"] == "Any loans? x" and [o["colour"] for o in q["options"]] == ["red", "green"]
+    assert q["options"][0]["advice"] == "close them"
+
+    snap = json.loads(sebi_check.SNAPSHOT.read_text(encoding="utf-8"))
+    assert len(snap["questions"]) == 14 and snap["retrieved"] == "2026-11-12"
+    rows = [json.loads(line) for line in Path(PERSONAS).read_text(encoding="utf-8").splitlines()]
+    res = sebi_check.compare(rows, snap, default_bundle().rules)
+    for rule in ("R1", "R2", "R5"):                       # the engine implements these checks exactly as worded
+        assert res[rule]["agreement"] == 1.0
+    assert not any(r["unexplained"] for r in res.values())
+    assert res["R3"]["engine_only"] and not res["R3"]["tool_only"]        # the engine is stricter on health cover
+    assert res["R4"]["tool_only"] and not res["R4"]["engine_only"]        # and more lenient on cheap education loans
+    assert "No mismatch outside" in sebi_check.markdown(res, snap)

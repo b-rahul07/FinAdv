@@ -98,6 +98,35 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
+### 2026-11-12 — The team's checks made ready; SEBI's tool read properly
+The paper plan's people-only tasks (hand-check, SEBI tool, oracle labels, blind grading), prepared so each is a
+sheet to fill. Nothing here touches the pipeline; the running experiments are unaffected.
+- **SEBI's Financial Health Check is a questionnaire, not a calculator.** Read from the page source on 12 Nov: 14
+  questions, a fixed colour per option, no amounts, no arithmetic. The planned "40 personas through the live tool"
+  would have tested only the arithmetic of whoever typed the answers, so it is replaced by
+  `experiments/sebi_check.py`: for all 240 personas, the answer a truthful person would pick (written from the
+  question wording, not from `capacity.py`), the tool's colour for it (from the saved copy,
+  `experiments/data/sebi_health_check_2026-11-12.json`), against whether the rule fires. `--live` re-reads the page
+  and compares it with the saved copy (matched on 12 Nov).
+- **Result.** R1, R2, R5: 100 % agreement. R3: 80 %, the engine is stricter (48 personas with some cover below the
+  larger of ₹5 lakh and half of annual take-home; the tool colours any cover green and gives the amount only as
+  advice). R4: 90 %, the engine is more lenient (24 personas whose only unsecured loan is an education loan at
+  10.5 %; the tool asks about "any personal loans or any unsecured loans"). No other mismatch. Neither rule was
+  changed: thresholds are the team's decision and runs are in progress. **Open for the team:** keep R4 as it is and
+  state it, or add a sensitivity rules version in which education loans count.
+- **Hand-check pack** (`experiments/handcheck_pack.py` → `docs/handcheck/`): `rules.md` (the five steps, rendered
+  from the rules and willingness configs, with a worked example for a person not on the sheet), `worksheet.md` (the
+  45 personas as readable facts, no derived values), `answer_sheet.csv`. Until now the graders had only a CSV with a
+  JSON column and no written rules to work from.
+- **Blind grading sheet now shows the person's facts** (`grading.export`): the docstring said it did; the sheet had
+  only the question, the plan and the answer, so a baseline answer could not be judged against anything.
+- `docs/TEAM_TASKS.md`: the four tasks step by step, the three click-through runs for SEBI's tool with what to
+  expect, the labelling rules, and the grading rubric (accurate / minor slip / materially wrong) with examples.
+- Tests: 2 new (`test_handcheck_pack_matches_the_configs_and_the_engines`, `test_sebi_tool_correspondence`), one
+  extended (facts column). The committed pack is checked against the generator, the worked example against the
+  engines.
+- **Not verified:** the live page was read from its source, not clicked through; that is task 2 in TEAM_TASKS.
+
 ### 2026-11-12 — Paper plan: baseline B3, personalisation, capacity-share surrogate, LaTeX tables
 From `docs/PAPER_PLAN.md` (the paper's plan, written 12 Nov) and `docs/IMPROVEMENT_PLAN.md` (the product's). Nothing
 here touches the pipeline; the running experiments are unaffected.

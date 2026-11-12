@@ -8,7 +8,8 @@
 Labels: accurate | minor_slip | materially_wrong. The sheet shows the person's facts, the plan (pipeline runs) and the
 text, under a random id; which run produced it is only in key.csv. kappa reports agreement, Cohen's kappa, linearly
 weighted kappa (the labels are ordered) and, with the key, the share of each label per run (only items both graders
-labelled the same count, plus the disagreement rate).
+labelled the same count, plus the disagreement rate). Pipeline answers come with a plan and baseline answers do not, so
+a grader can tell those two groups apart; the grading is blind between the pipeline runs and between the baselines.
 
 The text oracle (experiments/oracle.py) is measured the same way, on answers it judges:
 
@@ -42,6 +43,17 @@ def plan_summary(plan: dict | None) -> str:
     return " | ".join(s.get("text", "") for s in plan.get("steps", []))
 
 
+def person(profile: dict | None) -> str:
+    """The facts a grader needs to judge an answer: the same wording the baselines are given, plus the goals."""
+    if not profile:
+        return ""
+    from finadvisor.advisor.profile import Profile
+    from finadvisor.advisor.prompts import render_facts
+    p = Profile(**profile)
+    goals = "; ".join(f"{g.name} in {g.horizon_years:g} years" for g in p.goals)
+    return render_facts(p, "plain") + (f"; goals: {goals}" if goals else "")
+
+
 def export(files: list[str], n: int, out: Path, seed: int = 3) -> None:
     items = []
     for f in files:
@@ -54,11 +66,12 @@ def export(files: list[str], n: int, out: Path, seed: int = 3) -> None:
     with (out / "sheet.csv").open("w", newline="", encoding="utf-8") as fs, \
             (out / "key.csv").open("w", newline="", encoding="utf-8") as fk:
         ws, wk = csv.writer(fs), csv.writer(fk)
-        ws.writerow(["item", "question", "plan (pipeline runs)", "answer", "label (" + " / ".join(LABELS) + ")", "notes"])
+        ws.writerow(["item", "the person's facts", "question", "plan (pipeline runs)", "answer",
+                     "label (" + " / ".join(LABELS) + ")", "notes"])
         wk.writerow(["item", "run_id", "profile_id"])
         for r in items:
             item = secrets.token_hex(4)
-            ws.writerow([item, r.get("question") or r.get("wish") or "Make me a money plan",
+            ws.writerow([item, person(r.get("profile")), r.get("question") or r.get("wish") or "Make me a money plan",
                          plan_summary(r.get("final_plan")), r["text"], "", ""])
             wk.writerow([item, r["run_id"], r["profile_id"]])
     print(f"{len(items)} items -> {out / 'sheet.csv'} (graders) and {out / 'key.csv'} (keep hidden)")

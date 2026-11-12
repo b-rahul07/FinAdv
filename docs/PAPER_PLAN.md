@@ -43,7 +43,7 @@ IndiaSuit the report described).
 | RQ0/RQ1: Ross & Lo replication, feature concentration (FC), capacity share via surrogates | Nothing | **Keep a light form, no new runs.** On the baselines' ALLOCATION blocks (already parsed), regress the recommended risky share on the persona's features (ridge, 5-fold R²) and report the importance share of the willingness score vs the capacity features. Half a day of analysis; it turns the introduction's "heuristic collapse" from a citation into a figure on our own personas. Do not call it a replication. |
 | RVR, PFR, AR, DVR, paraphrase consistency, personalisation (weighted Jaccard), soft quality (3 LLM judges), usability (SUS), latency | Unsuitable rate (= RVR, with the text oracle as a second reading), pressure kept (= 1 − PFR), DVR per relation and case, MR6 as part of DVR, replicate agreement, unsourced numbers, A5 arithmetic, outcome (pass/repaired/fallback), latency; blind human grading of explanations with κ | **Keep what exists. Add personalisation** (mean pairwise weighted Jaccard of final plans, computed from stored plans, no runs): it answers "does the gate homogenise advice?", the report's H4, and is cheap. **Drop LLM judges** (the blind two-grader study replaces them; judges would add a validity argument we cannot afford). **Drop the user study** from this paper; state it as the next step. Acknowledgement rate: report it from the ADV run (the conflict line is deterministic, so it is 100 % by construction; say so in one sentence rather than a table). |
 | OSF pre-registration | Not done; the report dated 30 Oct 2026 fixes the hypotheses and metrics before any run | Say exactly that. Do not claim pre-registration. |
-| Differential test: 40 profiles through SEBI's live tool | Not done | **Do it** (half a day by hand): it is the only external check of the capacity engine and the reviewer table in the report promised it. Report agreement and explain each mismatch. |
+| Differential test: 40 profiles through SEBI's live tool | **Replaced, 12 Nov.** The tool asks for no amounts and computes nothing: 14 questions, a fixed colour per answer. Entering personas by hand would only test the person's own arithmetic. `experiments/sebi_check.py` instead compares, for all 240 personas, the colour the tool gives the answer a truthful person would pick with whether our rule fires | **Report the table**: R1, R2, R5 agree 100 %; R3 80 % (the engine uses the tool's advised amount as the pass mark; the tool colours any cover green); R4 90 % (24 personas whose only unsecured loan is an education loan at 10.5 %: the tool flags them, the engine does not). State both differences as design choices. Describe the tool correctly in the paper: its thresholds are our source, it is not a calculator. A person confirms the live page's behaviour in 15 minutes (`docs/TEAM_TASKS.md` §2). |
 | Hand-worked oracle | `handcheck_v1.csv` (45 personas) and `experiments/handcheck.py` ready; not yet filled in | **Must do**, two people independently. |
 | Pressure moves willingness only (Ch. 4) | Implementation: pressure moves nothing; only retaking the questionnaire changes willingness (team decision, 31 Oct) | Update the paper to the implementation and give the reason (the plan must not move unless facts change). |
 | s_D = clip((0.40 − D)/0.40) (Ch. 4, Alg. 1) | rules-v2: s_D = min(1, 0.40/D); v1 kept as sensitivity S1 | Update the equation; report S1. |
@@ -59,7 +59,7 @@ IndiaSuit the report described).
 |---|---|---|---|---|
 | 1 | Finish the 17 runs on Colab (A1 → ADV, per the notebook order); run `experiments.report` | user | ~2 weeks of free GPU sessions | the evidence |
 | 2 | Hand-worked oracle: two people fill `handcheck_v1.csv` from the written rules; `python -m experiments.handcheck` | two team members | 2 × 3 h | our suitability oracle is our own gate; this is the independent check |
-| 3 | SEBI live-tool differential test on 40 personas | one person | 4 h | external validation of the capacity engine |
+| 3 | SEBI tool: three scripted click-throughs to confirm the live page behaves as its source says (`docs/TEAM_TASKS.md` §2); the comparison itself is `python -m experiments.sebi_check` on all 240 personas (done) | one person | 15 min | the rules' thresholds come from this tool; the paper must show where the engine matches it and where it departs |
 | 4 | Oracle labels: ~100 answers from B1/B2/A1T, products recommended + monthly total; `grading oracle-score` | one person | 4 h | precision/recall of the text oracle, needed for every baseline number |
 | 5 | Blind grading of ~120 explanations (A1T, A4, B1, B2) by two people; κ and weighted κ | two people | 2 × 3 h | the only quality measure of the prose |
 | 6 | Add baseline B3 "rules in the prompt" (template with R1–R7 in words, ALLOCATION block); run 240 × 3 | me + Colab | 1 day + 3 GPU h | the obvious alternative must be beaten, not ignored |
@@ -102,7 +102,7 @@ only for what the gate and calculators enforce.
 
 | Risk | Answer |
 |---|---|
-| "Your oracle is your own gate." | Agreement of the gate with two hand-workers on 45 personas (κ per field); 40 personas through SEBI's live tool; the text oracle's precision/recall on 100 hand labels; all three in §4. |
+| "Your oracle is your own gate." | Agreement of the gate with two hand-workers on 45 personas (κ per field); rule-by-rule agreement with SEBI's tool on all 240 personas, with the two departures stated; the text oracle's precision/recall on 100 hand labels; all three in §4. |
 | "Why not put the rules in the prompt?" | B3 is exactly that, same model, same format; the result table shows the gap. |
 | "Synthetic personas." | Stratified by rule, ranges compared with RBI/NSO figures; the limitation stated; the adversarial turns are human-written. |
 | "Replicates at temperature 0 are not independent." | They are reported as agreement, not pooled; every interval is persona-level. |
@@ -138,7 +138,7 @@ Sources: [IEEE CAI 2027 (SPS)](https://signalprocessingsociety.org/events/2027-i
 
 | When | What |
 |---|---|
-| Now → late Nov | Runs finish on Colab (user). In parallel: handcheck, SEBI differential test, oracle labels, blind grading (team); B3 baseline, personalisation and surrogate analyses, persona-range table, `paper_tables.py` (me). |
+| Now → late Nov | Runs finish on Colab (user). In parallel: handcheck, SEBI tool click-through, oracle labels, blind grading (team; step-by-step in `docs/TEAM_TASKS.md`); B3 baseline, personalisation and surrogate analyses, persona-range table, `paper_tables.py` (me). |
 | Early Dec | `experiments.report` on everything; failure-analysis reading; results and discussion sections drafted from the generated tables. |
 | Mid Dec | Full draft; internal review against §5; the report's Chapters 4 and 6 updated to match the implementation (the deltas in §2). |
 | January | arXiv preprint; code, configs, personas and result files released with a DOI (Zenodo, free). |

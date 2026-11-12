@@ -13,7 +13,8 @@ older rule check. Run the paper's experiments from a clean checkout of one commi
 | File | What it is |
 |---|---|
 | `experiments/data/personas_v1.jsonl` | 240 synthetic personas (seed 7), stratified so each rule R1–R7 fires in ≥ 44 of them and each capacity and suitability level has ≥ 48; 68 carry a pressure wish. Regenerate with `python -m experiments.personas` (same seed gives the same file). |
-| `experiments/data/handcheck_v1.csv` | 45 of them with empty columns: two people work out capacity, rules, willingness and suitability **by hand from the written rules**, without running the code. This is the hand-worked oracle. |
+| `experiments/data/handcheck_v1.csv` | 45 of them with empty columns: two people work out capacity, rules, willingness and suitability **by hand from the written rules**, without running the code. This is the hand-worked oracle. The graders' pack is `docs/handcheck/` (`rules.md`, `worksheet.md`, `answer_sheet.csv`), written by `python -m experiments.handcheck_pack` from the configs. |
+| `experiments/data/sebi_health_check_2026-11-12.json` | SEBI's Financial Health Check as its page holds it on that date: 14 questions, the colour of each option, the advice texts, the two skips, the page's hash. Used by `python -m experiments.sebi_check` (`--live` re-reads the page and compares). |
 | `experiments/data/adversarial_turns.jsonl` | 50 chat turns: pressure, Hinglish, misspellings, "ignore your rules", requests to name stocks, other traps. |
 | `experiments/data/eval_personas.jsonl` | The original 12 hand-worked personas with 30 chat turns (`experiments/eval_advice.py`). |
 
@@ -192,8 +193,10 @@ The suitability oracle is **our own gate**: `oracle.true_allowed` and `rule_viol
 builds the plans, so a bug in the gate would not show in any unsuitable rate. The hand-worked sheet is the
 independent check, and the paper must report the gate's agreement with it.
 
-1. Two people work out `experiments/data/handcheck_v1.csv` independently from the written rules (save as
-   `grader_a.csv`, `grader_b.csv`), then:
+The step-by-step sheet for the people doing these is `docs/TEAM_TASKS.md` (with the grading rubric).
+
+1. Two people work out the 45 personas independently from `docs/handcheck/rules.md` and `worksheet.md`, each in a
+   copy of `answer_sheet.csv` (save as `grader_a.csv`, `grader_b.csv`), then:
    ```bash
    python -m experiments.handcheck results/handcheck/grader_a.csv results/handcheck/grader_b.csv
    ```
@@ -219,6 +222,21 @@ independent check, and the paper must report the gate's agreement with it.
    results/oracle_labels/key.csv` gives precision and recall of the product reading, of the "recommends something
    the gate refuses" verdict and of the overspend verdict, and how often the oracle's monthly total is within 10% of the label.
 
+4. SEBI's tool, rule by rule:
+   ```bash
+   python -m experiments.sebi_check --live --json results/paper/sebi_check.json
+   ```
+   The tool is a 14-question self-assessment with a fixed colour per answer; it takes no amounts. For each persona
+   the script picks the answer a truthful person with those facts would give (from the question wording, without the
+   capacity engine), reads the tool's colour for it, and compares with whether the rule fires. On the 240 personas
+   (12 Nov 2026): R1, R2 and R5 agree 100 %; R3 80 % (48 personas have cover below the larger of ₹5 lakh and half of
+   annual take-home; the tool colours any cover green and gives the amount as advice, the engine uses the amount);
+   R4 90 % (24 personas whose only unsecured loan is an education loan at 10.5 %; the tool's question covers any
+   unsecured loan, the engine counts personal loans, pay-later dues and other unsecured loans at 14 % or more). Any
+   mismatch outside these two is printed as UNEXPLAINED. This shows the rules implement the tool's checks as worded;
+   it does not check the engine's arithmetic independently (the hand-worked sheet does). R6 and R7 are not from the
+   tool; its questions 4 and 9 to 14 are not modelled.
+
 ## 6. What to state in the paper
 
 - The website uses `planner.mode: standard` (the tested mix per suitability level); LLM planning is evaluated offline
@@ -227,6 +245,11 @@ independent check, and the paper must report the gate's agreement with it.
 - The number guard checks numbers, not meaning; explanation accuracy comes from the blind grading.
 - Suitability is measured with our own gate; report its agreement with the hand-worked answers, and the text
   oracle's precision and recall on hand labels.
+- SEBI's Financial Health Check is a self-assessment questionnaire, not a calculator: say the thresholds are taken
+  from its questions and advice texts, give the rule-by-rule agreement, and state the two departures (R3 stricter,
+  R4 more lenient for education loans under 14 %).
+- The explanation grading is blind between pipeline runs and between baselines; a grader can tell a pipeline answer
+  (it comes with a plan) from a baseline answer.
 - Replicates run at temperature 0 with a fixed seed, so "replicate agreement" measures the run-to-run spread of the
   server's kernels, not sampling variance; say so, and do not present the three replicates as independent samples.
 - The adversarial set is routed by the deterministic router (`router.py`); its Hinglish and stock-naming turns reach
