@@ -3,6 +3,8 @@
     python -m experiments.sebi_check                    # all personas against the saved copy of the tool
     python -m experiments.sebi_check --live             # also re-read the live page and compare it with the saved copy
     python -m experiments.sebi_check --json results/paper/sebi_check.json
+    python -m experiments.sebi_check --rules rules-v2-unsecured   # the same under another rules version, and what
+                                                                  # that version would change in the personas' labels
 
 What the tool is. https://investor.sebi.gov.in/financial_health_check.html is a 14-question self-assessment. It asks
 for no amounts and computes nothing: the visitor picks an option ("Do you have life insurance cover for at least 15 to
@@ -34,7 +36,7 @@ from pathlib import Path
 from experiments.run import ROOT
 from finadvisor.advisor.capacity import assess
 from finadvisor.advisor.profile import Profile
-from finadvisor.configs import default_bundle
+from finadvisor.configs import default_bundle, load_component
 
 URL = "https://investor.sebi.gov.in/financial_health_check.html"
 SNAPSHOT = ROOT / "experiments" / "data" / "sebi_health_check_2026-11-12.json"
@@ -156,6 +158,25 @@ def compare(rows: list[dict], snap: dict, rules_cfg: dict) -> dict:
     return out
 
 
+def label_changes(rows: list[dict], bundle, rules_cfg: dict) -> dict:
+    """What another rules version changes in the personas' labels (no model involved): how many personas get a
+    different capacity level, set of rules, or suitability level, and the suitability moves."""
+    from dataclasses import replace
+    from experiments import personas
+    other = replace(bundle, rules=rules_cfg)
+    out = {"n": len(rows), "capacity": [], "rules": [], "suitability": [], "moves": {}}
+    for row in rows:
+        p = Profile(**row["profile"])
+        a, b = personas.label(p, bundle), personas.label(p, other)
+        for field in ("capacity", "rules", "suitability"):
+            if a[field] != b[field]:
+                out[field].append(row["id"])
+        if a["suitability"] != b["suitability"]:
+            move = f"{a['suitability']} -> {b['suitability']}"
+            out["moves"][move] = out["moves"].get(move, 0) + 1
+    return out
+
+
 def markdown(res: dict, snap: dict) -> str:
     lines = [f"Tool: {snap['source']}, read {snap['retrieved']} (page sha256 {snap['page_sha256'][:12]}…).", "",
              "| Rule | The tool flags it when | Both flag | Both pass | Engine only | Tool only | Agreement |",
@@ -181,6 +202,7 @@ def main() -> None:
     ap.add_argument("--snapshot", default=str(SNAPSHOT))
     ap.add_argument("--live", action="store_true", help="re-read the live page and compare it with the snapshot")
     ap.add_argument("--save", help="with --live: write a new snapshot to this path, dated today")
+    ap.add_argument("--rules", help="another rules version, e.g. rules-v2-unsecured")
     ap.add_argument("--json")
     args = ap.parse_args()
     snap = json.loads(Path(args.snapshot).read_text(encoding="utf-8"))
@@ -193,12 +215,23 @@ def main() -> None:
             Path(args.save).write_text(
                 json.dumps(snapshot(raw, date.today().isoformat()), indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     rows = [json.loads(line) for line in Path(args.personas).read_text(encoding="utf-8").splitlines() if line.strip()]
-    res = compare(rows, snap, default_bundle().rules)
+    bundle = default_bundle()
+    rules_cfg = load_component("rules", args.rules) if args.rules else bundle.rules
+    res = compare(rows, snap, rules_cfg)
+    print(f"Rules: {rules_cfg['version']}\n")
     print(markdown(res, snap))
+    changes = None
+    if args.rules:
+        changes = label_changes(rows, bundle, rules_cfg)
+        print(f"\nAgainst {bundle.rules['version']}, of {changes['n']} personas: capacity level changes for "
+              f"{len(changes['capacity'])}, the rules fired for {len(changes['rules'])}, suitability for "
+              f"{len(changes['suitability'])} {changes['moves'] or ''}.")
     if args.json:
         Path(args.json).parent.mkdir(parents=True, exist_ok=True)
         Path(args.json).write_text(json.dumps({"snapshot": {k: snap[k] for k in ("source", "retrieved", "page_sha256")},
-                                               "rules": res}, indent=1, ensure_ascii=False), encoding="utf-8")
+                                               "rules_version": rules_cfg["version"], "rules": res,
+                                               "label_changes": changes}, indent=1, ensure_ascii=False),
+                                   encoding="utf-8")
 
 
 if __name__ == "__main__":

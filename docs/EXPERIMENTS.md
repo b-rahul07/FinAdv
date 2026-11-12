@@ -219,6 +219,9 @@ programs can make, and states their limit: no independent person re-derived the 
    unsecured loan, the engine counts personal loans, pay-later dues and other unsecured loans at 14 % or more). Any
    mismatch outside these two is printed as UNEXPLAINED. R6 and R7 are not from the tool; its questions 4 and 9 to
    14 are not modelled.
+   `--rules rules-v2-unsecured` repeats the comparison with any unsecured loan counted as costly (the tool's
+   wording): R4 then agrees on all 240 personas, the capacity level changes for 18 and suitability falls for 12
+   (7 medium to low, 5 high to low). The reported runs keep rules-v2; the paper states this sensitivity in a sentence.
 3. The two readings of each baseline answer. A baseline answer is judged on its ALLOCATION block; the free-text
    reader also reads the whole answer. The report's "Baseline ALLOCATION block" section gives, per run, how often the
    block was present and how often the two readings reach the same verdict (unsuitable product; overspend). The text

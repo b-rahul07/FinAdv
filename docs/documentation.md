@@ -116,8 +116,13 @@ in the plan. Nothing here touches the pipeline; the running experiments are unaf
   larger of ₹5 lakh and half of annual take-home; the tool colours any cover green and gives the amount only as
   advice). R4: 90 %, the engine is more lenient (24 personas whose only unsecured loan is an education loan at
   10.5 %; the tool asks about "any personal loans or any unsecured loans"). No other mismatch. Neither rule was
-  changed: runs are in progress and thresholds are a team decision. **Open:** keep R4 as it is and state it, or add
-  a sensitivity rules version in which education loans count.
+  changed: runs are in progress. **Decided 12 Nov: R4 stays as it is in rules-v2 for every reported run, the paper
+  states the difference, and the effect is reported without a model run.** `configs/rules/rules-v2-unsecured.yaml`
+  (any unsecured loan is costly, the tool's wording) agrees with the tool on R4 for all 240 personas; against
+  rules-v2 it changes the capacity level of 18 personas and lowers suitability for 12 (7 medium to low, 5 high to
+  low): `python -m experiments.sebi_check --rules rules-v2-unsecured`. A stricter R4 can only shrink what the gate
+  allows, so the gated system's unsuitable rate cannot rise under it; a GPU run would add nothing the labels do
+  not already show.
 - **Written rules against the engines** (`experiments/rules_rework.py`): `docs/handcheck/rules.md` (the five steps,
   rendered from the rules and willingness configs by `experiments/handcheck_pack.py`, with a worked example) worked
   in plain arithmetic on the stored facts, the questionnaire key read from the sheet's own table, nothing imported

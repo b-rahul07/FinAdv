@@ -539,3 +539,16 @@ def test_rows_under_an_earlier_commit_id_count_as_the_same_commit(monkeypatch):
     prov = metrics.provenance(rows)
     assert prov["traceable"] is True and prov["git_commits"] == ["new1"]
 
+
+def test_rules_variant_with_any_unsecured_loan_costly():
+    from experiments import sebi_check
+    from finadvisor.configs import default_bundle, load_component
+    variant = load_component("rules", "rules-v2-unsecured")
+    base = default_bundle()
+    assert {k: v for k, v in variant["capacity"].items() if k != "costly_debt"} == \
+           {k: v for k, v in base.rules["capacity"].items() if k != "costly_debt"}        # only the costly-debt rule differs
+    snap = json.loads(sebi_check.SNAPSHOT.read_text(encoding="utf-8"))
+    rows = [json.loads(line) for line in Path(PERSONAS).read_text(encoding="utf-8").splitlines()]
+    assert sebi_check.compare(rows, snap, variant)["R4"]["agreement"] == 1.0
+    ch = sebi_check.label_changes(rows, base, variant)
+    assert len(ch["rules"]) == 24 and len(ch["suitability"]) == 12 and all("-> low" in m for m in ch["moves"])
