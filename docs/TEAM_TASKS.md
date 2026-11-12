@@ -38,6 +38,12 @@ would show it. Two people working the same rules by hand on 45 people is the ind
 `none`), willingness, and suitability. Put your initial in the grader column. Use the notes column for anything you
 were unsure of.
 
+**If time is short.** The full version is two people and all 45 rows. The smallest version worth reporting is
+one person and the first 15 rows, about an hour. The scoring command accepts one sheet and a partly filled sheet. A
+program has already confirmed that the written rules and the engine agree on all 240 personas
+(`python -m experiments.rules_rework`), so your sheet is checking that a person reading the rules reaches the same
+answers, which is the part a program cannot show.
+
 **Tips.** Do the worked example in `rules.md` yourself first and check you get its answers. Then work in a
 spreadsheet with one column per step; it is faster and you can recheck a row. Expect 3 to 4 minutes a person.
 

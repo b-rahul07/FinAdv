@@ -126,6 +126,13 @@ sheet to fill. Nothing here touches the pipeline; the running experiments are un
   extended (facts column). The committed pack is checked against the generator, the worked example against the
   engines.
 - **Not verified:** the live page was read from its source, not clicked through; that is task 2 in TEAM_TASKS.
+- **Written rules against the engines** (`experiments/rules_rework.py`):
+  a second working of `docs/handcheck/rules.md`, plain arithmetic on the
+  stored facts with the questionnaire key read from the sheet's own table, importing nothing from the capacity,
+  willingness or gate code. It agrees with the engines on 240 of 240 personas in all four fields. This is a
+  specification-against-code check by the same author, so it is reported as that and **does not replace** the
+  hand-check by people. Minimum for the paper: one person, 15 rows of the sheet, about an hour
+  (`experiments.handcheck` accepts one grader and a partly filled sheet).
 
 ### 2026-11-12 — Paper plan: baseline B3, personalisation, capacity-share surrogate, LaTeX tables
 From `docs/PAPER_PLAN.md` (the paper's plan, written 12 Nov) and `docs/IMPROVEMENT_PLAN.md` (the product's). Nothing

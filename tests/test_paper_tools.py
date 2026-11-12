@@ -507,3 +507,11 @@ def test_sebi_tool_correspondence():
     assert res["R3"]["engine_only"] and not res["R3"]["tool_only"]        # the engine is stricter on health cover
     assert res["R4"]["tool_only"] and not res["R4"]["engine_only"]        # and more lenient on cheap education loans
     assert "No mismatch outside" in sebi_check.markdown(res, snap)
+
+
+def test_written_rules_and_engines_agree_on_every_persona():
+    from experiments import rules_rework
+    res = rules_rework.compare()
+    assert res["n"] == 240 and not any(res["differ"].values())
+    key = rules_rework.score_key(rules_rework.RULES_MD.read_text(encoding="utf-8"))
+    assert len(key) == 13 and key["9"] == {"a": 1, "b": 3}
