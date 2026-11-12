@@ -34,7 +34,8 @@ class UserSettings(Base):
     theme: Mapped[str] = mapped_column(String(10), default="system")          # system | light | dark
     indian_grouping: Mapped[bool] = mapped_column(Boolean, default=True)
     research_opt_in: Mapped[bool] = mapped_column(Boolean, default=False)
-    notifications: Mapped[dict] = mapped_column(default=lambda: {"data_refresh": True, "plan_reminders": True})
+    notifications: Mapped[dict] = mapped_column(default=lambda: {"data_refresh": True, "plan_reminders": True,
+                                                                 "profile_reminders": True, "sip_reminders": True})
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, onupdate=utcnow)
 
 

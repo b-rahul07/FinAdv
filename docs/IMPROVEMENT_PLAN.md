@@ -74,6 +74,11 @@ where they belong.
 
 ### Phase 2: A straight answer, every time (3 weeks)
 
+**Status: built on 13 Nov 2026** (changelog entry of that date). The 20 new evaluation turns are pytest cases
+(`tests/test_converse.py`), not rows of `experiments/eval_advice.py`, so no experiment input changes while the
+paper's runs are in progress. Not done: the before/after share of real questions answered specifically (needs
+opted-in usage).
+
 - **Follow-ups are what-ifs.** "And if I add a car loan of 12k?", "with two dependants?", "if I save 5k more?" after a
   plan run the what-if engine on the last plan and answer in one paragraph with a *Make this my profile* button.
   Deterministic (`followup.py` reading the earlier turns `pressure.read` already keeps). 3 days.
@@ -96,6 +101,11 @@ where they belong.
 
 ### Phase 3: It stays current by itself (2 weeks)
 
+**Status: built on 13 Nov 2026**, with two limits. The price schedule starts only when `.github/workflows/` is on
+the default branch and the `DATABASE_URL` secret is set (`docs/DEPLOY.md` §3). The fund finder and the news cache
+still run on the laptop: moving them to tables needs a production schema change, and the news mood model is too
+heavy for a free runner. Not verified: price age for a week with the laptop off.
+
 - **Prices refresh off the laptop.** `finadvisor.market.jobs daily` needs only the database and the internet: run it
   on a **GitHub Actions schedule** against Supabase (`DATABASE_URL` as a secret). The weekly fund finder and the news
   cache move from local files to tables so they run there too. 2 days.
@@ -110,6 +120,9 @@ where they belong.
 - *Verify*: price age at 9 am IST for a week with the laptop off; SIP detection on the long-history test account.
 
 ### After the paper runs finish **[pipeline]**
+
+**Status: not started, on purpose.** Each of these changes what the advice pipeline produces, and the paper's runs
+must all come from the pipeline as it is.
 - Indian money phrases in extraction ("12 LPA", "50k in hand", "do lakh").
 - Card dues cleared with interest and a card's minimum-due EMI freed afterwards (new plan version tag).
 - An Apache/MIT-licensed model for the website, chosen from the M1 results.

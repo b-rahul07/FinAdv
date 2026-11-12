@@ -252,7 +252,11 @@ def test_api_ask_answer_follow_up_and_the_change_line(client):
     wi = next(d for k, d in ev if k == "card" and d["type"] == "what_if_answer")
     assert ("route", {"route": "whatif"}) in ev and wi["after"]["monthly_surplus"] == 15_000
     assert client.get("/api/home", headers=h).json()["plan"]["total"] > 0                  # the saved plan is untouched
-    assert ("route", {"route": "track"}) in say("Am I on track?")
+    ev = say("Am I on track?")
+    assert ("route", {"route": "track"}) in ev
+    # the salary given for the tax question made a new version of the facts, but none the plan is built from
+    assert client.get("/api/home", headers=h).json()["plan"]["stale"] is False
+    assert "Your facts changed" not in client.get(f"/api/chats/{chat['id']}", headers=h).json()["messages"][-1]["content"]
 
     client.put("/api/profile", json={"data": {**v["data"], "take_home_monthly": 60000}}, headers=h)
     ev = say("Make me a plan for my money")

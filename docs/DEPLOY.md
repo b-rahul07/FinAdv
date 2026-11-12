@@ -33,6 +33,16 @@ Tailscale's relays see only encrypted traffic; TLS ends on the laptop.
 
 Supabase pauses a free project after 7 days without activity; the daily job counts as activity.
 
+**Without the laptop.** `.github/workflows/prices.yml` runs the daily job on GitHub's servers at 7:30 pm and
+11:30 pm IST on weekdays. To switch it on:
+1. GitHub → the repository → Settings → Secrets and variables → Actions → *New repository secret*: name
+   `DATABASE_URL`, value the Supabase session-pooler connection string (the same one the API uses).
+2. The workflow file must be on the repository's default branch; GitHub runs schedules only from there.
+3. Actions → *Daily prices* → *Run workflow* runs it once by hand; the log prints what was stored.
+Not yet verified: whether NSE's archive answers GitHub's servers (it refuses some data-centre addresses). If the
+log shows `listed_error`, the laptop job remains the source for shares and the workflow still updates fund NAVs.
+`.github/workflows/ci.yml` runs the tests, the type-check and the web build on every push.
+
 ## 4. Supabase (database and sign-in)
 - `supabase/schema.sql` is applied (RLS on, no policies, so the public Data API exposes nothing). Regenerate it with
   `python scripts/gen_postgres_schema.py`; never edit it by hand.

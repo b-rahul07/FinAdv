@@ -115,6 +115,12 @@ function CashFlowStrip({ c, version }: { c: CashFlow | null; version: number | n
       {c.short_by > 0 && (
         <div className="mt-3"><InfoNote tone="warn">Expenses and EMIs are <strong className="num">{inr(c.short_by)}</strong> more than take-home, so nothing is left to plan with.</InfoNote></div>
       )}
+      {!!c.sips && (
+        <p className="num mt-3 whitespace-normal text-sm">
+          <strong>{inr(c.sips)}</strong> of the left-over already goes into {c.sips_count === 1 ? "a SIP" : `${c.sips_count} SIPs`} each month.{" "}
+          <Link to="/money" search={{ tab: "Funds" }} className="font-semibold text-brand">See them</Link>
+        </p>
+      )}
       <p className="mt-3 text-xs text-muted-foreground">
         From your facts{version ? ` (version ${version})` : ""}. Your plan works with the left-over amount.{" "}
         <Link to="/money" search={{ tab: "Facts" }} className="font-semibold text-brand">Edit facts</Link>

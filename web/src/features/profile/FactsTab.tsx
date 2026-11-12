@@ -115,8 +115,58 @@ export function FactsTab({ fill = false }: { fill?: boolean }) {
             </button>
           )}
         </Section>
+        {d.version && <TaxFacts data={d.data} />}
         {d.health && <HealthCheckView card={d.health} />}
       </div>
     </div>
+  );
+}
+
+const TAX_FIELDS: [keyof NonNullable<Profile["tax"]>, string][] = [
+  ["gross_salary_annual", "Yearly salary before tax"],
+  ["deductions_80c", "80C investments"],
+  ["deductions_80d", "Health-insurance premium (80D)"],
+  ["nps_80ccd1b", "Own NPS contribution"],
+  ["hra_exemption_annual", "HRA exemption"],
+];
+
+/** Optional, and used for tax estimates only: they change no health check and no plan. */
+function TaxFacts({ data }: { data: Profile }) {
+  const qc = useQueryClient();
+  const [open, setOpen] = useState(false);
+  const [f, setF] = useState<Record<string, string>>(() => Object.fromEntries(TAX_FIELDS.map(([k]) => [k, data.tax?.[k] != null ? String(data.tax[k]) : ""])));
+  const filled = TAX_FIELDS.filter(([k]) => f[k].trim() !== "");
+  const answers = Object.fromEntries(filled.map(([k]) => [k, Number(f[k].replace(/,/g, ""))]));
+  const valid = filled.length > 0 && Object.values(answers).every((v) => Number.isFinite(v) && v >= 0);
+  const save = useMutation({
+    mutationFn: () => api.post<ProfileView>("/api/profile/answer", { answers }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["profile"] });
+      setOpen(false);
+      toast.success("Saved. Ask the advisor how much tax you will pay.");
+    },
+    onError: (e) => toast.error((e as Error).message),
+  });
+  return (
+    <Section eyebrow="For tax estimates · optional" title={data.tax?.gross_salary_annual ? `Salary ${inr(data.tax.gross_salary_annual)} a year` : "Not added yet"}>
+      {!open ? (
+        <button className="rounded-full border px-4 py-2 text-sm font-semibold hover:bg-surface-2" onClick={() => setOpen(true)}>
+          {data.tax ? "Edit tax facts" : "Add tax facts"}
+        </button>
+      ) : (
+        <form className="grid gap-3" onSubmit={(e) => { e.preventDefault(); if (valid) save.mutate(); }}>
+          {TAX_FIELDS.map(([k, label]) => (
+            <label key={k} className="text-sm font-medium">
+              {label}
+              <input inputMode="decimal" placeholder="₹ a year" className="num mt-1 w-full rounded-xl border bg-card px-3 py-2.5" value={f[k]} onChange={(e) => setF((x) => ({ ...x, [k]: e.target.value }))} />
+            </label>
+          ))}
+          <button disabled={!valid || save.isPending} className="rounded-full bg-primary py-2.5 text-sm font-semibold text-primary-foreground disabled:opacity-40">
+            {save.isPending ? "Saving…" : "Save"}
+          </button>
+        </form>
+      )}
+      <p className="mt-3 text-xs text-muted-foreground">Used only when you ask about income tax. They do not change your health check or your plan.</p>
+    </Section>
   );
 }

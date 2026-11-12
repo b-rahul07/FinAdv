@@ -9,6 +9,7 @@ import { AddTransactionDialog } from "@/features/holdings/AddTransaction";
 import { CasImportDialog } from "@/features/holdings/CasImport";
 import { HoldingsList, useHoldings, Watchlist } from "@/features/holdings/HoldingsList";
 import { OthersSection } from "@/features/holdings/OthersTab";
+import { CapitalGains, Sips } from "@/features/holdings/Upkeep";
 import { FactsSync, FactsTab } from "@/features/profile/FactsTab";
 import { api } from "@/lib/api";
 import { date, inr, pct, signedInr } from "@/lib/format";
@@ -52,6 +53,7 @@ export function MoneyPage() {
         <Segmented label="Section of My money" value={tab} options={MONEY_TABS} onChange={(t) => setTab(t)} />
       </div>
       {tab === "Overview" && <Overview onAdd={() => setTab("Stocks")} />}
+      {tab === "Funds" && <Sips />}
       {market && <Market mf={isMf} onAdd={() => setAdding(true)} onImport={() => setImporting(true)} />}
       {tab === "Stocks" && <Watchlist />}
       {tab === "Deposits & other" && <OthersSection part="assets" />}
@@ -169,6 +171,7 @@ function Overview({ onAdd }: { onAdd: () => void }) {
           )}
         </Section>
       </div>
+      <CapitalGains />
     </div>
   );
 }

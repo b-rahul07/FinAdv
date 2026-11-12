@@ -2,6 +2,7 @@ import { Link, Navigate, Outlet, useRouterState } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Home, LogOut, MessageCircle, Settings, Wallet } from "lucide-react";
 import { useEffect } from "react";
+import { Nudges } from "@/components/layout/Nudges";
 import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { api } from "@/lib/api";
@@ -70,6 +71,7 @@ export function AppShell() {
           })}
         </nav>
         <div className="space-y-2 border-t p-3">
+          <Nudges />
           <ThemeToggle compact />
           <button
             onClick={() => auth.signOut()}
@@ -88,6 +90,7 @@ export function AppShell() {
             Example data · this is a demo account with a fictional person; prices are real
           </div>
         )}
+        {!isChat && <Nudges floating />}
         <Outlet />
       </main>
 

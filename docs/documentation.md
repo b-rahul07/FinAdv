@@ -98,6 +98,59 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
+### 2026-11-13 — Website phases 2 and 3: straight answers, and an app that keeps itself current
+From `docs/IMPROVEMENT_PLAN.md` §3. **No experiment changes:** `configs/pipeline/default.yaml` is untouched, the
+new stage runs only where its flag is set, and a profile without tax facts serialises exactly as before (all 240
+personas checked).
+- **Conversation stage** (`finadvisor/advisor/converse.py`), on only in the website's pipeline file
+  `configs/pipeline/pipeline-v5-website.yaml` (pipeline-v4 plus `stages.conversation`; `Settings.pipeline`). It
+  answers by code, with no model call, before the routes: follow-up what-ifs ("and if I add a car loan EMI of
+  12k?") through the existing what-if engine; one missing fact as a single-question card whose answer becomes a
+  profile version (`POST /api/profile/answer`); income tax; "am I on track?". Anything unclear, any product the
+  plan never holds and any pressure turn falls through to the pipeline, and a failure inside the stage does too.
+  Each answer stores its record in `advice_runs` (routes `whatif`, `tax`, `track`) with the flags.
+- **Decision: the website no longer runs `default.yaml` unchanged.** It runs pipeline-v5-website. `default.yaml`
+  stays the experiments' file and is not edited while the paper's runs are in progress. Same `Advisor` class, one
+  more flag.
+- **Income tax** (`finadvisor/calc/income_tax.py`, `configs/income_tax/fy2026_27.yaml`): both regimes for a salary,
+  the cheaper one and the rupee difference; what filling 80C and the extra NPS deduction would save; FD against
+  debt fund after tax. FY 2026-27 slabs (unchanged by Budget 2026), standard deduction ₹75,000 / ₹50,000, the
+  rebate with marginal relief in the new regime, surcharge, 4 % cess. Every answer says "estimated, not tax advice"
+  and what is not counted. Worked examples by hand in `tests/test_income_tax.py`.
+- **Optional tax facts** on the profile (`Profile.tax`: gross salary, 80C, 80D, own NPS, HRA exemption), asked
+  only when a tax question needs them. No engine reads them; adding them does not make a plan out of date (a plan
+  is stale only when the facts it was made with differ from today's, tax facts aside).
+- **Retirement without a goal:** one question (monthly spending wanted, today's money) becomes a retirement goal
+  sized by `calc.goals.retirement_corpus_today` (assumptions in `configs/conversation/v1.yaml`: age 60, 25 years,
+  7 % a year after retirement); the plan then answers.
+- **One plan, and what changed:** when a plan is re-made the reply opens with a "Since your last plan" note
+  (`overview.plan_changes`). The plan card is always in the reply; health check, goals, what-if, sources and why
+  sit under one *More* link.
+- **SIPs found, not typed** (`finadvisor/portfolio/sips.py`, `GET /api/sips`): three or more buys of a fund about
+  a month apart within 1 % of the same amount. Shown under My money → Funds with the next expected date; a late
+  instalment is flagged; "I stopped this" is remembered in the `sips` table. Home says how much of the left-over
+  already goes into SIPs (the left-over itself stays the planner's surplus).
+- **Four reminders, in-app only** (`finadvisor/advisor/nudges.py`, `GET /api/nudges`): prices not updating, a plan
+  step due this month, facts older than six months, a SIP instalment missed. A bell in the shell; each can be
+  dismissed (kept in `notifications`) and each kind has a switch in Settings. No new tables: the generated
+  Postgres schema is unchanged.
+- **Capital-gains statement** (`finadvisor/portfolio/gains.py`, `GET /api/tax/capital-gains[.csv]`): sales of a
+  financial year, first-in first-out on adjusted prices, short and long term, the equity estimate from
+  `calc/tax.py`, and a CSV. Under My money → Overview.
+- **GitHub Actions:** `ci.yml` (pytest, tsc, vitest, build on every push) and `prices.yml` (the daily price job on
+  a schedule; needs the `DATABASE_URL` secret and the default branch, `docs/DEPLOY.md` §3).
+- **Verified.** 58 new backend tests (`test_income_tax`, `test_converse`, `test_upkeep`), including: experiments'
+  pipeline never runs the stage; every number in a conversation answer comes from code (checked with the number
+  guard); the API through ask → answer → tax → what-if → on track → re-plan. Full suite passes; `tsc` clean;
+  vitest 9; production build. Driven in Edge on a throwaway database: the tax question asked for the salary once
+  and answered; a what-if follow-up; "make this my profile"; the change note on a re-made plan; the reminders
+  bell; SIPs; capital gains. axe-core: 0 violations on those screens, light desktop and dark phone; no console
+  errors; no sideways overflow.
+- **Not verified / not done.** The scheduled price job has not run (needs the secret and the default branch;
+  NSE may refuse GitHub's addresses). Fund finder and news still refresh on the laptop. The preview used the fake
+  model and development sign-in. The four pipeline items (card dues with interest, Indian money phrases, model
+  licence, Hinglish replies) wait for the paper's runs. A permanent free host is still open.
+
 ### 2026-11-12 — Website phase 1, "One home": four tabs, a home that answers three questions, My money
 From `docs/IMPROVEMENT_PLAN.md` §3. A restructure, not new features. No change to the advice pipeline, the
 configs or `experiments/`, so the paper's runs are unaffected.

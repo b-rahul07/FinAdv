@@ -116,12 +116,15 @@ export function SettingsPage() {
 
         <Section eyebrow="Notifications" title="In-app only">
           {[
-            ["data_refresh", "Problems refreshing prices or NAVs"],
-            ["plan_reminders", "Reminders about plan steps"],
+            ["data_refresh", "Prices or NAVs that have stopped updating"],
+            ["plan_reminders", "A plan step that is due this month"],
+            ["profile_reminders", "Facts not confirmed for six months"],
+            ["sip_reminders", "A SIP instalment that did not arrive"],
           ].map(([k, label]) => (
             <div key={k} className={row}>
               <p className="text-sm">{label}</p>
-              <Switch checked={!!s.notifications[k]} aria-label={label} onCheckedChange={(v) => putSettings.mutate({ notifications: { ...s.notifications, [k]: v } })} />
+              {/* a switch that was never set counts as on, the same rule the API applies */}
+              <Switch checked={s.notifications[k] ?? true} aria-label={label} onCheckedChange={(v) => putSettings.mutate({ notifications: { ...s.notifications, [k]: v } })} />
             </div>
           ))}
         </Section>

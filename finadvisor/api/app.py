@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 
 from finadvisor import __version__
-from finadvisor.api.routes import account, cas, chats, holdings, home, library, profile
+from finadvisor.api.routes import account, cas, chats, holdings, home, library, profile, upkeep
 from finadvisor.api.runtime import get_runtime
 from finadvisor.settings import ROOT, get_settings
 
@@ -29,7 +29,8 @@ def create_app() -> FastAPI:
     app = FastAPI(title="FinAdvisor API", version=__version__, lifespan=lifespan)
     app.add_middleware(CORSMiddleware, allow_origins=[o.strip() for o in s.cors_origins.split(",") if o.strip()],
                        allow_credentials=False, allow_methods=["*"], allow_headers=["Authorization", "Content-Type"])
-    for r in (account.router, cas.router, chats.router, holdings.router, home.router, library.router, profile.router):
+    for r in (account.router, cas.router, chats.router, holdings.router, home.router, library.router, profile.router,
+              upkeep.router):
         app.include_router(r)
     if s.serve_web:
         serve_web(app)

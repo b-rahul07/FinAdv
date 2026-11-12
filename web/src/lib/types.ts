@@ -366,6 +366,9 @@ export type CashFlow = {
   left_over: number;
   short_by: number;
   widths: { emis: number; expenses: number; left_over: number } | null;
+  /** Monthly total of the SIPs found from purchases; it is part of the left-over, not on top of it. */
+  sips?: number;
+  sips_count?: number;
 };
 
 export type TimelineStep = {
@@ -429,4 +432,40 @@ export type HomeResp = {
   health_history: { at: string; score: number; out_of: number; profile_version: number | null }[];
   plan: HomePlan | null;
   goals: GoalProgress[];
+};
+
+/** A SIP found from purchases (finadvisor/portfolio/sips.py). `off` = the person marked it stopped. */
+export type SipRow = {
+  id: string;
+  instrument: Instrument;
+  amount: number;
+  day_of_month: number;
+  since: string;
+  instalments: number;
+  last_date: string;
+  next_expected: string;
+  status: "active" | "missed" | "stopped" | "off";
+  active: boolean;
+};
+export type SipsResp = { items: SipRow[]; monthly_total: number; as_of: string; window: { grace_days: number; tolerance: number; min_instalments: number } };
+
+/** One of the four in-app reminders. `tab` is the My money tab it opens; without it, Home. */
+export type Nudge = { id: string; kind: "prices_stale" | "step_due" | "profile_old" | "sip_missed"; title: string; body: string; to: string; tab: string | null };
+
+export type GainsStatement = {
+  financial_year: string;
+  from: string;
+  to: string;
+  years: string[];
+  rows: {
+    instrument_id: string; name: string; kind: string; tax_class: "equity" | "slab"; buy_date: string; sell_date: string;
+    quantity: number; buy_price: number; sell_price: number; cost: number; proceeds: number; gain: number; term: "long" | "short";
+  }[];
+  equity: {
+    long_term: number; short_term: number; exemption: number; taxable_long_term: number; long_term_tax: number;
+    short_term_tax: number; tax: number; long_term_rate: number; short_term_rate: number;
+  };
+  slab: { gain: number };
+  rates_of: string;
+  note: string;
 };
