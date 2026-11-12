@@ -543,10 +543,18 @@ def replicate_agreement(records: list[dict]) -> dict:
     return rate([all(same_plan(s, sigs[0], TOL) for s in sigs[1:]) for sigs in multi])
 
 
+def commit_aliases() -> dict[str, str]:
+    """Earlier ids of commits whose id changed when the repository's history was edited (same code): old -> current.
+    Result rows written under an old id are reported under the current one."""
+    path = Path(__file__).resolve().parent / "commit_aliases.json"
+    return json.loads(path.read_text(encoding="utf-8"))["aliases"] if path.exists() else {}
+
+
 def provenance(records: list[dict]) -> dict:
     """Commits, config hashes and rule-check versions behind a run's rows; 'traceable' is False when rows came from
     uncommitted code, from more than one commit or config, or from an older rule check."""
-    commits = sorted({r.get("git_commit") or "unknown" for r in records})
+    alias = commit_aliases()
+    commits = sorted({alias.get(c, c) for c in (r.get("git_commit") or "unknown" for r in records)})
     hashes = sorted({r.get("run_config_hash") or "unknown" for r in records})
     checks_ = sorted({r.get("rule_check") or "rule-check-v1" for r in records})
     dirty = any(r.get("git_dirty") is not False for r in records)

@@ -528,3 +528,14 @@ def test_baseline_answers_are_read_twice(tmp_path, monkeypatch):
     two = s["two_readings"]
     assert two["answers"] == 4 and two["unsuitable_agree"]["rate"] == 1.0 and two["overspend_agree"]["rate"] == 1.0
     assert s["allocation"]["named_products"]["rate"] == 1.0
+
+
+def test_rows_under_an_earlier_commit_id_count_as_the_same_commit(monkeypatch):
+    row = {"git_commit": "old1", "git_dirty": False, "run_config_hash": "h", "rule_check": metrics.CURRENT_RULE_CHECK}
+    rows = [row, {**row, "git_commit": "new1"}]
+    monkeypatch.setattr(metrics, "commit_aliases", lambda: {})
+    assert metrics.provenance(rows)["traceable"] is False                 # two different commits
+    monkeypatch.setattr(metrics, "commit_aliases", lambda: {"old1": "new1"})
+    prov = metrics.provenance(rows)
+    assert prov["traceable"] is True and prov["git_commits"] == ["new1"]
+
