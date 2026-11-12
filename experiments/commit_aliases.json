@@ -1,0 +1,29 @@
+{
+ "note": "On 12 Nov 2026 the repository's history was edited: a local settings file was removed from every commit and commit messages were edited. The code of each commit is unchanged apart from one comment line in experiments/baselines.py. Result rows written before that carry the earlier commit ids (left); the ids on the right are the same commits today. experiments/metrics.py reports rows under the current id, and the Colab notebook uses the current id to finish a run that was started under an earlier one.",
+ "aliases": {
+  "0cc9ba4523061239cfefe187517b0e9febe1ab8f": "d7063f3366554e43b69fc6478a05fc88ceed70bf",
+  "19f54c0c36fe66dd58e5a3f7fda33609f228fb92": "4910313624636d0c37bc3718b6e13501c64183a7",
+  "3b0916dee5131838260376da417faec7a737f518": "022d7a718fd9ad0d5e774ac5428dd02eb3407849",
+  "4333f9ea85836cd1c37845e60e1b102610fd84a2": "2d257bb9a36f21e5d505ea8c3a523a486baf949c",
+  "5836617191e134745022fe7a05247278cacac445": "2a09813563f97dc45998a9fc6bafdfa46118dae0",
+  "671285f08bc331548fbe22bb8a34211db4202eb6": "25f76c68e96f0f76422f77e7424e593ac90fefb3",
+  "68c5b9f7c676405d180028a48bd72da156b54f20": "251836a2b27209deeb8baa5171fcbf43d10d9aae",
+  "6dbabf25a23e58f590cbec6ddbb9c2b3152a3713": "5d999236827b1e0088339ed5be514425b9a96d31",
+  "777d8a1d645ae4a65652ec8c75208c9dfd5404fb": "8e6a202b5cec5a668f9632b3ed7cf8896b3be9f7",
+  "7d52d555a0f279d652cb735bd3d8d0a73b6a6ef5": "d7364e8def3de18574af6c1171bfa35852ca284a",
+  "824030116008ba55605e11f817ce9cda2f41c86d": "f189fa8bcda402a2b1aac6d691e345502f887b10",
+  "8f74c2eb21b861953fcaa6c1142e8047fa0592b1": "6b89564b3de81e0345d872a0aeed31072e561093",
+  "946abaf3d62518cfacf6d601221b3a242e6abcc7": "640fc73deab8bb72bad3ce5aef400789799645a3",
+  "957c7d1699dab817cf4e67e995e42eeb648838e8": "f0220f9d8531568d01b8813d3e868fd303f4ee09",
+  "aadbf97812d7fc6037a35e8814eb6ef250967fb2": "b2bfaf46cdb712fcab56e712d87736584d2e5d01",
+  "c4b4b9e928936d07ab9277c76cf01bea243ac569": "28b41d0a6dbf51589ef04fac1ede19815f894e02",
+  "cf3b46e3f700c8941e5c0eac319a7454a5d76629": "3dc24a33d6627f99e3602b5df3a666ffc21714ca",
+  "da1558335baeffd75235fbe439db9401a3cba7e7": "09f61224b22d33829ebd4e13c8dea568c7c27b40",
+  "e10e55d2e72818883db5fdaf3e9a10c1a2b149c0": "e9492b49c56c186b3272b715424919ec27c4832e",
+  "e77f70445764230fa03c08e82ea3dcf1b875ed9d": "d9e0547e90f3704047ee329b8c1a22a6f47cfdc0",
+  "e8564a8d9e91c3e0ea058fc4e295bba5bb15700f": "a53be874ea39d97b6033d7b6d9c01e36decd4102",
+  "ed561997371baf8be2bcda67b1895c247a1323e3": "167440e09e0c3b933889104784069f04c834188b",
+  "f12d0832b6b78bcd0ff7d8ad493b191bc329e0cc": "904efbb8e4c0819e96a7ba02f0fcdedba2229270",
+  "f84e1c085f1c5542d5e92e4d2a1ab9dd63c4ee24": "dd47d58259a91ab29f06c3ce1613f314e3d6fb5a"
+ }
+}

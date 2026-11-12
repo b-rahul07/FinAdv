@@ -132,6 +132,14 @@ in the plan. Nothing here touches the pipeline; the running experiments are unaf
 - Tests: `test_handcheck_pack_matches_the_configs_and_the_engines`, `test_sebi_tool_correspondence`,
   `test_written_rules_and_engines_agree_on_every_persona`; the baseline test checks `two_readings`.
 - **Not verified:** conference dates (aggregator listings only; confirm on the official sites).
+- **Commit ids changed on 12 Nov.** The repository's history was edited (a local settings file removed from every
+  commit, commit messages edited); 24 commits have new ids, with the same code apart from one comment line in
+  `experiments/baselines.py`. `experiments/commit_aliases.json` maps each earlier id to today's (for the runs in
+  progress: `8240301…` is now `f189fa8…`). `metrics.provenance` reports rows under the current id, so a run with
+  rows from before and after stays traceable. The notebook now follows the branch by fetch and reset (a plain pull
+  fails after such an edit) and uses the map to finish a run on the commit it started on. **On Colab: open the
+  notebook again from GitHub; do not reuse a copy opened before 12 Nov.** A bundle of the earlier history is kept
+  locally in `data/` (not in the repository).
 
 ### 2026-11-12 — Paper plan: baseline B3, personalisation, capacity-share surrogate, LaTeX tables
 From `docs/PAPER_PLAN.md` (the paper's plan, written 12 Nov) and `docs/IMPROVEMENT_PLAN.md` (the product's). Nothing

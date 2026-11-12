@@ -187,6 +187,10 @@ Sources: [PLFS annual report 2023-24 (MoSPI)](https://ruralindiaonline.org/en/li
 Check the exact figures against the primary PDFs before the camera-ready; the PLFS number is one quarter's urban
 average, not the annual figure.
 
+**Commit ids.** Rows written before 12 Nov 2026 carry earlier ids of the same commits (the repository's history
+was edited that day; the code is unchanged). `experiments/commit_aliases.json` holds the map and the report shows
+every run under today's ids.
+
 ## 5. Checks of the oracle
 
 The suitability oracle is **our own gate**: `oracle.true_allowed` and `rule_violations` call the same `gate()` that
