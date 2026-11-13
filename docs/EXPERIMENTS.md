@@ -85,9 +85,11 @@ rows came from another commit, and the report marks such a run untraceable.
 ### Kaggle alongside Colab (free, two T4s)
 
 [`experiments/kaggle_runner.ipynb`](../experiments/kaggle_runner.ipynb) runs part of the list on Kaggle's free
-"GPU T4 x2" while Colab runs the rest, which cuts the wall time from about a week to two or three days. Kaggle's
-share is B1, B3, A1T, ADV, B2, A6, A4 and M1 for qwen2.5-7b, phi4-mini and llama3.2-3b; Colab's notebook skips those
-(`USE_KAGGLE = True`) and does A2, A3, A5, S1 (×2) and M1 for qwen2.5-1.5b. **A run is never split between the two**,
+"GPU T4 x2" while Colab runs the rest. Who runs what is in
+[`experiments/paper_split.yaml`](../experiments/paper_split.yaml): each team member runs their own list on their own
+Kaggle account (`ME` in step 1 of the notebook; one person, one account, as Kaggle's terms require), and the Colab
+notebook runs only the `colab` list (`USE_SPLIT = True`). Every run is listed exactly once. With four Kaggle accounts
+and Colab running at once, the remaining runs take about a day. **A run is never split between people or platforms**,
 so each run's rows come from one machine type, and both use a T4 (the Kaggle notebook refuses a P100) so latencies
 stay comparable; `finadvisor-results/platform/<run>.json` records where each Kaggle run ran.
 
