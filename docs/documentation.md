@@ -98,6 +98,14 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
+### 2026-11-13 — Paper runs on Kaggle and Colab at the same time
+The remaining runs (about 57 T4-hours) would take about a week on Colab's free tier alone. New
+`experiments/kaggle_runner.ipynb` runs ten of them on Kaggle's free two-T4 machine, two at a time, while Colab runs the
+other six; the Colab notebook skips Kaggle's runs (`USE_KAGGLE`). No experiment code or config changed. A run is
+never split between platforms or commits, both use T4s, and each Kaggle run records its platform. Details and what
+was tested: `docs/EXPERIMENTS.md` §3. Interim results at this point: A1 and S2 complete, A2 at 173 of 240 personas
+(unsuitable first plans 64.9% without the gate against 1.4% with it; 0% unsuitable final answers in both).
+
 ### 2026-11-13 — Vercel builds from Git fixed
 Every deployment Vercel started from a Git push had failed since the repository was restructured (`npm run build`
 could not find `package.json` at the repository root). The project's Root Directory is now `web`; production

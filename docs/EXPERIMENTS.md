@@ -82,6 +82,24 @@ words in the guard, the wish carried into twins and repairs), so those runs may 
 the last four must run on the fixed code. **A run never mixes commits**: the notebook refuses to continue a run whose
 rows came from another commit, and the report marks such a run untraceable.
 
+### Kaggle alongside Colab (free, two T4s)
+
+[`experiments/kaggle_runner.ipynb`](../experiments/kaggle_runner.ipynb) runs part of the list on Kaggle's free
+"GPU T4 x2" while Colab runs the rest, which cuts the wall time from about a week to two or three days. Kaggle's
+share is B1, B3, A1T, ADV, B2, A6, A4 and M1 for qwen2.5-7b, phi4-mini and llama3.2-3b; Colab's notebook skips those
+(`USE_KAGGLE = True`) and does A2, A3, A5, S1 (×2) and M1 for qwen2.5-1.5b. **A run is never split between the two**,
+so each run's rows come from one machine type, and both use a T4 (the Kaggle notebook refuses a P100) so latencies
+stay comparable; `finadvisor-results/platform/<run>.json` records where each Kaggle run ran.
+
+On Kaggle, two Ollama servers each see one GPU (ports 11434 and 11435) and two runs go at once, each pointed at its
+own server through `OLLAMA_BASE_URL` and each in its own copy of the code at its commit (a run started in an earlier
+session finishes on that commit; A6, A1T, A4 and ADV never run on code older than `a53be87`, the 11 Nov fixes). A
+session is a background version (Save & Run All) that stops itself after 11 h 15 min so Kaggle saves its output; the
+next session takes the last one's output as input and every run resumes. Kaggle's weekly GPU allowance (about 30 h)
+covers about two sessions. The scheduler (parallel runs, stop at the time limit, resume, a torn last line, retries,
+the pinned commit, the fixes check) was tested on 13 Nov 2026 with a stand-in for the model runs; the notebook has
+not yet run on Kaggle itself.
+
 ## 4. Results and statistics
 
 ```bash
