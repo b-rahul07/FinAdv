@@ -1,0 +1,8 @@
+# Manual deploys (npx vercel deploy) run from the repository root, like the Git builds (Root Directory: web).
+# Upload only the website.
+/*
+!/web
+/web/node_modules
+/web/dist
+/web/.vercel
+/web/.env.local

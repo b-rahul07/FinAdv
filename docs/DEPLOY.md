@@ -19,9 +19,13 @@ First time only: the "Public link" terminal prints a link to enable Funnel for t
 Tailscale's relays see only encrypted traffic; TLS ends on the laptop.
 
 ## 2. Updating
-- **Website** (after changing `web/`): `cd web && npx vercel deploy --prod`. Vercel project `finadvisor` (account
-  b-rahul07); its production variables are the four public `VITE_*` values with
-  `VITE_API_URL=https://finadvisor.tail584bb1.ts.net`. `web/vercel.json` sends every route to `index.html`.
+- **Website**: pushing `main` deploys production automatically; pushing any other branch makes a preview. Vercel
+  project `finadvisor` (account b-rahul07) has **Root Directory `web`**: without it every Git build failed with
+  "Could not read package.json" (fixed 13 Nov 2026). A manual deploy runs from the **repository root**, not from
+  `web/`: `npx vercel deploy --prod` (`.vercelignore` uploads only `web/`; the root `.vercel/` link is local and
+  git-ignored, recreate it with `npx vercel link`). Production variables are the four public `VITE_*` values with
+  `VITE_API_URL=https://finadvisor.tail584bb1.ts.net`; previews have none of them, so a preview loads but cannot
+  reach the API. `web/vercel.json` sends every route to `index.html`.
 - **API** (after changing `finadvisor/`): stop and start the public link in VS Code.
 
 ## 3. Routine jobs (run on the laptop)

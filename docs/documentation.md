@@ -98,6 +98,12 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
+### 2026-11-13 — Vercel builds from Git fixed
+Every deployment Vercel started from a Git push had failed since the repository was restructured (`npm run build`
+could not find `package.json` at the repository root). The project's Root Directory is now `web`; production
+(`main`) and the `paper-experiments` preview were redeployed and are live. Manual deploys now run from the
+repository root with a `.vercelignore` that uploads only `web/` (`docs/DEPLOY.md` §2).
+
 ### 2026-11-13 — Website phases 2 and 3: straight answers, and an app that keeps itself current
 From `docs/IMPROVEMENT_PLAN.md` §3. **No experiment changes:** `configs/pipeline/default.yaml` is untouched, the
 new stage runs only where its flag is set, and a profile without tax facts serialises exactly as before (all 240
