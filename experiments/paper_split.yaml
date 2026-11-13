@@ -1,11 +1,12 @@
-# Who runs which paper run (13 Nov 2026). Each person uses only their own account, and a run is never split between
-# people or platforms, so every run's rows come from one machine type (a T4) and one commit.
-# Kaggle: set ME in step 1 of experiments/kaggle_runner.ipynb to your name below. Colab: colab_runner.ipynb runs
-# the "colab" list only.
+# Who runs which paper run. Each person uses only their own account; a run's rows always come from one commit and
+# a T4. Kaggle: set ME in step 1 of experiments/kaggle_runner.ipynb to your name below. Colab: colab_runner.ipynb
+# runs the "colab" list only.
+# 13 Nov 2026, evening: Colab stopped working, so its runs moved to Kaggle. A2 is finished on Kaggle from the 519
+# rows Colab made, on the same commit (09f6122) and the same GPU type; its rows say which machine made them
+# (finished_at up to 2026-11-13T16:26Z = Colab), so A2's latency can be read per machine.
 kaggle:
-  rahul: [B1_plain_llm, B3_rules_in_prompt, A1T_full_turn, ADV_adversarial, B2_llm_rag, A6_no_pressure_fence]
-  member1: [M1_llama3.2-3b, M1_phi4-mini]
-  member2: [M1_qwen2.5-7b, A3_no_auditor]
-  member3: [A5_no_calculators, S1_rules_v1, A4_no_number_guard]
+  rahul: [B1_plain_llm, B3_rules_in_prompt, A1T_full_turn, ADV_adversarial, B2_llm_rag, A6_no_pressure_fence,
+          A4_no_number_guard, M1_qwen2.5-7b, M1_phi4-mini, M1_llama3.2-3b, A2_no_gate]
+  member1: [A3_no_auditor, A5_no_calculators, S1_rules_v1, S1_emergency_3m, M1_qwen2.5-1.5b]
 colab:
-  rahul: [A1_full, S2_mr6_risk, A2_no_gate, S1_emergency_3m, M1_qwen2.5-1.5b]
+  rahul: [A1_full, S2_mr6_risk]
