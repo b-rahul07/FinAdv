@@ -146,6 +146,10 @@ personas checked).
   and answered; a what-if follow-up; "make this my profile"; the change note on a re-made plan; the reminders
   bell; SIPs; capital gains. axe-core: 0 violations on those screens, light desktop and dark phone; no console
   errors; no sideways overflow.
+- **CI found an old intermittent failure.** The first run on GitHub failed in `test_news_desk_caches_and_filters_by_topic`
+  (about one run in three on Linux): the news cache was written in place, so a reader could open it half-written.
+  `NewsDesk.refresh` now writes a temporary file and renames it. 25 of 25 runs pass on Linux afterwards, and CI is
+  green on both jobs.
 - **Not verified / not done.** The scheduled price job has not run (needs the secret and the default branch;
   NSE may refuse GitHub's addresses). Fund finder and news still refresh on the laptop. The preview used the fake
   model and development sign-in. The four pipeline items (card dues with interest, Indian money phrases, model
