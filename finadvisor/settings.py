@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     dev_auth_secret: str = "dev-only-signing-key-not-a-secret-0000"
 
     ollama_base_url: str = "http://127.0.0.1:11434"
-    model_name: str = "website"                   # key in configs/models.yaml
+    model_name: str = "site"                      # key in configs/models.yaml (phi4-mini since 14 Nov 2026)
     pipeline: str = "pipeline/pipeline-v6-website.yaml"   # the website's pipeline file (experiments name their own)
     retrieval: str = "chroma"                     # chroma | keyword
     news: str = "rss"                             # rss (ET Markets + Moneycontrol, FinBERT mood) | off

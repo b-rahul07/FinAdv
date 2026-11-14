@@ -65,7 +65,7 @@ python -m finadvisor.market.fundfinder        # optional, ~10 minutes: the fund 
 Ollama starts by itself after installing (look for the llama icon in the system tray / menu bar). Then:
 
 ```powershell
-ollama pull qwen2.5:3b                        # about 1.9 GB
+ollama pull phi4-mini                         # about 2.5 GB
 ```
 
 ## 5. Start the API
@@ -184,7 +184,7 @@ To get the latest version first: `git pull`, then `pip install -e ".[rag,news,ca
 |---|---|
 | `python` or `node` is not recognised | Reinstall with "Add to PATH" ticked, then open a new terminal. |
 | `running scripts is disabled` when activating | Run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once, or use Command Prompt and `.venv\Scripts\activate.bat`. |
-| "FinAdvisor's language model isn't reachable" | Start Ollama (open the app), check `ollama list` shows `qwen2.5:3b`. Plans still work without it. |
+| "FinAdvisor's language model isn't reachable" | Start Ollama (open the app), check `ollama list` shows `phi4-mini`. Plans still work without it. |
 | The website says it can't reach the server | The API terminal must be running on port 8000. |
 | `address already in use` / port 8000 or 5173 busy | Close the old terminal running it, or restart your computer. |
 | Stock or fund search finds nothing | Run `python -m finadvisor.market.jobs masters` (needs internet). |

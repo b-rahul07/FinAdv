@@ -33,7 +33,7 @@ individual stocks. It is not a SEBI-registered adviser; it gives education and p
 **Step-by-step guide for running it on your own computer: [docs/SETUP.md](docs/SETUP.md)** (no keys needed).
 
 Short version, for people who have done this before. Needs Python 3.11+, Node 20+ and [Ollama](https://ollama.com) with
-the model in `configs/models.yaml` (`ollama pull qwen2.5:3b`).
+the model in `configs/models.yaml` (`ollama pull phi4-mini`).
 
 ```bash
 # backend

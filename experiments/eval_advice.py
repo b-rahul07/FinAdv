@@ -116,6 +116,13 @@ def check_text(out, question: str, p: Profile, exp_turn: dict) -> list[str]:
     # questionnaire score and the fixed wording. Learn answers may quote their sources, which are not recorded here.
     allowed = numbers.collect([[c for c in out.cards if c.get("type") != "evidence"], question,
                                (out.advice or {}).get("willingness")]) | FIXED_NUMBERS | {47.0}
+    # "Which funds?" names each fund type with its monthly total across goals: the sum of amounts the plan card shows
+    # per goal (14 Nov 2026: flagged for every model on P03, whose plan has two goals).
+    totals: dict[str, float] = {}
+    for b in ((out.advice or {}).get("plan") or {}).get("buckets", []):
+        for m in b.get("mix", []):
+            totals[m["product_id"]] = totals.get(m["product_id"], 0.0) + (m.get("monthly") or 0.0)
+    allowed |= numbers.collect(list(totals.values()))
     bad = [b for s in re.split(r"(?<=[.!?])\s+", text) for b in numbers.unapproved(s, allowed)]
     if bad and out.route != "learn":
         fails.append(f"numbers: unapproved {bad[:5]}")
@@ -153,10 +160,12 @@ def check_text(out, question: str, p: Profile, exp_turn: dict) -> list[str]:
 
 
 def main(inputs: str, output: str) -> None:
-    bundle = default_bundle()
+    from finadvisor.configs import load_bundle
+    from finadvisor.settings import get_settings
+    bundle = load_bundle(get_settings().pipeline)          # the website's pipeline file (14 Nov 2026; was default.yaml)
     from finadvisor.api.runtime import make_retriever
     from finadvisor.market.news import NewsDesk
-    llm = get_llm("website", bundle.models)
+    llm = get_llm(get_settings().model_name, bundle.models)   # the model the website runs
     advisor = Advisor(bundle, llm, make_retriever("chroma"), real_users=True, news=NewsDesk().get)
     out_path = ROOT / output
     out_path.parent.mkdir(parents=True, exist_ok=True)

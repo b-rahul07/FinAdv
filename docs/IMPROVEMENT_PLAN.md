@@ -123,7 +123,7 @@ heavy for a free runner. Not verified: price age for a week with the laptop off.
 
 **Status, 14 Nov 2026 (runs finished): built**, except Hinglish replies, which still wait for evidence from
 usability sessions (changelog entry of that date). The card change is plan-v2 in `pipeline-v6-website`; the paper's
-runs stay on plan-v1.
+runs stay on plan-v1. The website model is now phi4-mini (MIT).
 - Indian money phrases in extraction ("12 LPA", "50k in hand", "do lakh").
 - Card dues cleared with interest and a card's minimum-due EMI freed afterwards (new plan version tag).
 - An Apache/MIT-licensed model for the website, chosen from the M1 results.

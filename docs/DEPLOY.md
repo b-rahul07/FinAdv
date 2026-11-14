@@ -67,7 +67,7 @@ log shows `listed_error`, the laptop job remains the source for shares and the w
 Any Ubuntu server with 2+ cores and 8+ GB of memory works (the model needs about 3 GB):
 ```bash
 sudo apt update && sudo apt install -y python3-venv git caddy
-curl -fsSL https://ollama.com/install.sh | sh && ollama pull qwen2.5:3b
+curl -fsSL https://ollama.com/install.sh | sh && ollama pull phi4-mini
 git clone https://github.com/b-rahul07/FinAdv.git && cd FinAdv
 python3 -m venv .venv && . .venv/bin/activate && pip install -e ".[postgres,cas]"
 ```

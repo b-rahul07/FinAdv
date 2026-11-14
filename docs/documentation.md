@@ -116,6 +116,17 @@ a flag or in a new version file, so every reported run is unchanged.
 - **Daily price job** skips with a notice, instead of failing, while the `DATABASE_URL` secret is missing.
 - **Paper assets.** `experiments/paper_assets.py` writes the paper's number macros, its two tables and its two
   figures from `report.json` and the checks' outputs, so no number in the paper is typed by hand.
+- **Website model: phi4-mini (MIT licence)**, a new `site` entry in `configs/models.yaml` (`settings.model_name`).
+  `website` (qwen2.5:3b, non-commercial licence) stays unchanged because every paper config names it. Advice
+  evaluation (30 turns, after the experience fix, on the CPU laptop): qwen2.5:3b failed 2 turns, qwen2.5:1.5b
+  (Apache 2.0) 4 and phi4-mini 3, with a median reply of 8 s, 6 s and 14 s. No failure touched safety: the misses
+  were Learn answers without an inline source, plus one fund-total sentence the checker could not trace (next
+  item). phi4-mini was chosen for its M1 result (first plans passed 65% against 39%) and its licence. The extra
+  seconds are streamed.
+  On the website's own pipeline it passes 28 of 30 turns (`results/eval/advice-2026-11-14-site.jsonl`).
+- **Advice evaluation** now runs the website's pipeline file and model (`settings`), not the experiments' default.
+  Its number check also accepts a fund type's monthly total across goals: that sum of plan-card amounts is what
+  "which mutual funds?" quotes, and the check flagged it for every model.
 - Not built: **Hinglish replies**. The plan made them conditional on usability sessions showing people write in
   Hinglish, and no sessions have been run. The router already understands Hinglish questions.
 

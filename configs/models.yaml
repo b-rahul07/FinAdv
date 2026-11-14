@@ -2,9 +2,19 @@
 # temperature, seed and prompt-template version.
 # self_hosted: false models may be used ONLY for synthetic benchmark data (brief §2.6).
 models:
-  # Website default: qwen2.5:3b (Q4_K_M via Ollama). Chosen over phi4-mini after measuring on a CPU-only
-  # laptop: ~10-22 s vs ~30-45 s per planner call, similar choice quality. Licence: Qwen Research License
-  # (non-commercial use only), compatible with this non-commercial research project.
+  # The website's model (settings.model_name = "site") since 14 Nov 2026: phi4-mini, MIT licence. Chosen after the
+  # paper's runs from M1 (first plans passed 65% vs 39% for qwen2.5:3b) and the advice evaluation on the website's
+  # CPU host (same safety checks passed; median reply about 14 s against 8 s, streamed). The website plans with the
+  # standard mix, so the model explains, reads facts from chat and answers Learn questions.
+  site:
+    provider: ollama
+    model: phi4-mini
+    self_hosted: true
+    options: {temperature: 0, seed: 42, num_ctx: 4096, num_predict: 400}
+  # "website": qwen2.5:3b (Q4_K_M via Ollama), the website's model until 14 Nov 2026 and the main model of every
+  # reported paper run (their configs say `model: website`; keep this entry unchanged so they re-run as reported).
+  # Chosen then over phi4-mini for planner speed on a CPU (~10-22 s vs ~30-45 s per planner call). Licence: Qwen
+  # Research License (non-commercial use only).
   website:
     provider: ollama
     model: qwen2.5:3b
