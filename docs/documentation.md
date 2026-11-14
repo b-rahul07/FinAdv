@@ -121,6 +121,9 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
   and splits the baseline rate into product and overspend, with the B3 finding, a quoted example and the robust
   subset. It states that the 0% is by construction, adds the relations' limit, a related work rewritten from the
   abstracts, and the records are now public (`paper_records/`). Still 6 pages.
+- **Learn answers name their sources.** When the model leaves out the inline [n] markers, code adds one line
+  naming the sources the answer was written from. This uses `evidence.cite_sources_line` in pipeline-v7-website,
+  and it was the only miss of every model in the advice evaluation.
 - **Follow-up runs on Kaggle** (session 3, started 14 Nov 2026 19:30 UTC): B1L, B3L, B3L7, A1N and A1N7
   (`docs/PAPER_PLAN.md` §9). They are not among the 18 reported runs.
 

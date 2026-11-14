@@ -357,3 +357,17 @@ def test_website_uses_the_standard_mix_without_model_calls(website_bundle, stret
         assert out.advice["plan"]["source"] == "standard"
         assert out.advice["audit"]["status"] == "pass"            # MR1-MR5 still checked against the twins
         assert not [c for c in calls if c.startswith("planner")]   # no model call to choose the mix
+
+
+@pytest.mark.parametrize("text,line", [("ELSS is a tax-saving equity fund with a lock-in.", True),
+                                       ("ELSS is a tax-saving equity fund [1].", False)])
+def test_learn_answer_without_markers_names_its_sources(text, line):
+    """pipeline-v7-website: an answer the model wrote without [n] markers gets one line naming its sources;
+    default.yaml (experiments) leaves the text as the model wrote it."""
+    from finadvisor.configs import load_bundle
+    docs = lambda q, k: [{"id": "d1", "title": "ELSS funds", "source": "elss.txt", "text": "ELSS has a lock-in."}]  # noqa: E731
+    llm = FakeLLM(lambda *a, **k: {}, text_fn=lambda s, p, purpose: text)
+    out, _ = run_turn(Advisor(load_bundle("pipeline/pipeline-v7-website.yaml"), llm, retriever=docs), None, "What is ELSS?")
+    assert ("Written from: [1] ELSS funds." in out.text) is line
+    out, _ = run_turn(Advisor(default_bundle(), llm, retriever=docs), None, "What is ELSS?")
+    assert "Written from" not in out.text

@@ -436,6 +436,16 @@ class Advisor:
         except httpx.TransportError:
             out.text = MODEL_DOWN + " The documents that match your question are listed below."
             emit("token", {"text": out.text})
+            return
+        # The prompt asks for inline [n] citations, and the answer is written only from the numbered sources, but small
+        # models sometimes leave the markers out (advice evaluation, 14 Nov 2026: every model tried). With
+        # evidence.cite_sources_line (pipeline-v7-website), code then names the sources the answer was written from.
+        if (self.bundle.pipeline.get("evidence", {}).get("cite_sources_line") and out.text.strip()
+                and not re.search(r"\[\d\]", out.text)):
+            line = "\n\nWritten from: " + "; ".join(f"[{s['n']}] {s.get('title') or s.get('source') or 'source'}"
+                                                   for s in out.sources) + "."
+            out.text += line
+            emit("token", {"text": line})
 
     # ------------------------------------------------------------------ helpers
     def _explain(self, facts: list[str], conflict: str | None, question: str, card_list: list[dict], emit, cancel, out,

@@ -63,6 +63,9 @@ evidence:
   # the plan (a "flexi-sweep FD" from the FD guide). The passages are still retrieved and shown to the person.
   documents_in_prompt: false
   headlines: 6
+  # v7 (2026-11-15): when a Learn answer carries no [n] marker, code adds one line naming the sources it was written
+  # from (the model is given only those sources). Absent in default.yaml, so experiments are unchanged.
+  cite_sources_line: true
 
 pressure:
   # Wishes and pressure are recorded and acknowledged. They do not change the measured willingness
