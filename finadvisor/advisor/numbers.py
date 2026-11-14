@@ -21,6 +21,16 @@ NOT_A_COUNT_BEFORE = re.compile(r"(₹|\brs\.?|\binr)\s*$", re.I)
 # towards dropping a sentence.
 RATE_WORDS = re.compile(r"\b(returns?|returned|interest|yields?|cagr|growth|grows?|rate|pays?|paid|doubles?|doubling|"
                         r"triples?|inflation|per annum|points?)\b", re.I)
+# Numbers that are part of a name, not a figure: index names ("Nifty 50", "Nifty Midcap 150", "BSE 500") and tax
+# sections ("Section 80C", "80CCD(1B)", "Section 24(b)"). The paper runs of 13 Nov 2026 showed every number the guard
+# caught in the model's explanations was the 50 in "Nifty 50"; amounts next to a name ("₹1,50,000 under 80C") are
+# still checked.
+NAMES = re.compile(
+    r"\bnifty\s+(?:next\s+)?(?:50|100|200|500)\b"
+    r"|\bnifty\s+(?:midcap|smallcap|largemidcap|large\s*mid\s*cap|microcap)\s*\d{2,3}\b"
+    r"|\b(?:s&p\s+)?bse\s+(?:100|200|500)\b|\bsensex\s+30\b"
+    r"|\b(?:section|sec\.?|u/s)\s*\d+[a-z]*(?:\(\w+\))*"
+    r"|\b80(?:c|ccc|ccd|d|dd|ddb|e|ee|eea|g|gg|tta|ttb|u)\b(?:\(\w+\))*", re.I)
 
 
 # Numbers written as words ("twelve percent", "double in seven years", "two lakh"): the same rules as digits, so a
@@ -114,7 +124,10 @@ def collect(obj) -> set[float]:
 
 def unapproved(sentence: str, allowed: set[float]) -> list[str]:
     bad = []
+    names = [m.span() for m in NAMES.finditer(sentence)]
     for text, v, start, end in _numbers(sentence):
+        if any(a <= start < b for a, b in names):
+            continue
         if (v in SMALL_FREE and _is_count(sentence, start, end)) or round(v, 2) in allowed or round(v) in allowed:
             continue
         bad.append(text)

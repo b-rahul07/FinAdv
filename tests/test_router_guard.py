@@ -85,6 +85,22 @@ def test_number_guard_small_numbers_are_free_only_as_counts(sentence, kept):
     assert (out[0][0] != "") is kept, out
 
 
+@pytest.mark.parametrize("sentence,bad", [
+    # names are not figures (14 Nov 2026: every catch in the paper runs was the 50 in "Nifty 50")
+    ("Then invest the rest in the short-duration debt fund, Nifty 50 index fund, and gold ETF.", []),
+    ("A Nifty Next 50 fund or a Nifty Midcap 150 fund adds more risk.", []),
+    ("A BSE 500 index fund is broader.", []),
+    ("ELSS gets a deduction under Section 80C, and NPS under 80CCD(1B).", []),
+    ("Section 24(b) covers home-loan interest.", []),
+    # figures next to a name are still checked
+    ("The Nifty 50 returned 14% last year.", ["14"]),
+    ("You can claim ₹1,50,000 under Section 80C.", ["1,50,000"]),
+    ("Put 50 in the fund.", ["50"]),
+])
+def test_number_guard_ignores_index_and_section_names(sentence, bad):
+    assert [b.strip() for b in numbers.unapproved(sentence, set())] == bad
+
+
 def test_number_guard_allows_lakh_and_percent_forms():
     allowed = numbers.collect({"target": 150000, "share": 0.4})
     assert numbers.unapproved("Save ₹1.5 lakh, that is 40% of it.", allowed) == []

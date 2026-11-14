@@ -98,6 +98,22 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
+### 2026-11-14 — Kaggle session 1 results; two fixes found by them
+Kaggle session 1 (commit `e5caa15`) finished B1, B3, A1T, ADV, A6, A4 and M1 for qwen2.5-7b, phi4-mini and
+llama3.2-3b (each 720 rows, ADV 300, one commit each, clean tree). Session 2 runs A2 (finished from Colab's 519 rows on
+its own commit `09f6122`), B2, A3, A5, S1 ×2 and M1 qwen2.5-1.5b (`experiments/paper_split.yaml`).
+- **Checker crash (B2).** `oracle.monthly_amounts` read "Rs, monthly" as an amount with no digits and raised, which
+  stopped B2 at 142 rows. A match without a digit is now skipped; only text that used to crash reads differently, so
+  B1 and B3 are unchanged. B2 restarts from zero on the fixed code.
+- **Number guard read index and tax-section names as figures.** Every number the guard caught in the 720 A1T
+  explanations, and every "unsourced number" in A4, was the 50 in "Nifty 50": the model invented no figure, and the
+  live guard dropped about a hundred harmless sentences naming the Nifty 50 fund. `numbers.NAMES` now leaves numbers
+  inside index names (Nifty 50/Next 50/Midcap 150, BSE 500, Sensex 30) and tax sections (Section 80C, 80CCD(1B),
+  Section 24(b)) alone; amounts beside them are still checked (`tests/test_router_guard.py`). Remaining runs are
+  unaffected (plan mode writes no explanation; B2 is re-scored from its stored text). Re-scored from stored text,
+  unsourced numbers are 0.0% for A1T and A4 against 98.2% for B1 and 81.1% for B3. For the paper: the guard is a
+  safety net that, with qwen2.5:3b in these runs, removed only these false positives (fixed after the runs).
+
 ### 2026-11-13 — Paper runs on Kaggle and Colab at the same time
 The remaining runs (about 57 T4-hours) would take about a week on Colab's free tier alone. New
 `experiments/kaggle_runner.ipynb` runs ten of them on Kaggle's free two-T4 machine, two at a time, while Colab runs the
