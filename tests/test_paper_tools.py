@@ -259,6 +259,11 @@ def test_monthly_total_leaves_out_the_persons_own_figures():
     assert oracle.monthly_amounts(text, oracle.own_figures(p)) == ([10_000], [50_000])
 
 
+def test_monthly_amounts_skip_a_comma_with_no_digits():
+    # B2 on Kaggle, 13 Nov 2026: "Rs, monthly" matched with an empty amount and stopped the run
+    assert oracle.monthly_amounts("Save in Rs, monthly. Put ₹5,000 a month in an RD.") == ([5_000], [])
+
+
 def test_baselines_are_judged_on_the_allocation_block_and_on_the_text():
     p = Profile(take_home_monthly=50_000, expenses_monthly=30_000,
                 debts=[{"kind": "car", "outstanding": 300_000, "rate_pa": 9, "emi_monthly": 8_000}])

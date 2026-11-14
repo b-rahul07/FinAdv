@@ -170,6 +170,8 @@ def monthly_amounts(text: str, own: set[float] = frozenset()) -> tuple[list[floa
     A plan amount that happens to equal one of the person's figures is left out too (stated in the paper)."""
     kept, skipped = [], []
     for amount, unit in MONTHLY.findall(text or ""):
+        if not any(ch.isdigit() for ch in amount):   # "Rs, monthly": a comma, not an amount
+            continue
         v = float(amount.replace(",", "")) * (1e5 if unit.lower() == "lakh" else 1e3 if unit.lower() == "k" else 1)
         (skipped if round(v) in own or round(v, 2) in own else kept).append(v)
     return kept, skipped
