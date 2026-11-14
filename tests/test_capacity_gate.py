@@ -189,3 +189,22 @@ def test_market_linked_waits_for_priorities(bundle, stretched):
     c = capacity.assess(stretched, bundle.rules)
     d = {x.id: x for x in gate("medium", c.rule_ids, stretched, bundle.shelf, bundle.rules)}
     assert d["hybrid_baf"].after_priority and not d["liquid_fund"].after_priority
+
+
+def test_plan_v2_clears_card_dues_with_interest_and_frees_the_minimum_due(bundle):
+    """pipeline-v6-website (plan-v2): card dues accrue interest and their minimum due is freed once cleared;
+    without the flag the plan is plan-v1, which every reported run used."""
+    from finadvisor.advisor.plan import priority_steps
+    from finadvisor.advisor.profile import Debt
+    p = base(card_dues_paid_in_full=False, debts=[Debt(kind="credit_card", outstanding=60000, emi_monthly=3000)])
+    cap = capacity.assess(p, bundle.rules)
+    v1, start1, after1, _ = priority_steps(p, cap, bundle.rules)
+    v2, start2, after2, _ = priority_steps(p, cap, bundle.rules, card_rate_pa=42)
+    c1, c2 = (next(s for s in steps if s.action == "clear_card_dues") for steps in (v1, v2))
+    assert c1.frees_emi == 0 and after1 == p.monthly_surplus
+    assert c2.frees_emi == 3000 and after2 == p.monthly_surplus + 3000
+    from finadvisor.calc.money import round_up_to
+    assert c2.monthly == round_up_to(p.monthly_surplus + 3000, 100)
+    from finadvisor.calc.loans import months_to_repay
+    assert c2.months == months_to_repay(60000, 42, p.monthly_surplus + 3000)
+    assert "42% a year" in c2.text

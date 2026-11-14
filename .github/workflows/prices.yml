@@ -1,6 +1,6 @@
 # Daily prices without the laptop: the same job the laptop runs (python -m finadvisor.market.jobs daily), against the
-# production database. It needs one repository secret, DATABASE_URL (Settings > Secrets and variables > Actions); the
-# job stops with a clear message when the secret is missing. GitHub runs schedules only from the default branch, so
+# production database. It needs one repository secret, DATABASE_URL (Settings > Secrets and variables > Actions);
+# without it the job skips with a notice instead of failing twice a day. GitHub runs schedules only from the default branch, so
 # this starts once the file is on that branch; "Run workflow" on the Actions tab runs it by hand at any time.
 name: Daily prices
 
@@ -23,16 +23,23 @@ jobs:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
       - name: Check the secret is set
+        id: secret
         run: |
           if [ -z "$DATABASE_URL" ]; then
-            echo "::error::Add the repository secret DATABASE_URL (the Supabase connection string) to run this job."
-            exit 1
+            echo "::notice::Skipped: add the repository secret DATABASE_URL (the Supabase connection string) to run this job."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=true" >> "$GITHUB_OUTPUT"
           fi
       - uses: actions/checkout@v4
+        if: steps.secret.outputs.ok == 'true'
       - uses: actions/setup-python@v5
+        if: steps.secret.outputs.ok == 'true'
         with:
           python-version: "3.12"
           cache: pip
       - run: pip install -e ".[postgres]"
+        if: steps.secret.outputs.ok == 'true'
       - name: Fetch and store today's prices
+        if: steps.secret.outputs.ok == 'true'
         run: python -m finadvisor.market.jobs daily

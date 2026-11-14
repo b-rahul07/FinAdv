@@ -121,8 +121,9 @@ heavy for a free runner. Not verified: price age for a week with the laptop off.
 
 ### After the paper runs finish **[pipeline]**
 
-**Status: not started, on purpose.** Each of these changes what the advice pipeline produces, and the paper's runs
-must all come from the pipeline as it is.
+**Status, 14 Nov 2026 (runs finished): built**, except Hinglish replies, which still wait for evidence from
+usability sessions (changelog entry of that date). The card change is plan-v2 in `pipeline-v6-website`; the paper's
+runs stay on plan-v1.
 - Indian money phrases in extraction ("12 LPA", "50k in hand", "do lakh").
 - Card dues cleared with interest and a card's minimum-due EMI freed afterwards (new plan version tag).
 - An Apache/MIT-licensed model for the website, chosen from the M1 results.

@@ -5,7 +5,7 @@
     tax                  both regimes from the person's salary, the cheaper one, ELSS/PPF/NPS, FD vs debt fund
     "am I on track?"     plan progress, goals and the health check, from the home-page overview
 
-Runs before the routes when `stages.conversation` is set (configs/pipeline/pipeline-v5-website.yaml). Experiments
+Runs before the routes when `stages.conversation` is set (configs/pipeline/pipeline-v5-website.yaml and later). Experiments
 use pipeline files without the flag, so nothing here runs for them.
 
 No model call: every sentence is built from engine and calculator results. `reply` returns None for anything it does

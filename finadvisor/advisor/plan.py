@@ -149,12 +149,18 @@ def is_risky(product: dict, rules: dict) -> bool:
 
 # --------------------------------------------------------------------------- priority steps
 
-def priority_steps(profile: Profile, cap: CapacityResult, rules: dict) -> tuple[list[Step], int, float, list[str]]:
+def priority_steps(profile: Profile, cap: CapacityResult, rules: dict,
+                   card_rate_pa: float | None = None) -> tuple[list[Step], int, float, list[str]]:
     """Ordered protection/debt steps. Returns (steps, invest_start_month, surplus_after, notes).
 
     Order: health cover, term cover, card dues, costly loans (highest rate first), emergency fund.
     Card dues and loans are cleared with the whole monthly surplus plus the loan's own EMI; a cleared
     loan's EMI is added back to the surplus for later steps.
+
+    card_rate_pa (plan-v2, pipeline `plan.card_dues: with_interest`): card dues are cleared like a costly loan, at the
+    card's own rate (or this default when the card has none), and the card's minimum due, if it is entered as the
+    card's EMI, is freed once the dues are cleared. None keeps plan-v1 (no interest, minimum due not freed), which is
+    what every reported paper run used.
     """
     steps: list[Step] = []
     notes: list[str] = []
@@ -180,7 +186,25 @@ def priority_steps(profile: Profile, cap: CapacityResult, rules: dict) -> tuple[
 
     if "R4" in ids:
         card = sum(d.outstanding for d in profile.debts if d.kind == "credit_card")
-        if not profile.card_dues_paid_in_full:
+        if not profile.card_dues_paid_in_full and card_rate_pa is not None and card > 0:
+            cards = [d for d in profile.debts if d.kind == "credit_card" and d.outstanding > 0]
+            min_due = sum(d.emi_monthly for d in cards)
+            rate = max((d.rate_pa for d in cards if d.rate_pa), default=card_rate_pa)
+            payment = surplus + min_due
+            m = months_to_repay(card, rate, payment) if payment > 0 else None
+            if m is None:
+                add(action="clear_card_dues", rule="R4", target=card,
+                    text=f"Your credit-card dues of {inr(card)} grow faster than you can pay them from the surplus. "
+                         "Stop using the card and speak to the bank about converting the dues into a lower-rate loan.")
+            else:
+                pay = round_up_to(payment, ROUND_STEP)
+                add(action="clear_card_dues", rule="R4", monthly=pay, months=m, start_month=month, target=card,
+                    frees_emi=min_due,
+                    text=f"Clear credit-card dues of {inr(card)} (about {rate:g}% a year in interest): "
+                         f"{inr(pay)}/month for {n_months(m)}, then pay the full bill every month.")
+                month += m
+                surplus += min_due   # the minimum due is no longer paid once the dues are cleared
+        elif not profile.card_dues_paid_in_full:
             if card > 0 and surplus > 0:
                 m = G.months_to_save(card, surplus)
                 add(action="clear_card_dues", rule="R4", monthly=round_up_to(card / m, ROUND_STEP), months=m,
@@ -263,7 +287,9 @@ def normalise_mix(raw: list[tuple[str, float]], spec: BucketSpec) -> tuple[list[
 def build_plan(profile: Profile, cap: CapacityResult, decisions: list[GateDecision], mixes: dict[str, list[tuple[str, float]]],
                bundle, source: str = "planner") -> Plan:
     rules, shelf, assumptions = bundle.rules, bundle.shelf, bundle.assumptions
-    steps, start, surplus_after, notes = priority_steps(profile, cap, rules)
+    plan_cfg = (getattr(bundle, "pipeline", None) or {}).get("plan") or {}
+    card_rate = plan_cfg.get("card_rate_pa_default") if plan_cfg.get("card_dues") == "with_interest" else None
+    steps, start, surplus_after, notes = priority_steps(profile, cap, rules, card_rate_pa=card_rate)
     specs = bucket_specs(profile, decisions, rules)
     products = {p["id"]: p for p in shelf["products"]}
     returns = assumptions["returns_pa"]

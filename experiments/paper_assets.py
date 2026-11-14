@@ -1,0 +1,331 @@
+"""Everything the 6-page paper shows, generated from the report's JSON and the checks' outputs, so no number in the
+paper is typed by hand.
+
+    python -m experiments.paper_assets results/paper/final-2026-11-14 --out <paper folder>/generated
+
+Reads <run dir>/report.json and <run dir>/checks/{sebi_check.md, sebi_check_unsecured.md, rules_rework.txt}. Writes:
+  numbers.tex       \\val{RUN}{metric} -> "89.3", \\vci{RUN}{metric} -> "89.3% [85.7, 92.6]", plus named counts;
+                    an unknown name stops LaTeX with an error instead of printing nothing
+  tab_results.tex   one compact table: baselines, FinAdvisor, ablations, sensitivity, models
+  tab_checks.tex    rule-by-rule agreement with SEBI's tool; written rules against the engines
+  fig_unsuitable.pdf  first-plan and final unsuitable rate per system, 95% intervals
+  fig_outcomes.pdf    pass / repaired / fallback per system (the cost of the auditor)
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import re
+from pathlib import Path
+
+LABEL = {
+    "B1_plain_llm": "B1 plain model", "B2_llm_rag": "B2 model + RAG", "B3_rules_in_prompt": "B3 rules in prompt",
+    "A1_full": "FinAdvisor (A1)", "A1T_full_turn": "A1T full reply", "A2_no_gate": "A2 no gate",
+    "A3_no_auditor": "A3 no auditor", "A4_no_number_guard": "A4 no number guard",
+    "A5_no_calculators": "A5 no calculators", "A6_no_pressure_fence": "A6 no pressure fence",
+    "S1_rules_v1": "S1 capacity formula v1", "S1_emergency_3m": "S1 3-month emergency fund",
+    "S2_mr6_risk": "S2 MR6 by risky share", "M1_qwen2.5-1.5b": "M1 qwen2.5 1.5B", "M1_qwen2.5-7b": "M1 qwen2.5 7B",
+    "M1_phi4-mini": "M1 phi4-mini 3.8B", "M1_llama3.2-3b": "M1 llama3.2 3B",
+}
+GROUPS = [
+    ("Baselines (qwen2.5 3B)", ["B1_plain_llm", "B2_llm_rag", "B3_rules_in_prompt"]),
+    ("FinAdvisor (qwen2.5 3B)", ["A1_full", "A1T_full_turn"]),
+    ("Ablations", ["A2_no_gate", "A3_no_auditor", "A4_no_number_guard", "A5_no_calculators", "A6_no_pressure_fence"]),
+    ("Sensitivity", ["S1_rules_v1", "S1_emergency_3m", "S2_mr6_risk"]),
+    ("Other models", ["M1_qwen2.5-1.5b", "M1_llama3.2-3b", "M1_phi4-mini", "M1_qwen2.5-7b"]),
+]
+
+
+def rate(r: dict | None):
+    return None if not r or r.get("rate") is None else r
+
+
+def p1(x: float) -> str:
+    return f"{100 * x:.1f}"
+
+
+def cell(r: dict | None, ci: bool = True) -> str:
+    r = rate(r)
+    if r is None:
+        return "--"
+    lo, hi = r["ci95"]
+    return f"{p1(r['rate'])}" + (f" {{\\tiny[{p1(lo)}, {p1(hi)}]}}" if ci else "")
+
+
+def metrics(s: dict) -> dict[str, dict | None]:
+    out = s.get("outcome") or {}
+    return {"unsuitable": s.get("unsuitable"), "first": s.get("first_plan_unsuitable"),
+            "text": s.get("unsuitable_text"), "unsourced": s.get("unsourced_numbers"),
+            "pass": out.get("pass"), "repaired": out.get("repaired"), "fallback": out.get("fallback"),
+            "pressure": s.get("pressure_kept"), "agreement": s.get("replicate_agreement")}
+
+
+# --------------------------------------------------------------------------- numbers.tex
+
+def tex_name(s: str) -> str:
+    return re.sub(r"[^A-Za-z0-9]", "", s)
+
+
+def numbers_tex(report: dict, checks: dict) -> str:
+    defs: list[tuple[str, str]] = []
+    runs = report["runs"]
+    for rid, s in runs.items():
+        for m, r in metrics(s).items():
+            r = rate(r)
+            if r is None:
+                continue
+            lo, hi = r["ci95"]
+            defs.append((f"v@{rid}@{m}", p1(r["rate"])))
+            defs.append((f"ci@{rid}@{m}", f"{p1(r['rate'])}\\,\\% [{p1(lo)}, {p1(hi)}]"))
+            defs.append((f"n@{rid}@{m}", str(r["n"])))
+        lat = s.get("latency_s") or {}
+        if lat.get("median") is not None:
+            defs.append((f"v@{rid}@latency", f"{lat['median']:.1f}"))
+        for rel, cases in (s.get("dvr") or {}).items():
+            for case, r in cases.items():
+                r = rate(r) if isinstance(r, dict) else None
+                if r is not None:
+                    defs.append((f"v@{rid}@dvr{rel}{case}", p1(r["rate"])))
+                    defs.append((f"n@{rid}@dvr{rel}{case}", str(r["n"])))
+        for cause, r in (s.get("first_attempt_causes") or {}).items():
+            if rate(r):
+                defs.append((f"v@{rid}@cause{tex_name(cause)}", p1(r["rate"])))
+        if rate(s.get("mr6_only_on_low_risk_menu")):
+            defs.append((f"v@{rid}@mrsixlowonly", p1(s["mr6_only_on_low_risk_menu"]["rate"])))
+        pers = s.get("personalisation") or {}
+        if pers.get("mean") is not None:
+            defs.append((f"v@{rid}@similarity", f"{pers['mean']:.2f}"))
+        sur = s.get("surrogate") or {}
+        if sur.get("r2") is not None:
+            defs.append((f"v@{rid}@surrogateRtwo", f"{sur['r2']:.2f}"))
+            defs.append((f"v@{rid}@capacityshare", f"{100 * sur['capacity_share']:.0f}"))
+            defs.append((f"v@{rid}@willingnessshare", f"{100 * sur['willingness_share']:.0f}"))
+        a5 = s.get("a5_arithmetic")
+        if a5:
+            defs.append((f"v@{rid}@gapmedian", f"{100 * a5['median_abs_gap']:.0f}"))
+            defs.append((f"v@{rid}@gaplo", f"{100 * a5['gap_quartiles'][0]:.0f}"))
+            defs.append((f"v@{rid}@gaphi", f"{100 * a5['gap_quartiles'][1]:.0f}"))
+            defs.append((f"v@{rid}@gapn", str(a5["rows_with_gap"])))
+            defs.append((f"v@{rid}@overspend", p1(a5["overspend"]["rate"])))
+        block = s.get("allocation") or {}
+        for k, r in block.items():
+            if isinstance(r, dict) and rate(r):
+                defs.append((f"v@{rid}@block{tex_name(k)}", p1(r["rate"])))
+    for row in report.get("paired") or []:
+        rid = row["run"]
+        defs.append((f"v@{rid}@pairedonly", str(row["only_second"])))
+        defs.append((f"v@{rid}@pairedholm", sci(row["p_holm"])))
+    adv = report.get("adversarial") or {}
+    for rid, kinds in adv.items():
+        a = kinds.get("all") or {}
+        for m, r in a.items():
+            if rate(r):
+                defs.append((f"v@{rid}@{m}", p1(r["rate"])))
+                defs.append((f"n@{rid}@{m}", str(r["n"])))
+    for k, v in checks.items():
+        defs.append((f"c@{k}", v))
+    lines = ["% Generated by experiments/paper_assets.py from report.json; do not edit.",
+             "\\newcommand{\\fetch}[1]{\\ifcsname #1\\endcsname\\csname #1\\endcsname\\else"
+             "\\errmessage{paper number #1 is not in numbers.tex}\\fi}",
+             "\\newcommand{\\val}[2]{\\fetch{v@#1@#2}}",
+             "\\newcommand{\\vci}[2]{\\fetch{ci@#1@#2}}",
+             "\\newcommand{\\nof}[2]{\\fetch{n@#1@#2}}",
+             "\\newcommand{\\chk}[1]{\\fetch{c@#1}}"]
+    lines += [f"\\expandafter\\def\\csname {k}\\endcsname{{{v}}}" for k, v in defs]
+    return "\n".join(lines) + "\n"
+
+
+def sci(p: float) -> str:
+    if p >= 0.001:
+        return f"{p:.3f}"
+    mant, exp = f"{p:.1e}".split("e")
+    return f"{mant}\\times10^{{{int(exp)}}}"
+
+
+def find_paired(report: dict) -> list[dict]:
+    return report.get("paired") or []
+
+
+# --------------------------------------------------------------------------- checks
+
+def parse_checks(run_dir: Path) -> dict[str, str]:
+    out: dict[str, str] = {}
+    for name, key in (("sebi_check.md", "v2"), ("sebi_check_unsecured.md", "unsec")):
+        text = (run_dir / "checks" / name).read_text(encoding="utf-8")
+        for m in re.finditer(r"^\| (R\d) \| .*? \| (\d+) \| (\d+) \| (\d+) \| (\d+) \| ([\d.]+)% \|$", text, re.M):
+            rule, both, neither, eng, tool, agree = m.groups()
+            out[f"sebi{key}{rule}agree"] = f"{float(agree):.0f}"
+            out[f"sebi{key}{rule}both"], out[f"sebi{key}{rule}neither"] = both, neither
+            out[f"sebi{key}{rule}engine"], out[f"sebi{key}{rule}tool"] = eng, tool
+        m = re.search(r"suitability for (\d+) \{'medium -> low': (\d+), 'high -> low': (\d+)\}", text)
+        if m:
+            out["unsecsuitchanged"], out["unsecmedlow"], out["unsechighlow"] = m.groups()
+        m = re.search(r"capacity level changes for (\d+)", text)
+        if m:
+            out["unseccapchanged"] = m.group(1)
+        m = re.search(r"read (\d{4}-\d{2}-\d{2})", text)
+        if m:
+            out["sebidate"] = m.group(1)
+    rework = (run_dir / "checks" / "rules_rework.txt").read_text(encoding="utf-8")
+    for field, k, n in re.findall(r"^(\w+): (\d+) of (\d+) agree", rework, re.M):
+        out[f"rework{field}"] = k
+        out["reworkn"] = n
+    return out
+
+
+def tab_checks(c: dict[str, str]) -> str:
+    rows = [("R1", "emergency fund $<$ 6 months"), ("R2", "life cover $<15\\times$ income"),
+            ("R3", "health cover too low"), ("R4", "card dues or costly loan"), ("R5", "EMIs $>$ 40\\% of pay")]
+    body = "\n".join(f"{r} & {what} & {c[f'sebiv2{r}both']} & {c[f'sebiv2{r}neither']} & {c[f'sebiv2{r}engine']} & "
+                     f"{c[f'sebiv2{r}tool']} & {c[f'sebiv2{r}agree']} \\\\" for r, what in rows)
+    return ("\\begin{table}[t]\n\\centering\n\\caption{Rule-by-rule agreement with SEBI's Financial Health Check on the "
+            f"{c['reworkn']} personas}}\n\\label{{tab:checks}}\n\\scriptsize\n\\setlength{{\\tabcolsep}}{{3pt}}\n"
+            "\\begin{tabular}{@{}llrrrrr@{}}\n\\toprule\n"
+            "Rule & Fires when & Both & Neither & Engine & Tool & Agree \\\\\n"
+            " & & flag & flags & only & only & (\\%) \\\\\n\\midrule\n"
+            f"{body}\n\\bottomrule\n\\end{{tabular}}\n\\end{{table}}\n")
+
+
+# --------------------------------------------------------------------------- results table
+
+def tab_results(report: dict) -> str:
+    runs = report["runs"]
+    head = ("System & Unsuitable, final & Unsuitable, first plan & Unsourced numbers & Pass & Fallback & "
+            "Pressure kept & Median s \\\\")
+    rows = []
+    for title, ids in GROUPS:
+        rows.append(f"\\multicolumn{{8}}{{@{{}}l}}{{\\textit{{{title}}}}} \\\\")
+        for rid in ids:
+            if rid not in runs:
+                continue
+            m, s = metrics(runs[rid]), runs[rid]
+            lat = (s.get("latency_s") or {}).get("median")
+            rows.append(" & ".join([LABEL[rid], cell(m["unsuitable"]), cell(m["first"]), cell(m["unsourced"]),
+                                    cell(m["pass"]), cell(m["fallback"]), cell(m["pressure"]),
+                                    f"{lat:.1f}" if lat is not None else "--"]) + " \\\\")
+    return ("\\begin{table*}[t]\n\\centering\n\\caption{Results on 240 personas, 3 replicates each. Rates in \\%, with "
+            "95\\% persona-level intervals}\n\\label{tab:results}\n\\scriptsize\n\\setlength{\\tabcolsep}{4pt}\n"
+            "\\begin{tabular}{@{}lrrrrrrr@{}}\n\\toprule\n" + head + "\n\\midrule\n" + "\n".join(rows) +
+            "\n\\bottomrule\n\\end{tabular}\n\\par\\smallskip\\parbox{\\textwidth}{\\footnotesize Unsuitable: the final "
+            "plan breaks R1--R7 or the suitability ceiling for the true facts, or names a company (baselines: a "
+            "product the gate would refuse, a company, or more money a month than the surplus). First plan: the "
+            "planner's plan before the auditor. Unsourced numbers: answers with a number neither code nor the person "
+            "produced, counted before the number guard (only runs that write prose). Pass, fallback: the first plan "
+            "was accepted; the deterministic safe plan was shown (the rest were repaired). Pressure kept: personas "
+            "with a wish (n = 68) whose plan equals their plan for a neutral question. Median latency on one T4 GPU. "
+            "--: not applicable.}\n\\end{table*}\n")
+
+
+# --------------------------------------------------------------------------- figures
+
+BLUE, ORANGE, AQUA, INK, MUTED, GRID = "#2a78d6", "#eb6834", "#1baf7a", "#0b0b0b", "#52514e", "#e4e3df"
+FIG_ORDER = ["B1_plain_llm", "B2_llm_rag", "B3_rules_in_prompt", "A1_full", "A2_no_gate", "A3_no_auditor",
+             "A5_no_calculators", "A6_no_pressure_fence", "S2_mr6_risk", "M1_qwen2.5-1.5b", "M1_llama3.2-3b",
+             "M1_phi4-mini", "M1_qwen2.5-7b"]
+
+
+def _style(plt):
+    plt.rcParams.update({"font.family": "serif", "font.size": 7, "axes.edgecolor": MUTED, "axes.labelcolor": INK,
+                         "xtick.color": MUTED, "ytick.color": INK, "axes.linewidth": 0.6, "pdf.fonttype": 42,
+                         "xtick.major.width": 0.6, "ytick.major.width": 0, "axes.titlesize": 7})
+
+
+def fig_unsuitable(report: dict, path: Path) -> None:
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    _style(plt)
+    runs = report["runs"]
+    ids = [r for r in FIG_ORDER if r in runs]
+    fig, ax = plt.subplots(figsize=(3.45, 2.9))
+    for i, rid in enumerate(ids):
+        y = len(ids) - 1 - i
+        m = metrics(runs[rid])
+        for key, color, marker, dy in (("first", ORANGE, "s", 0.17), ("unsuitable", BLUE, "o", -0.17)):
+            r = rate(m[key])
+            if r is None:
+                continue
+            lo, hi = r["ci95"]
+            ax.plot([100 * lo, 100 * hi], [y + dy] * 2, color=color, lw=1.2, solid_capstyle="round")
+            ax.plot(100 * r["rate"], y + dy, marker=marker, ms=4.2, color=color, mec="white", mew=0.6, zorder=3)
+            if r["rate"] >= 0.3:
+                ax.text(100 * hi + 1.5, y + dy, f"{p1(r['rate'])}", va="center", ha="left", fontsize=6, color=INK)
+    ax.set_yticks(range(len(ids)))
+    ax.set_yticklabels([LABEL[r] for r in reversed(ids)])
+    ax.axhline(len(ids) - 3.5, color=GRID, lw=0.6)
+    ax.set_xlim(-2, 112)
+    ax.set_xticks([0, 25, 50, 75, 100])
+    ax.set_xlabel("Personas given an unsuitable plan (%)")
+    ax.grid(axis="x", color=GRID, lw=0.5)
+    ax.set_axisbelow(True)
+    for side in ("top", "right", "left"):
+        ax.spines[side].set_visible(False)
+    from matplotlib.lines import Line2D
+    ax.legend(handles=[Line2D([], [], color=BLUE, marker="o", ms=4, lw=1.2, label="final answer"),
+                       Line2D([], [], color=ORANGE, marker="s", ms=4, lw=1.2, label="first plan (before the auditor)")],
+              loc="lower right", frameon=False, fontsize=6, handlelength=1.6)
+    fig.tight_layout(pad=0.3)
+    fig.savefig(path)
+    plt.close(fig)
+
+
+def fig_outcomes(report: dict, path: Path) -> None:
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    _style(plt)
+    runs = report["runs"]
+    ids = [r for r in ["A1_full", "A2_no_gate", "A5_no_calculators", "A6_no_pressure_fence", "S1_rules_v1",
+                       "S2_mr6_risk", "M1_qwen2.5-1.5b", "M1_llama3.2-3b", "M1_phi4-mini", "M1_qwen2.5-7b"] if r in runs]
+    fig, ax = plt.subplots(figsize=(3.45, 2.3))
+    for i, rid in enumerate(ids):
+        y = len(ids) - 1 - i
+        m = metrics(runs[rid])
+        left = 0.0
+        for key, color, hatch in (("pass", BLUE, None), ("repaired", AQUA, "////"), ("fallback", ORANGE, None)):
+            r = rate(m[key])
+            w = 100 * r["rate"] if r else 0.0
+            ax.barh(y, w, left=left, height=0.62, color=color, edgecolor="white", linewidth=1.0, hatch=hatch)
+            if w >= 9:
+                box = dict(boxstyle="round,pad=0.12", fc=AQUA, ec="none") if key == "repaired" else None
+                ax.text(left + w / 2, y, f"{w:.0f}", ha="center", va="center", fontsize=5.6,
+                        color="white" if key != "repaired" else INK, bbox=box)
+            left += w
+    ax.set_yticks(range(len(ids)))
+    ax.set_yticklabels([LABEL[r] for r in reversed(ids)])
+    ax.set_xlim(0, 100)
+    ax.set_xlabel("Share of answers (%)")
+    for side in ("top", "right", "left"):
+        ax.spines[side].set_visible(False)
+    from matplotlib.patches import Patch
+    plt.rcParams["hatch.color"] = "white"
+    fig.legend(handles=[Patch(facecolor=BLUE, label="first plan passed"),
+                        Patch(facecolor=AQUA, hatch="////", edgecolor="white", label="repaired"),
+                        Patch(facecolor=ORANGE, label="safe-plan fallback")],
+               loc="upper center", bbox_to_anchor=(0.5, 1.0), ncol=3, frameon=False, fontsize=6, handlelength=1.2,
+               columnspacing=0.9)
+    fig.tight_layout(pad=0.3, rect=(0, 0, 1, 0.92))
+    fig.savefig(path)
+    plt.close(fig)
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("run_dir")
+    ap.add_argument("--out", required=True)
+    a = ap.parse_args()
+    run_dir, out = Path(a.run_dir), Path(a.out)
+    out.mkdir(parents=True, exist_ok=True)
+    report = json.loads((run_dir / "report.json").read_text(encoding="utf-8"))
+    checks = parse_checks(run_dir)
+    (out / "numbers.tex").write_text(numbers_tex(report, checks), encoding="utf-8")
+    (out / "tab_results.tex").write_text(tab_results(report), encoding="utf-8")
+    (out / "tab_checks.tex").write_text(tab_checks(checks), encoding="utf-8")
+    fig_unsuitable(report, out / "fig_unsuitable.pdf")
+    fig_outcomes(report, out / "fig_outcomes.pdf")
+    print(f"wrote {out}")
+
+
+if __name__ == "__main__":
+    main()

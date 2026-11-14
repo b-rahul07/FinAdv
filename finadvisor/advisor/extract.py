@@ -14,7 +14,7 @@ from finadvisor.llm.base import LLM, Generation
 # must quote their value), or a non-numeric fact (dependants, investing experience, card dues). Questions such as
 # "Do I have enough emergency savings?" used to trigger a 5-20 s model call for nothing.
 FACT_HINT = re.compile(
-    r"\d|\b(lakhs?|lacs?|crores?|thousand|hundred)\b|\b(one|two|three|four|five)\b.*\b(kids?|children|depend\w*)\b"
+    r"\d|\b(lakhs?|lacs?|crores?|thousand|hundred|hazaa?r|hajar|lpa|dedh|dhaa?i)\b|\b(one|two|three|four|five)\b.*\b(kids?|children|depend\w*)\b"
     r"|\b(married|wife|husband|spouse|my (kids?|children|son|daughter|parents|mother|father)|depend\w* on me)\b"
     r"|\b(never invested|first[- ]time investor|new to investing|no (investing )?experience|i'?ve been investing"
     r"|i invest(ed)? (in|for)|years of investing)\b|\b(card (bill|dues)|credit[- ]card)\b", re.I)
@@ -52,8 +52,9 @@ SCALARS = ("age", "take_home_monthly", "expenses_monthly", "liquid_savings", "de
 # The 3B model otherwise invents facts, e.g. "age 25, expenses 6000" from "should I buy a phone on EMI of 6000".
 FIELD_HINT = {
     "age": re.compile(r"\b(age|aged|years? old|yo|i'?m \d+|i am \d+)\b", re.I),
-    "take_home_monthly": re.compile(r"earn|salary|income|take[- ]home|in[- ]hand|paid|make \d|ctc", re.I),
-    "expenses_monthly": re.compile(r"spend|expense|expenditure|outgo|cost of living|household|rent", re.I),
+    "take_home_monthly": re.compile(r"earn|salary|income|take[- ]home|in[- ]hand|paid|make \d|ctc|kamata|kamati|"
+                                    r"milta|milti|tankhwa?h", re.I),
+    "expenses_monthly": re.compile(r"spend|expense|expenditure|outgo|cost of living|household|rent|kharch", re.I),
     "liquid_savings": re.compile(r"sav(ed|ings?)|emergency|in the bank|bank balance|liquid|fd\b|fixed deposit", re.I),
     "dependants": re.compile(r"depend|kids?|child|children|son|daughter|parents|mother|father|wife|husband|spouse", re.I),
     "life_cover": re.compile(r"term (plan|cover|insurance)|life (cover|insurance)|lic\b", re.I),
@@ -67,11 +68,67 @@ NUMERIC = {"age", "take_home_monthly", "expenses_monthly", "liquid_savings", "de
 COUNT_WORDS = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "a": 1, "an": 1}
 
 
+# Indian money phrases (14 Nov 2026): "12 LPA" (lakh per annum), "40 hazaar", "do lakh", "dedh lakh", "saade teen
+# lakh". A value found here can ground a field the model proposes; nothing is filled from it directly. "12 LPA" is a
+# yearly salary before tax, so it is 12,00,000 and never a monthly take-home: a model that turns it into 1,00,000 a
+# month is not grounded, and the card asks for take-home instead.
+_HI_NUM = {"ek": 1, "do": 2, "teen": 3, "char": 4, "chaar": 4, "paanch": 5, "panch": 5, "chhe": 6, "chhah": 6,
+           "saat": 7, "aath": 8, "nau": 9, "das": 10, "gyarah": 11, "barah": 12, "pandrah": 15, "bees": 20,
+           "pachees": 25, "tees": 30, "chalis": 40, "chaalis": 40, "pachas": 50, "pachaas": 50, "sau": 100}
+_HI_FRACTION = {"dedh": 1.5, "derh": 1.5, "dhai": 2.5, "dhaai": 2.5, "adhai": 2.5}
+_HI_PREFIX = {"saade": 0.5, "sade": 0.5, "sawa": 0.25, "paune": -0.25}
+_SCALE = {"lakh": 1e5, "lakhs": 1e5, "lac": 1e5, "lacs": 1e5, "crore": 1e7, "crores": 1e7, "cr": 1e7,
+          "hazaar": 1e3, "hazar": 1e3, "hajar": 1e3, "thousand": 1e3}
+_SCALE_RE = "|".join(sorted(_SCALE, key=len, reverse=True))
+LPA = re.compile(r"(\d+(?:\.\d+)?)\s*(?:lpa|l\.p\.a\.?|lakhs?\s+(?:per\s+annum|p\.?a\.?|a\s+year|per\s+year|yearly))\b",
+                 re.I)
+DIGIT_SCALE = re.compile(rf"(\d+(?:\.\d+)?)\s*({_SCALE_RE})\b", re.I)
+HI_WORDS = re.compile(rf"\b(?:({'|'.join(_HI_PREFIX)})\s+)?({'|'.join([*_HI_FRACTION, *_HI_NUM])})\s+({_SCALE_RE})\b",
+                      re.I)
+
+
+def money_phrases(text: str) -> set[float]:
+    """Rupee values written the Indian way, which the number guard's reader does not cover."""
+    out: set[float] = set()
+    for m in LPA.finditer(text):
+        out.add(round(float(m.group(1)) * 1e5, 2))
+    for m in DIGIT_SCALE.finditer(text):
+        out.add(round(float(m.group(1)) * _SCALE[m.group(2).lower()], 2))
+    for m in HI_WORDS.finditer(text):
+        word = m.group(2).lower()
+        base = _HI_FRACTION.get(word, _HI_NUM.get(word))
+        if m.group(1):
+            if word in _HI_FRACTION:
+                continue   # "saade dedh" is not a number
+            base += _HI_PREFIX[m.group(1).lower()]
+        out.add(round(base * _SCALE[m.group(3).lower()], 2))
+    return out
+
+
 def _numbers(text: str) -> set[float]:
     from finadvisor.advisor.numbers import collect
     out = collect(text)
     out |= {float(v) for w, v in COUNT_WORDS.items() if re.search(rf"\b{w}\b", text, re.I)}
+    out |= money_phrases(text)
     return out
+
+
+# Experience is a fact only when the message states it. "What stocks should I invest in?" mentions investing but
+# says nothing about experience; the 3B model still proposed "intermediate" for it, and the reply became a profile
+# card instead of an answer (advice evaluation, 14 Nov 2026).
+EXPERIENCE_STATED = re.compile(
+    r"\b(i'?ve been (investing|trading)|i have been (investing|trading)|i (invest|trade)(ed)? (in|for|since|regularly)"
+    r"|years? of (investing|trading)|been investing|beginner|experienced (investor|trader)|new to (investing|stocks|"
+    r"mutual funds|the (stock )?market)|never (invested|traded|bought)|first[- ]time investor|no (investing )?experience"
+    r"|i'?m (an? )?(expert|pro|advanced|intermediate|novice)|i am (an? )?(expert|pro|advanced|intermediate|novice)"
+    r"|haven'?t (ever )?invested)\b", re.I)
+ASKING_TO_INVEST = re.compile(r"\b(should|can|could|do|shall|where|what|which|how)\b[^.?!]{0,30}\bi (invest|trade)\b",
+                              re.I)
+
+
+def experience_stated(text: str) -> bool:
+    return bool(EXPERIENCE_STATED.search(text)) and not (ASKING_TO_INVEST.search(text)
+                                                          and not NO_EXPERIENCE.search(text))
 
 
 NO_EXPERIENCE = re.compile(r"never (invested|traded|bought)|first[- ]time investor|new to investing|no (investing )?experience"
@@ -82,6 +139,8 @@ NOT_A_GOAL = re.compile(r"insurance|cover|term plan|mediclaim|policy|loan|emi|in
 def grounded(field: str, value, text: str, nums: set[float]) -> bool:
     if not FIELD_HINT[field].search(text):
         return False
+    if field == "experience":
+        return experience_stated(text)
     if field == "dependants":   # "my wife and two kids" -> 3 is a count the message implies, not states
         return isinstance(value, (int, float)) and 0 <= value <= 10
     if field in NUMERIC:

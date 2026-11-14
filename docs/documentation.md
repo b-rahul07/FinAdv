@@ -98,6 +98,27 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
+### 2026-11-14 — Website items that waited for the runs; paper assets
+The paper's runs finished, so the website items that change what the pipeline produces were built. Each sits behind
+a flag or in a new version file, so every reported run is unchanged.
+- **Card dues with interest (plan-v2, `configs/pipeline/pipeline-v6-website.yaml`).** Card dues are now cleared like
+  a costly loan: at the card's rate (42% a year when none is given) and with the card's minimum due freed once they
+  are cleared. plan-v1 ignored interest, which understated the months. The website now runs pipeline-v6-website.
+  `default.yaml` and the paper's configs have no `plan` section, so they keep plan-v1.
+  Test: `tests/test_capacity_gate.py::test_plan_v2_…`.
+- **Indian money phrases in extraction.** "12 LPA", "40 hazaar", "do lakh", "dedh lakh" and "saade teen lakh" now
+  ground the value a person states. "12 LPA" is a yearly salary before tax, so it never grounds a monthly take-home.
+  Hindi words for salary and spending ("milta", "kharcha") count as hints.
+- **Experience must be stated.** "What stocks should I invest in?" mentions investing but states nothing about
+  experience. The 3B model proposed "intermediate" for it, and the reply became a profile card instead of an
+  answer. This showed up in the advice evaluation (3 of 30 turns). Experience is now accepted only when the message
+  states it.
+- **Daily price job** skips with a notice, instead of failing, while the `DATABASE_URL` secret is missing.
+- **Paper assets.** `experiments/paper_assets.py` writes the paper's number macros, its two tables and its two
+  figures from `report.json` and the checks' outputs, so no number in the paper is typed by hand.
+- Not built: **Hinglish replies**. The plan made them conditional on usability sessions showing people write in
+  Hinglish, and no sessions have been run. The router already understands Hinglish questions.
+
 ### 2026-11-14 — All 18 paper runs finished
 Kaggle session 2 finished A2, B2, A3, A5, S1 ×2 and M1 qwen2.5-1.5b, each 720 rows on one commit with no duplicates.
 All 519 of Colab's A2 rows are unchanged, and the Kaggle rows continue them on the same commit (`09f6122`). The final

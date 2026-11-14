@@ -1,6 +1,8 @@
 """Extraction grounding: facts the model invents are dropped; facts the message states are kept.
 The fake model replays outputs qwen2.5:3b produced in the 2026-11-01 evaluation."""
 
+import pytest
+
 from finadvisor.advisor.extract import extract
 from finadvisor.advisor.profile import Profile
 from finadvisor.llm.fake import FakeLLM
@@ -69,3 +71,36 @@ def test_new_goal_ids_never_collide_with_existing_ones():
     assert changed == ["goals"]
     ids = [g["id"] for g in p["goals"]]
     assert len(ids) == len(set(ids)) == 3 and ids[-1] == "g2"
+
+
+def test_indian_money_phrases_ground_the_stated_value():
+    from finadvisor.advisor.extract import money_phrases
+    assert 1_200_000 in money_phrases("my package is 12 LPA")
+    assert 1_250_000 in money_phrases("12.5 lakh per annum")
+    assert 40_000 in money_phrases("ghar ka kharcha 40 hazaar hai")
+    assert {200_000, 150_000, 350_000, 225_000} <= money_phrases("do lakh, dedh lakh, saade teen lakh, sawa do lakh")
+    assert money_phrases("what do you think") == set()
+    p, changed = run("mera salary 60 hazaar milta hai, kharcha 35 hazaar, do lakh saved hai",
+                     {"take_home_monthly": 60000, "expenses_monthly": 35000, "liquid_savings": 200000},
+                     base=Profile(take_home_monthly=1, expenses_monthly=1))
+    assert set(changed) == {"take_home_monthly", "expenses_monthly", "liquid_savings"}
+
+
+def test_lpa_is_a_yearly_salary_not_a_monthly_take_home():
+    # "12 LPA" is 12,00,000 a year before tax; a model that writes 1,00,000 a month as take-home is not grounded
+    _, changed = run("I'm at 12 LPA, how should I invest?", {"take_home_monthly": 100000})
+    assert "take_home_monthly" not in changed
+
+
+@pytest.mark.parametrize("text,kept", [
+    ("what stocks should I invest in", False),                 # a question, not a statement of experience
+    ("which mutual funds should I invest in", False),
+    ("where can I invest 10k", False),
+    ("I've been investing in mutual funds for 3 years", True),
+    ("I'm an experienced investor, I invest in index funds", True),
+    ("I have never invested before, what should I invest in?", True),
+])
+def test_experience_needs_a_statement_of_experience(text, kept):
+    base = Profile(take_home_monthly=80000, expenses_monthly=30000, experience="beginner")
+    _, changed = run(text, {"experience": "intermediate" if "never" not in text else "advanced"}, base=base)
+    assert ("experience" in changed) is kept, text

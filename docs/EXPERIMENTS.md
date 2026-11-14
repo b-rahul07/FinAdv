@@ -275,6 +275,6 @@ commands.
   checked against published Indian household data (RBI, NSO) before submission.
 - Known simplifications of the plan arithmetic, to state: insurance premiums are not deducted from later monthly
   amounts (the plan says so); card dues are cleared at the surplus with no interest in the month count and a card's
-  minimum-due EMI is not freed afterwards (personas carry no card EMI, so no reported run is affected; a later plan
-  version should fix both); products with a lock-in or a minimum horizon (PPF, ELSS, NPS, mid/small-cap) are never
+  minimum-due EMI is not freed afterwards (personas carry no card EMI, so no reported run is affected; plan-v2 in the
+  website's pipeline-v6-website fixes both since 14 Nov 2026, and the reported runs stay on plan-v1); products with a lock-in or a minimum horizon (PPF, ELSS, NPS, mid/small-cap) are never
   offered for money with no dated goal.
