@@ -113,6 +113,14 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
     money goes to a 13-year goal, and MR3 sees the whole-plan risky share rise. The paper states this.
   - Under pipeline-v4 the plans are unchanged, identical plan for plan. Test:
     `tests/test_capacity_gate.py::test_plan_v3_…`.
+- **Contract tests (`tests/test_market_contracts.py`)** check the NSE and BSE bhavcopy, AMFI NAV, NSE index and
+  52-week parsers against excerpts of real downloaded files (`tests/fixtures/market/`), with one known row pinned per
+  source. Upper bounds at the next major version were added in `pyproject.toml` (casparser 1.x is what broke the
+  CAS import while mocked tests passed).
+- **Paper.** The draft now follows the review. It adds the no-model row and section V-D ("What does the model add?"),
+  and splits the baseline rate into product and overspend, with the B3 finding, a quoted example and the robust
+  subset. It states that the 0% is by construction, adds the relations' limit, a related work rewritten from the
+  abstracts, and the records are now public (`paper_records/`). Still 6 pages.
 - **Follow-up runs on Kaggle** (session 3, started 14 Nov 2026 19:30 UTC): B1L, B3L, B3L7, A1N and A1N7
   (`docs/PAPER_PLAN.md` §9). They are not among the 18 reported runs.
 
