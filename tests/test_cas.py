@@ -119,3 +119,38 @@ def test_bad_password_message(client, monkeypatch):
 
 def test_last4():
     assert cas.last4("1234567/89") == "6789" and cas.last4(None) is None
+
+
+def test_real_parser_on_the_synthetic_statement(client, monkeypatch, tmp_path):
+    """End to end with casparser itself (no mock): the PDF made by scripts/make_test_cas.py previews and imports.
+    casparser 1.x returns a model, not a dict (14 Nov 2026); this is the test that would have caught it."""
+    pytest.importorskip("casparser")
+    pytest.importorskip("reportlab")
+    import importlib.util
+    from decimal import Decimal
+    from pathlib import Path
+    spec = importlib.util.spec_from_file_location("make_test_cas", Path(__file__).parents[1] / "scripts" / "make_test_cas.py")
+    gen = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(gen)
+    days = [date(2025, 1, 1) + timedelta(days=i) for i in range(700)]
+    pdf = tmp_path / "cas.pdf"
+    made = gen.make(pdf, series_for=lambda amfi: [(d, Decimal("100") + i / Decimal(10)) for i, d in enumerate(days)])
+    with rt_mod.get_runtime().Session() as s:
+        s.add_all([Instrument(kind="mf", key=f[4], isin=f[5], name=f[3], plan="Direct", option="Growth", tracked=True)
+                   for f in gen.FUNDS])
+        s.commit()
+    monkeypatch.setattr("finadvisor.api.routes.cas._start_tracking", lambda iid: None)
+    h = login(client)
+    r = client.post("/api/cas/preview", files={"file": ("cas.pdf", pdf.read_bytes(), "application/pdf")},
+                    data={"password": gen.PASSWORD}, headers=h)
+    assert r.status_code == 200, r.text
+    p = r.json()
+    assert p["file_type"] == "CAMS" and p["cas_type"] == "DETAILED" and p["warnings"] == []
+    assert gen.PASSWORD not in json.dumps(p) and "test.investor@example.com" not in json.dumps(p)
+    assert [it["units"] for it in p["items"]] == pytest.approx([m["units"] for m in made["schemes"]])
+    assert all(it["instrument"] and not it["needs_cost"] for it in p["items"])
+    res = client.post(f"/api/cas/{p['id']}/import", json={"choices": [{"key": it["key"]} for it in p["items"]]},
+                      headers=h).json()
+    assert res["transactions_added"] == sum(m["transactions"] for m in made["schemes"]) and res["unmatched"] == []
+    qty = sorted(round(x["qty"], 3) for x in client.get("/api/holdings", headers=h).json()["items"])
+    assert qty == sorted(round(m["units"], 3) for m in made["schemes"])

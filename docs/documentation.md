@@ -98,6 +98,17 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
+### 2026-11-14 — CAS import fixed for casparser 1.x; a synthetic test statement
+- **Bug:** casparser 1.x returns a pydantic model for `output="dict"` (0.x returned a dict), so `cas.normalise` failed
+  on `.get()` and every real statement upload errored. The tests had mocked the parser with a dict, so they missed it.
+  `cas.read` now turns the model into plain JSON types.
+- **Test statement:** `scripts/make_test_cas.py` writes a SYNTHETIC CAMS-style detailed CAS: a made-up investor, the
+  word "synthetic" on every page, and password `ABCDE1234F`. It holds four real funds (Parag Parikh Flexi Cap, UTI
+  Nifty 50 Index, HDFC Liquid and Mirae ELSS, all Direct Growth) with SIPs, lump sums, redemptions and stamp duty at
+  real NAVs from the local price cache. Its default output is `data/test-cas-synthetic.pdf` (local only).
+- `tests/test_cas.py::test_real_parser_on_the_synthetic_statement` runs the real parser end to end through preview,
+  import and holdings. It fails on the old code and passes now.
+
 ### 2026-11-14 — Kaggle session 1 results; two fixes found by them
 Kaggle session 1 (commit `e5caa15`) finished B1, B3, A1T, ADV, A6, A4 and M1 for qwen2.5-7b, phi4-mini and
 llama3.2-3b (each 720 rows, ADV 300, one commit each, clean tree). Session 2 runs A2 (finished from Colab's 519 rows on

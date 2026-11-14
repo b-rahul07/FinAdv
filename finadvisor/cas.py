@@ -48,7 +48,10 @@ def read(pdf: bytes, password: str) -> dict:
     """Parse with casparser. Raises CasError with a user-safe message."""
     import casparser  # heavy import, only when needed
     try:
-        return casparser.read_cas_pdf(io.BytesIO(pdf), password, output="dict")
+        data = casparser.read_cas_pdf(io.BytesIO(pdf), password, output="dict")
+        # casparser 1.x returns a pydantic model for output="dict" (0.x returned a dict): turn it into plain JSON
+        # types, with "from" for the statement period as before (14 Nov 2026: a real upload failed on .get()).
+        return data if isinstance(data, dict) else data.model_dump(mode="json", by_alias=True)
     except Exception as e:  # noqa: BLE001 - casparser raises several types; never echo the password
         msg = str(e).lower()
         if "password" in msg or "decrypt" in msg:
