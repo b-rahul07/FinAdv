@@ -110,6 +110,31 @@ def bucket_specs(profile: Profile, decisions: list[GateDecision], rules: dict) -
     return specs
 
 
+def _plan_cfg(bundle) -> dict:
+    return (getattr(bundle, "pipeline", None) or {}).get("plan") or {}
+
+
+def _card_rate(bundle) -> float | None:
+    cfg = _plan_cfg(bundle)
+    return cfg.get("card_rate_pa_default") if cfg.get("card_dues") == "with_interest" else None
+
+
+def menu_profile(profile: Profile, cap: CapacityResult | None, bundle) -> Profile:
+    """plan-v3 (pipeline `plan.goal_horizon: from_invest_start`): the profile whose goals carry the time left when
+    investing starts, which is what decides a goal's products (R7, lock-ins, minimum horizons). Money for a goal 3
+    years away that is first invested in month 14 has under 2 years to run; plan-v1/v2 judged it by the 3 years and
+    allowed equity (found by the auditor: MR1/MR3 broke for the standard mix on 3 of 240 personas, 15 Nov 2026).
+    Without the flag the profile is returned unchanged, as every reported run used it."""
+    if _plan_cfg(bundle).get("goal_horizon") != "from_invest_start" or not profile.goals or cap is None:
+        return profile
+    _, start, _, _ = priority_steps(profile, cap, bundle.rules, card_rate_pa=_card_rate(bundle))
+    if start <= 1:
+        return profile
+    left = (start - 1) / 12
+    return profile.model_copy(update={"goals": [g.model_copy(update={"horizon_years": max(g.horizon_years - left, 1 / 12)})
+                                                 for g in profile.goals]})
+
+
 def cash_available(plan: "Plan", month: int) -> float:
     """Money a plan can direct in `month`: the monthly surplus plus the EMIs of loans already cleared (a loan
     repaid in months s .. s+n-1 frees its EMI from month s+n). Loans that are not cleared keep their EMI."""
@@ -287,10 +312,11 @@ def normalise_mix(raw: list[tuple[str, float]], spec: BucketSpec) -> tuple[list[
 def build_plan(profile: Profile, cap: CapacityResult, decisions: list[GateDecision], mixes: dict[str, list[tuple[str, float]]],
                bundle, source: str = "planner") -> Plan:
     rules, shelf, assumptions = bundle.rules, bundle.shelf, bundle.assumptions
-    plan_cfg = (getattr(bundle, "pipeline", None) or {}).get("plan") or {}
-    card_rate = plan_cfg.get("card_rate_pa_default") if plan_cfg.get("card_dues") == "with_interest" else None
-    steps, start, surplus_after, notes = priority_steps(profile, cap, rules, card_rate_pa=card_rate)
+    steps, start, surplus_after, notes = priority_steps(profile, cap, rules, card_rate_pa=_card_rate(bundle))
     specs = bucket_specs(profile, decisions, rules)
+    menu = menu_profile(profile, cap, bundle)
+    if menu is not profile:   # plan-v3: each goal's products by the time left; amounts still use the goal's own date
+        specs = [BucketSpec(s.id, s.name, s.goal, m.allowed) for s, m in zip(specs, bucket_specs(menu, decisions, rules))]
     products = {p["id"]: p for p in shelf["products"]}
     returns = assumptions["returns_pa"]
     infl = assumptions["inflation_pa"]["value"]
@@ -373,8 +399,10 @@ def build_plan(profile: Profile, cap: CapacityResult, decisions: list[GateDecisi
 def safe_mixes(profile: Profile, suit: str, decisions: list[GateDecision], bundle) -> dict[str, list[tuple[str, float]]]:
     """Deterministic mixes from config (fallback plan and what-if). Monotone in suitability by construction."""
     rules, shelf = bundle.rules, bundle.shelf
+    from finadvisor.advisor.capacity import assess
+    menu = menu_profile(profile, assess(profile, rules), bundle)
     out = {}
-    for spec in bucket_specs(profile, decisions, rules):
+    for spec in bucket_specs(menu, decisions, rules):
         short = spec.goal is not None and spec.goal.horizon_years < rules["rules"]["R7"]["min_goal_years"]
         template = shelf["safe_mix"]["short_goal" if short else suit]
         allowed_ids = {p["id"] for p in spec.allowed}

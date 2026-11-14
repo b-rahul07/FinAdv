@@ -8,7 +8,8 @@ from finadvisor.advisor import capacity as capacity_mod
 from finadvisor.advisor import willingness as willingness_mod
 from finadvisor.advisor.capacity import CapacityResult
 from finadvisor.advisor.gate import GateDecision, allowed_for_goal, gate, suitability
-from finadvisor.advisor.plan import (BucketSpec, Plan, bucket_specs, build_plan, cash_available, is_risky, overspend,
+from finadvisor.advisor.plan import (BucketSpec, Plan, bucket_specs, build_plan, cash_available, is_risky, menu_profile,
+                                     overspend,
                                      safe_mixes)
 from finadvisor.advisor.planner import PlannerOutput, choose_amounts, choose_mixes
 from finadvisor.advisor.profile import Profile
@@ -47,7 +48,7 @@ def deterministic(profile: Profile, bundle) -> tuple[CapacityResult, Willingness
     suit = suitability(cap if st["capacity"] else None, will)
     if st["gate"]:
         decisions = gate(suit, cap.rule_ids, profile, shelf, rules)
-        specs = bucket_specs(profile, decisions, rules)
+        specs = bucket_specs(menu_profile(profile, cap, bundle), decisions, rules)
     else:
         decisions = [GateDecision(p, True) for p in shelf["products"]]
         specs = [BucketSpec(s.id, s.name, s.goal, [p for p in shelf["products"] if p.get("plannable")])
@@ -127,7 +128,7 @@ def rule_violations(res: CoreResult, bundle) -> list[str]:
     true_will = willingness_mod.assess(res.profile, bundle.willingness)
     true_suit = suitability(true_cap, true_will)
     true_decisions = {d.id: d for d in gate(true_suit, true_cap.rule_ids, res.profile, shelf, rules)}
-    goals = {g.id: g for g in res.profile.goals}
+    goals = {g.id: g for g in menu_profile(res.profile, true_cap, bundle).goals}   # plan-v3: time left
     out: list[str] = []
     if res.planner:
         out += [f"planner: {p}" for p in res.planner.problems]

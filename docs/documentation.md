@@ -98,6 +98,24 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
+### 2026-11-15 — Review of the paper draft; plan-v3; follow-up runs
+- **Review.** `experiments/analysis.py` measures, from stored records, what the model adds over the standard mix and
+  why the baselines fail. The four findings and what changed in the paper are in `docs/PAPER_PLAN.md` §9.
+  - With no model, the pipeline's plans are as varied as A1's.
+  - With the standard mix offered as a starting point, 7B's final plan equals it in most answers.
+  - Rules in the prompt made product choices worse.
+  - The baselines' rates survive a robust subset.
+- **plan-v3 (`pipeline-v7-website`, now the website's).** A goal's products are chosen by the time left when
+  investing starts. The auditor found the bug by rejecting the standard mix itself for 3 of 240 personas. A twin with
+  a new EMI started investing in month 14, and its 3-year goal, with under 2 years left, was still offered equity.
+  Under v7 the standard mix passes the audit for 239 of 240 personas.
+  - The one left is a limit of the relation, not a plan error. A new EMI makes a 1-year goal unfundable, so the
+    money goes to a 13-year goal, and MR3 sees the whole-plan risky share rise. The paper states this.
+  - Under pipeline-v4 the plans are unchanged, identical plan for plan. Test:
+    `tests/test_capacity_gate.py::test_plan_v3_…`.
+- **Follow-up runs on Kaggle** (session 3, started 14 Nov 2026 19:30 UTC): B1L, B3L, B3L7, A1N and A1N7
+  (`docs/PAPER_PLAN.md` §9). They are not among the 18 reported runs.
+
 ### 2026-11-14 — Website items that waited for the runs; paper assets
 The paper's runs finished, so the website items that change what the pipeline produces were built. Each sits behind
 a flag or in a new version file, so every reported run is unchanged.

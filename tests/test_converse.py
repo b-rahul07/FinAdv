@@ -15,7 +15,7 @@ from finadvisor.llm.fake import FakeLLM
 from test_api import PROFILE, client, events, login  # noqa: F401  (fixture)
 from test_pipeline import consistent_planner
 
-WEB = load_bundle("pipeline/pipeline-v6-website.yaml")
+WEB = load_bundle("pipeline/pipeline-v7-website.yaml")
 SECTIONS = "80C 80D 80CCD(1B)"          # section names are not amounts; every other number must come from code
 TODAY = date(2026, 11, 12)
 

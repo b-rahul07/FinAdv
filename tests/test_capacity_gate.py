@@ -208,3 +208,27 @@ def test_plan_v2_clears_card_dues_with_interest_and_frees_the_minimum_due(bundle
     from finadvisor.calc.loans import months_to_repay
     assert c2.months == months_to_repay(60000, 42, p.monthly_surplus + 3000)
     assert "42% a year" in c2.text
+
+
+def test_plan_v3_chooses_a_goals_products_by_the_time_left():
+    """pipeline-v7-website (plan-v3): a 3-year goal first funded after a year of priority steps keeps to low-risk
+    products (R7); without the flag (every reported run) the goal's own date decides, as before."""
+    import json
+    from pathlib import Path
+    from finadvisor.advisor.core import plan_once
+    from finadvisor.configs import load_bundle
+    from finadvisor.llm.fake import FakeLLM
+    row = next(json.loads(l) for l in Path("experiments/data/personas_v1.jsonl").read_text(encoding="utf-8").splitlines()
+               if json.loads(l)["id"] == "S7-160")
+    p = Profile(**row["profile"])
+    twin = p.model_copy(update={"debts": [*p.debts, __import__("finadvisor.advisor.profile", fromlist=["Debt"]).Debt(
+        kind="other", outstanding=3500 * 36, emi_monthly=3500)]})
+    llm = FakeLLM(lambda *a, **k: {})
+    for name, risky_allowed in (("pipeline/default.yaml", True), ("pipeline/pipeline-v7-website.yaml", False)):
+        b = load_bundle(name)
+        b = b.with_pipeline({**b.pipeline, "planner": {**b.pipeline["planner"], "mode": "standard"}})
+        res = plan_once(twin, b, llm)
+        wedding = next(x for x in res.plan.buckets if x.name == "Wedding")
+        assert res.plan.invest_start_month > 12
+        assert (wedding.monthly > 0 and res.plan.rho_by_goal[wedding.id] > 0) is risky_allowed, name
+        assert res.violations == []
