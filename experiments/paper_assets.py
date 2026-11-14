@@ -133,6 +133,11 @@ def numbers_tex(report: dict, checks: dict) -> str:
         defs.append(("v@STD@similarityci", f"{lo:.2f}--{hi:.2f}"))
         defs.append(("v@STD@unsuitable", p1(std["unsuitable"]["rate"])))
         defs.append(("v@STD@latencyms", f"{1000 * std['median_latency_s']:.0f}"))
+    summ = an.get("standard_mix_summary") or {}
+    fb = ((summ.get("outcome") or {}).get("fallback")) or {}
+    if fb:
+        defs.append(("v@STD@fallbackk", str(fb["k"])))
+        defs.append(("v@STD@n", str(fb["n"])))
     for rid, x in (an.get("vs_standard") or {}).items():
         for k in ("identical", "lower_risk", "higher_risk", "identical_when_not_fallback"):
             if rate(x.get(k)):

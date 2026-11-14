@@ -19,7 +19,7 @@
 To re-derive every table and figure in the paper:
 ```bash
 cd paper_records/final-2026-11-14 && xz -dk *.xz && cd ../..
-python -m experiments.report paper_records/final-2026-11-14/[A-Z]*_*.jsonl --reference A1_full --out /tmp/report.md
+python -m experiments.report $(ls paper_records/final-2026-11-14/*.jsonl | grep -v STD_) --reference A1_full --out /tmp/report.md
 python -m experiments.paper_assets paper_records/final-2026-11-14 --out /tmp/paper_assets
 ```
 Some records were written before the repository's history was edited on 12 Nov 2026. Those carry earlier commit
