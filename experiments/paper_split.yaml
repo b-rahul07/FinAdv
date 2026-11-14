@@ -7,10 +7,14 @@
 # 14 Nov 2026: Kaggle session 1 (commit e5caa15) finished the nine runs under "done". B2 stopped at 142 rows on a
 # checker bug (experiments/oracle.py, a lone comma read as an amount); it restarts from zero on the fixed code.
 # No teammate took member1's runs, so they are in rahul's second session.
+# 14 Nov 2026, evening: Kaggle session 2 (commit 0d5395e; A2 on 09f6122) finished the last seven runs. All 18 done.
 kaggle:
-  rahul: [A2_no_gate, B2_llm_rag, A3_no_auditor, A5_no_calculators, S1_rules_v1, S1_emergency_3m, M1_qwen2.5-1.5b]
+  rahul: []
 colab:
-  rahul: [A1_full, S2_mr6_risk]
+  rahul: []
 done:
+  colab: [A1_full, S2_mr6_risk]
+  kaggle_session_2: [A2_no_gate, B2_llm_rag, A3_no_auditor, A5_no_calculators, S1_rules_v1, S1_emergency_3m,
+                     M1_qwen2.5-1.5b]
   kaggle_session_1: [B1_plain_llm, B3_rules_in_prompt, A1T_full_turn, ADV_adversarial, A6_no_pressure_fence,
                      A4_no_number_guard, M1_qwen2.5-7b, M1_phi4-mini, M1_llama3.2-3b]

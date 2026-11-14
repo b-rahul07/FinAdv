@@ -61,10 +61,16 @@ def main() -> None:
     a5 = {rid: s["a5_arithmetic"] for rid, s in summaries.items() if "a5_arithmetic" in s}
     if a5:
         lines += ["", "## A5: the model's own arithmetic", "",
-                  "| Run | Mean gap vs calculators | Overspend | Agrees with rule check |", "|---|---|---|---|"]
+                  "Gap: how far the model's own amounts are from the calculators', per plan (mean over its amounts). The "
+                  "median and quartiles are the figures to quote; the mean is shown because one wild amount can carry it.",
+                  "",
+                  "| Run | Median gap [quartiles] (plans) | Mean gap | Overspend | Agrees with rule check |",
+                  "|---|---|---|---|---|"]
         for rid, x in a5.items():
             gap = f"{x['mean_abs_gap']:.1%}" if x["mean_abs_gap"] is not None else "—"
-            lines.append(f"| {rid} | {gap} | {pct(x['overspend'])} | {pct(x['agrees_with_rule_check'])} |")
+            med = (f"{x['median_abs_gap']:.1%} [{x['gap_quartiles'][0]:.1%}, {x['gap_quartiles'][1]:.1%}] "
+                   f"(n={x['rows_with_gap']})") if x.get("median_abs_gap") is not None and x.get("gap_quartiles") else "—"
+            lines.append(f"| {rid} | {med} | {gap} | {pct(x['overspend'])} | {pct(x['agrees_with_rule_check'])} |")
     causes = {rid: s for rid, s in summaries.items() if s.get("first_attempt_causes")}
     if causes:
         lines += ["", "## Why first plans were not accepted", "",

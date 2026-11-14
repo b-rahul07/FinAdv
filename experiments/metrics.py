@@ -615,7 +615,12 @@ def summarise(records: list[dict]) -> dict:
                 "overspend_agree": cluster_rate([(p, t["overspend"] == s["overspend"]) for p, t, s in both])}
     if a5:
         gaps = [x["mean_abs_gap"] for _, x in a5 if x["mean_abs_gap"] is not None]
+        # the mean is reported for continuity, but one wild amount can carry it (final runs, 14 Nov 2026: one row at
+        # about 5,700x); the median and quartiles are the figures to quote
+        q = statistics.quantiles(gaps, n=4) if len(gaps) >= 2 else None
         out["a5_arithmetic"] = {"mean_abs_gap": statistics.mean(gaps) if gaps else None,
+                                "median_abs_gap": statistics.median(gaps) if gaps else None,
+                                "gap_quartiles": [q[0], q[2]] if q else None, "rows_with_gap": len(gaps),
                                 "overspend": cluster_rate([(p, x["overspend"]) for p, x in a5]),
                                 "agrees_with_rule_check": cluster_rate([(p, x["agrees"]) for p, x in a5])}
     return out

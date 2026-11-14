@@ -98,6 +98,20 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
+### 2026-11-14 — All 18 paper runs finished
+Kaggle session 2 finished A2, B2, A3, A5, S1 ×2 and M1 qwen2.5-1.5b, each 720 rows on one commit with no duplicates.
+All 519 of Colab's A2 rows are unchanged, and the Kaggle rows continue them on the same commit (`09f6122`). The final
+report covers all 18 runs: `results/paper/final-2026-11-14/report.md` (local, `--reference A1_full`).
+- Unsuitable final answers: 0% for every run with the gate and the auditor, 1.4% without the auditor (A3), against
+  89.3% (B1 plain model), 84.6% (B2 with document search) and 84.6% (B3 with rules in the prompt). McNemar, Holm-adjusted
+  p < 1e-58 for all three baselines.
+- Without the gate (A2), 68.8% of first plans break a rule and 87.2% of answers end in the fallback. Without the
+  calculators (A5), the figures are 77.6% and 91.0%. Document search did not help B2: 98.6% of its answers carry
+  unsourced numbers.
+- The A5 table had shown only the mean gap between the model's amounts and the calculators', 1564.6%, driven by a
+  single row at about 5,700×. The report now also shows the median and quartiles (67.9% [43.2%, 112.1%], n=513
+  plans), which are the figures to quote.
+
 ### 2026-11-14 — CAS import fixed for casparser 1.x; a synthetic test statement
 - **Bug:** casparser 1.x returns a pydantic model for `output="dict"` (0.x returned a dict), so `cas.normalise` failed
   on `.get()` and every real statement upload errored. The tests had mocked the parser with a dict, so they missed it.
