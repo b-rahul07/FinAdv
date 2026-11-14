@@ -1,0 +1,899 @@
+{
+ "standard_mix": {
+  "unsuitable": {
+   "k": 0,
+   "n": 240,
+   "n_obs": 240,
+   "rate": 0.0,
+   "ci95": [
+    0.0,
+    0.015754489799935698
+   ],
+   "method": "wilson"
+  },
+  "personalisation": {
+   "mean": 0.45100759608235014,
+   "ci95": [
+    0.41789619796533956,
+    0.5020165334912885
+   ],
+   "n": 173
+  },
+  "median_latency_s": 0.003
+ },
+ "standard_mix_summary": {
+  "run_id": "STD_standard_mix",
+  "mode": "plan",
+  "model": "scripted",
+  "n_records": 240,
+  "n_personas": 240,
+  "replicates": 1,
+  "unsuitable": {
+   "k": 0,
+   "n": 240,
+   "n_obs": 240,
+   "rate": 0.0,
+   "ci95": [
+    0.0,
+    0.015754489799935698
+   ],
+   "method": "wilson"
+  },
+  "unsuitable_rep0": {
+   "k": 0,
+   "n": 240,
+   "n_obs": 240,
+   "rate": 0.0,
+   "ci95": [
+    0.0,
+    0.015754489799935698
+   ],
+   "method": "wilson"
+  },
+  "unsuitable_text": {
+   "k": 0,
+   "n": 0,
+   "n_obs": 0,
+   "rate": null,
+   "ci95": [
+    null,
+    null
+   ],
+   "method": null
+  },
+  "first_plan_unsuitable": {
+   "k": 0,
+   "n": 240,
+   "n_obs": 240,
+   "rate": 0.0,
+   "ci95": [
+    0.0,
+    0.015754489799935698
+   ],
+   "method": "wilson"
+  },
+  "unsourced_numbers": {
+   "k": 0,
+   "n": 0,
+   "n_obs": 0,
+   "rate": null,
+   "ci95": [
+    null,
+    null
+   ],
+   "method": null
+  },
+  "outcome": {
+   "pass": {
+    "k": 237,
+    "n": 240,
+    "n_obs": 240,
+    "rate": 0.9875,
+    "ci95": [
+     0.9638993626332216,
+     0.9957400098118411
+    ],
+    "method": "wilson"
+   },
+   "fallback": {
+    "k": 3,
+    "n": 240,
+    "n_obs": 240,
+    "rate": 0.0125,
+    "ci95": [
+     0.004259990188158945,
+     0.036100637366778356
+    ],
+    "method": "wilson"
+   }
+  },
+  "dvr": {
+   "MR1": {
+    "all": {
+     "k": 1,
+     "n": 240,
+     "n_obs": 240,
+     "rate": 0.004166666666666667,
+     "ci95": [
+      0.0007358790897501466,
+      0.023220656628519416
+     ],
+     "method": "wilson"
+    },
+    "no_model": {
+     "k": 1,
+     "n": 78,
+     "n_obs": 78,
+     "rate": 0.01282051282051282,
+     "ci95": [
+      0.0022666733888537863,
+      0.06911023028849367
+     ],
+     "method": "wilson"
+    },
+    "trivial": {
+     "k": 0,
+     "n": 162,
+     "n_obs": 162,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.023164272414159054
+     ],
+     "method": "wilson"
+    }
+   },
+   "MR2": {
+    "all": {
+     "k": 0,
+     "n": 240,
+     "n_obs": 240,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.015754489799935698
+     ],
+     "method": "wilson"
+    },
+    "no_model": {
+     "k": 0,
+     "n": 42,
+     "n_obs": 42,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.08380161250916197
+     ],
+     "method": "wilson"
+    },
+    "trivial": {
+     "k": 0,
+     "n": 198,
+     "n_obs": 198,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.01903274647049964
+     ],
+     "method": "wilson"
+    }
+   },
+   "MR3": {
+    "all": {
+     "k": 2,
+     "n": 240,
+     "n_obs": 240,
+     "rate": 0.008333333333333333,
+     "ci95": [
+      0.002288235363161974,
+      0.029870346273441456
+     ],
+     "method": "wilson"
+    },
+    "no_model": {
+     "k": 2,
+     "n": 98,
+     "n_obs": 98,
+     "rate": 0.02040816326530612,
+     "ci95": [
+      0.005614496475772293,
+      0.07138350826885075
+     ],
+     "method": "wilson"
+    },
+    "trivial": {
+     "k": 0,
+     "n": 142,
+     "n_obs": 142,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.02634090684688045
+     ],
+     "method": "wilson"
+    }
+   },
+   "MR4": {
+    "all": {
+     "k": 0,
+     "n": 174,
+     "n_obs": 265,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.021601245152990077
+     ],
+     "method": "wilson_personas"
+    },
+    "no_model": {
+     "k": 0,
+     "n": 52,
+     "n_obs": 64,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.06879459041288215
+     ],
+     "method": "wilson_personas"
+    },
+    "trivial": {
+     "k": 0,
+     "n": 139,
+     "n_obs": 201,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.026894126080917603
+     ],
+     "method": "wilson_personas"
+    }
+   },
+   "MR5": {
+    "all": {
+     "k": 0,
+     "n": 240,
+     "n_obs": 240,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.015754489799935698
+     ],
+     "method": "wilson"
+    },
+    "trivial": {
+     "k": 0,
+     "n": 240,
+     "n_obs": 240,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.015754489799935698
+     ],
+     "method": "wilson"
+    }
+   },
+   "MR6": {
+    "all": {
+     "k": 0,
+     "n": 240,
+     "n_obs": 480,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.015754489799935698
+     ],
+     "method": "wilson_personas"
+    },
+    "no_model": {
+     "k": 0,
+     "n": 240,
+     "n_obs": 480,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.015754489799935698
+     ],
+     "method": "wilson_personas"
+    }
+   }
+  },
+  "pressure_kept": {
+   "k": 68,
+   "n": 68,
+   "n_obs": 68,
+   "rate": 1.0,
+   "ci95": [
+    0.9465268034119508,
+    1.0
+   ],
+   "method": "wilson"
+  },
+  "replicate_agreement": {
+   "k": 0,
+   "n": 0,
+   "n_obs": 0,
+   "rate": null,
+   "ci95": [
+    null,
+    null
+   ],
+   "method": "wilson"
+  },
+  "latency_s": {
+   "median": 0.003,
+   "p90": 0.006
+  },
+  "provenance": {
+   "git_commits": [
+    "448618a9f111d821ea78a45b474fc0079374109a"
+   ],
+   "config_hashes": [
+    "e19cd423e8cd"
+   ],
+   "rule_checks": [
+    "rule-check-v3"
+   ],
+   "dirty": false,
+   "traceable": true
+  },
+  "personalisation": {
+   "mean": 0.45100759608235014,
+   "ci95": [
+    0.41789619796533956,
+    0.5020165334912885
+   ],
+   "n": 173
+  },
+  "surrogate": {
+   "n": 173,
+   "r2": 0.37191160059236705,
+   "alpha": 10.0,
+   "fc": 0.1086716422999459,
+   "importance": {
+    "savings_months": 0.03763134670486166,
+    "emi_share": 0.03584879005673212,
+    "life_multiple": 0.039486409567586075,
+    "health_cover_lakh": 0.10019541401538677,
+    "card_unpaid": 0.0684204965587833,
+    "costly_loan": 0.07279380105254953,
+    "gl_score": 0.20337759717051046,
+    "experience": 0.07955163789808868,
+    "log_take_home": 0.03231118032970678,
+    "expense_ratio": 0.007887234920233733,
+    "dependants": 0.12736254377926623,
+    "age": 0.007527965503666588,
+    "n_goals": 0.12311868169761193,
+    "min_horizon": 0.06448690074501624
+   },
+   "capacity_share": 0.35437625795589944,
+   "willingness_share": 0.2829292350685991,
+   "other_share": 0.3626945069755015,
+   "mean_target": 0.19033066826314016
+  },
+  "first_attempt_causes": {
+   "MR1": {
+    "k": 1,
+    "n": 240,
+    "n_obs": 240,
+    "rate": 0.004166666666666667,
+    "ci95": [
+     0.0007358790897501466,
+     0.023220656628519416
+    ],
+    "method": "wilson"
+   },
+   "MR3": {
+    "k": 2,
+    "n": 240,
+    "n_obs": 240,
+    "rate": 0.008333333333333333,
+    "ci95": [
+     0.002288235363161974,
+     0.029870346273441456
+    ],
+    "method": "wilson"
+   }
+  },
+  "mr6_only_on_low_risk_menu": {
+   "k": 0,
+   "n": 240,
+   "n_obs": 240,
+   "rate": 0.0,
+   "ci95": [
+    0.0,
+    0.015754489799935698
+   ],
+   "method": "wilson"
+  }
+ },
+ "vs_standard": {
+  "A1_full": {
+   "identical": {
+    "k": 333,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.4625,
+    "ci95": [
+     0.4027777777777778,
+     0.5263888888888889
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "lower_risk": {
+    "k": 51,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.07083333333333333,
+    "ci95": [
+     0.041666666666666664,
+     0.10138888888888889
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "higher_risk": {
+    "k": 0,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.015754489799935698
+    ],
+    "method": "wilson_personas"
+   },
+   "identical_when_not_fallback": {
+    "k": 38,
+    "n": 149,
+    "n_obs": 425,
+    "rate": 0.08941176470588236,
+    "ci95": [
+     0.04285714285714286,
+     0.13947990543735225
+    ],
+    "method": "cluster_bootstrap"
+   }
+  },
+  "M1_qwen2.5-1.5b": {
+   "identical": {
+    "k": 481,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.6680555555555555,
+    "ci95": [
+     0.6069444444444444,
+     0.7277777777777777
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "lower_risk": {
+    "k": 57,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.07916666666666666,
+    "ci95": [
+     0.04583333333333333,
+     0.11666666666666667
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "higher_risk": {
+    "k": 1,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.001388888888888889,
+    "ci95": [
+     0.00010326882457684788,
+     0.018385236281470135
+    ],
+    "method": "wilson_personas"
+   },
+   "identical_when_not_fallback": {
+    "k": 218,
+    "n": 154,
+    "n_obs": 457,
+    "rate": 0.47702407002188185,
+    "ci95": [
+     0.39651416122004357,
+     0.5553097345132744
+    ],
+    "method": "cluster_bootstrap"
+   }
+  },
+  "M1_llama3.2-3b": {
+   "identical": {
+    "k": 440,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.6111111111111112,
+    "ci95": [
+     0.5472222222222223,
+     0.6722222222222223
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "lower_risk": {
+    "k": 43,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.059722222222222225,
+    "ci95": [
+     0.030555555555555555,
+     0.09166666666666666
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "higher_risk": {
+    "k": 0,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.015754489799935698
+    ],
+    "method": "wilson_personas"
+   },
+   "identical_when_not_fallback": {
+    "k": 9,
+    "n": 100,
+    "n_obs": 289,
+    "rate": 0.031141868512110725,
+    "ci95": [
+     0.0,
+     0.0726643598615917
+    ],
+    "method": "cluster_bootstrap"
+   }
+  },
+  "M1_phi4-mini": {
+   "identical": {
+    "k": 602,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.8361111111111111,
+    "ci95": [
+     0.7861111111111111,
+     0.8791666666666667
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "lower_risk": {
+    "k": 30,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.041666666666666664,
+    "ci95": [
+     0.020833333333333332,
+     0.06666666666666667
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "higher_risk": {
+    "k": 0,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.015754489799935698
+    ],
+    "method": "wilson_personas"
+   },
+   "identical_when_not_fallback": {
+    "k": 464,
+    "n": 199,
+    "n_obs": 582,
+    "rate": 0.7972508591065293,
+    "ci95": [
+     0.7392055267702936,
+     0.8481228668941979
+    ],
+    "method": "cluster_bootstrap"
+   }
+  },
+  "M1_qwen2.5-7b": {
+   "identical": {
+    "k": 665,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.9236111111111112,
+    "ci95": [
+     0.8861111111111111,
+     0.9527777777777777
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "lower_risk": {
+    "k": 0,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.015754489799935698
+    ],
+    "method": "wilson_personas"
+   },
+   "higher_risk": {
+    "k": 4,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.005555555555555556,
+    "ci95": [
+     0.0011913283899346906,
+     0.02549922263444616
+    ],
+    "method": "wilson_personas"
+   },
+   "identical_when_not_fallback": {
+    "k": 587,
+    "n": 215,
+    "n_obs": 642,
+    "rate": 0.9143302180685359,
+    "ci95": [
+     0.875968992248062,
+     0.9486780715396579
+    ],
+    "method": "cluster_bootstrap"
+   }
+  },
+  "S2_mr6_risk": {
+   "identical": {
+    "k": 136,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.18888888888888888,
+    "ci95": [
+     0.14305555555555555,
+     0.2388888888888889
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "lower_risk": {
+    "k": 85,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.11805555555555555,
+    "ci95": [
+     0.08194444444444444,
+     0.15694444444444444
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "higher_risk": {
+    "k": 0,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.015754489799935698
+    ],
+    "method": "wilson_personas"
+   },
+   "identical_when_not_fallback": {
+    "k": 36,
+    "n": 214,
+    "n_obs": 620,
+    "rate": 0.05806451612903226,
+    "ci95": [
+     0.02912621359223301,
+     0.09268292682926829
+    ],
+    "method": "cluster_bootstrap"
+   }
+  }
+ },
+ "baselines": {
+  "B1_plain_llm": {
+   "unsuitable": {
+    "k": 643,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.8930555555555556,
+    "ci95": [
+     0.8569444444444444,
+     0.9263888888888889
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "product_or_company": {
+    "k": 291,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.4041666666666667,
+    "ci95": [
+     0.3472222222222222,
+     0.4597222222222222
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "overspend": {
+    "k": 562,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.7805555555555556,
+    "ci95": [
+     0.7319444444444444,
+     0.8277777777777777
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "loops": {
+    "k": 207,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.2875,
+    "ci95": [
+     0.23333333333333334,
+     0.3388888888888889
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "no_surplus": {
+    "k": 225,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.3125,
+    "ci95": [
+     0.25416666666666665,
+     0.37083333333333335
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "robust_subset": {
+    "k": 278,
+    "n": 120,
+    "n_obs": 321,
+    "rate": 0.8660436137071651,
+    "ci95": [
+     0.8023952095808383,
+     0.9216300940438872
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "robust_rows": 321,
+   "rows": 720
+  },
+  "B2_llm_rag": {
+   "unsuitable": {
+    "k": 609,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.8458333333333333,
+    "ci95": [
+     0.8013888888888889,
+     0.8888888888888888
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "product_or_company": {
+    "k": 252,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.35,
+    "ci95": [
+     0.29583333333333334,
+     0.4027777777777778
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "overspend": {
+    "k": 563,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.7819444444444444,
+    "ci95": [
+     0.7333333333333333,
+     0.8291666666666667
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "loops": {
+    "k": 77,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.10694444444444444,
+    "ci95": [
+     0.075,
+     0.14027777777777778
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "no_surplus": {
+    "k": 225,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.3125,
+    "ci95": [
+     0.25416666666666665,
+     0.37083333333333335
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "robust_subset": {
+    "k": 336,
+    "n": 157,
+    "n_obs": 438,
+    "rate": 0.7671232876712328,
+    "ci95": [
+     0.7009132420091324,
+     0.832183908045977
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "robust_rows": 438,
+   "rows": 720
+  },
+  "B3_rules_in_prompt": {
+   "unsuitable": {
+    "k": 609,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.8458333333333333,
+    "ci95": [
+     0.7986111111111112,
+     0.8875
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "product_or_company": {
+    "k": 542,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.7527777777777778,
+    "ci95": [
+     0.6944444444444444,
+     0.8041666666666667
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "overspend": {
+    "k": 287,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.39861111111111114,
+    "ci95": [
+     0.3375,
+     0.4583333333333333
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "loops": {
+    "k": 15,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.020833333333333332,
+    "ci95": [
+     0.008333333333333333,
+     0.03611111111111111
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "no_surplus": {
+    "k": 225,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.3125,
+    "ci95": [
+     0.25416666666666665,
+     0.37083333333333335
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "robust_subset": {
+    "k": 341,
+    "n": 148,
+    "n_obs": 416,
+    "rate": 0.8197115384615384,
+    "ci95": [
+     0.7583732057416268,
+     0.875
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "robust_rows": 416,
+   "rows": 720
+  }
+ }
+}

@@ -1,0 +1,4 @@
+capacity: 240 of 240 agree
+rules: 240 of 240 agree
+willingness: 240 of 240 agree
+suitability: 240 of 240 agree
