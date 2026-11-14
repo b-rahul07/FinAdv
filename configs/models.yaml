@@ -46,6 +46,19 @@ models:
     model: llama3.2:3b
     self_hosted: true
     options: {temperature: 0, seed: 42, num_ctx: 4096, num_predict: 400}
+  # Follow-up runs (15 Nov 2026): the baselines with a longer answer budget. At num_predict 400, 29% of B1 answers
+  # repeated a line four or more times and many ended mid-sentence; these entries test whether the baselines'
+  # unsuitable rate is an artefact of the budget. Same model, quantisation and seed as `website` and `qwen2.5-7b`.
+  website-long:
+    provider: ollama
+    model: qwen2.5:3b
+    self_hosted: true
+    options: {temperature: 0, seed: 42, num_ctx: 4096, num_predict: 1200}
+  qwen2.5-7b-long:
+    provider: ollama
+    model: qwen2.5:7b
+    self_hosted: true
+    options: {temperature: 0, seed: 42, num_ctx: 4096, num_predict: 1200}
   tiny-test:
     provider: fake
     model: scripted

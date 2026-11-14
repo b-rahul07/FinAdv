@@ -177,3 +177,25 @@ Sources: [CONECCT listing](https://www.myhuiban.com/conference/4809), [CONECCT 2
 - No new metamorphic relations or threshold changes before submission: the design is frozen at pipeline-v4 /
   rules-v2 for every reported run, with S1/S2 as the sensitivity cases.
 - No claim of a benchmark contribution, pre-registration, or survey-matched profiles.
+
+---
+
+## 9. Review of the draft (15 Nov 2026) and the follow-up
+
+A review of the finished draft against the run records found four things the draft got wrong or left out. All four
+are measured by `python -m experiments.analysis` from the stored records; the paper's text now follows them.
+
+| Finding | Evidence | What the paper now says |
+|---|---|---|
+| The model adds little over the standard mix | The pipeline with no model (`configs/analysis/STD_standard_mix.yaml`) has the same plan similarity as A1. With the standard mix offered as a starting point, 7B's final plan equals it in most answers. | The contribution is the safety envelope: a model can be let in without risk. Personalisation comes from the rules. The model's own choices are measured without the anchor (follow-up A1N). |
+| 0% unsuitable is by construction | The fallback is the standard mix, which passes the same rule check that serves as the oracle | Stated. The empirical results are first-plan rates, fallbacks and what each component catches. |
+| Rules in the prompt made product choices worse | B3 recommends products above the ceiling far more often than B1. B1 and B2 fail mostly by overspending. | The baseline rate is split into "product or company" and "overspend". A robust subset (a surplus, a complete block, no repeated lines) is reported. |
+| Run records not public | `results/` is gitignored | The records are published as `paper_records/` (compressed). |
+
+**Follow-up runs (Kaggle, not among the 18 reported).** These configs are in `experiments/configs/paper/` and listed
+in `experiments/paper_split.yaml`:
+- B1L and B3L: the baselines with a 1,200-token answer budget instead of 400, to rule out truncation as the cause.
+- B3L7: rules in the prompt with qwen2.5 7B, to see whether a larger model follows written rules.
+- A1N and A1N7: A1 with no standard mix as a starting point, 3B and 7B, to measure the model's own choices.
+
+Until they finish, the paper reports the analysis above and lists the follow-up as future work.

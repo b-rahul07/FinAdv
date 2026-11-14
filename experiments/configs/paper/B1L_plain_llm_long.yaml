@@ -1,0 +1,8 @@
+# Follow-up after the reported runs (15 Nov 2026; docs/PAPER_PLAN.md §9). Not part of the 18 reported runs.
+# B1 with a 1,200-token answer budget instead of 400: is B1's unsuitable rate an artefact of truncated answers?
+run_id: B1L_plain_llm_long
+model: website-long
+inputs: experiments/data/personas_v1.jsonl
+replicates: 3
+baseline: B1
+output: results/paper/B1L_plain_llm_long.jsonl

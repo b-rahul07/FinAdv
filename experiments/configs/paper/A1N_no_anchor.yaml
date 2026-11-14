@@ -1,0 +1,12 @@
+# Follow-up after the reported runs (15 Nov 2026; docs/PAPER_PLAN.md §9). Not part of the 18 reported runs.
+# A1 with qwen2.5 3B and no standard mix offered as a starting point (planner.anchor_mix false): what the model
+# chooses on its own. With the anchor, 7B's final plan equalled the standard mix in 92% of answers.
+run_id: A1N_no_anchor
+model: website
+pipeline: pipeline/default.yaml
+inputs: experiments/data/personas_v1.jsonl
+replicates: 3
+auditor: {early_exit: false, time_budget_s: null}
+planner: {mode: model, anchor_mix: false}
+mode: plan
+output: results/paper/A1N_no_anchor.jsonl

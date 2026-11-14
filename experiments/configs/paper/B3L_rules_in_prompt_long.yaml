@@ -1,0 +1,8 @@
+# Follow-up after the reported runs (15 Nov 2026; docs/PAPER_PLAN.md §9). Not part of the 18 reported runs.
+# B3 with a 1,200-token answer budget instead of 400.
+run_id: B3L_rules_in_prompt_long
+model: website-long
+inputs: experiments/data/personas_v1.jsonl
+replicates: 3
+baseline: B3
+output: results/paper/B3L_rules_in_prompt_long.jsonl
