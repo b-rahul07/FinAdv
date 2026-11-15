@@ -98,6 +98,18 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
+### 2026-11-15 — Paper rewritten in the team's accepted IEEE paper's style
+- **Rewrite.** The draft was rewritten to follow the structure and style of the team's accepted IEEE conference
+  paper (camera-ready). It keeps 6 pages and every number is still generated.
+  - Per-author blocks, "Keywords", and numbered Contributions plus an Organisation subsection.
+  - A Related Work table, and a Proposed Methodology with numbered equations.
+  - A web-application subsection with a screenshot, results, error analysis, and a separate Comparison with
+    Existing Approaches section.
+- **New asset input.** `experiments/paper_assets.py` takes `--site-eval` (the website's advice evaluation) for the
+  web-application numbers. The generated tables have bold headers and Title Case captions.
+- **Website evaluation re-run on pipeline-v7-website with phi4-mini:** 30 of 30 turns pass, with a median plan reply
+  of 9.8 s on the laptop CPU (`results/eval/advice-2026-11-15-site.jsonl`).
+
 ### 2026-11-15 — Review of the paper draft; plan-v3; follow-up runs
 - **Review.** `experiments/analysis.py` measures, from stored records, what the model adds over the standard mix and
   why the baselines fail. The four findings and what changed in the paper are in `docs/PAPER_PLAN.md` §9.

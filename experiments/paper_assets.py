@@ -208,11 +208,12 @@ def tab_checks(c: dict[str, str]) -> str:
             ("R3", "health cover too low"), ("R4", "card dues or costly loan"), ("R5", "EMIs $>$ 40\\% of pay")]
     body = "\n".join(f"{r} & {what} & {c[f'sebiv2{r}both']} & {c[f'sebiv2{r}neither']} & {c[f'sebiv2{r}engine']} & "
                      f"{c[f'sebiv2{r}tool']} & {c[f'sebiv2{r}agree']} \\\\" for r, what in rows)
-    return ("\\begin{table}[t]\n\\centering\n\\caption{Rule-by-rule agreement with SEBI's Financial Health Check on the "
-            f"{c['reworkn']} personas}}\n\\label{{tab:checks}}\n\\scriptsize\n\\setlength{{\\tabcolsep}}{{3pt}}\n"
+    return ("\\begin{table}[t]\n\\centering\n\\caption{Rule-by-Rule Agreement With SEBI's Financial Health Check on the "
+            f"{c['reworkn']} Personas}}\n\\label{{tab:checks}}\n\\footnotesize\n\\setlength{{\\tabcolsep}}{{2.5pt}}\n"
             "\\begin{tabular}{@{}llrrrrr@{}}\n\\toprule\n"
-            "Rule & Fires when & Both & Neither & Engine & Tool & Agree \\\\\n"
-            " & & flag & flags & only & only & (\\%) \\\\\n\\midrule\n"
+            "\\textbf{Rule} & \\textbf{Fires when} & \\textbf{Both} & \\textbf{Neither} & \\textbf{Engine} & "
+            "\\textbf{Tool} & \\textbf{Agree} \\\\\n"
+            " & & \\textbf{flag} & \\textbf{flags} & \\textbf{only} & \\textbf{only} & \\textbf{(\\%)} \\\\\n\\midrule\n"
             f"{body}\n\\bottomrule\n\\end{{tabular}}\n\\end{{table}}\n")
 
 
@@ -220,8 +221,9 @@ def tab_checks(c: dict[str, str]) -> str:
 
 def tab_results(report: dict) -> str:
     runs = report["runs"]
-    head = ("System & Unsuitable, final & Unsuitable, first plan & Unsourced numbers & Pass & Fallback & "
-            "Pressure kept & Median s \\\\")
+    head = " & ".join(f"\\textbf{{{h}}}" for h in ("System", "Unsuitable, final", "Unsuitable, first plan",
+                                                   "Unsourced numbers", "Pass", "Fallback", "Pressure kept",
+                                                   "Median s")) + " \\\\"
     rows = []
     std = (report.get("_analysis") or {}).get("standard_mix_summary")
     if std:   # the pipeline with no model choice (experiments/analysis.py), shown with FinAdvisor
@@ -236,17 +238,14 @@ def tab_results(report: dict) -> str:
             rows.append(" & ".join([LABEL[rid], cell(m["unsuitable"]), cell(m["first"]), cell(m["unsourced"]),
                                     cell(m["pass"]), cell(m["fallback"]), cell(m["pressure"]),
                                     f"{lat:.1f}" if lat is not None else "--"]) + " \\\\")
-    return ("\\begin{table*}[t]\n\\centering\n\\caption{Results on 240 personas, 3 replicates each. Rates in \\%, with "
-            "95\\% persona-level intervals}\n\\label{tab:results}\n\\scriptsize\n\\setlength{\\tabcolsep}{4pt}\n"
+    return ("\\begin{table*}[t]\n\\centering\n\\caption{Results on 240 Personas With Three Replicates (Rates in \\%, With "
+            "95\\% Persona-Level Intervals)}\n\\label{tab:results}\n\\scriptsize\n\\setlength{\\tabcolsep}{4pt}\n"
             "\\begin{tabular}{@{}lrrrrrrr@{}}\n\\toprule\n" + head + "\n\\midrule\n" + "\n".join(rows) +
-            "\n\\bottomrule\n\\end{tabular}\n\\par\\smallskip\\parbox{\\textwidth}{\\footnotesize Unsuitable: the final "
-            "plan breaks R1--R7 or the suitability ceiling for the true facts, or names a company (baselines: a "
-            "product the gate would refuse, a company, or more money a month than the surplus). First plan: the "
-            "planner's plan before the auditor. Unsourced numbers: answers with a number neither code nor the person "
-            "produced, counted before the number guard (only runs that write prose). Pass, fallback: the first plan "
-            "was accepted; the deterministic safe plan was shown (the rest were repaired). Pressure kept: personas "
-            "with a wish (n = 68) whose plan equals their plan for a neutral question. Median latency on one T4 GPU. "
-            "--: not applicable.}\n\\end{table*}\n")
+            "\n\\bottomrule\n\\end{tabular}\n\\par\\smallskip\\parbox{\\textwidth}{\\scriptsize Definitions in "
+            "Section~\\ref{sec:metrics}. First plan: before the auditor. Unsourced numbers: only runs that write prose. "
+            "Pass, fallback: the first plan was accepted; the standard mix was shown (the rest were repaired). "
+            "Pressure kept: the 68 personas with a wish. Median latency on one T4 GPU. --: not applicable.}"
+            "\n\\end{table*}\n")
 
 
 # --------------------------------------------------------------------------- figures
@@ -347,6 +346,7 @@ def main() -> None:
     ap.add_argument("run_dir")
     ap.add_argument("--out", required=True)
     ap.add_argument("--followup", help="a follow-up run directory (report.json, analysis.json) for text macros")
+    ap.add_argument("--site-eval", help="the website's advice-evaluation records (jsonl) for text macros")
     a = ap.parse_args()
     run_dir, out = Path(a.run_dir), Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
@@ -370,6 +370,19 @@ def main() -> None:
             for key in ("vs_standard", "baselines"):
                 for rid, x in (fa.get(key) or {}).items():
                     an.setdefault(key, {}).setdefault(rid, x)
+    if a.site_eval:
+        # The website's own advice evaluation (experiments/eval_advice.py: its pipeline file and model on its CPU host)
+        import statistics
+        rows = [json.loads(x) for x in Path(a.site_eval).read_text(encoding="utf-8").splitlines() if x.strip()]
+        by: dict[str, list[float]] = {}
+        for r in rows:
+            by.setdefault(r["route"], []).append(r["seconds"])
+        site = {"turns": str(len(rows)), "passed": str(sum(1 for r in rows if not r["fails"])),
+                "personas": str(len({r["persona"] for r in rows})), "model": rows[0]["model"]["model"]}
+        for route, secs in by.items():
+            site[f"{route}median"] = f"{statistics.median(secs):.1f}"
+            site[f"{route}n"] = str(len(secs))
+        checks = {**checks, **{f"site{k}": v for k, v in site.items()}}
     (out / "numbers.tex").write_text(numbers_tex(report, checks), encoding="utf-8")
     (out / "tab_results.tex").write_text(tab_results(table_report), encoding="utf-8")
     (out / "tab_checks.tex").write_text(tab_checks(checks), encoding="utf-8")
