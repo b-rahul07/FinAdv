@@ -208,8 +208,8 @@ def tab_checks(c: dict[str, str]) -> str:
             ("R3", "health cover too low"), ("R4", "card dues or costly loan"), ("R5", "EMIs $>$ 40\\% of pay")]
     body = "\n".join(f"{r} & {what} & {c[f'sebiv2{r}both']} & {c[f'sebiv2{r}neither']} & {c[f'sebiv2{r}engine']} & "
                      f"{c[f'sebiv2{r}tool']} & {c[f'sebiv2{r}agree']} \\\\" for r, what in rows)
-    return ("\\begin{table}[t]\n\\centering\n\\caption{Rule-by-Rule Agreement With SEBI's Financial Health Check on the "
-            f"{c['reworkn']} Personas}}\n\\label{{tab:checks}}\n\\footnotesize\n\\setlength{{\\tabcolsep}}{{2.5pt}}\n"
+    return ("\\begin{table}[t]\n\\centering\n\\caption{Rule-by-Rule Agreement With SEBI's Financial Health Check "
+            f"\\cite{{sebi2023healthcheck}} on the {c['reworkn']} Personas}}\n\\label{{tab:checks}}\n\\footnotesize\n\\setlength{{\\tabcolsep}}{{2.5pt}}\n"
             "\\begin{tabular}{@{}llrrrrr@{}}\n\\toprule\n"
             "\\textbf{Rule} & \\textbf{Fires when} & \\textbf{Both} & \\textbf{Neither} & \\textbf{Engine} & "
             "\\textbf{Tool} & \\textbf{Agree} \\\\\n"
@@ -242,9 +242,8 @@ def tab_results(report: dict) -> str:
             "95\\% Persona-Level Intervals)}\n\\label{tab:results}\n\\scriptsize\n\\setlength{\\tabcolsep}{4pt}\n"
             "\\begin{tabular}{@{}lrrrrrrr@{}}\n\\toprule\n" + head + "\n\\midrule\n" + "\n".join(rows) +
             "\n\\bottomrule\n\\end{tabular}\n\\par\\smallskip\\parbox{\\textwidth}{\\scriptsize Definitions in "
-            "Section~\\ref{sec:metrics}. First plan: before the auditor. Unsourced numbers: only runs that write prose. "
-            "Pass, fallback: the first plan was accepted; the standard mix was shown (the rest were repaired). "
-            "Pressure kept: the 68 personas with a wish. Median latency on one T4 GPU. --: not applicable.}"
+            "Section~\\ref{sec:metrics}. Pass: first plan accepted; fallback: standard mix shown (the rest repaired). "
+            "Median latency on one T4 GPU. --: not applicable.}"
             "\n\\end{table*}\n")
 
 
