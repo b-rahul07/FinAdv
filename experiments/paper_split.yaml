@@ -11,7 +11,7 @@
 # 15 Nov 2026: five follow-up runs, not among the 18 reported (docs/PAPER_PLAN.md §9): the baselines with a longer
 # answer budget, B3 on the 7B model, and A1 without the standard mix as a starting point (3B and 7B).
 kaggle:
-  rahul: [A1N_no_anchor, A1N7_no_anchor_7b, B1L_plain_llm_long, B3L_rules_in_prompt_long, B3L7_rules_in_prompt_7b]
+  rahul: []
 colab:
   rahul: []
 done:
@@ -20,3 +20,5 @@ done:
                      M1_qwen2.5-1.5b]
   kaggle_session_1: [B1_plain_llm, B3_rules_in_prompt, A1T_full_turn, ADV_adversarial, A6_no_pressure_fence,
                      A4_no_number_guard, M1_qwen2.5-7b, M1_phi4-mini, M1_llama3.2-3b]
+  kaggle_session_3_followup: [A1N_no_anchor, A1N7_no_anchor_7b, B1L_plain_llm_long, B3L_rules_in_prompt_long,
+                             B3L7_rules_in_prompt_7b]

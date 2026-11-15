@@ -124,8 +124,11 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 - **Learn answers name their sources.** When the model leaves out the inline [n] markers, code adds one line
   naming the sources the answer was written from. This uses `evidence.cite_sources_line` in pipeline-v7-website,
   and it was the only miss of every model in the advice evaluation.
-- **Follow-up runs on Kaggle** (session 3, started 14 Nov 2026 19:30 UTC): B1L, B3L, B3L7, A1N and A1N7
-  (`docs/PAPER_PLAN.md` §9). They are not among the 18 reported runs.
+- **Follow-up runs on Kaggle** (session 3, finished 15 Nov 2026): B1L, B3L, B3L7, A1N and A1N7, each 720 rows on
+  one commit, outside the 18 reported runs. Neither a longer answer budget nor a 7B model rescues the baselines
+  (87.8%, 87.9% and 91.5% unsuitable). Without the standard mix as a starting point, the models' plans are their own
+  and more varied, but they change with wording, so about half fall back. First plans stay suitable. Results are in
+  `docs/PAPER_PLAN.md` §9 and in the paper; records are in `paper_records/followup-2026-11-15/`.
 
 ### 2026-11-14 — Website items that waited for the runs; paper assets
 The paper's runs finished, so the website items that change what the pipeline produces were built. Each sits behind

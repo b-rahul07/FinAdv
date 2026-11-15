@@ -198,4 +198,16 @@ in `experiments/paper_split.yaml`:
 - B3L7: rules in the prompt with qwen2.5 7B, to see whether a larger model follows written rules.
 - A1N and A1N7: A1 with no standard mix as a starting point, 3B and 7B, to measure the model's own choices.
 
-Until they finish, the paper reports the analysis above and lists the follow-up as future work.
+**Results (15 Nov 2026; `results/paper/followup-2026-11-15/`, published in `paper_records/`).** Each run has 720 rows
+on one commit (448618a). All five are in the paper's text.
+- The answer budget was not the cause. With 1,200 tokens, B1 is 87.8% unsuitable and B3 87.9%. The robust-subset
+  rates are about the same.
+- A bigger model does not follow written rules either. B3 on 7B is 91.5% unsuitable. It recommends fewer products
+  above the ceiling (55.8% against 75.3% for 3B) but overspends in 84.9% of answers.
+- Without the starting point, both models' passing plans are their own; none equals the standard mix. 7B's plans
+  are more varied than the rules make them (similarity 0.32 against 0.45 for the standard mix). But the plan
+  changes with the wording in 55.6% of paraphrase checks, so fallbacks rise to 53.9% (3B) and 51.1% (7B), and
+  first plans pass in only 24.9% and 27.9%. First plans stay nearly always suitable (1.8% and 1.7% unsuitable):
+  the gate, not the anchor, keeps them safe.
+- Conclusion for the paper: a model can add personalisation, but not yet personalisation that survives a change of
+  wording. The website keeps the standard mix.

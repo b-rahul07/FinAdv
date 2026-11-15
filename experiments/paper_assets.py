@@ -346,6 +346,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("run_dir")
     ap.add_argument("--out", required=True)
+    ap.add_argument("--followup", help="a follow-up run directory (report.json, analysis.json) for text macros")
     a = ap.parse_args()
     run_dir, out = Path(a.run_dir), Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
@@ -353,11 +354,27 @@ def main() -> None:
     if (run_dir / "analysis.json").exists():          # experiments/analysis.py (review of 15 Nov 2026)
         report["_analysis"] = json.loads((run_dir / "analysis.json").read_text(encoding="utf-8"))
     checks = parse_checks(run_dir)
+    table_report = json.loads(json.dumps(report))     # the tables and figures show the reported runs only
+    if a.followup:
+        # Follow-up runs (docs/PAPER_PLAN.md §9): their numbers become macros for the text; runs already in the main
+        # report keep the main report's values.
+        fdir = Path(a.followup)
+        fr = json.loads((fdir / "report.json").read_text(encoding="utf-8"))
+        for rid, s in fr["runs"].items():
+            report["runs"].setdefault(rid, s)
+        have = {r["run"] for r in report.get("paired") or []}
+        report["paired"] = (report.get("paired") or []) + [r for r in fr.get("paired") or [] if r["run"] not in have]
+        if (fdir / "analysis.json").exists():
+            fa = json.loads((fdir / "analysis.json").read_text(encoding="utf-8"))
+            an = report.setdefault("_analysis", {})
+            for key in ("vs_standard", "baselines"):
+                for rid, x in (fa.get(key) or {}).items():
+                    an.setdefault(key, {}).setdefault(rid, x)
     (out / "numbers.tex").write_text(numbers_tex(report, checks), encoding="utf-8")
-    (out / "tab_results.tex").write_text(tab_results(report), encoding="utf-8")
+    (out / "tab_results.tex").write_text(tab_results(table_report), encoding="utf-8")
     (out / "tab_checks.tex").write_text(tab_checks(checks), encoding="utf-8")
-    fig_unsuitable(report, out / "fig_unsuitable.pdf")
-    fig_outcomes(report, out / "fig_outcomes.pdf")
+    fig_unsuitable(table_report, out / "fig_unsuitable.pdf")
+    fig_outcomes(table_report, out / "fig_outcomes.pdf")
     print(f"wrote {out}")
 
 

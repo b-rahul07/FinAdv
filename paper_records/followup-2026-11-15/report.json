@@ -1,0 +1,3236 @@
+{
+ "runs": {
+  "A1N7_no_anchor_7b": {
+   "run_id": "A1N7_no_anchor_7b",
+   "mode": "plan",
+   "model": "qwen2.5:7b",
+   "n_records": 720,
+   "n_personas": 240,
+   "replicates": 3,
+   "unsuitable": {
+    "k": 0,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.015754489799935698
+    ],
+    "method": "wilson_personas"
+   },
+   "unsuitable_rep0": {
+    "k": 0,
+    "n": 240,
+    "n_obs": 240,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.015754489799935698
+    ],
+    "method": "wilson"
+   },
+   "unsuitable_text": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": null
+   },
+   "first_plan_unsuitable": {
+    "k": 12,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.016666666666666666,
+    "ci95": [
+     0.002777777777777778,
+     0.03333333333333333
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "unsourced_numbers": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": null
+   },
+   "outcome": {
+    "pass": {
+     "k": 201,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.2791666666666667,
+     "ci95": [
+      0.22777777777777777,
+      0.3333333333333333
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "repaired": {
+     "k": 151,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.20972222222222223,
+     "ci95": [
+      0.1625,
+      0.2625
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "fallback": {
+     "k": 368,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.5111111111111111,
+     "ci95": [
+      0.4513888888888889,
+      0.5680555555555555
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "dvr": {
+    "MR1": {
+     "all": {
+      "k": 17,
+      "n": 240,
+      "n_obs": 720,
+      "rate": 0.02361111111111111,
+      "ci95": [
+       0.008333333333333333,
+       0.043055555555555555
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "gate_decides": {
+      "k": 4,
+      "n": 20,
+      "n_obs": 60,
+      "rate": 0.06666666666666667,
+      "ci95": [
+       0.014419522398209317,
+       0.2585599196973995
+      ],
+      "method": "wilson_personas"
+     },
+     "non_trivial": {
+      "k": 17,
+      "n": 78,
+      "n_obs": 234,
+      "rate": 0.07264957264957266,
+      "ci95": [
+       0.029914529914529916,
+       0.1282051282051282
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "tests_llm": {
+      "k": 13,
+      "n": 58,
+      "n_obs": 174,
+      "rate": 0.07471264367816093,
+      "ci95": [
+       0.022988505747126436,
+       0.13218390804597702
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "trivial": {
+      "k": 0,
+      "n": 162,
+      "n_obs": 486,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.023164272414159054
+      ],
+      "method": "wilson_personas"
+     }
+    },
+    "MR2": {
+     "all": {
+      "k": 7,
+      "n": 240,
+      "n_obs": 720,
+      "rate": 0.009722222222222222,
+      "ci95": [
+       0.0,
+       0.02361111111111111
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "gate_decides": {
+      "k": 0,
+      "n": 4,
+      "n_obs": 12,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.48990002040399916
+      ],
+      "method": "wilson_personas"
+     },
+     "non_trivial": {
+      "k": 7,
+      "n": 42,
+      "n_obs": 126,
+      "rate": 0.05555555555555555,
+      "ci95": [
+       0.0,
+       0.1349206349206349
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "tests_llm": {
+      "k": 7,
+      "n": 38,
+      "n_obs": 114,
+      "rate": 0.06140350877192982,
+      "ci95": [
+       0.0,
+       0.14912280701754385
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "trivial": {
+      "k": 0,
+      "n": 198,
+      "n_obs": 594,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.01903274647049964
+      ],
+      "method": "wilson_personas"
+     }
+    },
+    "MR3": {
+     "all": {
+      "k": 48,
+      "n": 240,
+      "n_obs": 720,
+      "rate": 0.06666666666666667,
+      "ci95": [
+       0.03888888888888889,
+       0.09722222222222222
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "gate_decides": {
+      "k": 3,
+      "n": 12,
+      "n_obs": 36,
+      "rate": 0.08333333333333333,
+      "ci95": [
+       0.014864709450773478,
+       0.35388592179859524
+      ],
+      "method": "wilson_personas"
+     },
+     "non_trivial": {
+      "k": 48,
+      "n": 98,
+      "n_obs": 294,
+      "rate": 0.16326530612244897,
+      "ci95": [
+       0.10204081632653061,
+       0.23129251700680273
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "tests_llm": {
+      "k": 45,
+      "n": 86,
+      "n_obs": 258,
+      "rate": 0.1744186046511628,
+      "ci95": [
+       0.10465116279069768,
+       0.25193798449612403
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "trivial": {
+      "k": 0,
+      "n": 142,
+      "n_obs": 426,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.02634090684688045
+      ],
+      "method": "wilson_personas"
+     }
+    },
+    "MR4": {
+     "all": {
+      "k": 57,
+      "n": 174,
+      "n_obs": 795,
+      "rate": 0.07169811320754717,
+      "ci95": [
+       0.040740740740740744,
+       0.10498687664041995
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "gate_decides": {
+      "k": 25,
+      "n": 13,
+      "n_obs": 39,
+      "rate": 0.6410256410256411,
+      "ci95": [
+       0.38461538461538464,
+       0.8717948717948718
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "non_trivial": {
+      "k": 57,
+      "n": 52,
+      "n_obs": 192,
+      "rate": 0.296875,
+      "ci95": [
+       0.19047619047619047,
+       0.4074074074074074
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "tests_llm": {
+      "k": 32,
+      "n": 41,
+      "n_obs": 153,
+      "rate": 0.20915032679738563,
+      "ci95": [
+       0.11515151515151516,
+       0.32098765432098764
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "trivial": {
+      "k": 0,
+      "n": 139,
+      "n_obs": 603,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.026894126080917603
+      ],
+      "method": "wilson_personas"
+     }
+    },
+    "MR5": {
+     "all": {
+      "k": 0,
+      "n": 240,
+      "n_obs": 720,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.015754489799935698
+      ],
+      "method": "wilson_personas"
+     },
+     "trivial": {
+      "k": 0,
+      "n": 240,
+      "n_obs": 720,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.015754489799935698
+      ],
+      "method": "wilson_personas"
+     }
+    },
+    "MR6": {
+     "all": {
+      "k": 800,
+      "n": 240,
+      "n_obs": 1440,
+      "rate": 0.5555555555555556,
+      "ci95": [
+       0.5048611111111111,
+       0.6027777777777777
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "non_trivial": {
+      "k": 800,
+      "n": 240,
+      "n_obs": 1440,
+      "rate": 0.5555555555555556,
+      "ci95": [
+       0.5048611111111111,
+       0.6027777777777777
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "tests_llm": {
+      "k": 800,
+      "n": 240,
+      "n_obs": 1440,
+      "rate": 0.5555555555555556,
+      "ci95": [
+       0.5048611111111111,
+       0.6027777777777777
+      ],
+      "method": "cluster_bootstrap"
+     }
+    }
+   },
+   "pressure_kept": {
+    "k": 202,
+    "n": 68,
+    "n_obs": 204,
+    "rate": 0.9901960784313726,
+    "ci95": [
+     0.9292534132038053,
+     0.9987140411216369
+    ],
+    "method": "wilson_personas"
+   },
+   "replicate_agreement": {
+    "k": 221,
+    "n": 240,
+    "n_obs": 240,
+    "rate": 0.9208333333333333,
+    "ci95": [
+     0.8796714718719179,
+     0.9487351658798029
+    ],
+    "method": "wilson"
+   },
+   "latency_s": {
+    "median": 17.0655,
+    "p90": 71.618
+   },
+   "provenance": {
+    "git_commits": [
+     "448618a9f111d821ea78a45b474fc0079374109a"
+    ],
+    "config_hashes": [
+     "eae08f5adcf4"
+    ],
+    "rule_checks": [
+     "rule-check-v3"
+    ],
+    "dirty": false,
+    "traceable": true
+   },
+   "personalisation": {
+    "mean": 0.3205321499829947,
+    "ci95": [
+     0.3053689233701862,
+     0.34682140021657876
+    ],
+    "n": 173
+   },
+   "surrogate": {
+    "n": 173,
+    "r2": 0.24410811824406908,
+    "alpha": 10.0,
+    "fc": 0.10838814339654285,
+    "importance": {
+     "savings_months": 0.026353892620399395,
+     "emi_share": 0.023393499082067993,
+     "life_multiple": 0.0479561878455909,
+     "health_cover_lakh": 0.10755989355931302,
+     "card_unpaid": 0.07507766777644903,
+     "costly_loan": 0.08775967050341525,
+     "gl_score": 0.19894235974498392,
+     "experience": 0.08198638980285208,
+     "log_take_home": 0.02794924045418535,
+     "expense_ratio": 0.019081393184735073,
+     "dependants": 0.13554976782043676,
+     "age": 0.0005017890059418191,
+     "n_goals": 0.0875981454581414,
+     "min_horizon": 0.08029010314148778
+    },
+    "capacity_share": 0.3681008113872356,
+    "willingness_share": 0.280928749547836,
+    "other_share": 0.3509704390649282,
+    "mean_target": 0.14994632765625243
+   },
+   "first_attempt_causes": {
+    "MR1": {
+     "k": 17,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.02361111111111111,
+     "ci95": [
+      0.008333333333333333,
+      0.043055555555555555
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "MR2": {
+     "k": 7,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.009722222222222222,
+     "ci95": [
+      0.0,
+      0.02361111111111111
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "MR3": {
+     "k": 48,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.06666666666666667,
+     "ci95": [
+      0.03888888888888889,
+      0.09722222222222222
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "MR4": {
+     "k": 54,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.075,
+     "ci95": [
+      0.04583333333333333,
+      0.10972222222222222
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "MR6, all-low-risk menu": {
+     "k": 266,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.36944444444444446,
+     "ci95": [
+      0.30972222222222223,
+      0.42916666666666664
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "MR6, risky options": {
+     "k": 232,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.32222222222222224,
+     "ci95": [
+      0.26666666666666666,
+      0.38472222222222224
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "planner error": {
+     "k": 12,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.016666666666666666,
+     "ci95": [
+      0.002777777777777778,
+      0.03333333333333333
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "rule breaks": {
+     "k": 12,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.016666666666666666,
+     "ci95": [
+      0.002777777777777778,
+      0.03333333333333333
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "mr6_only_on_low_risk_menu": {
+    "k": 260,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.3611111111111111,
+    "ci95": [
+     0.3013888888888889,
+     0.42083333333333334
+    ],
+    "method": "cluster_bootstrap"
+   }
+  },
+  "A1N_no_anchor": {
+   "run_id": "A1N_no_anchor",
+   "mode": "plan",
+   "model": "qwen2.5:3b",
+   "n_records": 720,
+   "n_personas": 240,
+   "replicates": 3,
+   "unsuitable": {
+    "k": 0,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.015754489799935698
+    ],
+    "method": "wilson_personas"
+   },
+   "unsuitable_rep0": {
+    "k": 0,
+    "n": 240,
+    "n_obs": 240,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.015754489799935698
+    ],
+    "method": "wilson"
+   },
+   "unsuitable_text": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": null
+   },
+   "first_plan_unsuitable": {
+    "k": 13,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.018055555555555554,
+    "ci95": [
+     0.005555555555555556,
+     0.034722222222222224
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "unsourced_numbers": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": null
+   },
+   "outcome": {
+    "pass": {
+     "k": 179,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.24861111111111112,
+     "ci95": [
+      0.19722222222222222,
+      0.3013888888888889
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "repaired": {
+     "k": 153,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.2125,
+     "ci95": [
+      0.16527777777777777,
+      0.2625
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "fallback": {
+     "k": 388,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.5388888888888889,
+     "ci95": [
+      0.47638888888888886,
+      0.6013888888888889
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "dvr": {
+    "MR1": {
+     "all": {
+      "k": 31,
+      "n": 240,
+      "n_obs": 720,
+      "rate": 0.043055555555555555,
+      "ci95": [
+       0.020833333333333332,
+       0.06944444444444445
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "gate_decides": {
+      "k": 20,
+      "n": 20,
+      "n_obs": 60,
+      "rate": 0.3333333333333333,
+      "ci95": [
+       0.15,
+       0.5333333333333333
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "non_trivial": {
+      "k": 31,
+      "n": 78,
+      "n_obs": 234,
+      "rate": 0.13247863247863248,
+      "ci95": [
+       0.06837606837606838,
+       0.20512820512820512
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "tests_llm": {
+      "k": 11,
+      "n": 58,
+      "n_obs": 174,
+      "rate": 0.06321839080459771,
+      "ci95": [
+       0.017241379310344827,
+       0.12643678160919541
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "trivial": {
+      "k": 0,
+      "n": 162,
+      "n_obs": 486,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.023164272414159054
+      ],
+      "method": "wilson_personas"
+     }
+    },
+    "MR2": {
+     "all": {
+      "k": 8,
+      "n": 240,
+      "n_obs": 720,
+      "rate": 0.011111111111111112,
+      "ci95": [
+       0.001388888888888889,
+       0.025
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "gate_decides": {
+      "k": 7,
+      "n": 4,
+      "n_obs": 12,
+      "rate": 0.5833333333333334,
+      "ci95": [
+       0.16666666666666666,
+       0.9166666666666666
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "non_trivial": {
+      "k": 8,
+      "n": 42,
+      "n_obs": 126,
+      "rate": 0.06349206349206349,
+      "ci95": [
+       0.007936507936507936,
+       0.1349206349206349
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "tests_llm": {
+      "k": 1,
+      "n": 38,
+      "n_obs": 114,
+      "rate": 0.008771929824561403,
+      "ci95": [
+       0.0006525329910301164,
+       0.10709350603870742
+      ],
+      "method": "wilson_personas"
+     },
+     "trivial": {
+      "k": 0,
+      "n": 198,
+      "n_obs": 594,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.01903274647049964
+      ],
+      "method": "wilson_personas"
+     }
+    },
+    "MR3": {
+     "all": {
+      "k": 28,
+      "n": 240,
+      "n_obs": 720,
+      "rate": 0.03888888888888889,
+      "ci95": [
+       0.018055555555555554,
+       0.06111111111111111
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "gate_decides": {
+      "k": 3,
+      "n": 12,
+      "n_obs": 36,
+      "rate": 0.08333333333333333,
+      "ci95": [
+       0.014864709450773478,
+       0.35388592179859524
+      ],
+      "method": "wilson_personas"
+     },
+     "non_trivial": {
+      "k": 28,
+      "n": 98,
+      "n_obs": 294,
+      "rate": 0.09523809523809523,
+      "ci95": [
+       0.047619047619047616,
+       0.15306122448979592
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "tests_llm": {
+      "k": 25,
+      "n": 86,
+      "n_obs": 258,
+      "rate": 0.09689922480620156,
+      "ci95": [
+       0.04263565891472868,
+       0.15891472868217055
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "trivial": {
+      "k": 0,
+      "n": 142,
+      "n_obs": 426,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.02634090684688045
+      ],
+      "method": "wilson_personas"
+     }
+    },
+    "MR4": {
+     "all": {
+      "k": 58,
+      "n": 174,
+      "n_obs": 795,
+      "rate": 0.0729559748427673,
+      "ci95": [
+       0.0428921568627451,
+       0.10611735330836454
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "gate_decides": {
+      "k": 21,
+      "n": 13,
+      "n_obs": 39,
+      "rate": 0.5384615384615384,
+      "ci95": [
+       0.3076923076923077,
+       0.7692307692307693
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "non_trivial": {
+      "k": 58,
+      "n": 52,
+      "n_obs": 192,
+      "rate": 0.3020833333333333,
+      "ci95": [
+       0.1919191919191919,
+       0.41935483870967744
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "tests_llm": {
+      "k": 37,
+      "n": 41,
+      "n_obs": 153,
+      "rate": 0.24183006535947713,
+      "ci95": [
+       0.1393939393939394,
+       0.3567251461988304
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "trivial": {
+      "k": 0,
+      "n": 139,
+      "n_obs": 603,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.026894126080917603
+      ],
+      "method": "wilson_personas"
+     }
+    },
+    "MR5": {
+     "all": {
+      "k": 0,
+      "n": 240,
+      "n_obs": 720,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.015754489799935698
+      ],
+      "method": "wilson_personas"
+     },
+     "trivial": {
+      "k": 0,
+      "n": 240,
+      "n_obs": 720,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.015754489799935698
+      ],
+      "method": "wilson_personas"
+     }
+    },
+    "MR6": {
+     "all": {
+      "k": 803,
+      "n": 240,
+      "n_obs": 1440,
+      "rate": 0.5576388888888889,
+      "ci95": [
+       0.5097222222222222,
+       0.60625
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "non_trivial": {
+      "k": 803,
+      "n": 240,
+      "n_obs": 1440,
+      "rate": 0.5576388888888889,
+      "ci95": [
+       0.5097222222222222,
+       0.60625
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "tests_llm": {
+      "k": 803,
+      "n": 240,
+      "n_obs": 1440,
+      "rate": 0.5576388888888889,
+      "ci95": [
+       0.5097222222222222,
+       0.60625
+      ],
+      "method": "cluster_bootstrap"
+     }
+    }
+   },
+   "pressure_kept": {
+    "k": 194,
+    "n": 68,
+    "n_obs": 204,
+    "rate": 0.9509803921568627,
+    "ci95": [
+     0.9019607843137255,
+     0.9901960784313726
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "replicate_agreement": {
+    "k": 220,
+    "n": 240,
+    "n_obs": 240,
+    "rate": 0.9166666666666666,
+    "ci95": [
+     0.8747956544143992,
+     0.9454089374189877
+    ],
+    "method": "wilson"
+   },
+   "latency_s": {
+    "median": 9.714500000000001,
+    "p90": 35.867
+   },
+   "provenance": {
+    "git_commits": [
+     "448618a9f111d821ea78a45b474fc0079374109a"
+    ],
+    "config_hashes": [
+     "fd9657d6ee62"
+    ],
+    "rule_checks": [
+     "rule-check-v3"
+    ],
+    "dirty": false,
+    "traceable": true
+   },
+   "personalisation": {
+    "mean": 0.4170870350003852,
+    "ci95": [
+     0.3905341492128632,
+     0.4521350615866294
+    ],
+    "n": 173
+   },
+   "surrogate": {
+    "n": 173,
+    "r2": 0.18593591043856106,
+    "alpha": 100.0,
+    "fc": 0.11432763866649173,
+    "importance": {
+     "savings_months": 0.06270290462514937,
+     "emi_share": 0.040111009143582045,
+     "life_multiple": 0.010405795625618528,
+     "health_cover_lakh": 0.12137961397183995,
+     "card_unpaid": 0.07463230082495882,
+     "costly_loan": 0.08822982662593785,
+     "gl_score": 0.2049431876194213,
+     "experience": 0.0750014410891948,
+     "log_take_home": 0.03784072929293656,
+     "expense_ratio": 0.01770399813727244,
+     "dependants": 0.11732147791644768,
+     "age": 0.008305576731697089,
+     "n_goals": 0.00994258888127327,
+     "min_horizon": 0.13147954951467028
+    },
+    "capacity_share": 0.39746145081708656,
+    "willingness_share": 0.2799446287086161,
+    "other_share": 0.3225939204742973,
+    "mean_target": 0.13168574419792436
+   },
+   "first_attempt_causes": {
+    "MR1": {
+     "k": 31,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.043055555555555555,
+     "ci95": [
+      0.020833333333333332,
+      0.06944444444444445
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "MR2": {
+     "k": 8,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.011111111111111112,
+     "ci95": [
+      0.001388888888888889,
+      0.025
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "MR3": {
+     "k": 28,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.03888888888888889,
+     "ci95": [
+      0.018055555555555554,
+      0.06111111111111111
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "MR4": {
+     "k": 52,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.07222222222222222,
+     "ci95": [
+      0.043055555555555555,
+      0.10277777777777777
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "MR6, all-low-risk menu": {
+     "k": 278,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.3861111111111111,
+     "ci95": [
+      0.3277777777777778,
+      0.4486111111111111
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "MR6, risky options": {
+     "k": 241,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.3347222222222222,
+     "ci95": [
+      0.2763888888888889,
+      0.39444444444444443
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "planner error": {
+     "k": 13,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.018055555555555554,
+     "ci95": [
+      0.005555555555555556,
+      0.034722222222222224
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "rule breaks": {
+     "k": 13,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.018055555555555554,
+     "ci95": [
+      0.005555555555555556,
+      0.034722222222222224
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "mr6_only_on_low_risk_menu": {
+    "k": 269,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.3736111111111111,
+    "ci95": [
+     0.3138888888888889,
+     0.4361111111111111
+    ],
+    "method": "cluster_bootstrap"
+   }
+  },
+  "A1_full": {
+   "run_id": "A1_full",
+   "mode": "plan",
+   "model": "qwen2.5:3b",
+   "n_records": 720,
+   "n_personas": 240,
+   "replicates": 3,
+   "unsuitable": {
+    "k": 0,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.015754489799935698
+    ],
+    "method": "wilson_personas"
+   },
+   "unsuitable_rep0": {
+    "k": 0,
+    "n": 240,
+    "n_obs": 240,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.015754489799935698
+    ],
+    "method": "wilson"
+   },
+   "unsuitable_text": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": null
+   },
+   "first_plan_unsuitable": {
+    "k": 10,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.013888888888888888,
+    "ci95": [
+     0.001388888888888889,
+     0.029166666666666667
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "unsourced_numbers": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": null
+   },
+   "outcome": {
+    "pass": {
+     "k": 279,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.3875,
+     "ci95": [
+      0.325,
+      0.4444444444444444
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "repaired": {
+     "k": 146,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.20277777777777778,
+     "ci95": [
+      0.15694444444444444,
+      0.2513888888888889
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "fallback": {
+     "k": 295,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.4097222222222222,
+     "ci95": [
+      0.35138888888888886,
+      0.4736111111111111
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "dvr": {
+    "MR1": {
+     "all": {
+      "k": 33,
+      "n": 240,
+      "n_obs": 720,
+      "rate": 0.04583333333333333,
+      "ci95": [
+       0.022222222222222223,
+       0.07361111111111111
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "gate_decides": {
+      "k": 15,
+      "n": 20,
+      "n_obs": 60,
+      "rate": 0.25,
+      "ci95": [
+       0.1,
+       0.45
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "non_trivial": {
+      "k": 33,
+      "n": 78,
+      "n_obs": 234,
+      "rate": 0.14102564102564102,
+      "ci95": [
+       0.07692307692307693,
+       0.21794871794871795
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "tests_llm": {
+      "k": 18,
+      "n": 58,
+      "n_obs": 174,
+      "rate": 0.10344827586206896,
+      "ci95": [
+       0.040229885057471264,
+       0.1724137931034483
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "trivial": {
+      "k": 0,
+      "n": 162,
+      "n_obs": 486,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.023164272414159054
+      ],
+      "method": "wilson_personas"
+     }
+    },
+    "MR2": {
+     "all": {
+      "k": 16,
+      "n": 240,
+      "n_obs": 720,
+      "rate": 0.022222222222222223,
+      "ci95": [
+       0.006944444444444444,
+       0.041666666666666664
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "gate_decides": {
+      "k": 5,
+      "n": 4,
+      "n_obs": 12,
+      "rate": 0.4166666666666667,
+      "ci95": [
+       0.0,
+       0.8333333333333334
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "non_trivial": {
+      "k": 16,
+      "n": 42,
+      "n_obs": 126,
+      "rate": 0.12698412698412698,
+      "ci95": [
+       0.03968253968253968,
+       0.23015873015873015
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "tests_llm": {
+      "k": 11,
+      "n": 38,
+      "n_obs": 114,
+      "rate": 0.09649122807017543,
+      "ci95": [
+       0.017543859649122806,
+       0.19298245614035087
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "trivial": {
+      "k": 0,
+      "n": 198,
+      "n_obs": 594,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.01903274647049964
+      ],
+      "method": "wilson_personas"
+     }
+    },
+    "MR3": {
+     "all": {
+      "k": 43,
+      "n": 240,
+      "n_obs": 720,
+      "rate": 0.059722222222222225,
+      "ci95": [
+       0.03194444444444444,
+       0.08888888888888889
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "gate_decides": {
+      "k": 0,
+      "n": 12,
+      "n_obs": 36,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.2425007574992425
+      ],
+      "method": "wilson_personas"
+     },
+     "non_trivial": {
+      "k": 43,
+      "n": 98,
+      "n_obs": 294,
+      "rate": 0.14625850340136054,
+      "ci95": [
+       0.08163265306122448,
+       0.21428571428571427
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "tests_llm": {
+      "k": 43,
+      "n": 86,
+      "n_obs": 258,
+      "rate": 0.16666666666666666,
+      "ci95": [
+       0.09689922480620156,
+       0.2441860465116279
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "trivial": {
+      "k": 0,
+      "n": 142,
+      "n_obs": 426,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.02634090684688045
+      ],
+      "method": "wilson_personas"
+     }
+    },
+    "MR4": {
+     "all": {
+      "k": 55,
+      "n": 174,
+      "n_obs": 795,
+      "rate": 0.06918238993710692,
+      "ci95": [
+       0.03936039360393604,
+       0.10266159695817491
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "gate_decides": {
+      "k": 23,
+      "n": 13,
+      "n_obs": 39,
+      "rate": 0.5897435897435898,
+      "ci95": [
+       0.3076923076923077,
+       0.8461538461538461
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "non_trivial": {
+      "k": 55,
+      "n": 52,
+      "n_obs": 192,
+      "rate": 0.2864583333333333,
+      "ci95": [
+       0.18032786885245902,
+       0.39344262295081966
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "tests_llm": {
+      "k": 32,
+      "n": 41,
+      "n_obs": 153,
+      "rate": 0.20915032679738563,
+      "ci95": [
+       0.10638297872340426,
+       0.3202614379084967
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "trivial": {
+      "k": 0,
+      "n": 139,
+      "n_obs": 603,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.026894126080917603
+      ],
+      "method": "wilson_personas"
+     }
+    },
+    "MR5": {
+     "all": {
+      "k": 0,
+      "n": 240,
+      "n_obs": 720,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.015754489799935698
+      ],
+      "method": "wilson_personas"
+     },
+     "trivial": {
+      "k": 0,
+      "n": 240,
+      "n_obs": 720,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.015754489799935698
+      ],
+      "method": "wilson_personas"
+     }
+    },
+    "MR6": {
+     "all": {
+      "k": 650,
+      "n": 240,
+      "n_obs": 1440,
+      "rate": 0.4513888888888889,
+      "ci95": [
+       0.40208333333333335,
+       0.5055555555555555
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "non_trivial": {
+      "k": 650,
+      "n": 240,
+      "n_obs": 1440,
+      "rate": 0.4513888888888889,
+      "ci95": [
+       0.40208333333333335,
+       0.5055555555555555
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "tests_llm": {
+      "k": 650,
+      "n": 240,
+      "n_obs": 1440,
+      "rate": 0.4513888888888889,
+      "ci95": [
+       0.40208333333333335,
+       0.5055555555555555
+      ],
+      "method": "cluster_bootstrap"
+     }
+    }
+   },
+   "pressure_kept": {
+    "k": 200,
+    "n": 68,
+    "n_obs": 204,
+    "rate": 0.9803921568627451,
+    "ci95": [
+     0.913621038568861,
+     0.9957870666700719
+    ],
+    "method": "wilson_personas"
+   },
+   "replicate_agreement": {
+    "k": 222,
+    "n": 240,
+    "n_obs": 240,
+    "rate": 0.925,
+    "ci95": [
+     0.8845730571258335,
+     0.9520356265442214
+    ],
+    "method": "wilson"
+   },
+   "latency_s": {
+    "median": 9.364,
+    "p90": 38.849
+   },
+   "provenance": {
+    "git_commits": [
+     "dd47d58259a91ab29f06c3ce1613f314e3d6fb5a"
+    ],
+    "config_hashes": [
+     "dc7207e958a6"
+    ],
+    "rule_checks": [
+     "rule-check-v3"
+    ],
+    "dirty": false,
+    "traceable": true
+   },
+   "personalisation": {
+    "mean": 0.43218951476110307,
+    "ci95": [
+     0.400415684549853,
+     0.47268001517905006
+    ],
+    "n": 173
+   },
+   "surrogate": {
+    "n": 173,
+    "r2": 0.29657970437260084,
+    "alpha": 10.0,
+    "fc": 0.1051569980689519,
+    "importance": {
+     "savings_months": 0.039151882508285996,
+     "emi_share": 0.025218648088217537,
+     "life_multiple": 0.04482741547370793,
+     "health_cover_lakh": 0.11349259023168377,
+     "card_unpaid": 0.06524042659319984,
+     "costly_loan": 0.07323332730783705,
+     "gl_score": 0.18447916838746292,
+     "experience": 0.09518045677895731,
+     "log_take_home": 0.028597919817694013,
+     "expense_ratio": 0.021335573742619435,
+     "dependants": 0.13150331767258458,
+     "age": 0.001558475527705039,
+     "n_goals": 0.11356911973382186,
+     "min_horizon": 0.0626116781362226
+    },
+    "capacity_share": 0.3611642902029321,
+    "willingness_share": 0.27965962516642023,
+    "other_share": 0.35917608463064754,
+    "mean_target": 0.1573006897924902
+   },
+   "first_attempt_causes": {
+    "MR1": {
+     "k": 33,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.04583333333333333,
+     "ci95": [
+      0.022222222222222223,
+      0.07361111111111111
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "MR2": {
+     "k": 16,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.022222222222222223,
+     "ci95": [
+      0.006944444444444444,
+      0.041666666666666664
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "MR3": {
+     "k": 43,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.059722222222222225,
+     "ci95": [
+      0.03194444444444444,
+      0.08888888888888889
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "MR4": {
+     "k": 49,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.06805555555555555,
+     "ci95": [
+      0.03888888888888889,
+      0.1
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "MR6, all-low-risk menu": {
+     "k": 192,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.26666666666666666,
+     "ci95": [
+      0.2125,
+      0.32222222222222224
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "MR6, risky options": {
+     "k": 224,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.3111111111111111,
+     "ci95": [
+      0.2569444444444444,
+      0.37083333333333335
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "planner error": {
+     "k": 10,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.013888888888888888,
+     "ci95": [
+      0.001388888888888889,
+      0.029166666666666667
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "rule breaks": {
+     "k": 10,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.013888888888888888,
+     "ci95": [
+      0.001388888888888889,
+      0.029166666666666667
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "mr6_only_on_low_risk_menu": {
+    "k": 186,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.25833333333333336,
+    "ci95": [
+     0.20694444444444443,
+     0.3138888888888889
+    ],
+    "method": "cluster_bootstrap"
+   }
+  },
+  "B1L_plain_llm_long": {
+   "run_id": "B1L_plain_llm_long",
+   "mode": "baseline",
+   "model": "qwen2.5:3b",
+   "n_records": 720,
+   "n_personas": 240,
+   "replicates": 3,
+   "unsuitable": {
+    "k": 632,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.8777777777777778,
+    "ci95": [
+     0.8388888888888889,
+     0.9138888888888889
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "unsuitable_rep0": {
+    "k": 206,
+    "n": 240,
+    "n_obs": 240,
+    "rate": 0.8583333333333333,
+    "ci95": [
+     0.808556667305257,
+     0.8968192816714556
+    ],
+    "method": "wilson"
+   },
+   "unsuitable_text": {
+    "k": 248,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.34444444444444444,
+    "ci95": [
+     0.2916666666666667,
+     0.3972222222222222
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "first_plan_unsuitable": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": null
+   },
+   "unsourced_numbers": {
+    "k": 705,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.9791666666666666,
+    "ci95": [
+     0.9611111111111111,
+     0.9930555555555556
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "outcome": {},
+   "dvr": {},
+   "pressure_kept": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": null
+   },
+   "replicate_agreement": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": "wilson"
+   },
+   "latency_s": {
+    "median": 4.239000000000001,
+    "p90": 15.841
+   },
+   "provenance": {
+    "git_commits": [
+     "448618a9f111d821ea78a45b474fc0079374109a"
+    ],
+    "config_hashes": [
+     "1e499a1e3f1b"
+    ],
+    "rule_checks": [
+     "rule-check-v3"
+    ],
+    "dirty": false,
+    "traceable": true
+   },
+   "personalisation": {
+    "mean": 0.36181019623223803,
+    "ci95": [
+     0.29412114264620615,
+     0.4608541036409444
+    ],
+    "n": 62
+   },
+   "surrogate": {
+    "n": 62,
+    "r2": -0.026729081290749468,
+    "alpha": 100.0,
+    "fc": 0.1193142538451773,
+    "importance": {
+     "savings_months": 0.08265589567153094,
+     "emi_share": 0.1209316575034949,
+     "life_multiple": 0.15885780947144257,
+     "health_cover_lakh": 0.009407259895438093,
+     "card_unpaid": 0.01992025825417524,
+     "costly_loan": 0.11370061979547604,
+     "gl_score": 0.041205235264014685,
+     "experience": 0.07957831163701293,
+     "log_take_home": 0.10433961765656277,
+     "expense_ratio": 0.008022726890246926,
+     "dependants": 0.03702962635880115,
+     "age": 0.02696805847058543,
+     "n_goals": 0.002128876843868603,
+     "min_horizon": 0.19525404628734985
+    },
+    "capacity_share": 0.5054735005915578,
+    "willingness_share": 0.1207835469010276,
+    "other_share": 0.37374295250741474,
+    "mean_target": 0.7094330400782014
+   },
+   "allocation": {
+    "block": {
+     "k": 427,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.5930555555555556,
+     "ci95": [
+      0.5375,
+      0.6486111111111111
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "named_products": {
+     "k": 184,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.25555555555555554,
+     "ci95": [
+      0.20555555555555555,
+      0.30694444444444446
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "two_readings": {
+    "answers": 184,
+    "unsuitable_agree": {
+     "k": 183,
+     "n": 80,
+     "n_obs": 184,
+     "rate": 0.9945652173913043,
+     "ci95": [
+      0.9443148614362673,
+      0.9994938776933378
+     ],
+     "method": "wilson_personas"
+    },
+    "overspend_agree": {
+     "k": 160,
+     "n": 80,
+     "n_obs": 184,
+     "rate": 0.8695652173913043,
+     "ci95": [
+      0.7877094972067039,
+      0.9395604395604396
+     ],
+     "method": "cluster_bootstrap"
+    }
+   }
+  },
+  "B1_plain_llm": {
+   "run_id": "B1_plain_llm",
+   "mode": "baseline",
+   "model": "qwen2.5:3b",
+   "n_records": 720,
+   "n_personas": 240,
+   "replicates": 3,
+   "unsuitable": {
+    "k": 643,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.8930555555555556,
+    "ci95": [
+     0.8569444444444444,
+     0.9263888888888889
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "unsuitable_rep0": {
+    "k": 215,
+    "n": 240,
+    "n_obs": 240,
+    "rate": 0.8958333333333334,
+    "ci95": [
+     0.8507508797916045,
+     0.9284434824501132
+    ],
+    "method": "wilson"
+   },
+   "unsuitable_text": {
+    "k": 291,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.4041666666666667,
+    "ci95": [
+     0.3472222222222222,
+     0.4597222222222222
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "first_plan_unsuitable": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": null
+   },
+   "unsourced_numbers": {
+    "k": 707,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.9819444444444444,
+    "ci95": [
+     0.9652777777777778,
+     0.9944444444444445
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "outcome": {},
+   "dvr": {},
+   "pressure_kept": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": null
+   },
+   "replicate_agreement": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": "wilson"
+   },
+   "latency_s": {
+    "median": 3.694,
+    "p90": 5.565
+   },
+   "provenance": {
+    "git_commits": [
+     "e5caa155c6d13a311f84d4a3c0f002071060d1c4"
+    ],
+    "config_hashes": [
+     "998e1089ea6c"
+    ],
+    "rule_checks": [
+     "rule-check-v3"
+    ],
+    "dirty": false,
+    "traceable": true
+   },
+   "personalisation": {
+    "mean": 0.4966153757263525,
+    "ci95": [
+     0.40164151595501374,
+     0.5974865161247422
+    ],
+    "n": 64
+   },
+   "surrogate": {
+    "n": 64,
+    "r2": -0.02852622629688084,
+    "alpha": 100.0,
+    "fc": 0.13483630271312724,
+    "importance": {
+     "savings_months": 0.1094287125773585,
+     "emi_share": 0.20566439041884213,
+     "life_multiple": 0.08864608434130579,
+     "health_cover_lakh": 0.04604378712700574,
+     "card_unpaid": 0.013642304725598953,
+     "costly_loan": 0.037616610849991065,
+     "gl_score": 0.05042977197889964,
+     "experience": 0.025992889922172097,
+     "log_take_home": 0.008936408273966936,
+     "expense_ratio": 0.027482913490623498,
+     "dependants": 0.06333273780649777,
+     "age": 0.06558920901656368,
+     "n_goals": 0.02010014865245336,
+     "min_horizon": 0.23709403081872094
+    },
+    "capacity_share": 0.5010418900401021,
+    "willingness_share": 0.07642266190107173,
+    "other_share": 0.4225354480588262,
+    "mean_target": 0.6597405849358974
+   },
+   "allocation": {
+    "block": {
+     "k": 465,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.6458333333333334,
+     "ci95": [
+      0.5916666666666667,
+      0.7
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "named_products": {
+     "k": 231,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.32083333333333336,
+     "ci95": [
+      0.26805555555555555,
+      0.3763888888888889
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "two_readings": {
+    "answers": 231,
+    "unsuitable_agree": {
+     "k": 231,
+     "n": 99,
+     "n_obs": 231,
+     "rate": 1.0,
+     "ci95": [
+      0.9626454664260378,
+      1.0
+     ],
+     "method": "wilson_personas"
+    },
+    "overspend_agree": {
+     "k": 201,
+     "n": 99,
+     "n_obs": 231,
+     "rate": 0.8701298701298701,
+     "ci95": [
+      0.801762114537445,
+      0.9282511210762332
+     ],
+     "method": "cluster_bootstrap"
+    }
+   }
+  },
+  "B3L7_rules_in_prompt_7b": {
+   "run_id": "B3L7_rules_in_prompt_7b",
+   "mode": "baseline",
+   "model": "qwen2.5:7b",
+   "n_records": 720,
+   "n_personas": 240,
+   "replicates": 3,
+   "unsuitable": {
+    "k": 659,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.9152777777777777,
+    "ci95": [
+     0.8819444444444444,
+     0.9444444444444444
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "unsuitable_rep0": {
+    "k": 215,
+    "n": 240,
+    "n_obs": 240,
+    "rate": 0.8958333333333334,
+    "ci95": [
+     0.8507508797916045,
+     0.9284434824501132
+    ],
+    "method": "wilson"
+   },
+   "unsuitable_text": {
+    "k": 417,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.5791666666666667,
+    "ci95": [
+     0.5222222222222223,
+     0.6361111111111111
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "first_plan_unsuitable": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": null
+   },
+   "unsourced_numbers": {
+    "k": 709,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.9847222222222223,
+    "ci95": [
+     0.9680555555555556,
+     0.9972222222222222
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "outcome": {},
+   "dvr": {},
+   "pressure_kept": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": null
+   },
+   "replicate_agreement": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": "wilson"
+   },
+   "latency_s": {
+    "median": 14.561,
+    "p90": 18.953
+   },
+   "provenance": {
+    "git_commits": [
+     "448618a9f111d821ea78a45b474fc0079374109a"
+    ],
+    "config_hashes": [
+     "286bfae3e66a"
+    ],
+    "rule_checks": [
+     "rule-check-v3"
+    ],
+    "dirty": false,
+    "traceable": true
+   },
+   "personalisation": {
+    "mean": 0.158300267765503,
+    "ci95": [
+     0.1492612250723155,
+     0.1784505081036606
+    ],
+    "n": 185
+   },
+   "surrogate": {
+    "n": 185,
+    "r2": 0.29472664064011944,
+    "alpha": 10.0,
+    "fc": 0.1629488329327783,
+    "importance": {
+     "savings_months": 0.03493098351211495,
+     "emi_share": 0.046538370193454935,
+     "life_multiple": 0.06757901582648353,
+     "health_cover_lakh": 0.018017130621100733,
+     "card_unpaid": 0.04803985651596855,
+     "costly_loan": 0.006032106172817193,
+     "gl_score": 0.28560790065847164,
+     "experience": 0.22794667397175938,
+     "log_take_home": 0.0012957973643000398,
+     "expense_ratio": 0.014751077942647182,
+     "dependants": 0.01962709056606512,
+     "age": 0.08665572176040817,
+     "n_goals": 0.08666184485458464,
+     "min_horizon": 0.05631643003982405
+    },
+    "capacity_share": 0.22113746284193989,
+    "willingness_share": 0.513554574630231,
+    "other_share": 0.2653079625278292,
+    "mean_target": 0.45479673627679285
+   },
+   "allocation": {
+    "block": {
+     "k": 626,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.8694444444444445,
+     "ci95": [
+      0.8333333333333334,
+      0.9069444444444444
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "named_products": {
+     "k": 551,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.7652777777777777,
+     "ci95": [
+      0.7180555555555556,
+      0.8083333333333333
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "two_readings": {
+    "answers": 551,
+    "unsuitable_agree": {
+     "k": 536,
+     "n": 210,
+     "n_obs": 551,
+     "rate": 0.9727767695099818,
+     "ci95": [
+      0.9531531531531532,
+      0.9890710382513661
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "overspend_agree": {
+     "k": 534,
+     "n": 210,
+     "n_obs": 551,
+     "rate": 0.969147005444646,
+     "ci95": [
+      0.946236559139785,
+      0.9876543209876543
+     ],
+     "method": "cluster_bootstrap"
+    }
+   }
+  },
+  "B3L_rules_in_prompt_long": {
+   "run_id": "B3L_rules_in_prompt_long",
+   "mode": "baseline",
+   "model": "qwen2.5:3b",
+   "n_records": 720,
+   "n_personas": 240,
+   "replicates": 3,
+   "unsuitable": {
+    "k": 633,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.8791666666666667,
+    "ci95": [
+     0.8375,
+     0.9152777777777777
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "unsuitable_rep0": {
+    "k": 211,
+    "n": 240,
+    "n_obs": 240,
+    "rate": 0.8791666666666667,
+    "ci95": [
+     0.8318491096433814,
+     0.9145370689250006
+    ],
+    "method": "wilson"
+   },
+   "unsuitable_text": {
+    "k": 562,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.7805555555555556,
+    "ci95": [
+     0.725,
+     0.8291666666666667
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "first_plan_unsuitable": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": null
+   },
+   "unsourced_numbers": {
+    "k": 605,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.8402777777777778,
+    "ci95": [
+     0.7972222222222223,
+     0.8791666666666667
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "outcome": {},
+   "dvr": {},
+   "pressure_kept": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": null
+   },
+   "replicate_agreement": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": "wilson"
+   },
+   "latency_s": {
+    "median": 1.8305,
+    "p90": 5.529
+   },
+   "provenance": {
+    "git_commits": [
+     "448618a9f111d821ea78a45b474fc0079374109a"
+    ],
+    "config_hashes": [
+     "09116fb1d515"
+    ],
+    "rule_checks": [
+     "rule-check-v3"
+    ],
+    "dirty": false,
+    "traceable": true
+   },
+   "personalisation": {
+    "mean": 0.4901245521086667,
+    "ci95": [
+     0.45386044044906426,
+     0.529626169397176
+    ],
+    "n": 166
+   },
+   "surrogate": {
+    "n": 166,
+    "r2": 0.08762864937624104,
+    "alpha": 100.0,
+    "fc": 0.14027095336008122,
+    "importance": {
+     "savings_months": 0.03952103252182266,
+     "emi_share": 0.045979629978087216,
+     "life_multiple": 0.11450530040801046,
+     "health_cover_lakh": 0.02797311471197585,
+     "card_unpaid": 0.04354733238082973,
+     "costly_loan": 0.017197141459976212,
+     "gl_score": 0.06454726476176183,
+     "experience": 0.12070002787730612,
+     "log_take_home": 0.2980001235939429,
+     "expense_ratio": 0.0731727252832339,
+     "dependants": 0.025174607742069713,
+     "age": 0.07349677751231898,
+     "n_goals": 0.029032347458148325,
+     "min_horizon": 0.027152574310515983
+    },
+    "capacity_share": 0.2887235514607021,
+    "willingness_share": 0.18524729263906795,
+    "other_share": 0.5260291559002298,
+    "mean_target": 0.6240305357164018
+   },
+   "allocation": {
+    "block": {
+     "k": 605,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.8402777777777778,
+     "ci95": [
+      0.7972222222222223,
+      0.8819444444444444
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "named_products": {
+     "k": 516,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.7166666666666667,
+     "ci95": [
+      0.6652777777777777,
+      0.7666666666666667
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "two_readings": {
+    "answers": 516,
+    "unsuitable_agree": {
+     "k": 509,
+     "n": 191,
+     "n_obs": 516,
+     "rate": 0.9864341085271318,
+     "ci95": [
+      0.9694656488549618,
+      0.9980916030534351
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "overspend_agree": {
+     "k": 432,
+     "n": 191,
+     "n_obs": 516,
+     "rate": 0.8372093023255814,
+     "ci95": [
+      0.7810650887573964,
+      0.8852140077821011
+     ],
+     "method": "cluster_bootstrap"
+    }
+   }
+  },
+  "B3_rules_in_prompt": {
+   "run_id": "B3_rules_in_prompt",
+   "mode": "baseline",
+   "model": "qwen2.5:3b",
+   "n_records": 720,
+   "n_personas": 240,
+   "replicates": 3,
+   "unsuitable": {
+    "k": 609,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.8458333333333333,
+    "ci95": [
+     0.7986111111111112,
+     0.8875
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "unsuitable_rep0": {
+    "k": 205,
+    "n": 240,
+    "n_obs": 240,
+    "rate": 0.8541666666666666,
+    "ci95": [
+     0.8039371300311199,
+     0.8932367730272589
+    ],
+    "method": "wilson"
+   },
+   "unsuitable_text": {
+    "k": 548,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.7611111111111111,
+    "ci95": [
+     0.7041666666666667,
+     0.8111111111111111
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "first_plan_unsuitable": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": null
+   },
+   "unsourced_numbers": {
+    "k": 584,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.8111111111111111,
+    "ci95": [
+     0.7638888888888888,
+     0.8569444444444444
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "outcome": {},
+   "dvr": {},
+   "pressure_kept": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": null
+   },
+   "replicate_agreement": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": "wilson"
+   },
+   "latency_s": {
+    "median": 1.901,
+    "p90": 5.444
+   },
+   "provenance": {
+    "git_commits": [
+     "e5caa155c6d13a311f84d4a3c0f002071060d1c4"
+    ],
+    "config_hashes": [
+     "dc90a05f80b1"
+    ],
+    "rule_checks": [
+     "rule-check-v3"
+    ],
+    "dirty": false,
+    "traceable": true
+   },
+   "personalisation": {
+    "mean": 0.460955826639717,
+    "ci95": [
+     0.42202997577175294,
+     0.5051244581190693
+    ],
+    "n": 162
+   },
+   "surrogate": {
+    "n": 162,
+    "r2": 0.050235345618714566,
+    "alpha": 100.0,
+    "fc": 0.12966601952254142,
+    "importance": {
+     "savings_months": 0.042140629728928805,
+     "emi_share": 0.03673874562914359,
+     "life_multiple": 0.17674573917311528,
+     "health_cover_lakh": 0.049171546905416134,
+     "card_unpaid": 0.024188505096329922,
+     "costly_loan": 0.061877557597125016,
+     "gl_score": 0.09714058062614923,
+     "experience": 0.07396083020065813,
+     "log_take_home": 0.2522380280408743,
+     "expense_ratio": 0.010797670259762786,
+     "dependants": 0.06469022407265841,
+     "age": 0.042203663323712164,
+     "n_goals": 0.06177787548102851,
+     "min_horizon": 0.006328403865097573
+    },
+    "capacity_share": 0.39086272413005874,
+    "willingness_share": 0.17110141082680735,
+    "other_share": 0.43803586504313374,
+    "mean_target": 0.6329680911500025
+   },
+   "allocation": {
+    "block": {
+     "k": 589,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.8180555555555555,
+     "ci95": [
+      0.7708333333333334,
+      0.8638888888888889
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "named_products": {
+     "k": 484,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.6722222222222223,
+     "ci95": [
+      0.6138888888888889,
+      0.7277777777777777
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "two_readings": {
+    "answers": 484,
+    "unsuitable_agree": {
+     "k": 478,
+     "n": 174,
+     "n_obs": 484,
+     "rate": 0.987603305785124,
+     "ci95": [
+      0.9731958762886598,
+      0.997946611909651
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "overspend_agree": {
+     "k": 386,
+     "n": 174,
+     "n_obs": 484,
+     "rate": 0.7975206611570248,
+     "ci95": [
+      0.7406639004149378,
+      0.8535564853556485
+     ],
+     "method": "cluster_bootstrap"
+    }
+   }
+  },
+  "M1_qwen2.5-7b": {
+   "run_id": "M1_qwen2.5-7b",
+   "mode": "plan",
+   "model": "qwen2.5:7b",
+   "n_records": 720,
+   "n_personas": 240,
+   "replicates": 3,
+   "unsuitable": {
+    "k": 0,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.015754489799935698
+    ],
+    "method": "wilson_personas"
+   },
+   "unsuitable_rep0": {
+    "k": 0,
+    "n": 240,
+    "n_obs": 240,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.015754489799935698
+    ],
+    "method": "wilson"
+   },
+   "unsuitable_text": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": null
+   },
+   "first_plan_unsuitable": {
+    "k": 0,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.015754489799935698
+    ],
+    "method": "wilson_personas"
+   },
+   "unsourced_numbers": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": null
+   },
+   "outcome": {
+    "pass": {
+     "k": 565,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.7847222222222222,
+     "ci95": [
+      0.7319444444444444,
+      0.8319444444444445
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "repaired": {
+     "k": 77,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.10694444444444444,
+     "ci95": [
+      0.06805555555555555,
+      0.1486111111111111
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "fallback": {
+     "k": 78,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.10833333333333334,
+     "ci95": [
+      0.07083333333333333,
+      0.15
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "dvr": {
+    "MR1": {
+     "all": {
+      "k": 7,
+      "n": 240,
+      "n_obs": 720,
+      "rate": 0.009722222222222222,
+      "ci95": [
+       0.0,
+       0.022222222222222223
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "gate_decides": {
+      "k": 3,
+      "n": 20,
+      "n_obs": 60,
+      "rate": 0.05,
+      "ci95": [
+       0.008881219432873136,
+       0.23613589351256675
+      ],
+      "method": "wilson_personas"
+     },
+     "non_trivial": {
+      "k": 7,
+      "n": 78,
+      "n_obs": 234,
+      "rate": 0.029914529914529916,
+      "ci95": [
+       0.0,
+       0.06837606837606838
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "tests_llm": {
+      "k": 4,
+      "n": 58,
+      "n_obs": 174,
+      "rate": 0.022988505747126436,
+      "ci95": [
+       0.0049416382997323,
+       0.10029927827853646
+      ],
+      "method": "wilson_personas"
+     },
+     "trivial": {
+      "k": 0,
+      "n": 162,
+      "n_obs": 486,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.023164272414159054
+      ],
+      "method": "wilson_personas"
+     }
+    },
+    "MR2": {
+     "all": {
+      "k": 1,
+      "n": 240,
+      "n_obs": 720,
+      "rate": 0.001388888888888889,
+      "ci95": [
+       0.00010326882457684788,
+       0.018385236281470135
+      ],
+      "method": "wilson_personas"
+     },
+     "gate_decides": {
+      "k": 0,
+      "n": 4,
+      "n_obs": 12,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.48990002040399916
+      ],
+      "method": "wilson_personas"
+     },
+     "non_trivial": {
+      "k": 1,
+      "n": 42,
+      "n_obs": 126,
+      "rate": 0.007936507936507936,
+      "ci95": [
+       0.0005903553473814716,
+       0.09775408870925413
+      ],
+      "method": "wilson_personas"
+     },
+     "tests_llm": {
+      "k": 1,
+      "n": 38,
+      "n_obs": 114,
+      "rate": 0.008771929824561403,
+      "ci95": [
+       0.0006525329910301164,
+       0.10709350603870742
+      ],
+      "method": "wilson_personas"
+     },
+     "trivial": {
+      "k": 0,
+      "n": 198,
+      "n_obs": 594,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.01903274647049964
+      ],
+      "method": "wilson_personas"
+     }
+    },
+    "MR3": {
+     "all": {
+      "k": 34,
+      "n": 240,
+      "n_obs": 720,
+      "rate": 0.04722222222222222,
+      "ci95": [
+       0.02361111111111111,
+       0.075
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "gate_decides": {
+      "k": 0,
+      "n": 12,
+      "n_obs": 36,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.2425007574992425
+      ],
+      "method": "wilson_personas"
+     },
+     "non_trivial": {
+      "k": 34,
+      "n": 98,
+      "n_obs": 294,
+      "rate": 0.11564625850340136,
+      "ci95": [
+       0.061224489795918366,
+       0.18027210884353742
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "tests_llm": {
+      "k": 34,
+      "n": 86,
+      "n_obs": 258,
+      "rate": 0.13178294573643412,
+      "ci95": [
+       0.06589147286821706,
+       0.2054263565891473
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "trivial": {
+      "k": 0,
+      "n": 142,
+      "n_obs": 426,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.02634090684688045
+      ],
+      "method": "wilson_personas"
+     }
+    },
+    "MR4": {
+     "all": {
+      "k": 13,
+      "n": 174,
+      "n_obs": 795,
+      "rate": 0.016352201257861635,
+      "ci95": [
+       0.003703703703703704,
+       0.03229974160206718
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "gate_decides": {
+      "k": 10,
+      "n": 13,
+      "n_obs": 39,
+      "rate": 0.2564102564102564,
+      "ci95": [
+       0.07692307692307693,
+       0.48717948717948717
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "non_trivial": {
+      "k": 13,
+      "n": 52,
+      "n_obs": 192,
+      "rate": 0.06770833333333333,
+      "ci95": [
+       0.015384615384615385,
+       0.13043478260869565
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "tests_llm": {
+      "k": 3,
+      "n": 41,
+      "n_obs": 153,
+      "rate": 0.0196078431372549,
+      "ci95": [
+       0.0029649578869003976,
+       0.11856155181067735
+      ],
+      "method": "wilson_personas"
+     },
+     "trivial": {
+      "k": 0,
+      "n": 139,
+      "n_obs": 603,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.026894126080917603
+      ],
+      "method": "wilson_personas"
+     }
+    },
+    "MR5": {
+     "all": {
+      "k": 0,
+      "n": 240,
+      "n_obs": 720,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.015754489799935698
+      ],
+      "method": "wilson_personas"
+     },
+     "trivial": {
+      "k": 0,
+      "n": 240,
+      "n_obs": 720,
+      "rate": 0.0,
+      "ci95": [
+       0.0,
+       0.015754489799935698
+      ],
+      "method": "wilson_personas"
+     }
+    },
+    "MR6": {
+     "all": {
+      "k": 185,
+      "n": 240,
+      "n_obs": 1440,
+      "rate": 0.1284722222222222,
+      "ci95": [
+       0.09444444444444444,
+       0.16805555555555557
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "non_trivial": {
+      "k": 185,
+      "n": 240,
+      "n_obs": 1440,
+      "rate": 0.1284722222222222,
+      "ci95": [
+       0.09444444444444444,
+       0.16805555555555557
+      ],
+      "method": "cluster_bootstrap"
+     },
+     "tests_llm": {
+      "k": 185,
+      "n": 240,
+      "n_obs": 1440,
+      "rate": 0.1284722222222222,
+      "ci95": [
+       0.09444444444444444,
+       0.16805555555555557
+      ],
+      "method": "cluster_bootstrap"
+     }
+    }
+   },
+   "pressure_kept": {
+    "k": 203,
+    "n": 68,
+    "n_obs": 204,
+    "rate": 0.9950980392156863,
+    "ci95": [
+     0.9376116891531856,
+     0.9996354397155109
+    ],
+    "method": "wilson_personas"
+   },
+   "replicate_agreement": {
+    "k": 237,
+    "n": 240,
+    "n_obs": 240,
+    "rate": 0.9875,
+    "ci95": [
+     0.9638993626332216,
+     0.9957400098118411
+    ],
+    "method": "wilson"
+   },
+   "latency_s": {
+    "median": 6.596,
+    "p90": 37.587
+   },
+   "provenance": {
+    "git_commits": [
+     "e5caa155c6d13a311f84d4a3c0f002071060d1c4"
+    ],
+    "config_hashes": [
+     "7eea6b61cb83"
+    ],
+    "rule_checks": [
+     "rule-check-v3"
+    ],
+    "dirty": false,
+    "traceable": true
+   },
+   "personalisation": {
+    "mean": 0.4415108875236177,
+    "ci95": [
+     0.40956638512528326,
+     0.4918581155500163
+    ],
+    "n": 173
+   },
+   "surrogate": {
+    "n": 173,
+    "r2": 0.3665178757898323,
+    "alpha": 10.0,
+    "fc": 0.1085362434339687,
+    "importance": {
+     "savings_months": 0.03901271836864954,
+     "emi_share": 0.03663445664222174,
+     "life_multiple": 0.04050963924822657,
+     "health_cover_lakh": 0.10233678872774798,
+     "card_unpaid": 0.06877364676292133,
+     "costly_loan": 0.072821015095309,
+     "gl_score": 0.20366469829165731,
+     "experience": 0.07765229778342886,
+     "log_take_home": 0.03245512787406503,
+     "expense_ratio": 0.00843954487578949,
+     "dependants": 0.12524645532356626,
+     "age": 0.005426074218530954,
+     "n_goals": 0.12254898290106554,
+     "min_horizon": 0.06447855388682021
+    },
+    "capacity_share": 0.36008826484507617,
+    "willingness_share": 0.2813169960750862,
+    "other_share": 0.35859473907983747,
+    "mean_target": 0.19091814024615303
+   },
+   "first_attempt_causes": {
+    "MR1": {
+     "k": 7,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.009722222222222222,
+     "ci95": [
+      0.0,
+      0.022222222222222223
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "MR2": {
+     "k": 1,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.001388888888888889,
+     "ci95": [
+      0.00010326882457684788,
+      0.018385236281470135
+     ],
+     "method": "wilson_personas"
+    },
+    "MR3": {
+     "k": 34,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.04722222222222222,
+     "ci95": [
+      0.02361111111111111,
+      0.075
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "MR4": {
+     "k": 13,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.018055555555555554,
+     "ci95": [
+      0.004166666666666667,
+      0.03611111111111111
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "MR6, all-low-risk menu": {
+     "k": 39,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.05416666666666667,
+     "ci95": [
+      0.029166666666666667,
+      0.08333333333333333
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "MR6, risky options": {
+     "k": 90,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.125,
+     "ci95": [
+      0.0875,
+      0.16944444444444445
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "mr6_only_on_low_risk_menu": {
+    "k": 39,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.05416666666666667,
+    "ci95": [
+     0.029166666666666667,
+     0.08333333333333333
+    ],
+    "method": "cluster_bootstrap"
+   }
+  }
+ },
+ "adversarial": {},
+ "paired": [
+  {
+   "run": "A1N7_no_anchor_7b",
+   "metric": "unsuitable",
+   "n_pairs": 240,
+   "only_first": 0,
+   "only_second": 0,
+   "p_value": 1.0,
+   "p_holm": 1.0
+  },
+  {
+   "run": "A1N_no_anchor",
+   "metric": "unsuitable",
+   "n_pairs": 240,
+   "only_first": 0,
+   "only_second": 0,
+   "p_value": 1.0,
+   "p_holm": 1.0
+  },
+  {
+   "run": "B1L_plain_llm_long",
+   "metric": "unsuitable",
+   "n_pairs": 240,
+   "only_first": 0,
+   "only_second": 206,
+   "p_value": 1.9446922743316068e-62,
+   "p_holm": 9.723461371658034e-62
+  },
+  {
+   "run": "B1_plain_llm",
+   "metric": "unsuitable",
+   "n_pairs": 240,
+   "only_first": 0,
+   "only_second": 215,
+   "p_value": 3.7982270983039195e-65,
+   "p_holm": 3.0385816786431356e-64
+  },
+  {
+   "run": "B3L7_rules_in_prompt_7b",
+   "metric": "unsuitable",
+   "n_pairs": 240,
+   "only_first": 0,
+   "only_second": 215,
+   "p_value": 3.7982270983039195e-65,
+   "p_holm": 3.0385816786431356e-64
+  },
+  {
+   "run": "B3L_rules_in_prompt_long",
+   "metric": "unsuitable",
+   "n_pairs": 240,
+   "only_first": 0,
+   "only_second": 211,
+   "p_value": 6.077163357286271e-64,
+   "p_holm": 3.6462980143717627e-63
+  },
+  {
+   "run": "B3_rules_in_prompt",
+   "metric": "unsuitable",
+   "n_pairs": 240,
+   "only_first": 0,
+   "only_second": 205,
+   "p_value": 3.8893845486632136e-62,
+   "p_holm": 1.5557538194652854e-61
+  },
+  {
+   "run": "M1_qwen2.5-7b",
+   "metric": "unsuitable",
+   "n_pairs": 240,
+   "only_first": 0,
+   "only_second": 0,
+   "p_value": 1.0,
+   "p_holm": 1.0
+  }
+ ]
+}
