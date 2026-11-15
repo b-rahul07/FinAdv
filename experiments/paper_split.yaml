@@ -10,8 +10,9 @@
 # 14 Nov 2026, evening: Kaggle session 2 (commit 0d5395e; A2 on 09f6122) finished the last seven runs. All 18 done.
 # 15 Nov 2026: five follow-up runs, not among the 18 reported (docs/PAPER_PLAN.md §9): the baselines with a longer
 # answer budget, B3 on the 7B model, and A1 without the standard mix as a starting point (3B and 7B).
+# 15 Nov 2026 (second follow-up): B1 and B3 with qwen2.5 14B.
 kaggle:
-  rahul: []
+  rahul: [B3L14_rules_in_prompt_14b, B1L14_plain_llm_14b]
 colab:
   rahul: []
 done:

@@ -59,6 +59,13 @@ models:
     model: qwen2.5:7b
     self_hosted: true
     options: {temperature: 0, seed: 42, num_ctx: 4096, num_predict: 1200}
+  # Follow-up (15 Nov 2026, after the draft review): the baselines with qwen2.5 14B (Q4_K_M, about 9 GB; fits a T4),
+  # same options as qwen2.5-7b-long. Licence: Apache 2.0.
+  qwen2.5-14b-long:
+    provider: ollama
+    model: qwen2.5:14b
+    self_hosted: true
+    options: {temperature: 0, seed: 42, num_ctx: 4096, num_predict: 1200}
   tiny-test:
     provider: fake
     model: scripted

@@ -1,0 +1,8 @@
+# Follow-up after the reported runs (15 Nov 2026; docs/PAPER_PLAN.md §9). Not part of the 18 reported runs.
+# B3 (rules in the prompt) with qwen2.5 14B and a 1,200-token budget: does a larger model follow written rules?
+run_id: B3L14_rules_in_prompt_14b
+model: qwen2.5-14b-long
+inputs: experiments/data/personas_v1.jsonl
+replicates: 3
+baseline: B3
+output: results/paper/B3L14_rules_in_prompt_14b.jsonl
