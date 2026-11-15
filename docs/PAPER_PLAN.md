@@ -211,3 +211,23 @@ on one commit (448618a). All five are in the paper's text.
   the gate, not the anchor, keeps them safe.
 - Conclusion for the paper: a model can add personalisation, but not yet personalisation that survives a change of
   wording. The website keeps the standard mix.
+
+## 10. Second review with the research connectors (15 Nov 2026)
+
+**References.** Every reference the paper cites was checked with Scholar Sidekick.
+- All 25 entries with a DOI or arXiv number match their records, and none is retracted, corrected or under concern.
+  The SEBI and RBI documents and Holm (1979) have no such identifier; they carry official numbers instead.
+- Six papers found with Consensus were added after the same check:
+  - Lo & Ross 2024 (HDSR) name the open challenges for LLM financial advice.
+  - Gehrmann et al. 2025 (FAccT) find that open-source guardrails miss most financial risks.
+  - Mu et al. 2023 and Purpura et al. 2026 (EACL) find that models follow stated rules unreliably.
+  - Chen et al. 2023 (self-consistency) is cited to separate same-input voting from twin-based relations.
+  - Zheng et al. 2026 is a survey of metamorphic testing and LLMs.
+- PAL and "Building Guardrails" now cite their ICML versions.
+
+**Claims softened.** "None of them" now reads "in our searches, none of them". The free Consensus tier returns three
+papers per search, so the searches were not exhaustive. Metamorphic testing is described as "used mainly to test
+LLMs" rather than "offline only".
+
+**One more baseline.** B1 and B3 with qwen2.5 14B (`B1L14_plain_llm_14b`, `B3L14_rules_in_prompt_14b`) were run on
+Kaggle to extend "rules in the prompt do not work" beyond 3B and 7B.
