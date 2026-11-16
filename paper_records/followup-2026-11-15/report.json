@@ -1683,6 +1683,193 @@
     "method": "cluster_bootstrap"
    }
   },
+  "B1L14_plain_llm_14b": {
+   "run_id": "B1L14_plain_llm_14b",
+   "mode": "baseline",
+   "model": "qwen2.5:14b",
+   "n_records": 720,
+   "n_personas": 240,
+   "replicates": 3,
+   "unsuitable": {
+    "k": 654,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.9083333333333333,
+    "ci95": [
+     0.8736111111111111,
+     0.9402777777777778
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "unsuitable_rep0": {
+    "k": 216,
+    "n": 240,
+    "n_obs": 240,
+    "rate": 0.9,
+    "ci95": [
+     0.8555194571936857,
+     0.9318769509663658
+    ],
+    "method": "wilson"
+   },
+   "unsuitable_text": {
+    "k": 466,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.6472222222222223,
+    "ci95": [
+     0.5861111111111111,
+     0.7
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "first_plan_unsuitable": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": null
+   },
+   "unsourced_numbers": {
+    "k": 720,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 1.0,
+    "ci95": [
+     0.9842455102000642,
+     1.0
+    ],
+    "method": "wilson_personas"
+   },
+   "outcome": {},
+   "dvr": {},
+   "pressure_kept": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": null
+   },
+   "replicate_agreement": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": "wilson"
+   },
+   "latency_s": {
+    "median": 27.006,
+    "p90": 35.659
+   },
+   "provenance": {
+    "git_commits": [
+     "02284b27727b1a8ff953c6861f68f8ab076170e5"
+    ],
+    "config_hashes": [
+     "00d761246b41"
+    ],
+    "rule_checks": [
+     "rule-check-v3"
+    ],
+    "dirty": false,
+    "traceable": true
+   },
+   "personalisation": {
+    "mean": 0.31072278460031993,
+    "ci95": [
+     0.2577833520801368,
+     0.3667887099049078
+    ],
+    "n": 167
+   },
+   "surrogate": {
+    "n": 167,
+    "r2": -0.03538222987623674,
+    "alpha": 100.0,
+    "fc": 0.09272746033705317,
+    "importance": {
+     "savings_months": 0.1448537130687595,
+     "emi_share": 0.025724710932555666,
+     "life_multiple": 0.06351892497772718,
+     "health_cover_lakh": 0.08236587214162971,
+     "card_unpaid": 0.03059063781836379,
+     "costly_loan": 0.035980626407744326,
+     "gl_score": 0.12284404347301385,
+     "experience": 0.05310530455408579,
+     "log_take_home": 0.01807512593812431,
+     "expense_ratio": 0.09668925621095069,
+     "dependants": 0.0669924441806654,
+     "age": 0.040135435326149826,
+     "n_goals": 0.12262104181342447,
+     "min_horizon": 0.09650286315680565
+    },
+    "capacity_share": 0.3830344853467802,
+    "willingness_share": 0.17594934802709963,
+    "other_share": 0.4410161666261203,
+    "mean_target": 0.7591373702036194
+   },
+   "allocation": {
+    "block": {
+     "k": 708,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.9833333333333333,
+     "ci95": [
+      0.9708333333333333,
+      0.9944444444444445
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "named_products": {
+     "k": 510,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.7083333333333334,
+     "ci95": [
+      0.6569444444444444,
+      0.7583333333333333
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "two_readings": {
+    "answers": 510,
+    "unsuitable_agree": {
+     "k": 507,
+     "n": 193,
+     "n_obs": 510,
+     "rate": 0.9941176470588236,
+     "ci95": [
+      0.9700827158563138,
+      0.9988659807845682
+     ],
+     "method": "wilson_personas"
+    },
+    "overspend_agree": {
+     "k": 379,
+     "n": 193,
+     "n_obs": 510,
+     "rate": 0.7431372549019608,
+     "ci95": [
+      0.6819923371647509,
+      0.8038095238095239
+     ],
+     "method": "cluster_bootstrap"
+    }
+   }
+  },
   "B1L_plain_llm_long": {
    "run_id": "B1L_plain_llm_long",
    "mode": "baseline",
@@ -2052,6 +2239,193 @@
      "ci95": [
       0.801762114537445,
       0.9282511210762332
+     ],
+     "method": "cluster_bootstrap"
+    }
+   }
+  },
+  "B3L14_rules_in_prompt_14b": {
+   "run_id": "B3L14_rules_in_prompt_14b",
+   "mode": "baseline",
+   "model": "qwen2.5:14b",
+   "n_records": 720,
+   "n_personas": 240,
+   "replicates": 3,
+   "unsuitable": {
+    "k": 585,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.8125,
+    "ci95": [
+     0.7680555555555556,
+     0.8541666666666666
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "unsuitable_rep0": {
+    "k": 193,
+    "n": 240,
+    "n_obs": 240,
+    "rate": 0.8041666666666667,
+    "ci95": [
+     0.7493344741570085,
+     0.8494148778813639
+    ],
+    "method": "wilson"
+   },
+   "unsuitable_text": {
+    "k": 333,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.4625,
+    "ci95": [
+     0.4013888888888889,
+     0.5166666666666667
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "first_plan_unsuitable": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": null
+   },
+   "unsourced_numbers": {
+    "k": 720,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 1.0,
+    "ci95": [
+     0.9842455102000642,
+     1.0
+    ],
+    "method": "wilson_personas"
+   },
+   "outcome": {},
+   "dvr": {},
+   "pressure_kept": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": null
+   },
+   "replicate_agreement": {
+    "k": 0,
+    "n": 0,
+    "n_obs": 0,
+    "rate": null,
+    "ci95": [
+     null,
+     null
+    ],
+    "method": "wilson"
+   },
+   "latency_s": {
+    "median": 43.5025,
+    "p90": 54.81
+   },
+   "provenance": {
+    "git_commits": [
+     "02284b27727b1a8ff953c6861f68f8ab076170e5"
+    ],
+    "config_hashes": [
+     "2cb532ff4e2f"
+    ],
+    "rule_checks": [
+     "rule-check-v3"
+    ],
+    "dirty": false,
+    "traceable": true
+   },
+   "personalisation": {
+    "mean": 0.17601451300974535,
+    "ci95": [
+     0.16246351193419983,
+     0.1972699970140955
+    ],
+    "n": 198
+   },
+   "surrogate": {
+    "n": 198,
+    "r2": 0.20865514224798953,
+    "alpha": 100.0,
+    "fc": 0.1488102372569712,
+    "importance": {
+     "savings_months": 0.05002338652423674,
+     "emi_share": 0.014781390141922882,
+     "life_multiple": 0.04463009869437578,
+     "health_cover_lakh": 0.011143683274302802,
+     "card_unpaid": 0.05636303901574295,
+     "costly_loan": 0.03725090370310491,
+     "gl_score": 0.18151625302585137,
+     "experience": 0.2827427884380646,
+     "log_take_home": 0.09255479427764299,
+     "expense_ratio": 0.04776920516669529,
+     "dependants": 0.11706122531546706,
+     "age": 0.030051633252559818,
+     "n_goals": 0.001550864594354052,
+     "min_horizon": 0.032560734575678915
+    },
+    "capacity_share": 0.21419250135368606,
+    "willingness_share": 0.46425904146391594,
+    "other_share": 0.3215484571823981,
+    "mean_target": 0.30799014827468546
+   },
+   "allocation": {
+    "block": {
+     "k": 684,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.95,
+     "ci95": [
+      0.9263888888888889,
+      0.9708333333333333
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "named_products": {
+     "k": 598,
+     "n": 240,
+     "n_obs": 720,
+     "rate": 0.8305555555555556,
+     "ci95": [
+      0.7861111111111111,
+      0.8708333333333333
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "two_readings": {
+    "answers": 598,
+    "unsuitable_agree": {
+     "k": 587,
+     "n": 215,
+     "n_obs": 598,
+     "rate": 0.9816053511705686,
+     "ci95": [
+      0.9615384615384616,
+      0.9966555183946488
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "overspend_agree": {
+     "k": 500,
+     "n": 215,
+     "n_obs": 598,
+     "rate": 0.8361204013377926,
+     "ci95": [
+      0.7946577629382304,
+      0.8789915966386554
      ],
      "method": "cluster_bootstrap"
     }
@@ -3179,13 +3553,22 @@
    "p_holm": 1.0
   },
   {
+   "run": "B1L14_plain_llm_14b",
+   "metric": "unsuitable",
+   "n_pairs": 240,
+   "only_first": 0,
+   "only_second": 216,
+   "p_value": 1.8991135491519597e-65,
+   "p_holm": 1.8991135491519597e-64
+  },
+  {
    "run": "B1L_plain_llm_long",
    "metric": "unsuitable",
    "n_pairs": 240,
    "only_first": 0,
    "only_second": 206,
    "p_value": 1.9446922743316068e-62,
-   "p_holm": 9.723461371658034e-62
+   "p_holm": 1.166815364598964e-61
   },
   {
    "run": "B1_plain_llm",
@@ -3194,7 +3577,16 @@
    "only_first": 0,
    "only_second": 215,
    "p_value": 3.7982270983039195e-65,
-   "p_holm": 3.0385816786431356e-64
+   "p_holm": 3.4184043884735275e-64
+  },
+  {
+   "run": "B3L14_rules_in_prompt_14b",
+   "metric": "unsuitable",
+   "n_pairs": 240,
+   "only_first": 0,
+   "only_second": 193,
+   "p_value": 1.5930919111324523e-58,
+   "p_holm": 6.372367644529809e-58
   },
   {
    "run": "B3L7_rules_in_prompt_7b",
@@ -3203,7 +3595,7 @@
    "only_first": 0,
    "only_second": 215,
    "p_value": 3.7982270983039195e-65,
-   "p_holm": 3.0385816786431356e-64
+   "p_holm": 3.4184043884735275e-64
   },
   {
    "run": "B3L_rules_in_prompt_long",
@@ -3212,7 +3604,7 @@
    "only_first": 0,
    "only_second": 211,
    "p_value": 6.077163357286271e-64,
-   "p_holm": 3.6462980143717627e-63
+   "p_holm": 4.25401435010039e-63
   },
   {
    "run": "B3_rules_in_prompt",
@@ -3221,7 +3613,7 @@
    "only_first": 0,
    "only_second": 205,
    "p_value": 3.8893845486632136e-62,
-   "p_holm": 1.5557538194652854e-61
+   "p_holm": 1.9446922743316068e-61
   },
   {
    "run": "M1_qwen2.5-7b",

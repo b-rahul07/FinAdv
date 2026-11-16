@@ -7,8 +7,10 @@ The unit is the persona: n counts personas (DVR: personas whose checks are poole
 | A1N7_no_anchor_7b | qwen2.5:7b | 240 | 3 | 0.0% [0.0%, 1.6%] (n=240) | 0.0% [0.0%, 1.6%] (n=240) | — | 1.7% [0.3%, 3.3%]* (n=240) | — | 27.9% [22.8%, 33.3%]* (n=240) | 51.1% [45.1%, 56.8%]* (n=240) | 99.0% [92.9%, 99.9%] (n=68) | 92.1% [88.0%, 94.9%] (n=240) | 17.1 s |
 | A1N_no_anchor | qwen2.5:3b | 240 | 3 | 0.0% [0.0%, 1.6%] (n=240) | 0.0% [0.0%, 1.6%] (n=240) | — | 1.8% [0.6%, 3.5%]* (n=240) | — | 24.9% [19.7%, 30.1%]* (n=240) | 53.9% [47.6%, 60.1%]* (n=240) | 95.1% [90.2%, 99.0%]* (n=68) | 91.7% [87.5%, 94.5%] (n=240) | 9.7 s |
 | A1_full | qwen2.5:3b | 240 | 3 | 0.0% [0.0%, 1.6%] (n=240) | 0.0% [0.0%, 1.6%] (n=240) | — | 1.4% [0.1%, 2.9%]* (n=240) | — | 38.8% [32.5%, 44.4%]* (n=240) | 41.0% [35.1%, 47.4%]* (n=240) | 98.0% [91.4%, 99.6%] (n=68) | 92.5% [88.5%, 95.2%] (n=240) | 9.4 s |
+| B1L14_plain_llm_14b | qwen2.5:14b | 240 | 3 | 90.8% [87.4%, 94.0%]* (n=240) | 90.0% [85.6%, 93.2%] (n=240) | 64.7% [58.6%, 70.0%]* (n=240) | — | 100.0% [98.4%, 100.0%] (n=240) | — | — | — | — | 27.0 s |
 | B1L_plain_llm_long | qwen2.5:3b | 240 | 3 | 87.8% [83.9%, 91.4%]* (n=240) | 85.8% [80.9%, 89.7%] (n=240) | 34.4% [29.2%, 39.7%]* (n=240) | — | 97.9% [96.1%, 99.3%]* (n=240) | — | — | — | — | 4.2 s |
 | B1_plain_llm | qwen2.5:3b | 240 | 3 | 89.3% [85.7%, 92.6%]* (n=240) | 89.6% [85.1%, 92.8%] (n=240) | 40.4% [34.7%, 46.0%]* (n=240) | — | 98.2% [96.5%, 99.4%]* (n=240) | — | — | — | — | 3.7 s |
+| B3L14_rules_in_prompt_14b | qwen2.5:14b | 240 | 3 | 81.2% [76.8%, 85.4%]* (n=240) | 80.4% [74.9%, 84.9%] (n=240) | 46.2% [40.1%, 51.7%]* (n=240) | — | 100.0% [98.4%, 100.0%] (n=240) | — | — | — | — | 43.5 s |
 | B3L7_rules_in_prompt_7b | qwen2.5:7b | 240 | 3 | 91.5% [88.2%, 94.4%]* (n=240) | 89.6% [85.1%, 92.8%] (n=240) | 57.9% [52.2%, 63.6%]* (n=240) | — | 98.5% [96.8%, 99.7%]* (n=240) | — | — | — | — | 14.6 s |
 | B3L_rules_in_prompt_long | qwen2.5:3b | 240 | 3 | 87.9% [83.8%, 91.5%]* (n=240) | 87.9% [83.2%, 91.5%] (n=240) | 78.1% [72.5%, 82.9%]* (n=240) | — | 84.0% [79.7%, 87.9%]* (n=240) | — | — | — | — | 1.8 s |
 | B3_rules_in_prompt | qwen2.5:3b | 240 | 3 | 84.6% [79.9%, 88.8%]* (n=240) | 85.4% [80.4%, 89.3%] (n=240) | 76.1% [70.4%, 81.1%]* (n=240) | — | 81.1% [76.4%, 85.7%]* (n=240) | — | — | — | — | 1.9 s |
@@ -86,8 +88,10 @@ Answers that ended with a parsable block (judged on it), and blocks that named a
 
 | Run | Block present | Block names products |
 |---|---|---|
+| B1L14_plain_llm_14b | 98.3% [97.1%, 99.4%]* (n=240) | 70.8% [65.7%, 75.8%]* (n=240) |
 | B1L_plain_llm_long | 59.3% [53.8%, 64.9%]* (n=240) | 25.6% [20.6%, 30.7%]* (n=240) |
 | B1_plain_llm | 64.6% [59.2%, 70.0%]* (n=240) | 32.1% [26.8%, 37.6%]* (n=240) |
+| B3L14_rules_in_prompt_14b | 95.0% [92.6%, 97.1%]* (n=240) | 83.1% [78.6%, 87.1%]* (n=240) |
 | B3L7_rules_in_prompt_7b | 86.9% [83.3%, 90.7%]* (n=240) | 76.5% [71.8%, 80.8%]* (n=240) |
 | B3L_rules_in_prompt_long | 84.0% [79.7%, 88.2%]* (n=240) | 71.7% [66.5%, 76.7%]* (n=240) |
 | B3_rules_in_prompt | 81.8% [77.1%, 86.4%]* (n=240) | 67.2% [61.4%, 72.8%]* (n=240) |
@@ -96,8 +100,10 @@ Each answer judged on its block is also read as free text. The share on which th
 
 | Run | Answers read twice | Same verdict: unsuitable product | Same verdict: overspend |
 |---|---|---|---|
+| B1L14_plain_llm_14b | 510 | 99.4% [97.0%, 99.9%] (n=193) | 74.3% [68.2%, 80.4%]* (n=193) |
 | B1L_plain_llm_long | 184 | 99.5% [94.4%, 99.9%] (n=80) | 87.0% [78.8%, 94.0%]* (n=80) |
 | B1_plain_llm | 231 | 100.0% [96.3%, 100.0%] (n=99) | 87.0% [80.2%, 92.8%]* (n=99) |
+| B3L14_rules_in_prompt_14b | 598 | 98.2% [96.2%, 99.7%]* (n=215) | 83.6% [79.5%, 87.9%]* (n=215) |
 | B3L7_rules_in_prompt_7b | 551 | 97.3% [95.3%, 98.9%]* (n=210) | 96.9% [94.6%, 98.8%]* (n=210) |
 | B3L_rules_in_prompt_long | 516 | 98.6% [96.9%, 99.8%]* (n=191) | 83.7% [78.1%, 88.5%]* (n=191) |
 | B3_rules_in_prompt | 484 | 98.8% [97.3%, 99.8%]* (n=174) | 79.8% [74.1%, 85.4%]* (n=174) |
@@ -111,8 +117,10 @@ Personalisation: mean pairwise weighted Jaccard similarity of the plans differen
 | A1N7_no_anchor_7b | 0.32 [0.31, 0.35] | 173 | 0.24 | 0.37 | 0.28 | 0.35 | 0.11 |
 | A1N_no_anchor | 0.42 [0.39, 0.45] | 173 | 0.19 | 0.40 | 0.28 | 0.32 | 0.11 |
 | A1_full | 0.43 [0.40, 0.47] | 173 | 0.30 | 0.36 | 0.28 | 0.36 | 0.11 |
+| B1L14_plain_llm_14b | 0.31 [0.26, 0.37] | 167 | -0.04 | 0.38 | 0.18 | 0.44 | 0.09 |
 | B1L_plain_llm_long | 0.36 [0.29, 0.46] | 62 | -0.03 | 0.51 | 0.12 | 0.37 | 0.12 |
 | B1_plain_llm | 0.50 [0.40, 0.60] | 64 | -0.03 | 0.50 | 0.08 | 0.42 | 0.13 |
+| B3L14_rules_in_prompt_14b | 0.18 [0.16, 0.20] | 198 | 0.21 | 0.21 | 0.46 | 0.32 | 0.15 |
 | B3L7_rules_in_prompt_7b | 0.16 [0.15, 0.18] | 185 | 0.29 | 0.22 | 0.51 | 0.27 | 0.16 |
 | B3L_rules_in_prompt_long | 0.49 [0.45, 0.53] | 166 | 0.09 | 0.29 | 0.19 | 0.53 | 0.14 |
 | B3_rules_in_prompt | 0.46 [0.42, 0.51] | 162 | 0.05 | 0.39 | 0.17 | 0.44 | 0.13 |
@@ -125,8 +133,10 @@ Personalisation: mean pairwise weighted Jaccard similarity of the plans differen
 | A1N7_no_anchor_7b | 448618a9f1 | eae08f5adc | rule-check-v3 | yes |
 | A1N_no_anchor | 448618a9f1 | fd9657d6ee | rule-check-v3 | yes |
 | A1_full | dd47d58259 | dc7207e958 | rule-check-v3 | yes |
+| B1L14_plain_llm_14b | 02284b2772 | 00d761246b | rule-check-v3 | yes |
 | B1L_plain_llm_long | 448618a9f1 | 1e499a1e3f | rule-check-v3 | yes |
 | B1_plain_llm | e5caa155c6 | 998e1089ea | rule-check-v3 | yes |
+| B3L14_rules_in_prompt_14b | 02284b2772 | 2cb532ff4e | rule-check-v3 | yes |
 | B3L7_rules_in_prompt_7b | 448618a9f1 | 286bfae3e6 | rule-check-v3 | yes |
 | B3L_rules_in_prompt_long | 448618a9f1 | 09116fb1d5 | rule-check-v3 | yes |
 | B3_rules_in_prompt | e5caa155c6 | dc90a05f80 | rule-check-v3 | yes |
@@ -140,9 +150,11 @@ Holm-adjusted p-values are corrected over every test in this table.
 |---|---|---|---|---|---|---|
 | A1N7_no_anchor_7b | unsuitable | 240 | 0 | 0 | 1 | 1 |
 | A1N_no_anchor | unsuitable | 240 | 0 | 0 | 1 | 1 |
-| B1L_plain_llm_long | unsuitable | 240 | 0 | 206 | 1.94e-62 | 9.72e-62 |
-| B1_plain_llm | unsuitable | 240 | 0 | 215 | 3.8e-65 | 3.04e-64 |
-| B3L7_rules_in_prompt_7b | unsuitable | 240 | 0 | 215 | 3.8e-65 | 3.04e-64 |
-| B3L_rules_in_prompt_long | unsuitable | 240 | 0 | 211 | 6.08e-64 | 3.65e-63 |
-| B3_rules_in_prompt | unsuitable | 240 | 0 | 205 | 3.89e-62 | 1.56e-61 |
+| B1L14_plain_llm_14b | unsuitable | 240 | 0 | 216 | 1.9e-65 | 1.9e-64 |
+| B1L_plain_llm_long | unsuitable | 240 | 0 | 206 | 1.94e-62 | 1.17e-61 |
+| B1_plain_llm | unsuitable | 240 | 0 | 215 | 3.8e-65 | 3.42e-64 |
+| B3L14_rules_in_prompt_14b | unsuitable | 240 | 0 | 193 | 1.59e-58 | 6.37e-58 |
+| B3L7_rules_in_prompt_7b | unsuitable | 240 | 0 | 215 | 3.8e-65 | 3.42e-64 |
+| B3L_rules_in_prompt_long | unsuitable | 240 | 0 | 211 | 6.08e-64 | 4.25e-63 |
+| B3_rules_in_prompt | unsuitable | 240 | 0 | 205 | 3.89e-62 | 1.94e-61 |
 | M1_qwen2.5-7b | unsuitable | 240 | 0 | 0 | 1 | 1 |

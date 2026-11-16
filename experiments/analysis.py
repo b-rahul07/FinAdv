@@ -28,7 +28,7 @@ from finadvisor.advisor.profile import Profile
 MODEL_RUNS = ["A1_full", "M1_qwen2.5-1.5b", "M1_llama3.2-3b", "M1_phi4-mini", "M1_qwen2.5-7b", "S2_mr6_risk",
               "A1N_no_anchor", "A1N7_no_anchor_7b"]
 BASELINES = ["B1_plain_llm", "B2_llm_rag", "B3_rules_in_prompt", "B1L_plain_llm_long", "B3L_rules_in_prompt_long",
-             "B3L7_rules_in_prompt_7b"]
+             "B3L7_rules_in_prompt_7b", "B1L14_plain_llm_14b", "B3L14_rules_in_prompt_14b"]
 LOOP_LINES = 4          # a line of more than 15 characters repeated this often counts as a loop
 
 

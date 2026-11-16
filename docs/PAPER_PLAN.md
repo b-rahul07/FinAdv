@@ -231,3 +231,8 @@ LLMs" rather than "offline only".
 
 **One more baseline.** B1 and B3 with qwen2.5 14B (`B1L14_plain_llm_14b`, `B3L14_rules_in_prompt_14b`) were run on
 Kaggle to extend "rules in the prompt do not work" beyond 3B and 7B.
+
+**14B result (16 Nov 2026; Kaggle session 4, commit 02284b2, 720 rows each).** Rules in the prompt with qwen2.5 14B:
+81.2% [76.8, 85.4] of personas still got an unsuitable plan. The 14B model recommended fewer products above the
+ceiling (44.7%) but overspent in 67.8% of answers. Without the rules it reached 90.8%. The paper now says rules in the
+prompt were no substitute for enforcing them from 3B to 14B. The records are in `paper_records/followup-2026-11-15/`.

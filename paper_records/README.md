@@ -17,7 +17,7 @@
 | `checks/` | `experiments.sebi_check --live` (rules-v2 and rules-v2-unsecured) and `experiments.rules_rework` |
 
 `followup-2026-11-15/` holds the five follow-up runs from the draft review (`docs/PAPER_PLAN.md` §9). They are B1L and
-B3L (a 1,200-token answer budget), B3L7 (rules in the prompt, qwen2.5 7B), and A1N and A1N7 (no standard mix as a
+B3L (a 1,200-token answer budget), B3L7 (rules in the prompt, qwen2.5 7B), B1L14 and B3L14 (qwen2.5 14B), and A1N and A1N7 (no standard mix as a
 starting point, 3B and 7B). Their `report.json` and `analysis.json` also include A1, B1, B3 and M1 7B for comparison.
 Those four runs' records are in `final-2026-11-14/`.
 

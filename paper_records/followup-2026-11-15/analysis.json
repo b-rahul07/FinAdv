@@ -942,6 +942,146 @@
    },
    "robust_rows": 420,
    "rows": 720
+  },
+  "B1L14_plain_llm_14b": {
+   "unsuitable": {
+    "k": 654,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.9083333333333333,
+    "ci95": [
+     0.8736111111111111,
+     0.9402777777777778
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "product_or_company": {
+    "k": 463,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.6430555555555556,
+    "ci95": [
+     0.5819444444444445,
+     0.6958333333333333
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "overspend": {
+    "k": 547,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.7597222222222222,
+    "ci95": [
+     0.7083333333333334,
+     0.8083333333333333
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "loops": {
+    "k": 0,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.015754489799935698
+    ],
+    "method": "wilson_personas"
+   },
+   "no_surplus": {
+    "k": 225,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.3125,
+    "ci95": [
+     0.25416666666666665,
+     0.37083333333333335
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "robust_subset": {
+    "k": 424,
+    "n": 165,
+    "n_obs": 489,
+    "rate": 0.8670756646216768,
+    "ci95": [
+     0.8189300411522634,
+     0.9105691056910569
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "robust_rows": 489,
+   "rows": 720
+  },
+  "B3L14_rules_in_prompt_14b": {
+   "unsuitable": {
+    "k": 585,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.8125,
+    "ci95": [
+     0.7680555555555556,
+     0.8541666666666666
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "product_or_company": {
+    "k": 322,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.44722222222222224,
+    "ci95": [
+     0.3875,
+     0.5013888888888889
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "overspend": {
+    "k": 488,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.6777777777777778,
+    "ci95": [
+     0.625,
+     0.7319444444444444
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "loops": {
+    "k": 0,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.015754489799935698
+    ],
+    "method": "wilson_personas"
+   },
+   "no_surplus": {
+    "k": 225,
+    "n": 240,
+    "n_obs": 720,
+    "rate": 0.3125,
+    "ci95": [
+     0.25416666666666665,
+     0.37083333333333335
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "robust_subset": {
+    "k": 351,
+    "n": 162,
+    "n_obs": 470,
+    "rate": 0.7468085106382979,
+    "ci95": [
+     0.6853448275862069,
+     0.8081023454157783
+    ],
+    "method": "cluster_bootstrap"
+   },
+   "robust_rows": 470,
+   "rows": 720
   }
  }
 }
