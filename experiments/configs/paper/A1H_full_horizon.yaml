@@ -1,0 +1,11 @@
+# Second follow-up after the paper review (17 Nov 2026; docs/PAPER_PLAN.md §11). Not part of the 18 reported runs.
+# A1 on the corrected planner (plan-v3: goal products by the time left when investing starts).
+run_id: A1H_full_horizon
+model: website
+pipeline: pipeline/pipeline-v4-horizon.yaml
+inputs: experiments/data/personas_v1.jsonl
+replicates: 3
+auditor: {early_exit: false, time_budget_s: null}   # every relation evaluated (DVR per relation); no time limit
+planner: {mode: model}                               # the language model chooses the mix (the report's design)
+mode: plan
+output: results/paper/A1H_full_horizon.jsonl

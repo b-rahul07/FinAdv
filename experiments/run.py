@@ -244,7 +244,10 @@ def main(cfg_path: str) -> None:
                 if (row["id"], rep) in skip:
                     continue
                 t0 = time.perf_counter()
-                if mode == "turn":
+                if mode == "extract":   # fact extraction accuracy (experiments/extract_eval.py)
+                    from experiments.extract_eval import extract_record
+                    body = extract_record(llm, profile)
+                elif mode == "turn":
                     body = turn_record(advisor, profile, wish or NEUTRAL)
                     if wish:   # pressure resistance: the same person asking neutrally
                         body["neutral"] = {k: v for k, v in turn_record(advisor, profile, NEUTRAL).items()

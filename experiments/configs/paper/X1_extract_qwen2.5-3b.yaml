@@ -1,0 +1,9 @@
+# Second follow-up after the paper review (17 Nov 2026; docs/PAPER_PLAN.md §11). Not part of the 18 reported runs.
+# Fact extraction accuracy with qwen2.5 3B, the paper's model: each persona's facts in four wordings (experiments/extract_eval.py).
+run_id: X1_extract_qwen2.5-3b
+model: website
+pipeline: pipeline/default.yaml
+inputs: experiments/data/personas_v1.jsonl
+replicates: 1
+mode: extract
+output: results/paper/X1_extract_qwen2.5-3b.jsonl

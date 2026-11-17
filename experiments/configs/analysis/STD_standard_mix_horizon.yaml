@@ -1,0 +1,11 @@
+# STD on the corrected planner (pipeline-v4-horizon). The pipeline with no model choice: the standard mix for the suitability level, audited (planner.mode standard).
+# Deterministic; runs in seconds with no model. Used by experiments/analysis.py to ask what the model adds.
+run_id: STD_standard_mix_horizon
+model: tiny-test
+pipeline: pipeline/pipeline-v4-horizon.yaml
+inputs: experiments/data/personas_v1.jsonl
+replicates: 1
+auditor: {early_exit: false, time_budget_s: null}
+planner: {mode: standard}
+mode: plan
+output: results/analysis/STD_standard_mix_horizon.jsonl
