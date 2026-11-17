@@ -18,6 +18,8 @@ kaggle:
   # 17 Nov 2026, night: X2 (extraction prompt v2). The GPU quota was nearly used up, so the 3B run is on a Kaggle CPU
   # session (notebook copy rahulb07/finadvisor-x2-cpu, ME = rahul_cpu); phi4-mini and 7B run on the laptop CPU.
   rahul_cpu: [X2_extract_qwen2.5-3b]
+  # A teammate runs the 7B X2 run on their own Kaggle account (GPU T4 x2), with ME = "member1" in step 1.
+  member1: [X2_extract_qwen2.5-7b]
 colab:
   rahul: []
 done:
