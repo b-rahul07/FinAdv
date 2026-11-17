@@ -245,12 +245,87 @@ def tab_results(report: dict) -> str:
             "\n\\end{table*}\n")
 
 
+def review_checks(run_dir: Path, followup: Path | None, std_horizon: Path | None) -> dict[str, str]:
+    """Macros for the analyses added in the paper review of 17 Nov 2026 (\\chk{...} names)."""
+    out: dict[str, str] = {}
+    proj = run_dir / "projection.json"            # experiments/projection.py: generate-then-project baseline
+    if proj.exists():
+        pj = json.loads(proj.read_text(encoding="utf-8"))
+        out["projunsuitable"] = p1(pj["unsuitable"]["rate"])
+        out["projchanged"] = p1(pj["changed"]["rate"])
+        out["projchangedci"] = ci_text(pj["changed"])
+        out["projmoved"] = p1(pj["moved_share_mean"])
+        out["projdvrany"] = p1(pj["dvr_any"]["rate"])
+        for rel, r in pj["dvr"].items():
+            out[f"projdvr{rel}"] = p1(r["rate"])
+        lo = min(r["rate"] for rel, r in pj["dvr"].items() if rel != "MR5")
+        hi = max(r["rate"] for rel, r in pj["dvr"].items() if rel != "MR5")
+        out["projdvrlo"], out["projdvrhi"] = p1(lo), p1(hi)
+    if std_horizon and std_horizon.exists():      # the standard mix on the corrected planner (pipeline-v4-horizon)
+        rows = [json.loads(x) for x in std_horizon.read_text(encoding="utf-8").splitlines() if x.strip()]
+        out["stdhfallbackk"] = str(sum(1 for r in rows if (r.get("audit") or {}).get("status") == "fallback"))
+        out["stdhn"] = str(len(rows))
+    ex = followup / "extraction.json" if followup else None
+    if ex and ex.exists():                        # experiments/extract_report.py: fact extraction
+        for rid, s in json.loads(ex.read_text(encoding="utf-8")).items():
+            k = rid.replace("X1_extract_", "x:")
+            for m in ("raw_recall", "accepted_recall", "accepted_precision"):
+                out[f"{k}:{m}"] = p1(s[m]["rate"])
+                out[f"{k}:{m}ci"] = ci_text(s[m])
+            for w, d in s["by_wording"].items():
+                out[f"{k}:{w}:raw_recall"] = p1(d["raw_recall"]["rate"])
+                if d["accepted_precision"]:
+                    out[f"{k}:{w}:accepted_precision"] = p1(d["accepted_precision"]["rate"])
+            for f, d in s["by_field"].items():
+                out[f"{k}:{f}:raw_recall"] = p1(d["raw_recall"]["rate"])
+    return out
+
+
+def fig_unsuitable(report: dict, path: Path) -> None:
+    """Bar chart of the main finding: the share of personas given an unsuitable plan, with 95% intervals."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    runs = report["runs"]
+    bars = [("B1 model alone", "B1_plain_llm", "unsuitable"), ("B2 + retrieval", "B2_llm_rag", "unsuitable"),
+            ("B3 rules in prompt, 3B", "B3_rules_in_prompt", "unsuitable"),
+            ("B3 rules in prompt, 7B", "B3L7_rules_in_prompt_7b", "unsuitable"),
+            ("B3 rules in prompt, 14B", "B3L14_rules_in_prompt_14b", "unsuitable"),
+            ("FinAdvisor, first plan", "A1_full", "first_plan_unsuitable"),
+            ("FinAdvisor, final answer", "A1_full", "unsuitable")]
+    bars = [b for b in bars if b[1] in runs and rate(runs[b[1]].get(b[2]))]
+    blue, orange, ink, muted, grid = "#2a78d6", "#eb6834", "#0b0b0b", "#52514e", "#e4e3df"
+    plt.rcParams.update({"font.family": "serif", "font.size": 7, "axes.edgecolor": muted, "xtick.color": muted,
+                         "ytick.color": ink, "axes.linewidth": 0.6, "pdf.fonttype": 42, "ytick.major.width": 0})
+    fig, ax = plt.subplots(figsize=(3.45, 1.95))
+    for i, (label, rid, key) in enumerate(bars):
+        r = runs[rid][key]
+        y = len(bars) - 1 - i
+        v, (lo, hi) = 100 * r["rate"], r["ci95"]
+        color = blue if rid == "A1_full" else orange
+        ax.barh(y, v, height=0.62, color=color, edgecolor="white", linewidth=0.8)
+        ax.plot([100 * lo, 100 * hi], [y, y], color=ink, lw=0.7)
+        ax.text(max(v, 100 * hi) + 1.5, y, f"{v:.1f}%", va="center", fontsize=6.5, color=ink)
+    ax.set_yticks(range(len(bars)))
+    ax.set_yticklabels([b[0] for b in reversed(bars)])
+    ax.set_xlim(0, 108)
+    ax.set_xlabel("Personas given an unsuitable plan (%)")
+    ax.grid(axis="x", color=grid, lw=0.5)
+    ax.set_axisbelow(True)
+    for side in ("top", "right", "left"):
+        ax.spines[side].set_visible(False)
+    fig.tight_layout(pad=0.3)
+    fig.savefig(path)
+    plt.close(fig)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("run_dir")
     ap.add_argument("--out", required=True)
     ap.add_argument("--followup", help="a follow-up run directory (report.json, analysis.json) for text macros")
     ap.add_argument("--site-eval", help="the website's advice-evaluation records (jsonl) for text macros")
+    ap.add_argument("--std-horizon", help="STD_standard_mix_horizon.jsonl (the standard mix on the corrected planner)")
     a = ap.parse_args()
     run_dir, out = Path(a.run_dir), Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
@@ -287,9 +362,12 @@ def main() -> None:
             site[f"{route}median"] = f"{statistics.median(secs):.1f}"
             site[f"{route}n"] = str(len(secs))
         checks = {**checks, **{f"site{k}": v for k, v in site.items()}}
+    checks = {**checks, **review_checks(run_dir, Path(a.followup) if a.followup else None,
+                                        Path(a.std_horizon) if a.std_horizon else None)}
     (out / "numbers.tex").write_text(numbers_tex(report, checks), encoding="utf-8")
     (out / "tab_results.tex").write_text(tab_results(table_report), encoding="utf-8")
     (out / "tab_checks.tex").write_text(tab_checks(checks), encoding="utf-8")
+    fig_unsuitable(report, out / "fig_unsuitable.pdf")
     print(f"wrote {out}")
 
 
