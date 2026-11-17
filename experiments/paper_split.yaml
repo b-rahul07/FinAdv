@@ -15,6 +15,9 @@
 # a GPU, one per T4.
 kaggle:
   rahul: [X1_extract_qwen2.5-7b, A1H_full_horizon]
+  # 17 Nov 2026, night: X2 (extraction prompt v2). The GPU quota was nearly used up, so the 3B run is on a Kaggle CPU
+  # session (notebook copy rahulb07/finadvisor-x2-cpu, ME = rahul_cpu); phi4-mini and 7B run on the laptop CPU.
+  rahul_cpu: [X2_extract_qwen2.5-3b]
 colab:
   rahul: []
 done:
