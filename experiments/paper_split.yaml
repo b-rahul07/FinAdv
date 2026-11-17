@@ -10,9 +10,11 @@
 # 14 Nov 2026, evening: Kaggle session 2 (commit 0d5395e; A2 on 09f6122) finished the last seven runs. All 18 done.
 # 15 Nov 2026: five follow-up runs, not among the 18 reported (docs/PAPER_PLAN.md §9): the baselines with a longer
 # answer budget, B3 on the 7B model, and A1 without the standard mix as a starting point (3B and 7B).
-# 17 Nov 2026 (paper review): A1 on the corrected planner, and fact extraction with three models.
+# 17 Nov 2026 (paper review): A1 on the corrected planner, and fact extraction with three models. Only 3 h 46 min of
+# GPU quota was left, so the 3B and phi4-mini extraction runs moved to the laptop CPU; Kaggle runs the two that need
+# a GPU, one per T4.
 kaggle:
-  rahul: [A1H_full_horizon, X1_extract_qwen2.5-3b, X1_extract_phi4-mini, X1_extract_qwen2.5-7b]
+  rahul: [X1_extract_qwen2.5-7b, A1H_full_horizon]
 colab:
   rahul: []
 done:
