@@ -1,4 +1,4 @@
-"""Summary of the fact-extraction runs (X1_extract_*; experiments/extract_eval.py).
+"""Summary of the fact-extraction runs (X1_extract_*: prompt v1, X2_extract_*: prompt v2; experiments/extract_eval.py).
 
     python -m experiments.extract_report results/paper/followup-2026-11-15
 
@@ -54,7 +54,7 @@ def summarise(rows: list[dict]) -> dict:
 
 def main(run_dir: str) -> None:
     out = {}
-    for f in sorted(glob.glob(str(Path(run_dir) / "X1_extract_*.jsonl"))):
+    for f in sorted(glob.glob(str(Path(run_dir) / "X[0-9]_extract_*.jsonl"))):
         rid = Path(f).stem
         out[rid] = summarise(metrics.load(f))
         s = out[rid]

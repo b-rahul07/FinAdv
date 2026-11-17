@@ -1,0 +1,9 @@
+# Third follow-up (17 Nov 2026, paper review; docs/PAPER_PLAN.md §11). Not part of the 18 reported runs.
+# X1 repeated with extraction prompt v2 (the field names in the prompt), with qwen2.5 7B: each persona's facts in four wordings (experiments/extract_eval.py).
+run_id: X2_extract_qwen2.5-7b
+model: qwen2.5-7b
+pipeline: pipeline/default.yaml
+inputs: experiments/data/personas_v1.jsonl
+replicates: 1
+mode: extract
+output: results/paper/X2_extract_qwen2.5-7b.jsonl
