@@ -8,8 +8,6 @@ Reads <run dir>/report.json and <run dir>/checks/{sebi_check.md, sebi_check_unse
                     an unknown name stops LaTeX with an error instead of printing nothing
   tab_results.tex   one compact table: baselines, FinAdvisor, ablations, sensitivity, models
   tab_checks.tex    rule-by-rule agreement with SEBI's tool; written rules against the engines
-  fig_unsuitable.pdf  first-plan and final unsuitable rate per system, 95% intervals
-  fig_outcomes.pdf    pass / repaired / fallback per system (the cost of the auditor)
 """
 
 from __future__ import annotations
@@ -247,99 +245,6 @@ def tab_results(report: dict) -> str:
             "\n\\end{table*}\n")
 
 
-# --------------------------------------------------------------------------- figures
-
-BLUE, ORANGE, AQUA, INK, MUTED, GRID = "#2a78d6", "#eb6834", "#1baf7a", "#0b0b0b", "#52514e", "#e4e3df"
-FIG_ORDER = ["B1_plain_llm", "B2_llm_rag", "B3_rules_in_prompt", "A1_full", "A2_no_gate", "A3_no_auditor",
-             "A5_no_calculators", "A6_no_pressure_fence", "S2_mr6_risk", "M1_qwen2.5-1.5b", "M1_llama3.2-3b",
-             "M1_phi4-mini", "M1_qwen2.5-7b"]
-
-
-def _style(plt):
-    plt.rcParams.update({"font.family": "serif", "font.size": 7, "axes.edgecolor": MUTED, "axes.labelcolor": INK,
-                         "xtick.color": MUTED, "ytick.color": INK, "axes.linewidth": 0.6, "pdf.fonttype": 42,
-                         "xtick.major.width": 0.6, "ytick.major.width": 0, "axes.titlesize": 7})
-
-
-def fig_unsuitable(report: dict, path: Path) -> None:
-    import matplotlib
-    matplotlib.use("Agg")
-    import matplotlib.pyplot as plt
-    _style(plt)
-    runs = report["runs"]
-    ids = [r for r in FIG_ORDER if r in runs]
-    fig, ax = plt.subplots(figsize=(3.45, 2.9))
-    for i, rid in enumerate(ids):
-        y = len(ids) - 1 - i
-        m = metrics(runs[rid])
-        for key, color, marker, dy in (("first", ORANGE, "s", 0.17), ("unsuitable", BLUE, "o", -0.17)):
-            r = rate(m[key])
-            if r is None:
-                continue
-            lo, hi = r["ci95"]
-            ax.plot([100 * lo, 100 * hi], [y + dy] * 2, color=color, lw=1.2, solid_capstyle="round")
-            ax.plot(100 * r["rate"], y + dy, marker=marker, ms=4.2, color=color, mec="white", mew=0.6, zorder=3)
-            if r["rate"] >= 0.3:
-                ax.text(100 * hi + 1.5, y + dy, f"{p1(r['rate'])}", va="center", ha="left", fontsize=6, color=INK)
-    ax.set_yticks(range(len(ids)))
-    ax.set_yticklabels([LABEL[r] for r in reversed(ids)])
-    ax.axhline(len(ids) - 3.5, color=GRID, lw=0.6)
-    ax.set_xlim(-2, 112)
-    ax.set_xticks([0, 25, 50, 75, 100])
-    ax.set_xlabel("Personas given an unsuitable plan (%)")
-    ax.grid(axis="x", color=GRID, lw=0.5)
-    ax.set_axisbelow(True)
-    for side in ("top", "right", "left"):
-        ax.spines[side].set_visible(False)
-    from matplotlib.lines import Line2D
-    ax.legend(handles=[Line2D([], [], color=BLUE, marker="o", ms=4, lw=1.2, label="final answer"),
-                       Line2D([], [], color=ORANGE, marker="s", ms=4, lw=1.2, label="first plan (before the auditor)")],
-              loc="lower right", frameon=False, fontsize=6, handlelength=1.6)
-    fig.tight_layout(pad=0.3)
-    fig.savefig(path)
-    plt.close(fig)
-
-
-def fig_outcomes(report: dict, path: Path) -> None:
-    import matplotlib
-    matplotlib.use("Agg")
-    import matplotlib.pyplot as plt
-    _style(plt)
-    runs = report["runs"]
-    ids = [r for r in ["A1_full", "A2_no_gate", "A5_no_calculators", "A6_no_pressure_fence", "S1_rules_v1",
-                       "S2_mr6_risk", "M1_qwen2.5-1.5b", "M1_llama3.2-3b", "M1_phi4-mini", "M1_qwen2.5-7b"] if r in runs]
-    fig, ax = plt.subplots(figsize=(3.45, 2.3))
-    for i, rid in enumerate(ids):
-        y = len(ids) - 1 - i
-        m = metrics(runs[rid])
-        left = 0.0
-        for key, color, hatch in (("pass", BLUE, None), ("repaired", AQUA, "////"), ("fallback", ORANGE, None)):
-            r = rate(m[key])
-            w = 100 * r["rate"] if r else 0.0
-            ax.barh(y, w, left=left, height=0.62, color=color, edgecolor="white", linewidth=1.0, hatch=hatch)
-            if w >= 9:
-                box = dict(boxstyle="round,pad=0.12", fc=AQUA, ec="none") if key == "repaired" else None
-                ax.text(left + w / 2, y, f"{w:.0f}", ha="center", va="center", fontsize=5.6,
-                        color="white" if key != "repaired" else INK, bbox=box)
-            left += w
-    ax.set_yticks(range(len(ids)))
-    ax.set_yticklabels([LABEL[r] for r in reversed(ids)])
-    ax.set_xlim(0, 100)
-    ax.set_xlabel("Share of answers (%)")
-    for side in ("top", "right", "left"):
-        ax.spines[side].set_visible(False)
-    from matplotlib.patches import Patch
-    plt.rcParams["hatch.color"] = "white"
-    fig.legend(handles=[Patch(facecolor=BLUE, label="first plan passed"),
-                        Patch(facecolor=AQUA, hatch="////", edgecolor="white", label="repaired"),
-                        Patch(facecolor=ORANGE, label="safe-plan fallback")],
-               loc="upper center", bbox_to_anchor=(0.5, 1.0), ncol=3, frameon=False, fontsize=6, handlelength=1.2,
-               columnspacing=0.9)
-    fig.tight_layout(pad=0.3, rect=(0, 0, 1, 0.92))
-    fig.savefig(path)
-    plt.close(fig)
-
-
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("run_dir")
@@ -385,8 +290,6 @@ def main() -> None:
     (out / "numbers.tex").write_text(numbers_tex(report, checks), encoding="utf-8")
     (out / "tab_results.tex").write_text(tab_results(table_report), encoding="utf-8")
     (out / "tab_checks.tex").write_text(tab_checks(checks), encoding="utf-8")
-    fig_unsuitable(table_report, out / "fig_unsuitable.pdf")
-    fig_outcomes(table_report, out / "fig_outcomes.pdf")
     print(f"wrote {out}")
 
 

@@ -98,6 +98,21 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
+### 2026-11-17 — Tidy-up
+- **Deleted from `results/` (local), about 1 GB:**
+  - The superseded `combined` and `interim` folders.
+  - The raw Kaggle downloads; their logs and platform records are kept in `results/paper/kaggle-logs/`.
+  - Smoke runs, one-off standard-mix checks, the early-November advice evaluations and the pre-fix model comparison
+    runs.
+  - Every deleted row was first checked to be present, unchanged, in `final-2026-11-14` or `followup-2026-11-15`. The
+    one exception is the discarded 142-row B2 run that crashed on the checker bug.
+  - `results/README.md` lists what is kept.
+- **Papers moved.** The two LaTeX folders now live under `papers/`: `papers/ieee-conference/` (the paper) and
+  `papers/phase1-report/` (the report). Template leftovers from another project, unused figures, build files, an old
+  `.bib` backup, the paper's first draft, `colab_output.txt` and `kaggle_logs.txt` were deleted. Both documents
+  rebuild cleanly (paper 6 pages, report 58).
+- **Asset script.** `experiments/paper_assets.py` no longer draws the two charts the paper stopped using.
+
 ### 2026-11-15 — Paper rewritten in the team's accepted IEEE paper's style
 - **Rewrite.** The draft was rewritten to follow the structure and style of the team's accepted IEEE conference
   paper (camera-ready). It keeps 6 pages and every number is still generated.

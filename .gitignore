@@ -10,7 +10,7 @@
 # Only the top-level dev data; experiments/data holds the synthetic research inputs
 /data/
 results/
-FinAdvisor_Report_Overleaf/
+papers/
 report/
 
 # Python
@@ -38,4 +38,3 @@ Thumbs.db
 *.log
 
 /.vercel
-FinAdvisor_Paper_IEEE/

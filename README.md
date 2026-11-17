@@ -22,11 +22,15 @@ individual stocks. It is not a SEBI-registered adviser; it gives education and p
 | `finadvisor/llm/` | Model clients (Ollama, test fake) |
 | `configs/` | Versioned rules, product shelf, assumptions, tax, questionnaire, pipeline flags |
 | `web/` | React + TypeScript frontend (Vite, TanStack Router/Query, Tailwind) |
-| `experiments/` | Headless research runner and the advice evaluation |
-| `scripts/` | Tools: demo/test accounts, search index, schema, data validation, research export |
-| `tests/` | Backend tests (pytest) |
+| `experiments/` | Headless research runner, paper run configs, report, analysis and paper-table generator, advice evaluation |
+| `paper_records/` | Every run record behind the paper (compressed), with the reports; see its README |
+| `scripts/` | Tools: demo/test accounts, search index, schema, data validation, research export, test CAS file |
+| `tests/` | Backend tests (pytest), including contract tests on real market-file excerpts |
 | `supabase/schema.sql` | Production database schema (generated) |
-| `docs/` | `documentation.md` (changelog and decisions), `DEPLOY.md` (hosting) |
+| `docs/` | `documentation.md` (changelog and decisions), `SETUP.md`, `DEPLOY.md`, `EXPERIMENTS.md`, `PAPER_PLAN.md`, `IMPROVEMENT_PLAN.md` |
+
+Local only (gitignored): `data/` (database, price cache, search index), `results/` (raw experiment outputs; see its
+README) and `papers/` (`ieee-conference/`, the conference paper, and `phase1-report/`, the Phase-I report).
 
 ## Run it locally
 
