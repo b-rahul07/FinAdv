@@ -98,6 +98,22 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
+### 2026-11-17 — Paper review: new baselines, extraction evaluation, restructured paper
+- **Generate-then-filter baseline (P1).** `experiments/projection.py` filters A2's ungated plans after generation.
+  - No plan was left unsuitable, but 68.8% were changed.
+  - A mean 16.5% of the monthly investing amount was moved to products the model had not chosen.
+  - MR1–MR4 direction violations were 1.1–4.7%.
+- **Fact extraction (X1).** `experiments/extract_eval.py` (run mode `extract`) and `experiments/extract_report.py`
+  measure how well the model reads nine fields from four wordings, per field and per wording.
+  - The runs are qwen2.5 3B and phi4-mini (locally, CPU) and qwen2.5 7B (Kaggle).
+- **Corrected planner.** `configs/pipeline/pipeline-v4-horizon.yaml` is pipeline-v4 plus plan-v3 (the horizon
+  correction). The standard mix now falls back for 1 of 240 personas, against 3 before. `A1H_full_horizon` repeats A1
+  with it.
+- **Paper restructured** after a review (docs/PAPER_PLAN.md §11). It has a new title, defined terms, a shelf table and
+  an unsuitable-rate chart.
+  - `paper_assets.py` writes the projection, horizon and extraction macros and `fig_unsuitable.pdf`.
+  - The results table says its rows predate the horizon correction.
+
 ### 2026-11-17 — Tidy-up
 - **Deleted from `results/` (local), about 1 GB:**
   - The superseded `combined` and `interim` folders.

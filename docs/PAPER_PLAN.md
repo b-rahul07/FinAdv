@@ -236,3 +236,33 @@ Kaggle to extend "rules in the prompt do not work" beyond 3B and 7B.
 81.2% [76.8, 85.4] of personas still got an unsuitable plan. The 14B model recommended fewer products above the
 ceiling (44.7%) but overspent in 67.8% of answers. Without the rules it reached 90.8%. The paper now says rules in the
 prompt were no substitute for enforcing them from 3B to 14B. The records are in `paper_records/followup-2026-11-15/`.
+
+## 11. Third review (17 Nov 2026): structure, terms and three new measurements
+
+**New title.** "FinAdvisor: Keeping LLM Financial Advice Suitable for Indian Households Through Deterministic Gating
+and Metamorphic Auditing".
+
+**New measurements.** None of them changes a reported run; each has its own config and output.
+- **P1, generate-then-filter** (`experiments/projection.py`, no model calls). A2's plans, made without the gate, are
+  filtered after generation: disallowed products are removed, the rest renormalised, and an empty part gets the
+  standard mix. Result: 0% unsuitable, but 68.8% of plans changed, a mean 16.5% of the monthly investing amount was
+  moved, and twin plans were riskier in 1.1–4.7% of MR1–MR4 checks (`results/paper/final-2026-11-14/projection.json`).
+- **X1, fact extraction** (`experiments/extract_eval.py`, `experiments/extract_report.py`, configs
+  `X1_extract_*.yaml`). Each persona's facts are given in the three MR6 wordings and as a chat message. The run
+  records the per-field accuracy of the model's raw reading and the precision of what the confirmation card would show.
+- **The corrected planner.** `pipeline-v4-horizon` is pipeline-v4 with plan-v3 only, the horizon correction the
+  website runs. With it the standard mix fell back for 1 of 240 personas, against 3 of 240 before
+  (`results/analysis/STD_standard_mix_horizon.jsonl`). `A1H_full_horizon` repeats A1 with it on Kaggle. The results table
+  states that all its rows predate the correction.
+
+**Presentation.**
+- Sections are now Methodology, Experimental Setup, Results and Discussion, Comparison, Threats to Validity and
+  Conclusion.
+- Terms are defined: shelf, standard mix, twin, pressure fence, number guard and ALLOCATION block.
+- A shelf table gives riskometer labels and the standard mixes.
+- There is a bar chart of the unsuitable rate.
+- The website figure is now one cropped screen in one column.
+- The Organisation paragraph is cut.
+- New text: the persona questionnaire answers, the unvalidated Indian adaptation, $s_D=1$ when $D=0$, and the Indian
+  finance LLMs (FiMI, FinanceParam, IndiaFinBench).
+- The paper is now 7 pages; page 7 is mostly references.

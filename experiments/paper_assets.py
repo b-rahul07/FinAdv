@@ -241,7 +241,8 @@ def tab_results(report: dict) -> str:
             "\\begin{tabular}{@{}lrrrrrrr@{}}\n\\toprule\n" + head + "\n\\midrule\n" + "\n".join(rows) +
             "\n\\bottomrule\n\\end{tabular}\n\\par\\smallskip\\parbox{\\textwidth}{\\scriptsize Definitions in "
             "Section~\\ref{sec:metrics}. Pass: first plan accepted; fallback: standard mix shown (the rest repaired). "
-            "Median latency on one T4 GPU. --: not applicable.}"
+            "Median latency on one T4 GPU. --: not applicable. All rows use pipeline v4, before the horizon correction "
+            "of Section~\\ref{sec:horizon}.}"
             "\n\\end{table*}\n")
 
 
