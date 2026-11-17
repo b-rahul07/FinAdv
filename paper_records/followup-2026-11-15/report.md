@@ -4,6 +4,7 @@ The unit is the persona: n counts personas (DVR: personas whose checks are poole
 
 | Run | Model | Personas | Reps | Unsuitable (final) | Unsuitable (replicate 0) | Unsuitable (text oracle) | Unsuitable (first plan) | Unsourced numbers | Pass | Fallback | Pressure kept | Replicate agreement | Median latency |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| A1H_full_horizon | qwen2.5:3b | 240 | 3 | 0.0% [0.0%, 1.6%] (n=240) | 0.0% [0.0%, 1.6%] (n=240) | — | 2.4% [0.7%, 4.3%]* (n=240) | — | 36.7% [30.7%, 42.5%]* (n=240) | 41.2% [35.6%, 47.9%]* (n=240) | 97.5% [95.6%, 99.5%]* (n=68) | 90.4% [86.0%, 93.5%] (n=240) | 8.2 s |
 | A1N7_no_anchor_7b | qwen2.5:7b | 240 | 3 | 0.0% [0.0%, 1.6%] (n=240) | 0.0% [0.0%, 1.6%] (n=240) | — | 1.7% [0.3%, 3.3%]* (n=240) | — | 27.9% [22.8%, 33.3%]* (n=240) | 51.1% [45.1%, 56.8%]* (n=240) | 99.0% [92.9%, 99.9%] (n=68) | 92.1% [88.0%, 94.9%] (n=240) | 17.1 s |
 | A1N_no_anchor | qwen2.5:3b | 240 | 3 | 0.0% [0.0%, 1.6%] (n=240) | 0.0% [0.0%, 1.6%] (n=240) | — | 1.8% [0.6%, 3.5%]* (n=240) | — | 24.9% [19.7%, 30.1%]* (n=240) | 53.9% [47.6%, 60.1%]* (n=240) | 95.1% [90.2%, 99.0%]* (n=68) | 91.7% [87.5%, 94.5%] (n=240) | 9.7 s |
 | A1_full | qwen2.5:3b | 240 | 3 | 0.0% [0.0%, 1.6%] (n=240) | 0.0% [0.0%, 1.6%] (n=240) | — | 1.4% [0.1%, 2.9%]* (n=240) | — | 38.8% [32.5%, 44.4%]* (n=240) | 41.0% [35.1%, 47.4%]* (n=240) | 98.0% [91.4%, 99.6%] (n=68) | 92.5% [88.5%, 95.2%] (n=240) | 9.4 s |
@@ -20,6 +21,12 @@ The unit is the persona: n counts personas (DVR: personas whose checks are poole
 
 | Run | Relation | All | Non-trivial | Tests the LLM | Trivial checks |
 |---|---|---|---|---|---|
+| A1H_full_horizon | MR1 | 5.0% [2.5%, 7.8%]* (n=240) | 15.4% [8.1%, 23.5%]* (n=78) | 13.5% [5.8%, 22.2%]* (n=57) | 162 |
+| A1H_full_horizon | MR2 | 1.9% [0.6%, 3.6%]* (n=240) | 11.1% [3.2%, 20.6%]* (n=42) | 8.8% [1.8%, 17.5%]* (n=38) | 198 |
+| A1H_full_horizon | MR3 | 3.5% [1.5%, 5.8%]* (n=240) | 8.5% [3.7%, 13.9%]* (n=98) | 9.7% [4.3%, 16.3%]* (n=86) | 142 |
+| A1H_full_horizon | MR4 | 5.2% [2.6%, 7.9%]* (n=174) | 22.0% [12.6%, 32.2%]* (n=51) | 14.7% [5.6%, 24.2%]* (n=41) | 141 |
+| A1H_full_horizon | MR5 | 0.0% [0.0%, 1.6%] (n=240) | — | — | 240 |
+| A1H_full_horizon | MR6 | 44.7% [39.7%, 49.9%]* (n=240) | 44.7% [39.7%, 49.9%]* (n=240) | 44.7% [39.7%, 49.9%]* (n=240) | 0 |
 | A1N7_no_anchor_7b | MR1 | 2.4% [0.8%, 4.3%]* (n=240) | 7.3% [3.0%, 12.8%]* (n=78) | 7.5% [2.3%, 13.2%]* (n=58) | 162 |
 | A1N7_no_anchor_7b | MR2 | 1.0% [0.0%, 2.4%]* (n=240) | 5.6% [0.0%, 13.5%]* (n=42) | 6.1% [0.0%, 14.9%]* (n=38) | 198 |
 | A1N7_no_anchor_7b | MR3 | 6.7% [3.9%, 9.7%]* (n=240) | 16.3% [10.2%, 23.1%]* (n=98) | 17.4% [10.5%, 25.2%]* (n=86) | 142 |
@@ -51,6 +58,14 @@ Share of audited records whose first plan failed for each reason (a record can h
 
 | Run | Cause | Share | MR6 only, low-risk menu |
 |---|---|---|---|
+| A1H_full_horizon | MR1 | 5.0% [2.5%, 7.8%]* (n=240) | 27.5% [22.2%, 33.5%]* (n=240) |
+| A1H_full_horizon | MR2 | 1.9% [0.6%, 3.6%]* (n=240) |  |
+| A1H_full_horizon | MR3 | 3.5% [1.5%, 5.8%]* (n=240) |  |
+| A1H_full_horizon | MR4 | 5.6% [2.9%, 8.6%]* (n=240) |  |
+| A1H_full_horizon | MR6, all-low-risk menu | 28.7% [23.5%, 34.7%]* (n=240) |  |
+| A1H_full_horizon | MR6, risky options | 30.8% [25.1%, 36.5%]* (n=240) |  |
+| A1H_full_horizon | planner error | 2.4% [0.7%, 4.3%]* (n=240) |  |
+| A1H_full_horizon | rule breaks | 2.4% [0.7%, 4.3%]* (n=240) |  |
 | A1N7_no_anchor_7b | MR1 | 2.4% [0.8%, 4.3%]* (n=240) | 36.1% [30.1%, 42.1%]* (n=240) |
 | A1N7_no_anchor_7b | MR2 | 1.0% [0.0%, 2.4%]* (n=240) |  |
 | A1N7_no_anchor_7b | MR3 | 6.7% [3.9%, 9.7%]* (n=240) |  |
@@ -114,6 +129,7 @@ Personalisation: mean pairwise weighted Jaccard similarity of the plans differen
 
 | Run | Plan similarity | Personas | Surrogate R² | Capacity share | Willingness share | Other | FC |
 |---|---|---|---|---|---|---|---|
+| A1H_full_horizon | 0.43 [0.40, 0.46] | 173 | 0.27 | 0.37 | 0.27 | 0.36 | 0.10 |
 | A1N7_no_anchor_7b | 0.32 [0.31, 0.35] | 173 | 0.24 | 0.37 | 0.28 | 0.35 | 0.11 |
 | A1N_no_anchor | 0.42 [0.39, 0.45] | 173 | 0.19 | 0.40 | 0.28 | 0.32 | 0.11 |
 | A1_full | 0.43 [0.40, 0.47] | 173 | 0.30 | 0.36 | 0.28 | 0.36 | 0.11 |
@@ -130,6 +146,7 @@ Personalisation: mean pairwise weighted Jaccard similarity of the plans differen
 
 | Run | Commit | Config hash | Rule check | Traceable |
 |---|---|---|---|---|
+| A1H_full_horizon | d48d4b692a | 6818740a7e | rule-check-v3 | yes |
 | A1N7_no_anchor_7b | 448618a9f1 | eae08f5adc | rule-check-v3 | yes |
 | A1N_no_anchor | 448618a9f1 | fd9657d6ee | rule-check-v3 | yes |
 | A1_full | dd47d58259 | dc7207e958 | rule-check-v3 | yes |
@@ -142,7 +159,7 @@ Personalisation: mean pairwise weighted Jaccard similarity of the plans differen
 | B3_rules_in_prompt | e5caa155c6 | dc90a05f80 | rule-check-v3 | yes |
 | M1_qwen2.5-7b | e5caa155c6 | 7eea6b61cb | rule-check-v3 | yes |
 
-## Paired comparisons with A1_full (McNemar, exact, replicate 0)
+## Paired comparisons with A1H_full_horizon (McNemar, exact, replicate 0)
 
 Holm-adjusted p-values are corrected over every test in this table.
 
@@ -150,11 +167,12 @@ Holm-adjusted p-values are corrected over every test in this table.
 |---|---|---|---|---|---|---|
 | A1N7_no_anchor_7b | unsuitable | 240 | 0 | 0 | 1 | 1 |
 | A1N_no_anchor | unsuitable | 240 | 0 | 0 | 1 | 1 |
-| B1L14_plain_llm_14b | unsuitable | 240 | 0 | 216 | 1.9e-65 | 1.9e-64 |
-| B1L_plain_llm_long | unsuitable | 240 | 0 | 206 | 1.94e-62 | 1.17e-61 |
-| B1_plain_llm | unsuitable | 240 | 0 | 215 | 3.8e-65 | 3.42e-64 |
-| B3L14_rules_in_prompt_14b | unsuitable | 240 | 0 | 193 | 1.59e-58 | 6.37e-58 |
-| B3L7_rules_in_prompt_7b | unsuitable | 240 | 0 | 215 | 3.8e-65 | 3.42e-64 |
-| B3L_rules_in_prompt_long | unsuitable | 240 | 0 | 211 | 6.08e-64 | 4.25e-63 |
-| B3_rules_in_prompt | unsuitable | 240 | 0 | 205 | 3.89e-62 | 1.94e-61 |
+| A1_full | unsuitable | 240 | 0 | 0 | 1 | 1 |
+| B1L14_plain_llm_14b | unsuitable | 240 | 0 | 216 | 1.9e-65 | 2.09e-64 |
+| B1L_plain_llm_long | unsuitable | 240 | 0 | 206 | 1.94e-62 | 1.36e-61 |
+| B1_plain_llm | unsuitable | 240 | 0 | 215 | 3.8e-65 | 3.8e-64 |
+| B3L14_rules_in_prompt_14b | unsuitable | 240 | 0 | 193 | 1.59e-58 | 7.97e-58 |
+| B3L7_rules_in_prompt_7b | unsuitable | 240 | 0 | 215 | 3.8e-65 | 3.8e-64 |
+| B3L_rules_in_prompt_long | unsuitable | 240 | 0 | 211 | 6.08e-64 | 4.86e-63 |
+| B3_rules_in_prompt | unsuitable | 240 | 0 | 205 | 3.89e-62 | 2.33e-61 |
 | M1_qwen2.5-7b | unsuitable | 240 | 0 | 0 | 1 | 1 |

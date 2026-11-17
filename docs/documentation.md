@@ -105,14 +105,25 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
   - MR1–MR4 direction violations were 1.1–4.7%.
 - **Fact extraction (X1).** `experiments/extract_eval.py` (run mode `extract`) and `experiments/extract_report.py`
   measure how well the model reads nine fields from four wordings, per field and per wording.
-  - The runs are qwen2.5 3B and phi4-mini (locally, CPU) and qwen2.5 7B (Kaggle).
+  - The runs are qwen2.5 3B and phi4-mini (locally, CPU) and qwen2.5 7B (Kaggle session 5).
+  - Raw recall: 3B 39.9%, 7B 44.1%, phi4-mini 50.0%. Larger models read take-home pay and expenses almost always, but
+    filed savings and cover as goals; phi4-mini returned dependants for 0.3% of messages.
+  - Precision of what the confirmation card would show: 99.0%, 92.3% and 92.4%.
+  - The paper now says the model belongs in work whose errors the person can check (reading under confirmation,
+    explaining), not in choosing products. Its earlier claim that reading is "where the model helps" was dropped.
 - **Corrected planner.** `configs/pipeline/pipeline-v4-horizon.yaml` is pipeline-v4 plus plan-v3 (the horizon
-  correction). The standard mix now falls back for 1 of 240 personas, against 3 before. `A1H_full_horizon` repeats A1
-  with it.
+  correction). The standard mix now falls back for 1 of 240 personas, against 3 before.
+  - `A1H_full_horizon` repeats A1 with it (Kaggle session 5, commit d48d4b6). It has 0% unsuitable final plans, 2.4%
+    unsuitable first plans and 41.2% fallbacks, against 1.4% and 41.0% for A1. The conclusions do not depend on the
+    error.
+  - Session 5 ran only these two runs; the 3B and phi4-mini extraction runs moved to the laptop with 3 h 46 min of GPU
+    quota left.
 - **Paper restructured** after a review (docs/PAPER_PLAN.md §11). It has a new title, defined terms, a shelf table and
   an unsuitable-rate chart.
   - `paper_assets.py` writes the projection, horizon and extraction macros and `fig_unsuitable.pdf`.
   - The results table says its rows predate the horizon correction.
+  - The paper is 7 pages. The Overleaf zip was rebuilt and builds cleanly on its own. Records are published in
+    `paper_records/`, and the session 5 logs are in `results/paper/kaggle-logs/session-5/`.
 
 ### 2026-11-17 — Tidy-up
 - **Deleted from `results/` (local), about 1 GB:**

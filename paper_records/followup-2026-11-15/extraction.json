@@ -1,0 +1,1490 @@
+{
+ "X1_extract_phi4-mini": {
+  "model": "phi4-mini",
+  "personas": 240,
+  "raw_recall": {
+   "k": 4317,
+   "n": 240,
+   "n_obs": 8640,
+   "rate": 0.4996527777777778,
+   "ci95": [
+    0.48900462962962965,
+    0.5094907407407407
+   ],
+   "method": "cluster_bootstrap"
+  },
+  "accepted_recall": {
+   "k": 3820,
+   "n": 240,
+   "n_obs": 8640,
+   "rate": 0.44212962962962965,
+   "ci95": [
+    0.43113425925925924,
+    0.4525462962962963
+   ],
+   "method": "cluster_bootstrap"
+  },
+  "accepted_precision": {
+   "k": 3820,
+   "n": 240,
+   "n_obs": 4136,
+   "rate": 0.9235976789168279,
+   "ci95": [
+    0.9155405405405406,
+    0.9314801267983419
+   ],
+   "method": "cluster_bootstrap"
+  },
+  "by_field": {
+   "take_home_monthly": {
+    "raw_recall": {
+     "k": 959,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.9989583333333333,
+     "ci95": [
+      0.9822551838879237,
+      0.9999398148325569
+     ],
+     "method": "wilson_personas"
+    },
+    "accepted_recall": {
+     "k": 959,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.9989583333333333,
+     "ci95": [
+      0.9822551838879237,
+      0.9999398148325569
+     ],
+     "method": "wilson_personas"
+    },
+    "accepted_precision": {
+     "k": 959,
+     "n": 240,
+     "n_obs": 959,
+     "rate": 1.0,
+     "ci95": [
+      0.9842455102000642,
+      1.0
+     ],
+     "method": "wilson_personas"
+    }
+   },
+   "expenses_monthly": {
+    "raw_recall": {
+     "k": 959,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.9989583333333333,
+     "ci95": [
+      0.9822551838879237,
+      0.9999398148325569
+     ],
+     "method": "wilson_personas"
+    },
+    "accepted_recall": {
+     "k": 959,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.9989583333333333,
+     "ci95": [
+      0.9822551838879237,
+      0.9999398148325569
+     ],
+     "method": "wilson_personas"
+    },
+    "accepted_precision": {
+     "k": 959,
+     "n": 240,
+     "n_obs": 959,
+     "rate": 1.0,
+     "ci95": [
+      0.9842455102000642,
+      1.0
+     ],
+     "method": "wilson_personas"
+    }
+   },
+   "liquid_savings": {
+    "raw_recall": {
+     "k": 415,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.4322916666666667,
+     "ci95": [
+      0.40625,
+      0.45625
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 222,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.23125,
+     "ci95": [
+      0.20416666666666666,
+      0.259375
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 222,
+     "n": 171,
+     "n_obs": 222,
+     "rate": 1.0,
+     "ci95": [
+      0.978028112302793,
+      1.0
+     ],
+     "method": "wilson_personas"
+    }
+   },
+   "emi_total": {
+    "raw_recall": {
+     "k": 162,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.16875,
+     "ci95": [
+      0.14791666666666667,
+      0.18854166666666666
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 162,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.16875,
+     "ci95": [
+      0.14791666666666667,
+      0.18854166666666666
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 162,
+     "n": 240,
+     "n_obs": 377,
+     "rate": 0.4297082228116711,
+     "ci95": [
+      0.3746630727762803,
+      0.48556430446194226
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "dependants": {
+    "raw_recall": {
+     "k": 3,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.003125,
+     "ci95": [
+      0.0004479323040380654,
+      0.02145809193464803
+     ],
+     "method": "wilson_personas"
+    },
+    "accepted_recall": {
+     "k": 3,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.003125,
+     "ci95": [
+      0.0004479323040380654,
+      0.02145809193464803
+     ],
+     "method": "wilson_personas"
+    },
+    "accepted_precision": {
+     "k": 3,
+     "n": 3,
+     "n_obs": 3,
+     "rate": 1.0,
+     "ci95": [
+      0.43849391955098227,
+      1.0
+     ],
+     "method": "wilson"
+    }
+   },
+   "life_cover": {
+    "raw_recall": {
+     "k": 537,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.559375,
+     "ci95": [
+      0.521875,
+      0.5979166666666667
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 498,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.51875,
+     "ci95": [
+      0.484375,
+      0.5541666666666667
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 498,
+     "n": 225,
+     "n_obs": 568,
+     "rate": 0.8767605633802817,
+     "ci95": [
+      0.8436944937833037,
+      0.9060283687943262
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "health_cover": {
+    "raw_recall": {
+     "k": 415,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.4322916666666667,
+     "ci95": [
+      0.3854166666666667,
+      0.478125
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 415,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.4322916666666667,
+     "ci95": [
+      0.3854166666666667,
+      0.478125
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 415,
+     "n": 169,
+     "n_obs": 417,
+     "rate": 0.9952038369304557,
+     "ci95": [
+      0.9691231834169025,
+      0.9992715599926354
+     ],
+     "method": "wilson_personas"
+    }
+   },
+   "card_dues_paid_in_full": {
+    "raw_recall": {
+     "k": 335,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.3489583333333333,
+     "ci95": [
+      0.325,
+      0.37395833333333334
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 334,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.34791666666666665,
+     "ci95": [
+      0.3229166666666667,
+      0.371875
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 334,
+     "n": 229,
+     "n_obs": 363,
+     "rate": 0.9201101928374655,
+     "ci95": [
+      0.8836565096952909,
+      0.9532967032967034
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "experience": {
+    "raw_recall": {
+     "k": 532,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.5541666666666667,
+     "ci95": [
+      0.525,
+      0.58125
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 268,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.2791666666666667,
+     "ci95": [
+      0.23645833333333333,
+      0.321875
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 268,
+     "n": 108,
+     "n_obs": 268,
+     "rate": 1.0,
+     "ci95": [
+      0.9656514212958325,
+      0.9999999999999998
+     ],
+     "method": "wilson_personas"
+    }
+   }
+  },
+  "by_wording": {
+   "plain": {
+    "raw_recall": {
+     "k": 1066,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.4935185185185185,
+     "ci95": [
+      0.4787037037037037,
+      0.5069444444444444
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 946,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.43796296296296294,
+     "ci95": [
+      0.42268518518518516,
+      0.4527777777777778
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 946,
+     "n": 240,
+     "n_obs": 976,
+     "rate": 0.9692622950819673,
+     "ci95": [
+      0.958876629889669,
+      0.9786585365853658
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "casual": {
+    "raw_recall": {
+     "k": 1161,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.5375,
+     "ci95": [
+      0.5152777777777777,
+      0.5574074074074075
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 881,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.4078703703703704,
+     "ci95": [
+      0.39166666666666666,
+      0.42453703703703705
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 881,
+     "n": 239,
+     "n_obs": 1009,
+     "rate": 0.8731417244796829,
+     "ci95": [
+      0.8551165146909828,
+      0.8910505836575876
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "table": {
+    "raw_recall": {
+     "k": 965,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.44675925925925924,
+     "ci95": [
+      0.43148148148148147,
+      0.462037037037037
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 868,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.40185185185185185,
+     "ci95": [
+      0.3875,
+      0.41712962962962963
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 868,
+     "n": 240,
+     "n_obs": 920,
+     "rate": 0.9434782608695652,
+     "ci95": [
+      0.9285714285714286,
+      0.9571899012074643
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "chat": {
+    "raw_recall": {
+     "k": 1125,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.5208333333333334,
+     "ci95": [
+      0.5069444444444444,
+      0.5347222222222222
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 1125,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.5208333333333334,
+     "ci95": [
+      0.5069444444444444,
+      0.5347222222222222
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 1125,
+     "n": 240,
+     "n_obs": 1231,
+     "rate": 0.9138911454102355,
+     "ci95": [
+      0.9012738853503185,
+      0.9256265157639451
+     ],
+     "method": "cluster_bootstrap"
+    }
+   }
+  }
+ },
+ "X1_extract_qwen2.5-3b": {
+  "model": "qwen2.5:3b",
+  "personas": 240,
+  "raw_recall": {
+   "k": 3449,
+   "n": 240,
+   "n_obs": 8640,
+   "rate": 0.3991898148148148,
+   "ci95": [
+    0.3900462962962963,
+    0.4078703703703704
+   ],
+   "method": "cluster_bootstrap"
+  },
+  "accepted_recall": {
+   "k": 3132,
+   "n": 240,
+   "n_obs": 8640,
+   "rate": 0.3625,
+   "ci95": [
+    0.3528935185185185,
+    0.37175925925925923
+   ],
+   "method": "cluster_bootstrap"
+  },
+  "accepted_precision": {
+   "k": 3132,
+   "n": 240,
+   "n_obs": 3164,
+   "rate": 0.9898862199747156,
+   "ci95": [
+    0.9858223062381852,
+    0.9932605905006419
+   ],
+   "method": "cluster_bootstrap"
+  },
+  "by_field": {
+   "take_home_monthly": {
+    "raw_recall": {
+     "k": 392,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.4083333333333333,
+     "ci95": [
+      0.390625,
+      0.42604166666666665
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 392,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.4083333333333333,
+     "ci95": [
+      0.390625,
+      0.42604166666666665
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 392,
+     "n": 233,
+     "n_obs": 394,
+     "rate": 0.9949238578680203,
+     "ci95": [
+      0.9747981116468966,
+      0.998994151901811
+     ],
+     "method": "wilson_personas"
+    }
+   },
+   "expenses_monthly": {
+    "raw_recall": {
+     "k": 688,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.7166666666666667,
+     "ci95": [
+      0.6875,
+      0.74375
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 688,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.7166666666666667,
+     "ci95": [
+      0.6875,
+      0.74375
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 688,
+     "n": 234,
+     "n_obs": 688,
+     "rate": 1.0,
+     "ci95": [
+      0.9838480736759255,
+      1.0
+     ],
+     "method": "wilson_personas"
+    }
+   },
+   "liquid_savings": {
+    "raw_recall": {
+     "k": 184,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.19166666666666668,
+     "ci95": [
+      0.16666666666666666,
+      0.21666666666666667
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 117,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.121875,
+     "ci95": [
+      0.09895833333333333,
+      0.14479166666666668
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 117,
+     "n": 86,
+     "n_obs": 117,
+     "rate": 1.0,
+     "ci95": [
+      0.9572402984808819,
+      1.0
+     ],
+     "method": "wilson_personas"
+    }
+   },
+   "emi_total": {
+    "raw_recall": {
+     "k": 350,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.3645833333333333,
+     "ci95": [
+      0.340625,
+      0.38958333333333334
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 350,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.3645833333333333,
+     "ci95": [
+      0.340625,
+      0.38958333333333334
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 350,
+     "n": 222,
+     "n_obs": 366,
+     "rate": 0.9562841530054644,
+     "ci95": [
+      0.9295774647887324,
+      0.977961432506887
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "dependants": {
+    "raw_recall": {
+     "k": 559,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.5822916666666667,
+     "ci95": [
+      0.559375,
+      0.6041666666666666
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 554,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.5770833333333333,
+     "ci95": [
+      0.5552083333333333,
+      0.5979166666666667
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 554,
+     "n": 240,
+     "n_obs": 554,
+     "rate": 1.0,
+     "ci95": [
+      0.9842455102000642,
+      1.0
+     ],
+     "method": "wilson_personas"
+    }
+   },
+   "life_cover": {
+    "raw_recall": {
+     "k": 180,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.1875,
+     "ci95": [
+      0.16354166666666667,
+      0.2125
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 180,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.1875,
+     "ci95": [
+      0.16354166666666667,
+      0.2125
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 180,
+     "n": 142,
+     "n_obs": 186,
+     "rate": 0.967741935483871,
+     "ci95": [
+      0.9395604395604396,
+      0.9895287958115183
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "health_cover": {
+    "raw_recall": {
+     "k": 323,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.33645833333333336,
+     "ci95": [
+      0.30625,
+      0.36666666666666664
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 323,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.33645833333333336,
+     "ci95": [
+      0.30625,
+      0.36666666666666664
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 323,
+     "n": 184,
+     "n_obs": 323,
+     "rate": 1.0,
+     "ci95": [
+      0.9795487261607652,
+      1.0
+     ],
+     "method": "wilson_personas"
+    }
+   },
+   "card_dues_paid_in_full": {
+    "raw_recall": {
+     "k": 238,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.24791666666666667,
+     "ci95": [
+      0.22604166666666667,
+      0.26875
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 231,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.240625,
+     "ci95": [
+      0.21875,
+      0.26145833333333335
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 231,
+     "n": 179,
+     "n_obs": 231,
+     "rate": 1.0,
+     "ci95": [
+      0.9789894641044491,
+      1.0
+     ],
+     "method": "wilson_personas"
+    }
+   },
+   "experience": {
+    "raw_recall": {
+     "k": 535,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.5572916666666666,
+     "ci95": [
+      0.5302083333333333,
+      0.584375
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 297,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.309375,
+     "ci95": [
+      0.27291666666666664,
+      0.34479166666666666
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 297,
+     "n": 171,
+     "n_obs": 305,
+     "rate": 0.9737704918032787,
+     "ci95": [
+      0.9543973941368078,
+      0.9905362776025236
+     ],
+     "method": "cluster_bootstrap"
+    }
+   }
+  },
+  "by_wording": {
+   "plain": {
+    "raw_recall": {
+     "k": 927,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.42916666666666664,
+     "ci95": [
+      0.40555555555555556,
+      0.45416666666666666
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 851,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.3939814814814815,
+     "ci95": [
+      0.36898148148148147,
+      0.4199074074074074
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 851,
+     "n": 233,
+     "n_obs": 863,
+     "rate": 0.9860950173812283,
+     "ci95": [
+      0.9776470588235294,
+      0.9931662870159453
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "casual": {
+    "raw_recall": {
+     "k": 550,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.25462962962962965,
+     "ci95": [
+      0.2449074074074074,
+      0.2638888888888889
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 403,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.1865740740740741,
+     "ci95": [
+      0.17777777777777778,
+      0.19490740740740742
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 403,
+     "n": 236,
+     "n_obs": 408,
+     "rate": 0.9877450980392157,
+     "ci95": [
+      0.975609756097561,
+      0.9975308641975309
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "table": {
+    "raw_recall": {
+     "k": 1257,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.5819444444444445,
+     "ci95": [
+      0.5638888888888889,
+      0.600462962962963
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 1163,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.538425925925926,
+     "ci95": [
+      0.5217592592592593,
+      0.5546296296296296
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 1163,
+     "n": 240,
+     "n_obs": 1169,
+     "rate": 0.9948674080410608,
+     "ci95": [
+      0.9903846153846154,
+      0.9982978723404256
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "chat": {
+    "raw_recall": {
+     "k": 715,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.33101851851851855,
+     "ci95": [
+      0.3148148148148148,
+      0.34675925925925927
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 715,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.33101851851851855,
+     "ci95": [
+      0.3148148148148148,
+      0.34675925925925927
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 715,
+     "n": 237,
+     "n_obs": 724,
+     "rate": 0.9875690607734806,
+     "ci95": [
+      0.9787535410764873,
+      0.9945652173913043
+     ],
+     "method": "cluster_bootstrap"
+    }
+   }
+  }
+ },
+ "X1_extract_qwen2.5-7b": {
+  "model": "qwen2.5:7b",
+  "personas": 240,
+  "raw_recall": {
+   "k": 3811,
+   "n": 240,
+   "n_obs": 8640,
+   "rate": 0.441087962962963,
+   "ci95": [
+    0.428125,
+    0.4546296296296296
+   ],
+   "method": "cluster_bootstrap"
+  },
+  "accepted_recall": {
+   "k": 3427,
+   "n": 240,
+   "n_obs": 8640,
+   "rate": 0.39664351851851853,
+   "ci95": [
+    0.3819444444444444,
+    0.41122685185185187
+   ],
+   "method": "cluster_bootstrap"
+  },
+  "accepted_precision": {
+   "k": 3427,
+   "n": 240,
+   "n_obs": 3711,
+   "rate": 0.9234707625976826,
+   "ci95": [
+    0.9130067567567568,
+    0.9330499468650372
+   ],
+   "method": "cluster_bootstrap"
+  },
+  "by_field": {
+   "take_home_monthly": {
+    "raw_recall": {
+     "k": 960,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 1.0,
+     "ci95": [
+      0.9842455102000642,
+      1.0
+     ],
+     "method": "wilson_personas"
+    },
+    "accepted_recall": {
+     "k": 960,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 1.0,
+     "ci95": [
+      0.9842455102000642,
+      1.0
+     ],
+     "method": "wilson_personas"
+    },
+    "accepted_precision": {
+     "k": 960,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 1.0,
+     "ci95": [
+      0.9842455102000642,
+      1.0
+     ],
+     "method": "wilson_personas"
+    }
+   },
+   "expenses_monthly": {
+    "raw_recall": {
+     "k": 960,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 1.0,
+     "ci95": [
+      0.9842455102000642,
+      1.0
+     ],
+     "method": "wilson_personas"
+    },
+    "accepted_recall": {
+     "k": 960,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 1.0,
+     "ci95": [
+      0.9842455102000642,
+      1.0
+     ],
+     "method": "wilson_personas"
+    },
+    "accepted_precision": {
+     "k": 960,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 1.0,
+     "ci95": [
+      0.9842455102000642,
+      1.0
+     ],
+     "method": "wilson_personas"
+    }
+   },
+   "liquid_savings": {
+    "raw_recall": {
+     "k": 69,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.071875,
+     "ci95": [
+      0.057291666666666664,
+      0.08541666666666667
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 69,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.071875,
+     "ci95": [
+      0.057291666666666664,
+      0.08541666666666667
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 69,
+     "n": 69,
+     "n_obs": 69,
+     "rate": 1.0,
+     "ci95": [
+      0.9472609058559944,
+      1.0
+     ],
+     "method": "wilson"
+    }
+   },
+   "emi_total": {
+    "raw_recall": {
+     "k": 662,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.6895833333333333,
+     "ci95": [
+      0.6572916666666667,
+      0.7208333333333333
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 662,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.6895833333333333,
+     "ci95": [
+      0.6572916666666667,
+      0.7208333333333333
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 662,
+     "n": 240,
+     "n_obs": 946,
+     "rate": 0.6997885835095138,
+     "ci95": [
+      0.6659597030752916,
+      0.7325581395348837
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "dependants": {
+    "raw_recall": {
+     "k": 4,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.004166666666666667,
+     "ci95": [
+      0.0007358790897501466,
+      0.023220656628519416
+     ],
+     "method": "wilson_personas"
+    },
+    "accepted_recall": {
+     "k": 4,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.004166666666666667,
+     "ci95": [
+      0.0007358790897501466,
+      0.023220656628519416
+     ],
+     "method": "wilson_personas"
+    },
+    "accepted_precision": {
+     "k": 4,
+     "n": 4,
+     "n_obs": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5100999795960008,
+      1.0
+     ],
+     "method": "wilson"
+    }
+   },
+   "life_cover": {
+    "raw_recall": {
+     "k": 164,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.17083333333333334,
+     "ci95": [
+      0.13854166666666667,
+      0.20416666666666666
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 161,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.16770833333333332,
+     "ci95": [
+      0.13645833333333332,
+      0.2
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 161,
+     "n": 79,
+     "n_obs": 161,
+     "rate": 1.0,
+     "ci95": [
+      0.9536271631644004,
+      1.0
+     ],
+     "method": "wilson_personas"
+    }
+   },
+   "health_cover": {
+    "raw_recall": {
+     "k": 163,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.16979166666666667,
+     "ci95": [
+      0.13854166666666667,
+      0.203125
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 163,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.16979166666666667,
+     "ci95": [
+      0.13854166666666667,
+      0.203125
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 163,
+     "n": 81,
+     "n_obs": 163,
+     "rate": 1.0,
+     "ci95": [
+      0.954720325877871,
+      0.9999999999999999
+     ],
+     "method": "wilson_personas"
+    }
+   },
+   "card_dues_paid_in_full": {
+    "raw_recall": {
+     "k": 103,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.10729166666666666,
+     "ci95": [
+      0.08541666666666667,
+      0.13020833333333334
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 94,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.09791666666666667,
+     "ci95": [
+      0.07708333333333334,
+      0.11979166666666667
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 94,
+     "n": 67,
+     "n_obs": 94,
+     "rate": 1.0,
+     "ci95": [
+      0.9457719757882374,
+      0.9999999999999999
+     ],
+     "method": "wilson_personas"
+    }
+   },
+   "experience": {
+    "raw_recall": {
+     "k": 726,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.75625,
+     "ci95": [
+      0.7395833333333334,
+      0.7739583333333333
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 354,
+     "n": 240,
+     "n_obs": 960,
+     "rate": 0.36875,
+     "ci95": [
+      0.3177083333333333,
+      0.4197916666666667
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 354,
+     "n": 110,
+     "n_obs": 354,
+     "rate": 1.0,
+     "ci95": [
+      0.9662548664108728,
+      1.0
+     ],
+     "method": "wilson_personas"
+    }
+   }
+  },
+  "by_wording": {
+   "plain": {
+    "raw_recall": {
+     "k": 906,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.41944444444444445,
+     "ci95": [
+      0.4050925925925926,
+      0.43472222222222223
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 784,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.362962962962963,
+     "ci95": [
+      0.3453703703703704,
+      0.38101851851851853
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 784,
+     "n": 240,
+     "n_obs": 919,
+     "rate": 0.85310119695321,
+     "ci95": [
+      0.8338833883388339,
+      0.8714436248682824
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "casual": {
+    "raw_recall": {
+     "k": 924,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.42777777777777776,
+     "ci95": [
+      0.4203703703703704,
+      0.43472222222222223
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 796,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.3685185185185185,
+     "ci95": [
+      0.3597222222222222,
+      0.3768518518518518
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 796,
+     "n": 240,
+     "n_obs": 826,
+     "rate": 0.9636803874092009,
+     "ci95": [
+      0.951397326852977,
+      0.9746987951807229
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "table": {
+    "raw_recall": {
+     "k": 1015,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.4699074074074074,
+     "ci95": [
+      0.4476851851851852,
+      0.4930555555555556
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 881,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.4078703703703704,
+     "ci95": [
+      0.38425925925925924,
+      0.4310185185185185
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 881,
+     "n": 240,
+     "n_obs": 999,
+     "rate": 0.8818818818818819,
+     "ci95": [
+      0.8623853211009175,
+      0.8998091603053435
+     ],
+     "method": "cluster_bootstrap"
+    }
+   },
+   "chat": {
+    "raw_recall": {
+     "k": 966,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.44722222222222224,
+     "ci95": [
+      0.4273148148148148,
+      0.4671296296296296
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_recall": {
+     "k": 966,
+     "n": 240,
+     "n_obs": 2160,
+     "rate": 0.44722222222222224,
+     "ci95": [
+      0.4273148148148148,
+      0.4671296296296296
+     ],
+     "method": "cluster_bootstrap"
+    },
+    "accepted_precision": {
+     "k": 966,
+     "n": 240,
+     "n_obs": 967,
+     "rate": 0.9989658738366081,
+     "ci95": [
+      0.982269206017841,
+      0.9999406361156254
+     ],
+     "method": "wilson_personas"
+    }
+   }
+  }
+ }
+}
