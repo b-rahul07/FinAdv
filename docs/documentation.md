@@ -98,6 +98,30 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
+### 2026-11-19 — Held-out extraction test (X3), prompt v3, EMI scoring
+From a fourth review of the paper (docs/PAPER_PLAN.md §12).
+- **Prompt v3** (extract-v3):
+  - it no longer has v2's digit-grouping example, which led phi4-mini to add a zero;
+  - it writes a stated EMI total as one loan of type "other".
+- **Scoring v2** (`experiments/extract_eval.py`): an empty loan list reads as 0 EMIs. Every run is rescored from its
+  stored answers by `experiments.extract_report`, with no model calls.
+- **X3 tests v3 once** on 240 fresh personas (`experiments/data/personas_heldout_s8.jsonl`, seed 8, no overlap with
+  seed 7). The prompt was not changed after this test.
+  - qwen2.5 3B ran on our Kaggle (117eb8f); phi4-mini and 7B on Vinay Uppala's Kaggle, run by him through his token
+    (7e5c9d6, same code).
+  - Partial copies from the laptop and from our quota-limited session are in `results/paper/unused-partials/`; they
+    are not used.
+- **Results.** Fields read: 3B 96.0%, 7B 99.6%, phi4-mini 87.0%. Card values correct: 99.8%, 100.0% and 95.3%.
+  - phi4-mini still adds a zero to most of the health-cover amounts it misses (57.3% read) and often leaves EMIs out
+    (70.4%). Grounding keeps the wrong amounts off the card.
+  - The papers say a qwen2.5 model would read better where its licence allows. qwen2.5 7B is Apache 2.0, but slower
+    on the laptop CPU. The website model is unchanged; that is a decision for the team.
+- **Papers:**
+  - The abstract now cites the 14B baseline and the first-plan rate.
+  - The website's model choice is stated: phi4-mini for its MIT licence and its better planning.
+  - The mentor's email is in the author block.
+  - The final report is 100 pages and the paper 6; both Overleaf zips were rebuilt and test-built.
+
 ### 2026-11-18 — Extraction prompt v2 (X2) and the final project report
 - **Why v2.** A review asked whether X1's 0.3% for dependants (phi4-mini) was a scoring bug. It is not: no answer
   had a dependants key in any spelling, and a fresh call reproduces the stored answers. Extraction prompt v1 never

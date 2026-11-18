@@ -30,6 +30,9 @@ The third review (17 Nov 2026, `docs/PAPER_PLAN.md` §11) added:
 - **`followup-2026-11-15/X2_extract_*`** (18 Nov 2026): fact extraction with prompt v2, which names the fields. 3B ran
   on a Kaggle CPU session (6d26647), 7B on a teammate's Kaggle account (1c4d347), and phi4-mini on the laptop (9a34fb3
   and 1c4d347, same code). `extraction.json` summarises X1 and X2.
+- **`followup-2026-11-15/X3_extract_*`** (19 Nov 2026): the held-out test of extraction prompt v3 on 240 fresh
+  personas (`experiments/data/personas_heldout_s8.jsonl`, seed 8). 3B ran on our Kaggle (117eb8f); phi4-mini and 7B ran
+  on a teammate's Kaggle (7e5c9d6). `extraction.json` rescores X1--X3 with scoring v2 (an empty loan list reads as 0 EMIs).
 - **`final-2026-11-14/projection.json`**: the generate-then-filter baseline P1, from
   `python -m experiments.projection <A2 records> <dir>`. No model is called.
 - **`final-2026-11-14/STD_standard_mix_horizon.jsonl.xz`**: the standard mix on the corrected planner.
