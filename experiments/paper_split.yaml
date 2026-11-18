@@ -22,7 +22,10 @@ kaggle:
   # session (notebook copy rahulb07/finadvisor-x2-cpu, ME = rahul_cpu); phi4-mini and 7B run on the laptop CPU.
   rahul_cpu: [X2_extract_qwen2.5-3b]
   # A teammate runs the 7B X2 run on their own Kaggle account (GPU T4 x2), with ME = "member1" in step 1.
-  member1: [X2_extract_qwen2.5-7b]
+  # 18 Nov 2026, evening: held-out extraction X3 for phi4-mini and 7B, in full on Vinay's T4s (our quota is used up;
+  # the laptop was too slow). The partial laptop and Kaggle copies are not used.
+  member1: [X3_extract_phi4-mini, X3_extract_qwen2.5-7b]
+  # earlier (17 Nov): [X2_extract_qwen2.5-7b]
 colab:
   rahul: []
 done:
