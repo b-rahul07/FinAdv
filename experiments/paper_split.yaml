@@ -14,7 +14,10 @@
 # GPU quota was left, so the 3B and phi4-mini extraction runs moved to the laptop CPU; Kaggle runs the two that need
 # a GPU, one per T4.
 kaggle:
-  rahul: [X1_extract_qwen2.5-7b, A1H_full_horizon]
+  # 18 Nov 2026: held-out extraction X3 (prompt v3, seed-8 personas); about 1 h of GPU quota left, so the session
+  # stops itself after 0.85 h and saves what it has; phi4-mini runs on the laptop.
+  rahul: [X3_extract_qwen2.5-3b, X3_extract_qwen2.5-7b]
+  # session 5 (17 Nov): [X1_extract_qwen2.5-7b, A1H_full_horizon]
   # 17 Nov 2026, night: X2 (extraction prompt v2). The GPU quota was nearly used up, so the 3B run is on a Kaggle CPU
   # session (notebook copy rahulb07/finadvisor-x2-cpu, ME = rahul_cpu); phi4-mini and 7B run on the laptop CPU.
   rahul_cpu: [X2_extract_qwen2.5-3b]
