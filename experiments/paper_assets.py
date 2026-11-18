@@ -269,7 +269,8 @@ def review_checks(run_dir: Path, followup: Path | None, std_horizon: Path | None
     ex = followup / "extraction.json" if followup else None
     if ex and ex.exists():                        # experiments/extract_report.py: fact extraction
         for rid, s in json.loads(ex.read_text(encoding="utf-8")).items():
-            k = rid.replace("X1_extract_", "x:").replace("X2_extract_", "x2:")   # x: prompt v1, x2: prompt v2
+            # x: prompt v1, x2: prompt v2 (both on the development personas), x3: prompt v3 on held-out personas
+            k = rid.replace("X1_extract_", "x:").replace("X2_extract_", "x2:").replace("X3_extract_", "x3:")
             for m in ("raw_recall", "accepted_recall", "accepted_precision"):
                 out[f"{k}:{m}"] = p1(s[m]["rate"])
                 out[f"{k}:{m}ci"] = ci_text(s[m])

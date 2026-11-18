@@ -266,3 +266,21 @@ and Metamorphic Auditing".
 - New text: the persona questionnaire answers, the unvalidated Indian adaptation, $s_D=1$ when $D=0$, and the Indian
   finance LLMs (FiMI, FinanceParam, IndiaFinBench).
 - The paper is now 7 pages; page 7 is mostly references.
+
+## 12. Fourth review (18 Nov 2026): held-out extraction, EMI scoring, model choice
+
+- **Abstract** now gives the strongest evidence: the 3B model alone, the 14B model with every rule in its prompt, and
+  the share of first plans the auditor caught. "None of the final plans" alone was true by design.
+- **Tuning on the test set.** Prompt v2 was written after reading X1's failures on the same 240 personas, and v3 after
+  reading X2's. Both papers now call those runs development. The final prompt v3 is tested once on 240 fresh personas
+  (`experiments/data/personas_heldout_s8.jsonl`, seed 8, no overlap with seed 7) as run X3, with qwen2.5 3B, qwen2.5 7B
+  and phi4-mini.
+- **EMIs, the weakest field for every model.** It was a definition mismatch: the schema holds EMIs only as a list of
+  loans with a type, and the messages state one total.
+  - Scoring v2 (`experiments/extract_eval.py`): an empty list reads as 0 EMIs. All runs are rescored from their stored
+    answers by `experiments/extract_report.py`, with no model calls.
+  - Prompt v3: an EMI total becomes one loan of type "other".
+  - v3 also removes v2's digit-grouping example, which led phi4-mini to add a zero (468 of its 504 health-cover misses
+    were exactly ten times the value).
+- **Model choice stated.** The website uses phi4-mini for its MIT licence (qwen2.5 3B's licence is research-only) and
+  because its first plans passed more often in M1.
