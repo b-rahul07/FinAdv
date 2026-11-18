@@ -18,7 +18,7 @@ import sys
 from pathlib import Path
 
 from experiments import metrics
-from experiments.extract_eval import FIELDS, WORDINGS
+from experiments.extract_eval import FIELDS, SCORING, WORDINGS, rescore
 
 
 def summarise(rows: list[dict]) -> dict:
@@ -56,7 +56,9 @@ def main(run_dir: str) -> None:
     out = {}
     for f in sorted(glob.glob(str(Path(run_dir) / "X[0-9]_extract_*.jsonl"))):
         rid = Path(f).stem
-        out[rid] = summarise(metrics.load(f))
+        # every record is scored again from its stored message and raw answer with the current scoring (no model
+        # call), so runs made before a scoring fix are comparable with later ones
+        out[rid] = {**summarise([rescore(r) for r in metrics.load(f)]), "scoring": SCORING}
         s = out[rid]
         print(f"{rid:26s} {s['model']:14s} raw recall {s['raw_recall']['rate']:.3f}  shown recall "
               f"{s['accepted_recall']['rate']:.3f}  shown precision {s['accepted_precision']['rate']:.3f}")

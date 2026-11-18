@@ -46,11 +46,18 @@ Example: {"g1": "sdebt:6000,liq:4000"}
 # v2 (17 Nov 2026, paper review): v1 never named the fields; the schema reached the model only as Ollama's decoding
 # constraint, so larger models invented their own structure (savings and insurance cover filed as goals) and left
 # fields out. phi4-mini, the website's model, returned dependants for 0.3% of messages (run X1, experiments/extract_eval).
-EXTRACT = Template("extract", 2, """
+# v3 (18 Nov 2026, second paper review), from the failures of v2 on the 240 development personas (run X2):
+#   - v2's example '"10,00,000" = 1000000' led phi4-mini to add a zero to amounts (₹80,000 read as 800000; 468 of its
+#     504 health-cover misses were exactly ten times the value). v3 says to copy the digits and never add a zero.
+#   - the schema holds EMIs only as a list of loans with a kind, but people (and the test messages) usually state one
+#     EMI total; models returned an empty list. v3 says how to write a total as one loan of kind "other".
+# v3 is evaluated once on 240 fresh personas (seed 8, run X3) that no prompt version was developed on.
+EXTRACT = Template("extract", 3, """
 You read a chat message from an Indian user and extract financial facts they state about THEMSELVES.
 Only include fields the message states or clearly implies; leave everything else out.
 Convert amounts to plain rupees per month or in total as the field asks ("80k" = 80000, "1.2 lakh" = 120000,
-"2 cr" = 20000000; Indian digit grouping: "10,00,000" = 1000000). Annual salary must be converted to monthly
+"2 cr" = 20000000). For amounts written with commas, copy the digits and drop the ₹ sign and commas
+("₹80,000" = 80000, "₹5,00,000" = 500000); never add or remove a zero. Annual salary must be converted to monthly
 take-home only if the user says it is take-home.
 Use exactly these field names:
 - take_home_monthly: monthly take-home pay; expenses_monthly: monthly spending
@@ -58,7 +65,9 @@ Use exactly these field names:
 - dependants: number of people who depend on the user (0 if the message says nobody does)
 - life_cover, health_cover: the user's current life (term) and health insurance cover amounts (facts, not goals)
 - card_dues_paid_in_full: true or false; experience: none, beginner, intermediate or advanced
-- debts: loans, each with kind and emi_monthly when stated; goals: only things the user wants to save for
+- debts: loans, each with kind and emi_monthly when stated. If the message gives only a total of EMIs, return one
+  debt with kind "other" and emi_monthly equal to that total; if it says there are no EMIs, return no debts.
+- goals: only things the user wants to save for
 Return JSON only.
 """)
 

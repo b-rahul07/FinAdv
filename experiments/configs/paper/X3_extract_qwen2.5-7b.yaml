@@ -1,0 +1,9 @@
+# Held-out extraction (18 Nov 2026, second paper review; docs/PAPER_PLAN.md §12). Not part of the 18 reported runs.
+# Extraction prompt v3, evaluated once on 240 fresh personas (seed 8) no prompt was developed on, with qwen2.5 7B: each persona's facts in four wordings (experiments/extract_eval.py).
+run_id: X3_extract_qwen2.5-7b
+model: qwen2.5-7b
+pipeline: pipeline/default.yaml
+inputs: experiments/data/personas_heldout_s8.jsonl
+replicates: 1
+mode: extract
+output: results/paper/X3_extract_qwen2.5-7b.jsonl

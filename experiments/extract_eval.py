@@ -51,9 +51,11 @@ def truth(p: Profile) -> dict:
 def _values(d: dict | None) -> dict:
     d = d if isinstance(d, dict) else {}
     out = {k: d.get(k) for k in FIELDS if k != "emi_total"}
-    debts = d.get("debts") if isinstance(d.get("debts"), list) else None
-    out["emi_total"] = (sum(float(x.get("emi_monthly") or 0) for x in debts if isinstance(x, dict))
-                        if debts is not None else None)
+    # Scoring v2 (18 Nov 2026): EMIs exist only as a list of loans in the schema, so "no loans returned" is the
+    # schema's way of saying no EMIs and reads as 0 (v1 counted it as unread, which marked a correct reading of
+    # "EMIs ₹0/month" wrong). It is still wrong whenever the message states EMIs.
+    debts = d.get("debts") if isinstance(d.get("debts"), list) else []
+    out["emi_total"] = sum(float(x.get("emi_monthly") or 0) for x in debts if isinstance(x, dict))
     return out
 
 
@@ -71,32 +73,44 @@ def correct(field: str, got, want) -> bool:
     return str(got).strip().lower() == str(want).lower()
 
 
+SCORING = "extract-score-v2"   # v2: no loans returned reads as 0 EMIs (see _values)
+
+
+def score(text: str, raw, want: dict) -> dict:
+    """Score one raw model answer: what the model read, and what the confirmation card would show after the
+    system's grounding (the raw answer replayed through extract(), no model call)."""
+    replay = FakeLLM(lambda *a, _raw=raw, **k: _raw)
+    accepted, changed, _ = extract(replay, text, Profile())
+    raw_v, all_v, empty = _values(raw), _values(accepted), _values(Profile().model_dump())
+    acc_v = {}
+    for f in FIELDS:
+        kept = ("debts" if f == "emi_total" else f) in changed
+        if kept:
+            acc_v[f] = all_v[f]
+        elif raw_v[f] is not None and correct(f, raw_v[f], empty[f]):
+            acc_v[f] = empty[f]       # the model said the empty profile's value, so nothing needed to change
+        else:
+            acc_v[f] = None           # dropped by grounding, or never read
+    return {"raw": raw_v, "accepted": acc_v,
+            "raw_correct": {f: correct(f, raw_v[f], want[f]) for f in FIELDS},
+            "accepted_correct": {f: correct(f, acc_v[f], want[f]) for f in FIELDS}}
+
+
 def extract_record(llm, profile: Profile) -> dict:
     want = truth(profile)
-    out = {"truth": want, "wordings": {}}
+    out = {"truth": want, "scoring": SCORING, "wordings": {}}
     for w in WORDINGS:
         text = message(profile, w)
         raw, gen = llm.json(EXTRACT.system, f"MESSAGE: {text}", SCHEMA, purpose="extract", template=EXTRACT.id)
-        # the same raw answer through the system's grounding, as the confirmation card would show it
-        replay = FakeLLM(lambda *a, _raw=raw, **k: _raw)
-        accepted, changed, _ = extract(replay, text, Profile())
-        raw_v, all_v, empty = _values(raw), _values(accepted), _values(Profile().model_dump())
-        acc_v = {}
-        for f in FIELDS:
-            kept = ("debts" if f == "emi_total" else f) in changed
-            if kept:
-                acc_v[f] = all_v[f]
-            elif raw_v[f] is not None and correct(f, raw_v[f], empty[f]):
-                acc_v[f] = empty[f]       # the model said the empty profile's value, so nothing needed to change
-            else:
-                acc_v[f] = None           # dropped by grounding, or never read
-        out["wordings"][w] = {
-            "message": text,
-            "raw_json": raw,
-            "raw": raw_v,
-            "accepted": acc_v,
-            "raw_correct": {f: correct(f, raw_v[f], want[f]) for f in FIELDS},
-            "accepted_correct": {f: correct(f, acc_v[f], want[f]) for f in FIELDS},
-            "latency_s": getattr(gen, "latency_s", None),
-        }
+        out["wordings"][w] = {"message": text, "raw_json": raw, **score(text, raw, want),
+                              "latency_s": getattr(gen, "latency_s", None)}
+    return out
+
+
+def rescore(rec: dict) -> dict:
+    """A stored record scored again with the current scoring, from its stored message and raw answer."""
+    want = truth(Profile(**rec["profile"]))
+    out = dict(rec)
+    out["scoring"] = SCORING
+    out["wordings"] = {w: {**v, **score(v["message"], v["raw_json"], want)} for w, v in rec["wordings"].items()}
     return out
