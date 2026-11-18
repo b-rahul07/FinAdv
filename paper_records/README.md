@@ -27,6 +27,9 @@ The third review (17 Nov 2026, `docs/PAPER_PLAN.md` §11) added:
 - **`followup-2026-11-15/X1_extract_*`**: fact extraction with qwen2.5 3B and phi4-mini (laptop CPU, commits 072abc9
   and d48d4b6, which have the same code) and qwen2.5 7B (Kaggle). They are summarised in `extraction.json` by
   `python -m experiments.extract_report <dir>`.
+- **`followup-2026-11-15/X2_extract_*`** (18 Nov 2026): fact extraction with prompt v2, which names the fields. 3B ran
+  on a Kaggle CPU session (6d26647), 7B on a teammate's Kaggle account (1c4d347), and phi4-mini on the laptop (9a34fb3
+  and 1c4d347, same code). `extraction.json` summarises X1 and X2.
 - **`final-2026-11-14/projection.json`**: the generate-then-filter baseline P1, from
   `python -m experiments.projection <A2 records> <dir>`. No model is called.
 - **`final-2026-11-14/STD_standard_mix_horizon.jsonl.xz`**: the standard mix on the corrected planner.

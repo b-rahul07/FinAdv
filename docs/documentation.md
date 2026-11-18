@@ -98,6 +98,26 @@ What-if sliders: deterministic re-run with the safe mix, instant, labelled illus
 
 ## Changelog
 
+### 2026-11-18 — Extraction prompt v2 (X2) and the final project report
+- **Why v2.** A review asked whether X1's 0.3% for dependants (phi4-mini) was a scoring bug. It is not: no answer
+  had a dependants key in any spelling, and a fresh call reproduces the stored answers. Extraction prompt v1 never
+  named the fields; the schema reached the model only as Ollama's decoding constraint, so the larger models filed
+  savings and cover as goals and left fields out. This affected the website too, which uses phi4-mini for extraction.
+- **v2** (`finadvisor/advisor/prompts.py`, extract-v2) lists the field names and adds an Indian digit-grouping example.
+  X2 reruns X1 with it (`X2_extract_*`).
+  - phi4-mini ran on the laptop (commits 9a34fb3 and 1c4d347, which have the same code).
+  - qwen2.5 7B ran on teammate Vinay Uppala's Kaggle account, run by him through his token, kept apart from ours.
+  - qwen2.5 3B ran on a Kaggle CPU session (commit 6d26647, same code). A laptop backup stopped at 84 rows when the
+    session ended; it is not used and stays in `results/paper/X2_extract_qwen2.5-3b.jsonl`.
+- **Results.** Fields read: qwen2.5 3B 39.9% → 93.7%; qwen2.5 7B 44.1% → 96.0%; phi4-mini 50.0% → 82.8%. Precision of
+  the values the card shows: 98.9% (3B), 97.9% (7B) and 95.1% (phi4-mini).
+  - phi4-mini now sometimes adds a zero to an amount (₹80,000 read as 8,00,000), apparently prompted by the grouping
+    example; take-home recall fell from 99.9% to 84.7%. Grounding keeps those values off the card.
+  - Rewording the example is the next step; it is not done.
+- **Final project report** (`papers/final-report/`, 99 pages). It follows the mini-project report's structure on the
+  Phase-I template, with new diagrams of the system as built and charts read from the generated numbers. The website
+  screenshots come from an isolated local copy signed in as the demo account.
+
 ### 2026-11-17 — Paper review: new baselines, extraction evaluation, restructured paper
 - **Generate-then-filter baseline (P1).** `experiments/projection.py` filters A2's ungated plans after generation.
   - No plan was left unsuitable, but 68.8% were changed.
